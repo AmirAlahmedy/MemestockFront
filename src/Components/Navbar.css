@@ -1,0 +1,76 @@
+
+.memeNav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(26, 26, 27);
+    border-bottom: 1px solid rgb(52, 53, 54);
+    overflow: hidden;
+    height: 49px;
+}
+/* .navContainer{
+    display: flex;
+}
+.navContainer div{
+    flex: 1;
+}
+@media all and (max-width: 600px){
+    .navContainer{
+        flex-wrap: wrap;
+    }
+    .navContainer div{
+        flex-basis: 50%;
+    }
+}
+@media all and (max-width: 400px){
+    .navContainer div{
+        flex-basis: 100%;
+    }
+    .memeSearch{
+        order: 1;
+    }
+} */
+.memeLogo a{
+    font-style: italic;
+    color: #f2f2f2;
+    text-align: center;
+    height: 32px;
+    padding: 8px 8px 8px 8px;
+    width: 32px;
+    text-decoration: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+.memeSearch{
+    box-shadow: none;
+    color: rgb(215, 218, 220);
+    flex: 1;
+    height: 36px;
+    width: 100%;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(52, 53, 54);
+    border-image: initial;
+    outline: none;
+    padding: 0px 16px 0px 40px;
+}
+.dropdownMenu button{
+
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    color: #f2f2f2;
+    padding: 8px;
+    font-size: 17px;
+}
+.rightLinksWrapper{
+    display: flex;
+    flex: 1;
+    padding: 8px;
+}
+.rightLinks a{
+    color: #f2f2f2; 
+    cursor: pointer;
+    padding: 8px;
+}
