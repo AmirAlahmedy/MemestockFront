@@ -55,6 +55,9 @@
     outline: none;
     padding: 0px 16px 0px 40px;
 }
+.dropdownMenu{
+    padding: 145px 0px 0px 40px;
+}
 .dropdownMenu button{
 
     background: transparent;
@@ -64,6 +67,29 @@
     padding: 8px;
     font-size: 17px;
 }
+.dropdownMenu ul{
+    display: flex;
+    flex-direction: column; 
+
+    /* position: absolute; */
+}
+.dropList{
+    background-color: cadetblue;
+}
+.dropdownItem{
+    float: 1;
+   text-decoration: none;
+}
+/* .dropdownMenu ul li{
+    list-style: none;
+    float: left;
+}
+.toHome, .sort{
+    display: block;
+    font-family: inherit;
+    color: #f2f2f2;
+    text-decoration: none; 
+}*/
 .rightLinksWrapper{
     display: flex;
     flex: 1;
