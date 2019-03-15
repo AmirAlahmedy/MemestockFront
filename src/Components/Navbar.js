@@ -51,10 +51,6 @@ const NavBar = props => {
         </div>
     {/* </div>    */}
     </nav>
-     <Switch>
-    <Route path='/PM/' Component={CreatePost}/>
-    <Route path='/Create Post/'/>
-  </Switch>
     </div>     
 
     );

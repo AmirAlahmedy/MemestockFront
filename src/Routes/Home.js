@@ -4,6 +4,7 @@ import NavBar from '../Components/Navbar';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import PMs from './PMs';
+import Listings from '../Components/Listings'
 class Home extends Component {
 
   state = {
@@ -15,19 +16,21 @@ class Home extends Component {
 
           <div className='Home'>
           
-               <NavBar/>
+           <NavBar/>
              
-         
-              <Route path='/PM/' component={PMs}/>
-              <Route path='/CreatePost/'  component={CreatePost}/>
+            <Switch>
+
+              <Route path='/PM/'  component={PMs}/>
+              <Route path='/CreatePost/'   component={CreatePost}/>
+              <Route path='/'  component={Listings}/>
               
+            </Switch>
               
            
            <div className='content'>
-             <div className='listing'>
-                 Threads
-            </div>
+             {/* <Listings/> */}
           </div>
+          
         </div>
           );
       }
