@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './Listings.css';
+import Thread from '../Routes/Thread';
 
 class Listings extends Component {
     render(){
         return(
-            <h1>Threads</h1>
+           <div className='listingsContainer'> 
+            <Thread/>
+           </div>
         );
     }
 }
