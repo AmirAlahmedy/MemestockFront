@@ -56,7 +56,9 @@
     padding: 0px 16px 0px 40px;
 }
 .dropdownMenu{
-    padding: 145px 0px 0px 40px;
+    padding: 145px 20px 145px 20px;
+    position: relative;
+    display: inline-block;
 }
 .dropdownMenu button{
 
@@ -75,10 +77,19 @@
 }
 .dropList{
     background-color: cadetblue;
+    display: none;
+    position: relative;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
 }
+.dropdownMenu:hover .dropList {
+    display: block;
+  }
 .dropdownItem{
     float: 1;
-   text-decoration: none;
+    text-decoration: none;
 }
 /* .dropdownMenu ul li{
     list-style: none;

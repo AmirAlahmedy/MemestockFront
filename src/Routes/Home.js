@@ -14,12 +14,12 @@ class Home extends Component {
         return (
 
           <div className='home'>
-            <header>
-              {/* <NavBar/> */}
-              <nav className='memeNav'> 
+            {/* <header> */}
+               <NavBar/>
+              {/* <nav className='memeNav'>  */}
     {/* <div className='navContainer'> */}
-        <div  className="memeLogo">
-             <a href="#!">Memestock</a>
+        {/* <div  className="memeLogo">
+             <NavLink to='/Home/'>Memestock</NavLink>
         </div>
         <div className="dropdownMenu">
             <button>
@@ -58,13 +58,14 @@ class Home extends Component {
                     Notifications
                 </a>
               </span>
-        </div>
+        </div> */}
     {/* </div>    */}
-    </nav>
-            </header>
+    {/* </nav>
+            </header> */}
          
               <Route path='/PM/' component={PMs}/>
               <Route path='/CreatePost/'  component={CreatePost}/>
+              
               
            
           {/* // <div className='content'>
