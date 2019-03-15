@@ -18,10 +18,10 @@ const NavBar = props => {
             <div role='menu' className='dropList'>
             <input placeholder='Filter'></input>
                 <ul>
-                    <li><NavLink to='/Home/' className='toHome dropdownItem'>Home</NavLink></li>
-                    <li><NavLink to='/popular/' className='sort-1 dropdownItem'>Popular</NavLink></li>
-                    <li><NavLink to='/All/' className='sort-2 dropdownItem'>All</NavLink></li>
-                    <li><NavLink  to='/Hot/'className='sort-3 dropdownItem'>Hot</NavLink></li>
+                    <li className='dropdownItem'><NavLink to='/Home/' className='sort toHome'>Home</NavLink></li>
+                    <li className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink></li>
+                    <li className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink></li>
+                    <li className='dropdownItem'><NavLink  to='/Hot/'className='sort srt3'>Hot</NavLink></li>
 
                 </ul>
             </div>

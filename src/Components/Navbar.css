@@ -72,11 +72,11 @@
 .dropdownMenu ul{
     display: flex;
     flex-direction: column; 
-
+    
     /* position: absolute; */
 }
 .dropList{
-    background-color: cadetblue;
+    background-color: rgb(26, 26, 27);
     display: none;
     position: absolute;
     min-width: 160px;
@@ -87,9 +87,18 @@
 .dropdownMenu:hover .dropList {
     display: block;
   }
-.dropdownItem{
+.dropdownItem {
     float: 1;
+    list-style: none;
+    
+}
+.sort{
     text-decoration: none;
+    float: left;
+    color: #d7dadc;
+}
+.sort:hover {
+    background-color: #818384;
 }
 /* .dropdownMenu ul li{
     list-style: none;
