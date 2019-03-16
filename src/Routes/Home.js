@@ -30,7 +30,9 @@ class Home extends Component {
            <div className='content'>
              {/* <Listings/> */}
           </div>
-          
+          <footer>
+            <p><a href="#top">top of page</a></p>
+          </footer>
         </div>
           );
       }

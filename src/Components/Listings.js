@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Listings.css';
 import Thread from '../Routes/Thread';
+import { withRouter } from 'react-router-dom' //To get access to the history props  
 
 class Listings extends Component {
     render(){
@@ -12,4 +13,4 @@ class Listings extends Component {
     }
 }
 
-export default Listings;
+export default withRouter(Listings);

@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     background-color: rgb(26, 26, 27);
-    border-bottom: 1px solid rgb(52, 53, 54);
+    border: 1px solid rgb(52, 53, 54);
     overflow: hidden;
     height: 49px;
 }
@@ -59,6 +59,7 @@
     padding: 145px 20px 145px 20px;
     /* position: relative; */
     display: inline-block;
+    
 }
 .dropdownMenu button{
 
@@ -83,6 +84,10 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 16px;
     z-index: 1;
+    border-bottom: 1px solid rgb(52, 53, 54);
+    border-right:  1px solid rgb(52, 53, 54);
+    border-left:  1px solid rgb(52, 53, 54);
+    border-radius: 6px;
 }
 .dropdownMenu:hover .dropList {
     display: block;
