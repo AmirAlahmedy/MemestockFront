@@ -61,7 +61,7 @@
     display: inline-block;
     
 }
-.dropdownMenu button{
+.dropButton{
 
     background: transparent;
     cursor: pointer;
@@ -70,13 +70,12 @@
     padding: 8px;
     font-size: 17px;
 }
-.dropdownMenu ul{
+.dropUl{
     display: flex;
-    flex-direction: column; 
-    
+    flex-direction: column;
     /* position: absolute; */
 }
-.dropList{
+.dropList, .yourStuffDropList{
     background-color: rgb(26, 26, 27);
     display: none;
     position: absolute;
@@ -89,20 +88,20 @@
     border-left:  1px solid rgb(52, 53, 54);
     border-radius: 6px;
 }
-.dropdownMenu:hover .dropList {
+.dropdownMenu:hover .dropList, .yourStuffDrop:hover .yourStuffDropList {
     display: block;
   }
-.dropdownItem {
+.dropdownItem, .yourStuffItem{
     float: 1;
     list-style: none;
     
 }
-.sort{
+.sort, .stfitm{
     text-decoration: none;
     float: left;
     color: #d7dadc;
 }
-.sort:hover {
+.sort:hover, .stfitm:hover {
     background-color: #818384;
 }
 /* .dropdownMenu ul li{
@@ -119,9 +118,24 @@
     display: flex;
     flex: 1;
     padding: 8px;
+    align-items: center;
 }
 .rightLinks a{
     color: #f2f2f2; 
     cursor: pointer;
-    padding: 8px;
+    padding: 0 5px;
+    margin: 5px;
+    text-decoration: none;
 }
+.rightLinks a:hover {
+    background-color: #59595a52;
+    border-radius: 5px;
+}
+/************************************/
+.yourStuffDrop{
+    padding: 145px 20px 145px 20px;
+    /* position: relative; */
+    display: inline-block;
+}
+
+
