@@ -5,6 +5,7 @@ import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import PMs from './PMs';
 import Listings from '../Components/Listings'
+import Settings from './Settings';
 class Home extends Component {
 
   state = {
@@ -22,6 +23,7 @@ class Home extends Component {
 
               <Route path='/PM/'  component={PMs}/>
               <Route path='/CreatePost/'   component={CreatePost}/>
+              <Route path='/settings/'  component={Settings}/>
               <Route path='/'  component={Listings}/>
               
             </Switch>

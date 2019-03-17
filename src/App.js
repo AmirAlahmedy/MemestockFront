@@ -3,6 +3,7 @@ import './App.css';
 import Home from './Routes/Home';
 import { BrowserRouter, Redirect } from 'react-router-dom';
 import Registration from './Routes/Registration';
+import Settings from './Routes/Settings';
 
 
 class App extends Component {
