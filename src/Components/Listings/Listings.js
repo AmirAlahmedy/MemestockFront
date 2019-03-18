@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Listings.css';
-import Thread from '../Routes/Thread/Thread';
+import Thread from '../../Routes/Thread/Thread';
 import { withRouter } from 'react-router-dom' //To get access to the history props  
 
 class Listings extends Component {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, NavLink, withRouter } from 'react-router-dom';
-import Account from '../Routes/Account/Account';
+import Account from '../../Routes/Account/Account';
 import './Tablist.css'
 
 const Tablist = (props) => {

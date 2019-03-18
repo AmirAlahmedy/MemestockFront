@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 import { Switch, Route, NavLink, withRouter } from 'react-router-dom';
-import CreatePost from '../Routes/CreatePost/CreatePost';
+import CreatePost from '../../Routes/CreatePost/CreatePost';
 const NavBar = props => {
    return  (
     <div>

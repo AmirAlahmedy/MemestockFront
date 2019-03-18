@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Account from '../Account/Account';
 import './Settings.css';
-import Tablist from '../../Components/Tablist' 
+import Tablist from '../../Components/Tablist/Tablist' 
 
 class Settings extends Component {
   render() {
