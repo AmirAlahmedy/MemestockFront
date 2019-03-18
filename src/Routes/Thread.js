@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Thread.css';
+import { NavLink} from 'react-router-dom';
+import Subreddit from './Subreddit';
 
 class Thread extends Component {
     state = { 
@@ -23,7 +25,7 @@ class Thread extends Component {
         return(
            <div>
                <div className="threadContainer">
-                <div className="threadSubreddit">r/{this.state.subreddit}</div>
+                <NavLink className="threadSubreddit"  to='/r/'>r/{this.state.subreddit}</NavLink>
                 <div className="threadUsername">
                     Posted by u/{this.state.username}
                 </div>

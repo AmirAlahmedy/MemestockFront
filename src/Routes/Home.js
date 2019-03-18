@@ -6,6 +6,7 @@ import CreatePost from './CreatePost';
 import PMs from './PMs';
 import Listings from '../Components/Listings'
 import Settings from './Settings';
+import Subreddit from './Subreddit';
 class Home extends Component {
 
   state = {
@@ -20,10 +21,10 @@ class Home extends Component {
            <NavBar/>
              
             <Switch>
-
               <Route path='/PM/'  component={PMs}/>
               <Route path='/CreatePost/'   component={CreatePost}/>
               <Route path='/settings/'  component={Settings}/>
+              <Route path='/r/' component={Subreddit}/>
               <Route path='/'  component={Listings}/>
               
             </Switch>
