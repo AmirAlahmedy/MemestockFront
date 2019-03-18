@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './Thread.css';
+import { Link} from 'react-router-dom';
 
 class Thread extends Component {
     state = {
         username: 'GiantSteps_',
         subreddit: 'jazztheory',
         title: 'Modal Harmony Interchange',
-        content: 'Modal Harmony is easier explained than played ',
+        content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
         comments: [
             {
                 username: 'WreakingHavoc',
@@ -20,6 +21,7 @@ class Thread extends Component {
         upvotes: 0
     }
 
+
     handleIncrement = () => {
         this.setState({ upvotes: this.state.upvotes + 1 });
 
@@ -32,7 +34,7 @@ class Thread extends Component {
         return (
             <div>
                 <div className="threadContainer">
-                    <div className="threadSubreddit">r/{this.state.subreddit}</div>
+                    <Link to='/r/' className="threadSubreddit"> r/{this.state.subreddit}</Link>
                     <br></br>
                     <div className="threadUsername">
                         Posted by u/{this.state.username}
