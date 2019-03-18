@@ -1,0 +1,22 @@
+
+.tablist{
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    color: rgb(28, 28, 28);
+    display: inline-block;
+    line-height: unset;
+    margin-right: 8px;
+    border-bottom: 3px solid rgb(65, 80, 244);
+    padding: 15px 12px 12px;
+  
+}
+
+/* .container .btnacc button{
+    width:25%;
+    height:100%;
+    font-size: 18px;
+    border:none;
+    outline:none;
+    font-family: sans-serif;
+} */

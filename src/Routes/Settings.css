@@ -1,0 +1,10 @@
+.left {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    color: rgb(28, 28, 28);
+    fill: white;
+    max-width: 1200px;
+    padding: 16px 20px 20px;
+    margin: 0px auto;
+}
