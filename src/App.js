@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from './Routes/Home';
+import Home from './Routes/Home/Home';
 import { BrowserRouter, Redirect } from 'react-router-dom';
-import Registration from './Routes/Registration';
-import Settings from './Routes/Settings';
+import Registration from './Routes/Registration/Registration';
+import Settings from './Routes/Settings/Settings';
 
 
 class App extends Component {

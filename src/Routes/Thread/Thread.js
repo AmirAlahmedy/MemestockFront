@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Thread.css';
 import { NavLink} from 'react-router-dom';
-import Subreddit from './Subreddit';
+import Subreddit from '../Subreddit/Subreddit';
 
 class Thread extends Component {
     state = { 

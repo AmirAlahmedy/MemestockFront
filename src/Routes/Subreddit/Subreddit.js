@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Subreddit.css';
-import defImage from '../images/subreddit.png';
-import Listing from '../Components/Listings';
-import Thread from './Thread';
+import defImage from '../../assets/images/subreddit.png';
+import Listing from '../../Components/Listings';
+import Thread from '../Thread/Thread';
 
 export class Subreddit extends Component {
     state ={

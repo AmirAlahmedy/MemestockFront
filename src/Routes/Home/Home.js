@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './Home.css';
-import NavBar from '../Components/Navbar';
+import NavBar from '../../Components/Navbar';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
-import CreatePost from './CreatePost';
-import PMs from './PMs';
-import Listings from '../Components/Listings'
-import Settings from './Settings';
-import Subreddit from './Subreddit';
+import CreatePost from '../CreatePost/CreatePost';
+import PMs from '../PMs/PMs';
+import Listings from '../../Components/Listings'
+import Settings from '../Settings/Settings';
+import Subreddit from '../Subreddit/Subreddit';
 class Home extends Component {
 
   state = {
