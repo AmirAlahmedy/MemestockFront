@@ -3,7 +3,9 @@ import './Registration.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import Input from '../../Components/UI/input/input';
 import Button from '../../Components/UI/Button/Button';
-
+import Spinner from '../../Components/UI/Spinner/Spinner';
+import axios from '../../axios-orders';
+// import '../../mock-server';
 
 class Registration extends Component {
     state = {
@@ -45,7 +47,7 @@ class Registration extends Component {
             value: '',
             validation: {
                 required: true,
-                minLength: 8
+                minLength: 2
             },
             valid: false,
             touched: false
@@ -67,14 +69,21 @@ class Registration extends Component {
         //     price: this.props.price,
         //     orderData: formData
         // }
-        // axios.post( '/orders.json', order )
-        //     .then( response => {
-        //         this.setState( { loading: false } );
-        //         this.props.history.push( '/' );
-        //     } )
-        //     .catch( error => {
-        //         this.setState( { loading: false } );
-        //     } );
+        const registrationRequest = {
+
+            "Email": "user@reddit.com",
+            "Username": "User1",
+            "Password": "Password"
+        }
+
+        axios.post( '/create.json', registrationRequest )
+            .then( response => {
+                this.setState( { loading: false } );
+                this.props.history.push( '/' );
+            } )
+            .catch( error => {
+                this.setState( { loading: false } );
+            } );
     }
 
     checkValidity = (value, rules) => {
@@ -100,7 +109,7 @@ class Registration extends Component {
             ...updatedRegistrationForm[inputIdentifier]
         };
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = true//this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedRegistrationForm[inputIdentifier] = updatedFormElement;
         console.log(updatedFormElement);
@@ -133,9 +142,9 @@ class Registration extends Component {
                 <Button btnType="Success">REGISTER</Button>
             </form>
         );
-        // if ( this.state.loading ) {
-        //     form = <Spinner />;
-        // }
+        if ( this.state.loading ) {
+            form = <Spinner />;
+        }
         return(
 
             
@@ -151,7 +160,7 @@ class Registration extends Component {
                 <input type='text' 
                 placeholder='User name'/>
 
-                <input type="password" 
+                <input type={ this.state.registrationForm.passWord.elementConfig.type}
                 placeholder="Password" 
                 value={ this.props.password } 
                 onChange={ this.props.svPswrd }/>
