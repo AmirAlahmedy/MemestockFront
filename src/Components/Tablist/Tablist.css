@@ -7,10 +7,23 @@
     display: inline-block;
     line-height: unset;
     margin-right: 8px;
-    border-bottom: 3px solid rgb(65, 80, 244);
+    border-bottom: 3px  rgb(65, 80, 244);
     padding: 15px 12px 12px;
   
 }
+
+.tab{
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    color: rgb(124, 124, 124);
+    display: inline-block;
+    line-height: unset;
+    margin-right: 8px;
+    border-bottom: 3px solid rgb(124, 124, 124);
+    padding: 15px 12px 12px;
+}
+
 
 /* .container .btnacc button{
     width:25%;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, NavLink, withRouter } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import Account from '../../Routes/Account/Account';
 import './Tablist.css'
 
@@ -8,7 +8,8 @@ const Tablist = (props) => {
         <div className="container">
        <div className="tablist">
          <nav>
-           <NavLink to='/Settings/Account'>Account</NavLink>
+           <Link to='/Settings/Account' class="tab">Account</Link>
+           <Link to='/Settings/Profile' class="tab">Profile</Link>
          </nav>
 
         </div>
