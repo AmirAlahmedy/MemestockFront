@@ -9,10 +9,25 @@ export class Subreddit extends Component {
     state ={
         name:'Jazztheory',
         rules:'/r/Jazz Theory is the place where you can ask and answer thought provoking questions regarding music theory and jazz harmony',
-        threads:[],
-        moderators:['Karim','Kaka'],
-        subscriber:100,
-
+        threads:[
+          {
+            username: 'GiantSteps_',
+            subreddit: 'jazztheory',
+            title: 'Modal Harmony Interchange',
+            content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
+            upvotes:0
+          
+          },
+          {
+            username: 'WreakingHavoc',
+            subreddit: 'jazztheory',
+            title: 'Circle of Fifth',
+            content: 'Circle of Fifth is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
+            upvotes:124
+          }
+        ],
+        moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
+        subscribers:100
     }
   render() {
     return (
@@ -51,15 +66,51 @@ export class Subreddit extends Component {
         </nav>
         <div class="subredditContainer">
             <section id="subredditPageThreads">
-                <Thread/>
+              {/** 
+              {this.state.threads.map(thread =>({
+                return(
+                  <div>
+
+                  </div>
+                )
+              })}
+              */}
+              <Thread/>
             </section>
             <aside id="subredditSidebarContainer">
               <div className="subredditSidebarComponent">
-                tita fl nana
+                <h5>COMMUNITY DETAILS</h5>
+                <div className="srSidebarCompTitle">
+                  <img src={defImage} alt="Subreddit Default"/>
+                  r/{this.state.name}
+                </div>
+                <div className="srSidebarSubscribers">
+                  {this.state.subscribers} <br/>
+                  Subscribers
+                </div>
+                <div className="srSidebarRules">
+                  <p>{this.state.rules}</p>
+                </div>
+                <button className="srSidebarSubscribeButton" >SUBSCRIBE</button>
+                <button className="srSidebarSubscribeButton" >CREATE A POST</button>
               </div>
               <div className="subredditSidebarComponent">
+                <h5>MODERATORS</h5>
+                <ul>
+                  {
+                    this.state.moderators.map(moderator => {
+                      return ( 
+                        <li className="moderatorSr" key={moderator}>u/{moderator}</li>
+                      );
+                        })
+                  }
+                </ul>
               </div>
             </aside>
+            
+        <footer id="subreddit-footer">
+            <p>Copyright &copy; 2019 Memestock</p>
+        </footer>
         </div>
       </div>
     )

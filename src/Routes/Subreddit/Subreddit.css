@@ -155,15 +155,80 @@
 .srsort{
     text-decoration: none;
     float: left;
-    color: #d7dadc;
+    color:rgb(111, 112, 113);
 }
 .srsort:hover{
     color:rgb(233, 172, 92);
 }
+.subredditSidebarComponent {
+    font-size:12px;
+    text-align: left;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+    color:rgb(132, 134, 136);
+}
+.srSidebarCompTitle {
+    font-size:24px;
+    font-weight: 500;
+    text-align: left;
+    color: lightgrey;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+.srSidebarCompTitle img{
+    margin-left:0px;
+    margin-right:10px;
+    float:left;
+    border-radius:1000px;
+    block-size: 30px;
+}
+.srSidebarSubscribers {
+    margin-left:10px;
+    color:lightgrey;
+    font-size:26px;
+    font-weight: 700;
+    margin-bottom:10px;
+}
+.srSidebarRules { 
+    margin-left:5px;
+    padding-right:10px;
+    color:lightgrey;
+    font-size:16px;
+}
+.srSidebarSubscribeButton {
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 500;
+    cursor:pointer;
+}
+.srSidebarSubscribeButton:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+.moderatorSr {
+    cursor:pointer;
+    font-size:20px;
+    padding-bottom:5px;
+    margin:0;
+    color:rgb(116, 193, 219);
+}
 
+.moderatorSr:hover{
+    text-decoration: underline;
+}
 @media(min-width:900px){
     #subredditShowcase img{
     margin-left:200px;   
+ }
+ #subreddit-footer{
+     margin-top:40%;
+     font-size:12px;
+    margin-bottom:100px;
  }
     /*
     #main{
