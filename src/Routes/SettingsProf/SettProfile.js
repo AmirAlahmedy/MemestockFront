@@ -24,7 +24,7 @@ const SettProfile = () => {
               <div className="about-box">
 
                 <div className="ab1">
-                  <h3>About (optional)</h3>
+                  <h3>About</h3>
                   <p>A brief description of yourself shown on your profile.</p>
                 </div>
 
