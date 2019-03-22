@@ -64,8 +64,8 @@ export class Subreddit extends Component {
               </div>
             </div>
         </nav>
-        <div class="subredditContainer">
-            <section id="subredditPageThreads">
+         <div class="subredditContainer">
+            <section id="subredditPageContent">
               {/** 
               {this.state.threads.map(thread =>({
                 return(
@@ -73,10 +73,25 @@ export class Subreddit extends Component {
 
                   </div>
                 )
-              })}
-              */}
+              })}*/}
+              <div className="subredditPageThread">
               <Thread/>
-            </section>
+              </div>
+              
+              <div className="subredditPageThread">
+              <Thread/>
+              </div>
+              <div className="subredditPageThread">
+              <Thread/>
+              </div>
+              
+              <div className="subredditPageThread">
+              <Thread/>
+              </div>
+              
+              
+            </section> 
+            
             <aside id="subredditSidebarContainer">
               <div className="subredditSidebarComponent">
                 <h5>COMMUNITY DETAILS</h5>
