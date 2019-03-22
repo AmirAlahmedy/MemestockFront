@@ -4,13 +4,50 @@
   color: #61dafb;
 }
 
-.form-group textarea {
+.pm-form textarea {
   position:relative;
   padding-right:100 px;
   display :inline-block;
   font-family: 'Open Sans', sans-serif;
   display: flex;
 
+}
+.container {
+  position :relative;
+  left:500px;
+
+  
+}
+.pm-form [type=submit]
+{
+  background: #0066A2;
+
+  color: white;
+  
+  border-style: outset;
+  
+  border-color: #0066A2;
+  
+  height: 50px;
+  
+  width: 100px;
+  
+  font: bold 15px arial, sans-serif;
+  
+  text-shadow:none;
+
+  cursor: pointer;
+
+  border-radius: 15px;
+}
+.pm-form [type=submit]:hover{
+  background-color: #003366;
+}
+
+.pm-form[type=submit]:active{
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 /*
 .link:hover{

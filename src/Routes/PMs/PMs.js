@@ -49,15 +49,15 @@ class PMs extends Component {
 
     return (
       <Router>
-   
-      <div className="App">
+             <Head/>
+      
           <div className="container">
-                  <div className="form-group">
+                  <div className="pm-form">
                       
 
                             <Route exact path="/" render = {props=>(
                               <React.Fragment>
-                                <Head/>
+                          
                                 <form name="myForm"
                               onSubmit={this.handleSubmit}>
                               <div>
@@ -101,7 +101,7 @@ class PMs extends Component {
                           <Route path="/sent" component={sent}/>
                     </div>    
            </div>
-      </div>
+    
   </Router>
     
     );
