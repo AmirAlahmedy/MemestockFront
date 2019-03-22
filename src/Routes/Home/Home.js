@@ -32,9 +32,9 @@ class Home extends Component {
             </Switch>
               
            
-           <div className='content'>
+           
              {/* <Listings/> */}
-          </div>
+          
           <footer>
             <p><a href="#top">top of page</a></p>
           </footer>

@@ -4,10 +4,9 @@ import { Switch, Route, NavLink, withRouter } from 'react-router-dom';
 import CreatePost from '../../Routes/CreatePost/CreatePost';
 const NavBar = props => {
    return  (
-    <div>
+    <div className='navWrapper'>
 
     <nav className='memeNav'> 
-    {/* <div className='navContainer'> */}
         <div  className="memeLogo">
         <NavLink to='/Home/'>Memestock</NavLink>
         </div>
@@ -27,19 +26,6 @@ const NavBar = props => {
 
             </div>
         </div>
-
-        {/* using select tag ------------------------------------------------------------*/}
-        {/* <form className='dropdownMenu'>
-            Dropdown
-            <select className='dropList' onchange={() => {return(this.value);}}>
-                <input placeholder='Filter'></input>
-                <option className='dropdownItem' value={<NavLink to='/Home/' className='sort toHome'/>}>Home</option>
-                <option className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink>Popular </option>
-                <option className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink>All</option>
-                <option className='dropdownItem'><NavLink to='/Hot/' className='sort srt3'>Hot</NavLink>Hot</option>
-            </select>
-        </form> */}
-        {/* using select tag ------------------------------------------------------------*/}
 
         <div>
               <form action='/search' autoComplete='off'>
@@ -63,10 +49,6 @@ const NavBar = props => {
                     Notifications
                 </a>
               </span>
-              {/* <select>
-                  <option>My Profile</option>
-                  <option>User settings</option>
-              </select>  */}
               <div className='yourStuffDrop'>
               <button className='dropButton'>
                 YOUR STUFF
@@ -79,7 +61,6 @@ const NavBar = props => {
                 </div>
               </div>
         </div>
-    {/* </div>    */}
     </nav>
     </div>     
 

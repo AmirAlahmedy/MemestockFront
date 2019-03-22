@@ -1,6 +1,5 @@
 .subredditFixed{
     width:100%;
-    position:fixed;
     top:49px; 
 }
 
@@ -49,14 +48,14 @@
     padding-left:50px;
     padding-right:50px;
     box-sizing:border-box;
-    background-color: rgb(26, 26, 27);
+    /* background-color: rgb(26, 26, 27); */
     margin-top:50px;
     margin-right:10px;
-    border-bottom: 1px solid rgb(52, 53, 54);
+    /* border-bottom: 1px solid rgb(52, 53, 54);
     border-right:  1px solid rgb(52, 53, 54);
     border-left:  1px solid rgb(52, 53, 54);
     border-top:  1px solid rgb(52, 53, 54);
-    border-radius: 6px;
+    border-radius: 6px; */
 }
 
 #subredditSidebarContainer{

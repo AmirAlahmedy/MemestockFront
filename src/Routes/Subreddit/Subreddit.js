@@ -4,6 +4,7 @@ import defImage from '../../assets/images/subreddit.png';
 import Listing from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
 import {Link,Route,Switch } from 'react-router-dom';
+import Listings from '../../Components/Listings/Listings';
 
 export class Subreddit extends Component {
     state ={
@@ -37,7 +38,7 @@ export class Subreddit extends Component {
             <h1>r/{this.state.name}</h1>
         </section>
         <nav id="subredditNavbar">
-           <div class="subredditContainer">
+           <div className="subredditContainer">
               <div>
                  <span className='srLinks'><Link to='./r/'>Posts</Link></span>
                  <span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>
@@ -64,7 +65,7 @@ export class Subreddit extends Component {
               </div>
             </div>
         </nav>
-        <div class="subredditContainer">
+        <div className="subredditContainer">
             <section id="subredditPageThreads">
               {/** 
               {this.state.threads.map(thread =>({
@@ -75,8 +76,10 @@ export class Subreddit extends Component {
                 )
               })}
               */}
-              <Thread/>
+              <Listing/>
+              {/* <Thread/> */}
             </section>
+            {/* <Listing/> */}
             <aside id="subredditSidebarContainer">
               <div className="subredditSidebarComponent">
                 <h5>COMMUNITY DETAILS</h5>
