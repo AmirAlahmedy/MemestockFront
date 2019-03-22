@@ -8,7 +8,7 @@ import {Link,Route,Switch } from 'react-router-dom';
 export class Subreddit extends Component {
     state ={
         name:'Jazztheory',
-        rules:'/r/Jazz Theory is the place where you can ask and answer thought provoking questions regarding music theory and jazz harmony',
+        bio:'r/JazzTheory is the place where you can ask and answer thought provoking questions regarding music theory and jazz harmony',
         threads:[
           {
             username: 'GiantSteps_',
@@ -89,7 +89,7 @@ export class Subreddit extends Component {
                   Subscribers
                 </div>
                 <div className="srSidebarRules">
-                  <p>{this.state.rules}</p>
+                  <p>{this.state.bio}</p>
                 </div>
                 <button className="srSidebarSubscribeButton" >SUBSCRIBE</button>
                 <button className="srSidebarSubscribeButton" >CREATE A POST</button>
