@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
-import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect, withRouter } from 'react-router-dom';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
 import Listings from '../../Components/Listings/Listings'
@@ -11,6 +11,9 @@ class Home extends Component {
 
   state = {
     auth: false
+  }
+  componentDidMount = () =>{
+    this.props.history.replace('/Home/');
   }
 
     render() {
@@ -25,8 +28,7 @@ class Home extends Component {
               <Route path='/CreatePost/'   component={CreatePost}/>
               <Route path='/settings/'  component={Settings}/>
               <Route path='/r/' component={Subreddit}/>
-              <Route path='/'  component={Listings}/>
-              
+              <Route path='/'  component={Listings}/>   
             </Switch>
               
            
@@ -41,4 +43,4 @@ class Home extends Component {
       }
 }
 
-export default Home;
+export default withRouter(Home);

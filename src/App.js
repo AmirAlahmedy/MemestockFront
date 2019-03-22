@@ -3,6 +3,7 @@ import './App.css';
 import Home from './Routes/Home/Home';
 import { BrowserRouter, Redirect } from 'react-router-dom';
 import Registration from './Routes/Registration/Registration';
+import Login from './Routes/Login/Login';
 import Settings from './Routes/Settings/Settings';
 
 
@@ -11,12 +12,14 @@ class App extends Component {
     email: '',
     userName: '',
     password: '',
+    passwordIsValid: true,
     loggedIn: false,
 
     login:  function () {
         this.loggedIn = true; },
     logout: () => {
-        this.loggedIn = false; }
+        this.loggedIn = false; },
+    isLogInOpen: false,    
   }
   
   savePassword = event => {
@@ -29,29 +32,21 @@ class App extends Component {
 
     event.preventDefault();
     console.log(this.props.history);
-    if( this.state.password == 'asd' ) {
-        // this.state.login();
-        this.setState({loggedIn: true});
-        // this.props.history.replace( '/Home/' );
+    if( this.state.password.length >= 8 ) {
+        this.setState({loggedIn: true, isLogInOpen:true});
     }
     else{
-        alert('Password is wrong.');
+
+        this.setState({loggedIn: false, passwordIsValid:false, isLogInOpen:false});
     }
   }
   render() {
-    let redirect = null;
-    if(this.state.loggedIn){
-        redirect = <Redirect to='/Home/' /> ;
-    }
 
     return (
       <BrowserRouter>
       <div className="App">
-        {/* <Home /> */}
-        {redirect}
-        {this.state.loggedIn ?  <Home /> :
-        <Registration regHand={this.registrationHandler} logged={this.state.loggedIn} password={this.state.password} svPswrd={this.savePassword}/>}
-        {/* <Registration/> */}
+        {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.password} svPswrd={this.savePassword}/>
+        }
       </div>
       </BrowserRouter>
     );
