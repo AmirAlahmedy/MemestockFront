@@ -1,3 +1,31 @@
-h1 {
-    text-align: center;
+
+
+.App-link {
+  color: #61dafb;
 }
+
+.form-group textarea {
+  position:relative;
+  padding-right:100 px;
+  display :inline-block;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+
+}
+/*
+.link:hover{
+  background:red;
+  color:#fff;
+}
+/*.form {
+    display: flex;
+    align-items: flex-start;
+    margin-right: 50px;
+    * { margin-right: 10px; }
+  } 
+  h1 { font-size: 20px; font-weight: bold; }
+  .preview {
+    white-space: pre;
+  }
+}
+*/
