@@ -53,16 +53,16 @@
     
 }
 .subredditPageThread { 
-    margin-bottom:20px;
-    padding-left:10px;
-    padding-right:50px;
-    padding-bottom:15px; 
+    margin-bottom:20px; 
+    /*
     background-color: rgb(26, 26, 27);
+    
     border-bottom: 1px solid rgb(52, 53, 54);
     border-right:  1px solid rgb(52, 53, 54);
     border-left:  1px solid rgb(52, 53, 54);
     border-top:  1px solid rgb(52, 53, 54);
     border-radius: 6px; 
+    */
 }
 #subredditSidebarContainer{
     width:30%;
