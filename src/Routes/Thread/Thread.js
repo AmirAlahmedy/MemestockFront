@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Thread.css';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Thread extends Component {
     state = {
@@ -18,16 +18,50 @@ class Thread extends Component {
                 comment: 'Oh this is so relatable'
             }
         ],
-        upvotes: 0
+        upvotes: 0,
+        enableUp: false,
+        enableDown: false
     }
-
+    //upvotes: this.state.upvotes + 1
 
     handleIncrement = () => {
-        this.setState({ upvotes: this.state.upvotes + 1 });
+        console.log(this.state.upvotes)
+
+        if (this.state.enableUp === true && this.state.enableDown === false) {
+            this.setState({ upvotes: this.state.upvotes - 1 });
+            this.setState({ enableUp: false });
+
+        }
+        else if (this.state.enableUp === false && this.state.enableDown === false) {
+            this.setState({ upvotes: this.state.upvotes + 1 });
+            this.setState({ enableUp: true });
+
+        }
+        else if (this.state.enableDown === true && this.state.enableUp === false) {
+
+            this.setState({ enableDown: false });
+            this.setState({ enableUp: true });
+            this.setState({ upvotes: this.state.upvotes + 2 });
+        }
 
     };
+
+
     handledecrement = () => {
-        this.setState({ upvotes: this.state.upvotes - 1 });
+
+        if (this.state.enableDown === true && this.state.enableUp === false) {
+            this.setState({ upvotes: this.state.upvotes + 1 });
+            this.setState({ enableDown: false });
+        }
+        else if (this.state.enableDown === false && this.state.enableUp === false) {
+            this.setState({ upvotes: this.state.upvotes - 1 });
+            this.setState({ enableDown: true });
+        }
+        else if (this.state.enableUp === true && this.state.enableDown === false) {
+            this.setState({ enableDown: true });
+            this.setState({ enableUp: false });
+            this.setState({ upvotes: this.state.upvotes - 2 });
+        }
 
     };
     render() {
