@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
+
 export class Head extends Component {
   render() {
     return (
@@ -26,7 +27,7 @@ const styleAtt={
 
 }
 const linkStyle={
-  color: '#fff',
+
   textDecoration:'underline',
   color :'yellow',
       

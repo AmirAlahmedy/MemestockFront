@@ -63,7 +63,7 @@ class PMs extends Component {
                               <div>
                                 <label>To:</label>
                                 <textarea name="To"
-                                          ID="1"
+                                          id="1"
                                 placeholder ="(username, or /r/name for that subreddit's moderators)"
                                 value={this.state.value} 
                                 onChange={this.handleChange} 
@@ -75,7 +75,7 @@ class PMs extends Component {
                                 <div>
                                 <label>Subject:</label>
                                 <textarea name="Subject"
-                                            ID="2"
+                                            id="2"
                                 value={this.state.value} 
                                 onChange={this.handleChange} 
                                 cols={60} rows={1} />
@@ -84,7 +84,7 @@ class PMs extends Component {
                                 <div>
                                 <label>Your Message:</label>
                                <textarea name="Message"
-                                          ID="3"
+                                          id="3"
                                  value={this.state.value} 
                                  onChange={this.handleChange} 
                                  cols={60} 
