@@ -37,7 +37,7 @@ export class Subreddit extends Component {
             <h1>r/{this.state.name}</h1>
         </section>
         <nav id="subredditNavbar">
-           <div class="subredditContainer">
+           <div className="subredditContainer">
               <div>
                  <span className='srLinks'><Link to='./r/'>Posts</Link></span>
                  <span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>

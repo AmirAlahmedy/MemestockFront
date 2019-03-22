@@ -1,5 +1,6 @@
 .threadContainer{
     width:600px;
+ 
 }
 .threadSubreddit{
     font-size: 12px;
@@ -129,4 +130,26 @@ margin-bottom: 5px
     border-right: 14px solid rgb(87, 67, 67);
     border-bottom: 6px solid rgb(29,27,27);
    
+}
+@media (min-width: 640px){
+
+    .threadWrapper {
+        padding: 20px 24px;
+    }   
+}
+
+.threadWrapper{
+    background-color: rgb(26, 26, 27);
+    margin: 5px;
+    border: 2px solid black; 
+    border-bottom: 1px solid rgb(52, 53, 54);
+    border-right:  1px solid rgb(52, 53, 54);
+    border-left:  1px solid rgb(52, 53, 54);
+    border-top:  1px solid rgb(52, 53, 54);
+    border-radius: 3px;
+    /* grid-column-start: 2;
+    grid-column-end: five;
+    grid-row-start: row1-start;
+    grid-row-end: 3; */
+    grid-row-gap: 15px;
 }

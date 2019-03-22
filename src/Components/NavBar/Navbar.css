@@ -1,3 +1,9 @@
+.navWrapper {
+    width: 100%;
+    /* position: fixed; */
+}
+
+
 .memeNav {
     display: flex;
     align-items: center;
@@ -7,28 +13,6 @@
     overflow: hidden;
     height: 49px;
 }
-/* .navContainer{
-    display: flex;
-}
-.navContainer div{
-    flex: 1;
-}
-@media all and (max-width: 600px){
-    .navContainer{
-        flex-wrap: wrap;
-    }
-    .navContainer div{
-        flex-basis: 50%;
-    }
-}
-@media all and (max-width: 400px){
-    .navContainer div{
-        flex-basis: 100%;
-    }
-    .memeSearch{
-        order: 1;
-    }
-} */
 .memeLogo a{
     font-style: italic;
     color: #f2f2f2;
@@ -53,10 +37,17 @@
     border-image: initial;
     outline: none;
     padding: 0px 16px 0px 40px;
+    background-color: rgb(39, 39, 41);
+}
+.memeSearch:hover {
+    background-color: rgb(26, 26, 27);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(215, 218, 220);
+    border-image: initial;
 }
 .dropdownMenu{
     padding: 145px 20px 145px 20px;
-    /* position: relative; */
     display: inline-block;
     
 }
@@ -72,7 +63,6 @@
 .dropUl{
     display: flex;
     flex-direction: column;
-    /* position: absolute; */
 }
 .dropList, .yourStuffDropList{
     background-color: rgb(26, 26, 27);
@@ -103,16 +93,6 @@
 .sort:hover, .stfitm:hover {
     background-color: #818384;
 }
-/* .dropdownMenu ul li{
-    list-style: none;
-    float: left;
-}
-.toHome, .sort{
-    display: block;
-    font-family: inherit;
-    color: #f2f2f2;
-    text-decoration: none; 
-}*/
 .rightLinksWrapper{
     display: flex;
     flex: 1;
@@ -133,7 +113,6 @@
 /************************************/
 .yourStuffDrop{
     padding: 145px 20px 145px 20px;
-    /* position: relative; */
     display: inline-block;
 }
 
