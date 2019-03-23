@@ -10,9 +10,9 @@ import axios from './axios-orders';
 
 class App extends Component {
   state = {
-    Email: '',
-    Username: '',
-    Password: '',
+    Email: 'ameeeer.alsa@gmail.com',
+    Username: 'aasaaa',
+    Password: 'oooooooooooosooooooo',
     passwordIsValid: true,
     loggedIn: false,
     alreadyRegistered: false  
@@ -38,17 +38,23 @@ class App extends Component {
   registrationHandler = e => {
 
     e.preventDefault();
-    console.log(this.props.history);
     if( this.state.Password.length >= 8 && !this.state.alreadyRegistered ) {
-        this.setState({loggedIn: true});
+      let inputs = e.target.querySelectorAll('input');
+        this.setState({
+          Email: inputs[0].value,
+          Username: inputs[1].value,
+          Password: inputs[2].value,
+          loggedIn: true});
 
+        console.log(inputs[0].value);
+        console.log(this.state);
         const registrationRequest = {
 
                        Email: this.state.Email,
                        Username: this.state.Username,
                        Password: this.state.Password
                    }
-
+                   console.log(this.state);
         axios.post('user/register', registrationRequest)
                    .then( response => {
                         this.setState({alreadyRegistered: true});
@@ -57,8 +63,6 @@ class App extends Component {
                    .catch( error =>{
                     this.setState({alreadyRegistered: false});
                    })
-
-        // localStorage.setItem('current user', JSON.stringify({token:'jwt will come later', name: this.state.Username}));
     }
     else{
 
@@ -66,7 +70,7 @@ class App extends Component {
     }
   }
 
-  // currentUser = () => JSON.parse(localStorage.getItem('current user'));
+
    render() {
 
     return (
