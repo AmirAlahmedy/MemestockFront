@@ -4,6 +4,7 @@ import Account from '../Account/Account';
 import SettProfile from '../SettingsProf/SettProfile';
 import './Settings.css';
 import Tablist from '../../Components/Tablist/Tablist' 
+import Edit from '../Account/Edit'
 
 class Settings extends Component {
   render() {
@@ -15,6 +16,7 @@ class Settings extends Component {
 
 <Route path='/Settings/Account/'  component={Account}/>
 <Route path='/Settings/Profile/'  component={SettProfile}/>
+
 
 
 
