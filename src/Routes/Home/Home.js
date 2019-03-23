@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
-import { Route, NavLink, Switch, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
 import Listings from '../../Components/Listings/Listings'
@@ -13,6 +13,7 @@ class Home extends Component {
     auth: false
   }
   componentDidMount = () =>{
+    //axios.get('/Home/')
     this.props.history.replace('/Home/');
   }
 

@@ -4,7 +4,7 @@ export default function inbox() {
   return (
     <React.Fragment>
       <h1>Inbox</h1>
-      <p>This is Your Inbox Messages :)</p>
+      <p>This is Your Inbox Messages: </p>
     </React.Fragment>
   )
 }

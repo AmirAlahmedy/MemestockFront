@@ -8,8 +8,8 @@ const Tablist = (props) => {
         <div className="container">
        <div className="tablist">
          <nav>
-           <Link to='/Settings/Account' class="tab">Account</Link>
-           <Link to='/Settings/Profile' class="tab">Profile</Link>
+           <Link to='/Settings/Account' className="tab">Account</Link>
+           <Link to='/Settings/Profile' className="tab">Profile</Link>
          </nav>
 
         </div>
