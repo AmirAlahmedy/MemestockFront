@@ -20,12 +20,20 @@ class PMs extends Component {
           this.handleSubmit = this.handleSubmit.bind(this);
     };
 
-
+   /**
+     * Handles change in PM inputs.
+     * @function handleChange
+     * @param {event} e - The change of the PM inputs.
+     */
     handleChange(event) {
       this.setState({ [event.target.name]: event.target.value });
     }
 
-
+    /**
+     * Handles PM submit.
+     * @function handleSubmit
+     * @param {event} e - The submission of the PM form.
+     */
     handleSubmit(event) { 
           event.preventDefault();
           let checker ="";

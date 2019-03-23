@@ -26,7 +26,10 @@ class Thread extends Component {
     //upvotes: this.state.upvotes + 1
 
 
-
+    /**
+     * Handles upvotes increments.
+     * @function handleIncrement
+     */
     handleIncrement = () => {
         console.log(this.state.upvotes)
 
@@ -49,7 +52,10 @@ class Thread extends Component {
 
     };
 
-
+    /**
+     * Handles downvotes.
+     * @function handledecrement
+     */
     handledecrement = () => {
 
         if (this.state.enableDown === true && this.state.enableUp === false) {

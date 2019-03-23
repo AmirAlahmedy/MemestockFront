@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Routes/Thread/Thread.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Routes/Thread/Thread.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import './Thread.css';
+import { Link } from 'react-router-dom';
+import data from '../../Mocks/threads-data.json';
+class Thread extends Component {
+    // state = {
+    //     username: 'GiantSteps_',
+    //     subreddit: 'jazztheory',
+    //     title: 'Modal Harmony Interchange',
+    //     content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
+    //     comments: [
+    //         {
+    //             username: 'WreakingHavoc',
+    //             comment: 'I rememeber when I had something to say!'
+    //         },
+    //         {
+    //             username: 'CluelessBastard',
+    //             comment: 'Oh this is so relatable'
+    //         }
+    //     ],
+    //     upvotes: 0,
+    //     enableUp: false,
+    //     enableDown: false
+    // }
+    mocks = data.threads[2];
+    //upvotes: this.state.upvotes + 1
+
+
+    /**
+     * Handles upvotes increments.
+     * @function handleIncrement
+     */
+    handleIncrement = () => {
+        console.log(this.state.upvotes)
+
+        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
+            this.setState({ upvotes: this.state.upvotes - 1 });
+            this.setState({ enableUp: false });
+
+        }
+        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
+            this.setState({ upvotes: this.state.upvotes + 1 });
+            this.setState({ enableUp: true });
+
+        }
+        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
+
+            this.setState({ enableDown: false });
+            this.setState({ enableUp: true });
+            this.setState({ upvotes: this.state.upvotes + 2 });
+        }
+
+    };
+
+    /**
+     * Handles downvotes.
+     * @function handledecrement
+     */
+    handledecrement = () => {
+
+        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
+            this.setState({ upvotes: this.state.upvotes + 1 });
+            this.setState({ enableDown: false });
+        }
+        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
+            this.setState({ upvotes: this.state.upvotes - 1 });
+            this.setState({ enableDown: true });
+        }
+        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
+            this.setState({ enableDown: true });
+            this.setState({ enableUp: false });
+            this.setState({ upvotes: this.state.upvotes - 2 });
+        }
+
+    };
+    render() {
+        
+        return (
+
+            &lt;div className='threadWrapper'>
+                &lt;div className="threadContainer">
+                    &lt;Link to='/r/' className="threadSubreddit"> r/{this.mocks.subreddit}&lt;/Link>
+                    &lt;br>&lt;/br>
+                    &lt;div className="threadUsername">
+                        Posted by u/{this.mocks.username}
+                    &lt;/div>
+                    &lt;br>&lt;/br>
+                    &lt;div className="threadTitle">{this.mocks.title}&lt;/div>
+
+                    &lt;p className="threadContent">{this.mocks.content}&lt;/p>
+
+                    &lt;span onClick={this.handleIncrement} className="incrementVotes">&amp;#8679;&lt;/span>
+
+                    &lt;div className="threadUpvotes">{this.mocks.upvotes}&lt;/div>
+
+                    &lt;span onClick={this.handledecrement} className="decrementVotes">&amp;#8681;&lt;/span>
+
+                    &lt;span className="threadComments">
+                        {this.mocks.comments.length} comments
+                    &lt;/span>
+
+
+                &lt;/div>
+            &lt;/div>
+        );
+    }
+}
+
+export default Thread;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#registrationHandler">registrationHandler</a></li><li><a href="global.html#savePassword">savePassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 24 2019 01:16:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

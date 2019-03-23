@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './Routes/Home/Home';
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Registration from './Routes/Registration/Registration';
-import Login from './Routes/Login/Login';
-import Settings from './Routes/Settings/Settings';
 import axios from './axios-orders';
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: Routes/Account/Edit.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,61 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: Routes/Account/Edit.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
 
+class Edit extends Component {
 
-    <h3> </h3>
+  state={
+    email:''
+  }
 
+  /**
+ * Handles email change.
+ * @function handleChange
+ * @param {event} e - The change of the email.
+ */
+  handleChange =(e) =>{
+    this.setState({
+      email:e.target.value
+    })
+  }
+  /**
+ * Handles edit-email form submission.
+ * @function handleSubmit
+ * @param {event} e - The submission of the edit-email form.
+ */
+  handleSubmit =(e) =>{
+    e.preventDefault();
+  }
 
+  render() {
+    return (
+      &lt;div className="edit">
 
+        &lt;form onSubmit={this.handleSubmit}>
+          &lt;input type="email" placeholder="Update E-mail"onChange={this.handleChange} />
+        &lt;input type="submit" value="Update" />
+        &lt;/form>
+        {this.state.email}
+        
+      &lt;/div>
+    )
+  }
+}
 
-
-
-
-
-
-
-    
-
-
-
-
-
+export default Edit
+</code></pre>
+        </article>
+    </section>
 
 
 
