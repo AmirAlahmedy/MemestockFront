@@ -9,7 +9,11 @@ class Listings extends Component {
         forHome: true,
         subredditID: 0,
     }
-
+    /**
+     * For generating threads from a mock service
+     * @function createThread
+     * @param {object} - object of the mocked thread ...Not working properly yet.
+     */
     createThread = thread => <Thread 
     // source={thread} 
     // key={thread}
@@ -21,6 +25,13 @@ class Listings extends Component {
     upvotes={thread}
     enableUp={thread}
     enableDown={thread} />;
+
+
+    /**
+     * For generating threads from a mock service
+     * @function createThreads
+     * @param {array} - array of the mocked threads ...Not working properly yet.
+     */
     createThreads = Threads => Threads.map(this.createThread);
 
     render(){

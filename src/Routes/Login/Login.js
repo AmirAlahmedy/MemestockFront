@@ -11,28 +11,6 @@ import Spinner from '../../Components/UI/Spinner/Spinner';
 import axios from '../../axios-orders';
 
 class Login extends Component {
-    state = {
-        password: '',
-        logged: false,
-        psrdVld: true,
-       
-    }
-    svPswrd = e => {
-        this.setState({
-            password: e.target.value
-        });
-    }
-    logInHandler = e =>{
-        e.preventDefault();
-        if(this.state.password.length >= 8){
-            this.setState({logged: true});
-
-        }else{
-            this.setState({logged: false});
-        }
-
-    }
-
    
     
     render(){

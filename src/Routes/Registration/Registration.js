@@ -35,7 +35,6 @@ class Registration extends Component {
 
                 <input type='password'
                 placeholder="Password" 
-                // value={ this.props.password } 
                 onChange={ this.props.svPswrd }
                 name='password'/>
 
