@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import './PMs.css';
 import Head from  './Head';
-import inbox from  './inbox';
-import sent from  './sent';
+import inbox from  './pages/inbox';
+import sent from  './pages/sent';
 import Aux from '../../Components/HOC/Auxiliary';
 
 class PMs extends Component {
