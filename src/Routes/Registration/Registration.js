@@ -26,15 +26,18 @@ class Registration extends Component {
                  <div className='inputs'>
 
                 <input type='email' 
-                placeholder='E-mail'/>
+                placeholder='E-mail'
+                name='email'/>
 
                 <input type='text' 
-                placeholder='User name'/>
+                placeholder='User name'
+                name='username'/>
 
                 <input type='password'
                 placeholder="Password" 
-                value={ this.props.password } 
-                onChange={ this.props.svPswrd }/>
+                // value={ this.props.password } 
+                onChange={ this.props.svPswrd }
+                name='password'/>
 
                 {!this.props.logged && !this.props.psrdVld ? error:null}
                 </div> 
