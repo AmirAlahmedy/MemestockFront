@@ -41,6 +41,19 @@ class App extends Component {
     console.log(this.props.history);
     if( this.state.Password.length >= 8 && !this.state.alreadyRegistered ) {
         this.setState({loggedIn: true});
+        // eslint-disable-next-line default-case
+        switch(e.target.type){
+          
+          case('email'):
+          this.setState({Email: e.target.value});
+          break;
+          case('text'):
+          this.setState({Username: e.target.value});
+          break;
+          case('password'):
+          this.setState({Password: e.target.value});
+
+        }
 
         const registrationRequest = {
 
