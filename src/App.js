@@ -44,10 +44,12 @@ class App extends Component {
           Email: inputs[0].value,
           Username: inputs[1].value,
           Password: inputs[2].value,
-          loggedIn: true});
+          loggedIn: true}, () => {
+            console.log(this.state);
+          });
 
         console.log(inputs[0].value);
-        console.log(this.state);
+        
         const registrationRequest = {
 
                        Email: this.state.Email,
