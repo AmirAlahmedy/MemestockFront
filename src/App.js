@@ -44,14 +44,15 @@ class App extends Component {
 
         const registrationRequest = {
 
-                       Email: "user1@reddit.com",
-                       Username: "User1",
-                       Password: "Password1"
+                       Email: this.state.Email,
+                       Username: this.state.Username,
+                       Password: this.state.Password
                    }
 
         axios.post('user/register', registrationRequest)
                    .then( response => {
                         this.setState({alreadyRegistered: true});
+                        console.log(response);
                    })
                    .catch( error =>{
                     this.setState({alreadyRegistered: false});
