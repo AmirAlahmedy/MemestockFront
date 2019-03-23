@@ -10,9 +10,9 @@ import axios from './axios-orders';
 
 class App extends Component {
   state = {
-    Email: '',
-    Username: '',
-    Password: '',
+    Email: 'ameeeer.ala@gmail.com',
+    Username: 'aaaaa',
+    Password: 'ooooooooooooooooooo',
     passwordIsValid: true,
     loggedIn: false,
     alreadyRegistered: false  
