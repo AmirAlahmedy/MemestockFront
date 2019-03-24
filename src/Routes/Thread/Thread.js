@@ -98,9 +98,9 @@ class Thread extends Component {
 
                     <span onClick={this.handledecrement} className="decrementVotes">&#8681;</span>
 
-                    <span className="threadComments">
+                    <Link to='/thread' className="threadComments">
                         {this.state.comments.length} comments
-                    </span>
+                    </Link>
 
 
                 </div>
