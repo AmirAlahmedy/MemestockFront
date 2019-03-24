@@ -2,37 +2,10 @@ import React, { Component } from 'react';
 import './Login.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import classes from './Login.module.css';
-import Home from '../Home/Home';
-import { Route, Redirect, withRouter, Switch, NavLink } from 'react-router-dom';
-import Registration from '../Registration/Registration';
-import Input from '../../Components/UI/input/input';
-import Button from '../../Components/UI/Button/Button';
-import Spinner from '../../Components/UI/Spinner/Spinner';
-import axios from '../../axios-orders';
+import { withRouter, NavLink } from 'react-router-dom';
+
 
 class Login extends Component {
-    state = {
-        password: '',
-        logged: false,
-        psrdVld: true,
-       
-    }
-    svPswrd = e => {
-        this.setState({
-            password: e.target.value
-        });
-    }
-    logInHandler = e =>{
-        e.preventDefault();
-        if(this.state.password.length >= 8){
-            this.setState({logged: true});
-
-        }else{
-            this.setState({logged: false});
-        }
-
-    }
-
    
     
     render(){

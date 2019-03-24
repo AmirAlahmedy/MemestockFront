@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Routes/PMs/PMs.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Routes/PMs/PMs.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
+import './PMs.css';
+import Head from  './Head';
+import inbox from  './pages/inbox';
+import sent from  './pages/sent';
+import Aux from '../../Components/HOC/Auxiliary';
+
+class PMs extends Component {
+   //assume all submitted for now
+   constructor(props) {
+        super(props);
+        this.state = {
+      
+          To: 'Mohamed',
+          Subject:'Software',
+          Message :'we need to handle our project'
+        }
+          this.handleChange = this.handleChange.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
+    };
+
+   /**
+     * Handles change in PM inputs.
+     * @function handleChange
+     * @param {event} e - The change of the PM inputs.
+     */
+    handleChange(event) {
+      this.setState({ [event.target.name]: event.target.value });
+    }
+
+    /**
+     * Handles PM submit.
+     * @function handleSubmit
+     * @param {event} e - The submission of the PM form.
+     */
+    handleSubmit(event) { 
+          event.preventDefault();
+          let checker ="";
+
+          if (document.getElementById("1").value===checker)
+          {
+            alert ("Please provide a username");
+            return false;
+          }
+          else if (document.getElementById("2").value===checker)
+          
+            {alert ("Please provide a Subject");
+          return false;}
+          
+        else if  (document.getElementById("3").value===checker)
+        {
+          alert ("Please provide a Message");
+          return false;
+        }
+  }
+    
+    
+  
+ render()
+  {
+
+    return (
+      &lt;Router>
+        &lt;Aux>
+
+
+             &lt;Head/>
+      
+          &lt;div className="container">
+                 &lt;div className="pm-form">
+                      
+
+                  &lt;Route exact path="/PM/Compose" render = {props=>(
+                    &lt;React.Fragment>
+                    
+                      &lt;form name="myForm"
+                        onSubmit={this.handleSubmit}>
+                        &lt;div>
+                          &lt;label>To:&lt;/label>
+                          &lt;textarea 
+                              className="To"
+                              id="1"
+                              placeholder ="(username, or /r/name for that subreddit's moderators)"
+                              value={this.state.value} 
+                              onChange={this.handleChange} 
+                           
+                              /> 
+                        &lt;/div>
+                  
+                          &lt;div>
+                            &lt;label>Subject:&lt;/label>
+                            &lt;textarea 
+                                className="Subject"
+                                id="2"
+                                value={this.state.value} 
+                                onChange={this.handleChange} 
+                               
+                            />
+                          &lt;/div>
+                    
+                          &lt;div>
+                            &lt;label>Your Message:&lt;/label>
+                            &lt;textarea 
+                                className="Message"
+                                id="3"
+                                value={this.state.value} 
+                                onChange={this.handleChange} 
+                                 
+                                />  
+                          &lt;/div>
+                          &lt;input type="submit" value="Submit" />      
+                          
+                      &lt;/form>
+
+
+                    &lt;/React.Fragment>
+                  )} />
+                        
+                    &lt;Route path="/inbox" component={inbox}/>
+                    &lt;Route path="/sent" component={sent}/>
+                &lt;/div>    
+           &lt;/div>
+    
+          &lt;/Aux>
+      &lt;/Router>
+    
+    );
+    }
+}
+
+export default withRouter(PMs);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#registrationHandler">registrationHandler</a></li><li><a href="global.html#savePassword">savePassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 24 2019 01:16:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -6,12 +6,21 @@ class Edit extends Component {
     email:''
   }
 
+  /**
+ * Handles email change.
+ * @function handleChange
+ * @param {event} e - The change of the email.
+ */
   handleChange =(e) =>{
     this.setState({
       email:e.target.value
     })
   }
-
+  /**
+ * Handles edit-email form submission.
+ * @function handleSubmit
+ * @param {event} e - The submission of the edit-email form.
+ */
   handleSubmit =(e) =>{
     e.preventDefault();
   }

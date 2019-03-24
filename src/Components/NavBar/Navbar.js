@@ -45,7 +45,7 @@ const NavBar = props => {
                 </NavLink>
               </span>
               <span className='rightLinks'>
-                <a>
+                <a href='#'>
                     Notifications
                 </a>
               </span>

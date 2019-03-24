@@ -26,7 +26,10 @@ class Thread extends Component {
 
 
 
-
+    /**
+     * Handles upvotes increments.
+     * @function handleIncrement
+     */
     handleIncrement = () => {
 
 
@@ -49,7 +52,10 @@ class Thread extends Component {
 
     };
 
-
+    /**
+     * Handles downvotes.
+     * @function handledecrement
+     */
     handledecrement = () => {
 
         if (this.state.enableDown === true && this.state.enableUp === false) {
