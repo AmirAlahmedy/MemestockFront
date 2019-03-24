@@ -23,30 +23,24 @@ class PMs extends Component {
           this.handleSubmit = this.handleSubmit.bind(this);
     };
 
-<<<<<<< HEAD
 
 
 // updating state values with form inputs each time it changes.
-=======
    /**
      * Handles change in PM inputs.
      * @function handleChange
      * @param {event} e - The change of the PM inputs.
      */
->>>>>>> 8520eb4a8463f8bee7f0f61f01e887d609fc8ec5
     handleChange(event) {
       this.setState({ [event.target.name]: event.target.value });
     }
 
-<<<<<<< HEAD
 //submitting the request
-=======
     /**
      * Handles PM submit.
      * @function handleSubmit
      * @param {event} e - The submission of the PM form.
      */
->>>>>>> 8520eb4a8463f8bee7f0f61f01e887d609fc8ec5
     handleSubmit(event) { 
           event.preventDefault();
           const msg ={
