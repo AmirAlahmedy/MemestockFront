@@ -4,11 +4,12 @@ import defImage from '../../assets/images/subreddit.png';
 import Listing from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
 import {Link,Route,Switch } from 'react-router-dom';
+import axios from 'axios';
 
 export class Subreddit extends Component {
     state ={
         name:'Jazztheory',
-        bio:'r/JazzTheory is the place where you can ask and answer thought provoking questions regarding music theory and jazz harmony',
+        bio:'',
         threads:[
           {
             username: 'GiantSteps_',
@@ -27,8 +28,38 @@ export class Subreddit extends Component {
           }
         ],
         moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
-        subscribers:100
+        subscribers:100,
+        date:'10/10/2010'
     }
+    
+    componentDidMount () { 
+      console.log("yarab");
+      let srName= this.state.name;
+      axios.get('http://localhost:4000/sr/'+srName+'/meta')
+      .then(resp => {
+        console.log(resp);
+        if (resp.status==200)
+        {
+          console.log(resp.data.rules);
+          this.setState({
+            name:'Jazztheory',
+            bio: resp.data.rules[0],
+            thread:resp.data.posts,
+            moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
+            subscribers:100,
+            date:resp.data.date
+
+          })
+        }
+        else if (resp.status==="404"){
+          alert("Subreddit Not Found");
+          return Response.json;
+        }
+      })
+      .catch(error => {
+        alert("Error Caught");
+      })
+   }
   render() {
     return (
       <div className="subredditFixed">
