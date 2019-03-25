@@ -107,11 +107,27 @@ class App extends Component {
       <BrowserRouter>
      
             <div className="App" onMouseMove={this.onMouseMove}>
-            <div className="bg"></div>
+            {/* <div className="bg"></div>
             <div className="bg bg2"></div>
-            <div className="bg bg3"></div>
-              {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
+            <div className="bg bg3"></div> */}
+            {/* <div class="area" > */}
+            
+            {/* <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul> */}
+            {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
               }
+    {/* </div > */}
+             
             {/* </div>
           </div>
         </div> */}

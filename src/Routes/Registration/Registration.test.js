@@ -1,15 +1,27 @@
 import React from 'react';
 import Registration from './Registration';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
+import renderer from 'react-test-renderer';
 
 it('Registration page renders without crashing', () => {
     const form = document.createElement('form');
-    ReactDOM.render(<BrowserRouter> <Registration/></BrowserRouter>, form);
+    ReactDOM.render(<Registration/>, form);
     ReactDOM.unmountComponentAtNode(form);
 
 });
 
+test('', () => {
+    const component = renderer.create(
+      <Registration/>,
+    );
+    let tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  
+   
+    // re-rendering
+    tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 
 
 // test('Adds 2 + 2 to equal 4', () => {

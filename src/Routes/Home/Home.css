@@ -22,8 +22,9 @@
     background: #FFF;
     border: 1px solid #333;
     border-radius: 5px;
-    text-transform: lowercase;
+    /* text-transform: lowercase; */
     line-height: 14px;
     cursor: pointer;
     text-decoration: none;
+    font-weight: bold;
 }

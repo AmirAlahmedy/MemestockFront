@@ -21,7 +21,7 @@ class Registration extends Component {
 
 
         <Aux>
-
+            <div className="formWrapper" align="center">
             <form className='regForm' onSubmit={ this.props.regHand }>
                 <h1 className='logo'>Memestock</h1>
                  <div className='inputs'>
@@ -50,6 +50,7 @@ class Registration extends Component {
             </form>
             <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
 
+                </div>
         </Aux>
  
                );
