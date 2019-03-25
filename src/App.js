@@ -16,7 +16,9 @@ class App extends Component {
 
     passwordIsValid: true,
     loggedIn: false,
-    alreadyRegistered: false  
+    alreadyRegistered: false,
+    x: 0,
+    y: 0
   }
 
   /**
@@ -87,15 +89,32 @@ class App extends Component {
         this.setState({loggedIn: false, passwordIsValid:false});
     }
   }
-
+//   const myroot = document.documentElement;
+//   document.body.addEventListener('mousemove', evt => {
+//     let x = evt.clientX / innerWidth;
+//     let y = evt.clientY / innerHeight;
+ 
+//     myroot.style.setProperty('--mouse-x', x);
+//     myroot.style.setProperty('--mouse-y', y);
+// });
+  onMouseMove(e) {
+  
+  }
 
    render() {
 
     return (
       <BrowserRouter>
-        <div className="App">
-          {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
-          }
+     
+            <div className="App" onMouseMove={this.onMouseMove}>
+            <div className="bg"></div>
+            <div className="bg bg2"></div>
+            <div className="bg bg3"></div>
+              {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
+              }
+            {/* </div>
+          </div>
+        </div> */}
         </div>
       </BrowserRouter>
     );

@@ -25,18 +25,33 @@
 .inputs input{
     width: 60%;
     transition: width 0.4s ease-in-out;
-    border-radius: 4px;
-    margin-bottom: 30px;
+    border-radius: 20px;
+    
+
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    padding: 6px 10px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+.usernameInput, .emailInput{
+    margin-bottom: 30px; 
 }
 input:focus {
-    background-color: lightblue;
-    border: 3px solid #555;
+    
+    /* border: 3px solid #555; */
     width: 70%;
+
+    outline: none;
+    background-color: #ccc;
   }
 .registerButton {
     margin-top: 30px;
     background-color: #ff4500;
-    border-radius: 40px;
+    border-radius: 20px;
     font-family: inherit;
     font-size: 18px;
     color: #f2f2f2;
@@ -44,10 +59,17 @@ input:focus {
     text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
     border-style: initial;
     transition: background .3s,color .3s;
+
+    box-shadow: 0px 0px 0px 03px  #ff4400c7;
+    transition: box-shadow 1s linear;
+    margin: 0.5em;
     
 }
 .registerButton:hover{
     background-color: #f2f2f2;
-    border: 2px solid #ff4400c7;  
+    /* border: 2px solid #ff4400c7;   */
     color: #ff4400c7; 
+    box-shadow: 0px 0px 0px 6px #ff4400c7;
 }
+
+

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import classes from './Login.module.css';
-import { withRouter, NavLink } from 'react-router-dom';
+import { NavLink, BrowserRouter as Router } from 'react-router-dom';
 
 
 class Login extends Component {
@@ -10,7 +10,7 @@ class Login extends Component {
     
     render(){
 
-        let error = <p className={classes.Invalid}>Your password is wrong!</p>
+        let error = <strong className={classes.Invalid}>Your password is wrong!</strong>
         return(
 
         <Aux>
@@ -19,10 +19,12 @@ class Login extends Component {
                 <h1 className='logo'>Memestock</h1>
                  <div className='inputs'>
 
-                <input type='text' 
+                <input className="usernameInput"
+                type='text' 
                 placeholder='User name'/>
 
-                <input type='password'
+                <input className="passInput"
+                type='password'
                 placeholder="Password" 
                 value={ this.props.password } 
                 onChange={ this.props.svPswrd }/>
@@ -31,7 +33,9 @@ class Login extends Component {
                 </div> 
                 
                 <button type="submit" className='registerButton'> Login </button>
-                <NavLink to='/Registration/'>Create a new account?</NavLink>
+                {/* <Router> */}
+                    <NavLink to='/Registration/'>Create a new account?</NavLink>
+                {/* </Router> */}
             </form>
             
         </Aux>
@@ -42,4 +46,4 @@ class Login extends Component {
                
         }
             
-export default withRouter(Login);
+export default Login;
