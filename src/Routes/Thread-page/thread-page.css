@@ -1,0 +1,43 @@
+.pagethread{
+    margin-bottom: 5px;
+}
+
+.commentUser{
+    display: block;
+    color: brown;
+     overflow-wrap: break-word;
+     word-break: break-word;
+     text-align: left;
+     font-size: 14px;
+     font-weight: 650;
+     margin-bottom: 1px;
+     line-height: 24px;
+     padding-right: 5px;
+     padding-left:20px;
+     margin-left: 5px;
+    
+}
+.commentUser:hover{
+    text-decoration: underline;
+}
+.comment{
+    display: block;
+     overflow-wrap: break-word;
+     word-break: break-word;
+     text-align: left;
+     font-size: 15px;
+     margin-bottom: 1px;
+     line-height: 24px;
+     padding-right: 5px;
+     padding-left:20px;
+     margin-left: 10px;
+    
+    }
+
+    .threadComment{
+        background-color: rgb(15, 15, 17);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 0px;
+    
+    }

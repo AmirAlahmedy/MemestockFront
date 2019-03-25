@@ -7,12 +7,13 @@ import PMs from '../PMs/PMs';
 import Listings from '../../Components/Listings/Listings'
 import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
+import ThreadPage from '../Thread-page/thread-page';
 class Home extends Component {
 
   state = {
     auth: false
   }
-  componentDidMount = () =>{
+  componentDidMount = () => {
     //axios.get('/Home/')
     this.props.history.replace('/Home/');
   }
