@@ -1,17 +1,16 @@
- .logInForm {
+/* $redditOrange: #ff4500;
+$redditBlack: rgb(26, 26, 27); */
+.regForm {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    /* margin-left: 25%;
-    margin-top: 60px; */
     min-height: 70vh;
     width: 50%;
     background-color: rgb(26, 26, 27);
     padding-top: 50px;
     border: 1px solid rgb(52, 53, 54);
     border-radius: 6px;
-    /* position: absolute; */
 }
 .logo {
     font-style: italic;
@@ -37,11 +36,11 @@
     width: 100%;
     box-sizing: border-box;
 }
-.usernameInput{
-    margin-bottom: 30px;
+.usernameInput, .emailInput{
+    margin-bottom: 30px; 
 }
 input:focus {
-   
+    
     /* border: 3px solid #555; */
     width: 70%;
 
@@ -51,7 +50,7 @@ input:focus {
 .registerButton {
     margin-top: 30px;
     background-color: #ff4500;
-    border-radius: 40px;
+    border-radius: 20px;
     font-family: inherit;
     font-size: 18px;
     color: #f2f2f2;
@@ -59,17 +58,24 @@ input:focus {
     text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
     border-style: initial;
     transition: background .3s,color .3s;
+
+    box-shadow: 0px 0px 0px 03px  #ff4400c7;
+    transition: box-shadow 1s linear;
+    margin: 0.5em;
     
 }
 .registerButton:hover{
     background-color: #f2f2f2;
-    border: 2px solid #ff4400c7;  
+    /* border: 2px solid #ff4400c7;   */
     color: #ff4400c7; 
+    box-shadow: 0px 0px 0px 6px #ff4400c7;
 }
-.logINFormWrapper{
-    display: flex;
+  .formWrapper{
+     display: flex;
      flex-direction: column;
      align-items: center;
-    padding-top: 5%;
+     padding-top: 5%;
+    
 
-}
+ } 
+

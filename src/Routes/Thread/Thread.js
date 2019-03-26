@@ -82,15 +82,15 @@ class Thread extends Component {
 
             <div className='threadWrapper'>
                 <div className="threadContainer">
-                    <Link to='/r/' className="threadSubreddit"> r/{this.state.subreddit}</Link>
+                    <Link to='/r/' className="threadSubreddit"> r/{this.props.subreddit}</Link>
                     <br></br>
                     <div className="threadUsername">
                         Posted by u/{this.state.username}
                     </div>
                     <br></br>
-                    <div className="threadTitle">{this.state.title}</div>
+                    <div className="threadTitle">{this.props.title}</div>
 
-                    <p className="threadContent">{this.state.content}</p>
+                    <p className="threadContent">{this.props.content}</p>
 
                     <span onClick={this.handleIncrement} className="incrementVotes">&#8679;</span>
 

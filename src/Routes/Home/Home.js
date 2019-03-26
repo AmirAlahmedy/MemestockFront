@@ -38,7 +38,7 @@ class Home extends Component {
              {/* <Listings/> */}
           
           <footer>
-            <p><a href="#top" className='backtoTop'>Top</a></p>
+            <p><a href="#top" className='backtoTop'> Back to Top</a></p>
           </footer>
         </div>
           );

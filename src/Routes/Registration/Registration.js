@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './Registration.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import classes from './Registration.module.css';
-import { NavLink, Route, withRouter, BrowserRouter as Router } from 'react-router-dom';
+import { NavLink, Route, withRouter, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Login from '../Login/Login';
-
+import './Registration.scss';
 
 
 class Registration extends Component {
@@ -20,8 +19,11 @@ class Registration extends Component {
         return(
 
 
-        <Aux>
-            <div className="formWrapper" align="center">
+         <Aux>
+             <Switch>
+             <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
+             
+            <div className="formWrapper">
             <form className='regForm' onSubmit={ this.props.regHand }>
                 <h1 className='logo'>Memestock</h1>
                  <div className='inputs'>
@@ -48,11 +50,18 @@ class Registration extends Component {
                 <button type="submit" className='registerButton'> Register </button>
                 <NavLink to='/Login/'>Already Registered?</NavLink>
             </form>
-            <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
 
-                </div>
+        </div>
+
+            
+    
+                </Switch>
+        
+
+
         </Aux>
  
+
                );
                
                

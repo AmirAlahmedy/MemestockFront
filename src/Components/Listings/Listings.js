@@ -6,36 +6,19 @@ import data from '../../Mocks/threads-data.json';
 import axios from '../../axios-orders';
 
 class Listings extends Component {
-    reqThreads = {
-                // [    
-                //     {
-                //         subredditName: "funny",
-                //         _id:"sd232s2231",
-                //         title:"love",
-                //         postDate:"1998-04-23",
-                //         body: "love is known for something"
-                //     }
+    state = {
+        threads: []
+    }
 
-                //     {
-                //         subredditName: "nature",
-                //         _id:"2dsds23123d",
-                //         title:"vietnam nature",
-                //         postDate:"1998-04-23",
-                //         body: "vietnam nature is known for something"
-                //     } 
-                // ]
-             }
-
-     startPosition = { startPosition:0 };
+    //  startPosition = { startPosition:0 };
+    
     componentDidMount = () => {
-        axios.get('/ahmed/listing?type=new', {
-            params: {
-              startPosition: this.startPosition
-            }
-          })
+        axios.get('/ahmed/listing?type=new')
         .then( response => {
-           let reqThreads = response;
-           console.log(response);
+            this.reqThreads = response.data;
+            console.log(response);
+            let thrds = this.createThreads(response.data);
+            this.setState({threads: thrds});
         })
         .catch( error => {
 
@@ -50,16 +33,12 @@ class Listings extends Component {
      * @param {object} - object of the mocked thread ...Not working properly yet.
      */
     createThread = thread => <Thread 
-    // source={thread} 
-    // key={thread}
-    username={thread}
-    subreddit={thread}
-    title={thread} 
-    content={thread}
-    comments={thread}
-    upvotes={thread}
-    enableUp={thread}
-    enableDown={thread} />;
+                                    key={thread._id}
+                                    // username={thread.subredditName}
+                                    subreddit={thread.subredditName}
+                                    title={thread.title} 
+                                    content={thread.body}
+    />;
 
 
     /**
@@ -74,11 +53,8 @@ class Listings extends Component {
         return(
            <Router>
 
-            <div className='listingsContainer'> 
-                {/* <Thread/>
-                <Thread/>
-            <Thread/> */}
-                {this.createThreads(data.threads)}
+            <div className='listingsContainer'>     
+                {this.state.threads}
             </div>
             
         </Router> 

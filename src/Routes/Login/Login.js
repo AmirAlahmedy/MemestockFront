@@ -6,6 +6,7 @@ import { NavLink, BrowserRouter as Router } from 'react-router-dom';
 
 
 class Login extends Component {
+
    
     
     render(){
@@ -14,8 +15,8 @@ class Login extends Component {
         return(
 
         <Aux>
-
-            <form className='regForm' onSubmit={ this.props.logHand } >
+            <div className="logINFormWrapper">
+            <form className='logInForm' onSubmit={ this.props.logHand } >
                 <h1 className='logo'>Memestock</h1>
                  <div className='inputs'>
 
@@ -38,6 +39,7 @@ class Login extends Component {
                 {/* </Router> */}
             </form>
             
+        </div>
         </Aux>
                );
                
