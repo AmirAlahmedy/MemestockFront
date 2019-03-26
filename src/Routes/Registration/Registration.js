@@ -24,7 +24,9 @@ class Registration extends Component {
              <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
              
             <div className="formWrapper">
+           
             <form className='regForm' onSubmit={ this.props.regHand }>
+              
                 <h1 className='logo'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
                  <div className='inputs'>
 
