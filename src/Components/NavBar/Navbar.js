@@ -2,6 +2,8 @@ import React from 'react';
 import './Navbar.css';
 import { NavLink, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Aux from '../HOC/Auxiliary';
+import '../../Sass/styles.scss';
+
 
 const NavBar = props => {
    return  (
@@ -13,7 +15,7 @@ const NavBar = props => {
 
             <nav className='memeNav'> 
                 <div  className="memeLogo">
-                <NavLink to='/Home/'>Memestock</NavLink>
+                <NavLink to='/Home/'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></NavLink>
                 </div>
                 <div className="dropdownMenu">
                     <button className='dropButton'>

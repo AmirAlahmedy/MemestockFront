@@ -70,6 +70,9 @@ input:focus {
     color: #ff4400c7; 
     box-shadow: 0px 0px 0px 6px #ff4400c7;
 }
+.registerButton:focus{
+    outline: none;
+}
   .formWrapper{
      display: flex;
      flex-direction: column;

@@ -3,6 +3,7 @@ import './Login.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import classes from './Login.module.css';
 import { NavLink, BrowserRouter as Router } from 'react-router-dom';
+import '../../Sass/styles.scss';
 
 
 class Login extends Component {
@@ -17,7 +18,7 @@ class Login extends Component {
         <Aux>
             <div className="logINFormWrapper">
             <form className='logInForm' onSubmit={ this.props.logHand } >
-                <h1 className='logo'>Memestock</h1>
+                <h1 className='logo'> <i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
                  <div className='inputs'>
 
                 <input className="usernameInput"

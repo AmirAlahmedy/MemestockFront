@@ -87,6 +87,10 @@ input:focus {
           box-shadow: 0px 0px 0px 6px #ff4400c7;
 }
 
+.registerButton:focus {
+  outline: none;
+}
+
 .formWrapper {
   display: -webkit-box;
   display: -ms-flexbox;

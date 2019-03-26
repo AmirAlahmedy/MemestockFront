@@ -4,7 +4,7 @@ import classes from './Registration.module.css';
 import { NavLink, Route, withRouter, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Login from '../Login/Login';
 import './Registration.scss';
-
+import '../../Sass/styles.scss';
 
 class Registration extends Component {
 
@@ -25,7 +25,7 @@ class Registration extends Component {
              
             <div className="formWrapper">
             <form className='regForm' onSubmit={ this.props.regHand }>
-                <h1 className='logo'>Memestock</h1>
+                <h1 className='logo'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
                  <div className='inputs'>
 
                 <input  className="emailInput"
