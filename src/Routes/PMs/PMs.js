@@ -16,9 +16,11 @@ class PMs extends Component {
           To: '',
           Subject:'',
           Message :'',
-          
+        submitting : false,
+        error: false,
         
         }
+        
           this.handleChange = this.handleChange.bind(this); 
           this.handleSubmit = this.handleSubmit.bind(this);
     };
@@ -79,6 +81,10 @@ class PMs extends Component {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        this.setState({
+          error : false,
+          submitting : false,
+        });
         
         //in case sucess..
         alert("your message was sucessfully delievered");
@@ -86,6 +92,10 @@ class PMs extends Component {
       })
       .catch(error => {
         console.log(error.response)
+        this.setState({
+          error:true,
+          submitting:false
+        });
         if
         (error.response.statusText==="Forbidden")
         {
@@ -100,7 +110,7 @@ class PMs extends Component {
           alert("internal server error");
         }
         
-    });
+    })  ;
 
       }
     
@@ -167,7 +177,8 @@ class PMs extends Component {
 
                     </React.Fragment>
                   )} />
-                        
+                  
+
                     <Route path="/inbox" component={inbox}/>
                     <Route path="/sent" component={sent}/>
                 </div>    
