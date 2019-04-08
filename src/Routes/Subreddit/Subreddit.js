@@ -60,6 +60,13 @@ export class Subreddit extends Component {
         alert("Error Caught");
       })
    }
+
+   srSubscribe = (e) => {
+      e.preventDefault();
+      console.log('clickedd');
+      
+   }
+
   render() {
     return (
       <div className="subredditFixed">
@@ -137,7 +144,7 @@ export class Subreddit extends Component {
                 <div className="srSidebarRules">
                   <p>{this.state.bio}</p>
                 </div>
-                <button className="srSidebarSubscribeButton" >SUBSCRIBE</button>
+                <button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 <button className="srSidebarSubscribeButton" >CREATE A POST</button>
               </div>
               <div className="subredditSidebarComponent">
