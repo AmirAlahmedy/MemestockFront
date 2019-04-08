@@ -4,6 +4,8 @@ import defImage from '../../assets/images/subreddit.png';
 import Listing from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
 import {Link,Route,Switch } from 'react-router-dom';
+import data from '../../Mocks/threads-data.json';  
+
 import axios from 'axios';
 
 export class Subreddit extends Component {
@@ -29,11 +31,13 @@ export class Subreddit extends Component {
         ],
         moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
         subscribers:100,
-        date:'10/10/2010'
+        date:'10/10/2010',
+        rules:['No Eating Disorders','Please be professional','Contact through moderators only'],
+        subscribed:true,
     }
     
     componentDidMount () { 
-      console.log("yarab");
+      console.log("mounted");
       let srName= this.state.name;
       axios.get('http://localhost:4000/sr/'+srName+'/meta')
       .then(resp => {
@@ -43,15 +47,15 @@ export class Subreddit extends Component {
           console.log(resp.data.rules);
           this.setState({
             name:'Jazztheory',
-            bio: resp.data.rules[0],
+            bio: 'same biooooooooooo',
             thread:resp.data.posts,
             moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
             subscribers:100,
-            date:resp.data.date
-
+            date:resp.data.date,
+            rules:resp.data.rules
           })
         }
-        else if (resp.status==="404"){
+        else if (resp.status===404){
           alert("Subreddit Not Found");
           return Response.json;
         }
@@ -60,13 +64,54 @@ export class Subreddit extends Component {
         alert("Error Caught");
       })
    }
-
+/*
+     * For generating threads from a mock service
+     * @function createSubreddit
+     * @param {object} - object of the mocked subreddit
+     *      
+    createSubreddit = subreddit => <Subreddit 
+                                    key={subreddit._id}
+                                    name={subreddit.subredditName}
+                                    bio={subreddit.bio} 
+                                    threads={subreddit.threads}
+    />;
+    
+    //createThreads = Threads => Threads.map(this.createThread);
+*/
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('clickedd');
-      
+      let SubredditName = this.state.name;
+      axios.post( 'http://localhost:4000/sr/:SubredditName/subs',"qedwfruhssjdiuhd",SubredditName)
+      .then(res => {
+        if (res.status==200)
+        {
+          console.log(res);
+          this.setState({
+            subscribe:true
+          }
+          );
+        }else if (res.status===404){
+          alert("Subreddit Not Found");
+          return Response.json;
+        }
+      })
+      .catch(error => {
+        alert("Error Caught");
+      })
    }
-
+   srUnSubscribe = (e) => {
+    e.preventDefault();
+    console.log('clickedd');
+    let SubredditName = this.state.name;
+    axios.delete( 'http://localhost:4000/sr/:SubredditName/subs',"qedwfruhssjdiuhd",SubredditName)
+    .then(res => {
+      console.log(res);
+      this.setState({
+        subscribe:false
+      });
+    })
+ }
   render() {
     return (
       <div className="subredditFixed">
@@ -77,8 +122,8 @@ export class Subreddit extends Component {
         <nav id="subredditNavbar">
            <div className="subredditContainer">
               <div>
-                 <span className='srLinks'><Link to='./r/'>Posts</Link></span>
-                 <span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>
+                 <span className='srLinks'>Posts</span>
+                 {/*<span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>*/}
               </div>
             </div> 
             <div id="subredditSort">
@@ -141,10 +186,13 @@ export class Subreddit extends Component {
                   {this.state.subscribers} <br/>
                   Subscribers
                 </div>
-                <div className="srSidebarRules">
+                <div className="srSidebarBio">
                   <p>{this.state.bio}</p>
                 </div>
-                <button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
+                {
+                  this.state.subscribed ?  <button className="srSidebarSubscribeButton"  onClick={this.srUnSubscribe}>UNSUBSCRIBE</button> 
+                  :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
+                }
                 <button className="srSidebarSubscribeButton" >CREATE A POST</button>
               </div>
               <div className="subredditSidebarComponent">
@@ -158,6 +206,20 @@ export class Subreddit extends Component {
                         })
                   }
                 </ul>
+              </div>
+              <div className="subredditSidebarComponent">
+                <h5>RULES</h5>
+                <ol>
+                  {
+                    this.state.rules.map(rule => {
+                      let index=1;
+                      return ( 
+                        <li className="rulesSr" key={rule}>index{rule}</li>
+                      );
+                      index=index+1;
+                      })
+                  }
+                </ol>
               </div>
             </aside>
             
