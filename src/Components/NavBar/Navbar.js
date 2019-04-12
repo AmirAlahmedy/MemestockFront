@@ -39,13 +39,13 @@ const NavBar = props => {
                 <div className="search-wrapper">
                    
                    
-                    <form className="search-form" action='/search' autoComplete='off'>
+                    <div className="search-form memeSearch" action='/search' autoComplete='off'>
                     <label className="search-label" for = "header-search-bar">
                         <i class="fas fa-search search-icon"></i>
                     </label> 
-                        <input type='search' className='memeSearch' id="header-search-bar" placeholder='Search Memestock'  role="search" name="q" method='get'>
+                        <input type='search' className='me-me' id="header-search-bar" placeholder='Search Memestock'  role="search" name="q" method='get'>
                         </input>
-                    </form>
+                    </div>
                 </div>
                 <div className='rightLinksWrapper'>
                     <span className='rightLinks'>

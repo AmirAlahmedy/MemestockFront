@@ -122,11 +122,13 @@
 
 .search-wrapper, .search-form{
     display: flex;
+   /** width: 30%;*/
+   padding: 0;
 }
 
 .search-label{
     margin: 0;
-    padding: 0;
+    padding: 0 16px 0 16px;
     border: 0;
     font-size: 100%;
     font: inherit;
@@ -162,4 +164,14 @@
     }
   } */
 
-
+.me-me{
+    box-shadow: none;
+    color: rgb(215, 218, 220);
+    flex: 1;
+    height: 36px;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 0px 16px 0px 40px;
+    background-color: rgb(39, 39, 41);
+}
