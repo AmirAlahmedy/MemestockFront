@@ -1,83 +1,88 @@
 import React, { Component } from 'react';
 import './Subreddit.css';
 import defImage from '../../assets/images/subreddit.png';
-import Listing from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
 import {Link,Route,Switch } from 'react-router-dom';
-import data from '../../Mocks/threads-data.json';  
+import data from '../../Mocks/subreddit-data.json';  
 
 import axios from 'axios';
+//import ginprodReducer from '../../store/reducers/production';
+
+
+let inDev = false;
 
 export class Subreddit extends Component {
     state ={
         name:'Jazztheory',
         bio:'',
-        threads:[
-          {
-            username: 'GiantSteps_',
-            subreddit: 'jazztheory',
-            title: 'Modal Harmony Interchange',
-            content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-            upvotes:0
-          
-          },
-          {
-            username: 'WreakingHavoc',
-            subreddit: 'jazztheory',
-            title: 'Circle of Fifth',
-            content: 'Circle of Fifth is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-            upvotes:124
-          }
-        ],
-        moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
-        subscribers:100,
-        date:'10/10/2010',
-        rules:['No Eating Disorders','Please be professional','Contact through moderators only'],
+        threads:[],
+        moderators:[],
+        subscribers: 0,
+        date:'',
+        rules:[],
         subscribed:true,
     }
     
     componentDidMount () { 
+
       console.log("mounted");
-      let srName= this.state.name;
-      axios.get('http://localhost:4000/sr/'+srName+'/meta')
-      .then(resp => {
-        console.log(resp);
-        if (resp.status==200)
-        {
-          console.log(resp.data.rules);
-          this.setState({
-            name:'Jazztheory',
-            bio: 'same biooooooooooo',
-            thread:resp.data.posts,
-            moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
-            subscribers:100,
-            date:resp.data.date,
-            rules:resp.data.rules
-          })
-        }
-        else if (resp.status===404){
-          alert("Subreddit Not Found");
-          return Response.json;
-        }
-      })
-      .catch(error => {
-        alert("Error Caught");
-      })
+
+      if(inDev === true ) // && ginprodReducer.globalInProduction)
+      {
+        let srName= this.state.name;
+        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        .then(resp => {
+          console.log(resp);
+          if (resp.status==200)
+          {
+            console.log(resp.data.rules);
+            this.setState({
+              name:this.state.name,
+              bio: 'same biooooooooooo',
+              thread:resp.data.posts,
+              moderators:resp.data.ModIds,
+              subscribers:resp.data.SubCount,
+              date:resp.data.date,
+              rules:resp.data.rules
+            })
+          }
+          else if (resp.status===404){
+            alert("Subreddit Not Found");
+            return Response.json;
+          }
+        })
+        .catch(error => {
+          alert("Error Caught");
+        })
+      }
+      else {
+        this.setState({
+          bio:data.subreddit.bio,
+          threads:data.subreddit.threads,
+          moderators:data.subreddit.moderators,
+          subscribers:data.subreddit.subscribers,
+          date:data.subreddit.date,
+          rules:data.subreddit.rules
+        });
+      }
    }
 /*
      * For generating threads from a mock service
      * @function createSubreddit
      * @param {object} - object of the mocked subreddit
-     *      
+     *     
+     *  
     createSubreddit = subreddit => <Subreddit 
                                     key={subreddit._id}
                                     name={subreddit.subredditName}
                                     bio={subreddit.bio} 
                                     threads={subreddit.threads}
+                                    moderators={subreddit.moderators}
+                                    subscribers={subreddit.subscribers}
+                                    date={subreddit.date}
+                                    rules={subreddit.rules}
     />;
-    
-    //createThreads = Threads => Threads.map(this.createThread);
-*/
+*/    
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('clickedd');
@@ -233,3 +238,12 @@ export class Subreddit extends Component {
 }
 
 export default Subreddit
+/*
+const mapStateToProps = state => {
+  return {
+    ginProd: state.globalInProduction
+  };
+};
+
+export default connect(mapStateToProps)(Listings);
+*/
