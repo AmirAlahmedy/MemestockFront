@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Thread.css';
 import { Link } from 'react-router-dom';
-//import data from '../../Mocks/threads-data.json';
+import '../../Sass/styles.scss';
 class Thread extends Component {
     state = {
         username: 'GiantSteps_',
@@ -98,7 +98,7 @@ class Thread extends Component {
 
                     <span onClick={this.handledecrement} className="decrementVotes">&#8681;</span>
 
-                    <Link to='/thread' className="threadComments">
+                    <Link to='/thread/' className="threadComments">
                         {this.state.comments.length} comments
                     </Link>
 

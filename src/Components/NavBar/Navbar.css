@@ -1,11 +1,13 @@
 .navWrapper {
     width: 100%;
-    /* position: fixed; */
+    display: flex;
+    
 }
 
 
 .memeNav {
     display: flex;
+    /* flex-wrap: wrap; */
     align-items: center;
     width: 100%;
     background-color: rgb(26, 26, 27);
@@ -23,6 +25,7 @@
     text-decoration: none;
     font-size: 24px;
     cursor: pointer;
+    
 }
 .memeSearch{
     box-shadow: none;
@@ -39,6 +42,7 @@
     padding: 0px 16px 0px 40px;
     background-color: rgb(39, 39, 41);
 }
+
 .memeSearch:hover {
     background-color: rgb(26, 26, 27);
     border-width: 1px;
@@ -115,5 +119,47 @@
     padding: 145px 20px 145px 20px;
     display: inline-block;
 }
+
+.search-wrapper, .search-form{
+    display: flex;
+}
+
+.search-label{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline
+}
+@media (max-width: 639px){
+
+    .fLroyf {
+        left: 8px;
+    }
+}
+.flroyf{
+    -webkit-box-align: center;
+    align-items: center;
+    display: flex;
+    height: 40px;
+    left: 12px;
+    position: absolute;
+    right: 12px;
+    z-index: 3;
+    transition: left 300ms ease-in-out 0s;
+}
+
+
+/* @media all and (max-width: 600px) {
+  
+    .memeNav {
+      flex-wrap: wrap;
+    }
+    
+    .memeNav > div {
+      flex-basis: 50%;
+    }
+  } */
 
 

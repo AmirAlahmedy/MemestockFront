@@ -8,7 +8,12 @@ import '../../Sass/styles.scss';
 
 class Login extends Component {
 
-   
+    componentDidMount = () =>{
+        localStorage.setItem('loggedIn', false);
+        localStorage.setItem('alreadyRegistered', true);
+
+
+    }
     
     render(){
 
@@ -21,11 +26,11 @@ class Login extends Component {
                 <h1 className='logo'> <i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
                  <div className='inputs'>
 
-                <input className="usernameInput"
+                <input className="usernameInput logi"
                 type='text' 
                 placeholder='User name'/>
 
-                <input className="passInput"
+                <input className="passInput logi"
                 type='password'
                 placeholder="Password" 
                 value={ this.props.password } 

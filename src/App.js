@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './Routes/Home/Home';
-import { BrowserRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Registration from './Routes/Registration/Registration';
+import Login from './Routes/Login/Login';
 import axios from './axios-orders';
+import * as actions from './store/actions/index';
+import { connect } from 'react-redux';
 
 
 class App extends Component {
+  
   state = {
     Credentials: {
         Email: '',
         Username: '',
         Password: ''
       },
+      auth: {
+        token: '',
+        loading:'',
+      },
 
     passwordIsValid: true,
     loggedIn: false,
     alreadyRegistered: false,
-    x: 0,
-    y: 0
+  
   }
+
+  componentDidMount = () => {
+    this.props.onTryAutoSignup();
+    window.onbeforeunload = (e) => {
+      console.log('stay on the same route')
+      };
+}
+ 
+
+
 
   /**
    * Saves the password
@@ -41,7 +58,7 @@ class App extends Component {
   registrationHandler = e => {
 
     e.preventDefault();
-    if( this.state.Password.length >= 8 && /*!this.state.alreadyRegistered*/ !localStorage.getItem('alreadyRegistered')) {
+    if( this.state.Password.length >= 8 &&  !localStorage.getItem('alreadyRegistered')) {
       let inputs = e.target.querySelectorAll('input');
         this.setState({
           Credentials:{
@@ -65,7 +82,7 @@ class App extends Component {
           });
           
 
-    }else if(this.state.Password.length >= 8 && /*this.state.alreadyRegistered*/ localStorage.getItem('alreadyRegistered')){
+    }else if(this.state.Password.length >= 8 && localStorage.getItem('alreadyRegistered')){
       let inputs = e.target.querySelectorAll('input');
       this.setState({
         Credentials:{
@@ -78,6 +95,7 @@ class App extends Component {
           
           axios.post('user/login', this.state.Credentials)
                  .then( response => {
+                      localStorage.setItem('loggedIn', true);
                       console.log(response);
                  })
                  .catch( error =>{
@@ -89,52 +107,124 @@ class App extends Component {
         this.setState({loggedIn: false, passwordIsValid:false});
     }
   }
-//   const myroot = document.documentElement;
-//   document.body.addEventListener('mousemove', evt => {
-//     let x = evt.clientX / innerWidth;
-//     let y = evt.clientY / innerHeight;
- 
-//     myroot.style.setProperty('--mouse-x', x);
-//     myroot.style.setProperty('--mouse-y', y);
-// });
-  onMouseMove(e) {
-  
-  }
 
    render() {
+ 
 
     return (
-      <BrowserRouter>
+     
      
             <div className="App" onMouseMove={this.onMouseMove}>
-            {/* <div className="bg"></div>
-            <div className="bg bg2"></div>
-            <div className="bg bg3"></div> */}
-            {/* <div class="area" > */}
-            
-            {/* <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul> */}
-            {this.state.loggedIn ?  <Home /> :<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
-              }
-    {/* </div > */}
-             
-            {/* </div>
-          </div>
-        </div> */}
+
+            {this.state.loggedIn ? <Home /> :( this.state.alreadyRegistered ? <Login regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/> )}
+   
         </div>
-      </BrowserRouter>
+     
     );
   }
 }
 
-export default App;
+
+// const mapStateToProps = state => {
+//   return {
+//       loading: state.auth.loading,
+//       error: state.auth.error,
+//       isAuthenticated: state.auth.token !== null,
+//       //  buildingMemeStock: state.memeStock.building,
+//       authRedirectPath: state.auth.authRedirectPath,
+
+//       loggedIn: state.loggedIn,
+//       alreadyRegistered: state.alalreadyRegistered
+
+
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//       onAuth: ( email, password, alreadyRegistered ) => dispatch( actions.auth( email, password, alreadyRegistered ) ),
+//       onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
+      
+//   };
+// };
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: true//state.auth.token !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch( actions.authCheckState() )
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+
+// import React, { Component } from 'react';
+// import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+// import { connect } from 'react-redux';
+// import asyncComponent from './Components/HOC/asyncComponent/asyncComponent';
+
+// // import Layout from './hoc/Layout/Layout';
+
+// import Logout from './Auth/Logout/Logout';
+// import * as actions from './store/actions/index';
+
+// import Home from './Routes/Home/Home';
+// import Auth from './Auth/Auth';
+
+
+// const asyncAuth = asyncComponent(() => {
+//   return import('./Auth/Auth');
+// });
+
+// class App extends Component {
+//   componentDidMount () {
+//     this.props.onTryAutoSignup();
+//   }
+
+//   render () {
+//     let routes = (
+//       <Switch>
+//         <Route path="/auth" component={asyncAuth} />
+//         <Route path="/" exact component={Auth} />
+//         <Redirect to="/" />
+//       </Switch>
+//     );
+
+//     if ( this.props.isAuthenticated ) {
+//       routes = (
+//         <Switch>
+//           {/* <Route path="/checkout" component={asyncCheckout} /> */}
+//           {/* <Route path="/orders" component={asyncOrders} /> */}
+//           <Route path="/logout" component={Logout} />
+//           <Route path="/auth" component={asyncAuth} />
+//           <Route path="/Home/" exact component={Home} />
+//           <Redirect to="/" />
+//         </Switch>
+//       );
+//     }
+
+//     return (
+//       <div>
+//           {routes}
+
+//       </div>
+//     );
+//   }
+// }
+
+// const mapStateToProps = state => {
+//   return {
+//     isAuthenticated: state.auth.token !== null
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onTryAutoSignup: () => dispatch( actions.authCheckState() )
+//   };
+// };
+
+// export default withRouter( connect( mapStateToProps, mapDispatchToProps )( App ) );
