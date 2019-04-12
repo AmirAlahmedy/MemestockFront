@@ -46,7 +46,7 @@ class Registration extends Component {
          <Aux>
              {authRedirect}
              <Switch>
-             <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
+             <Route path='/Login/'  render={()=><Login logHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
              
             <div className="formWrapper">
            

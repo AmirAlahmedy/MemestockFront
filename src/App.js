@@ -51,14 +51,14 @@ class App extends Component {
 
 
   /**
- * Handles both the registration and login attempts.
+ * Handles both the registration attempts.
  * @function registrationHandler
  * @param {event} e - The submission of the form.
  */
   registrationHandler = e => {
 
     e.preventDefault();
-    if( this.state.Password.length >= 8 &&  !this.state.alreadyRegistered && !localStorage.getItem('alreadyRegistered')) {
+    if( this.state.Password.length >= 8 ) {
       let inputs = e.target.querySelectorAll('input');
         this.setState({
           Credentials:{
@@ -91,7 +91,22 @@ class App extends Component {
           });
           
 
-    }else if(this.state.Password.length >= 8 && localStorage.getItem('alreadyRegistered')){
+    }else{
+
+        this.setState({loggedIn: false, passwordIsValid:false});
+    }
+  }
+
+   /**
+ * Handles both the login attempts.
+ * @function logInHandler
+ * @param {event} e - The submission of the form.
+ */
+  logInHandler = e => {
+
+    e.preventDefault();
+
+    if(this.state.Password.length >= 8 ){
       let inputs = e.target.querySelectorAll('input');
       this.setState({
         Credentials:{
@@ -132,7 +147,7 @@ class App extends Component {
      
             <div className="App">
 
-            {this.state.loggedIn ? <Home /> :( this.state.alreadyRegistered ? <Login regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/> )}
+            {this.state.loggedIn ? <Home /> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
    
         </div>
      
