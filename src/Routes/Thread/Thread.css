@@ -1,5 +1,6 @@
 .threadContainer{
     width:600px;
+
  
 }
 .threadSubreddit{
@@ -60,6 +61,7 @@
     text-align: left;
     margin-left:10px;
     margin-top:10px;
+    padding: 5px 5px 0 5px;
 }
 .incrementVotes{
     margin-left: 40px;

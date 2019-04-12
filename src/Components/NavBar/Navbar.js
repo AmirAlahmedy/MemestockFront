@@ -19,7 +19,9 @@ const NavBar = props => {
                 </div>
                 <div className="dropdownMenu">
                     <button className='dropButton'>
-                        Dropdown
+                    {/* <svg class="eZQ5o2PrhR59wkAtPbxMU" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 8c0-1.654 1.346-3 3-3s3 1.346 3 3v2.843c-.511.17-1.47.392-3 .392-1.535 0-2.495-.223-3-.391V8zm8 1.895c2.409.46 4 1.241 4 2.131 0 1.418-4.03 2.568-9 2.568s-9-1.15-9-2.568c0-.89 1.59-1.671 4-2.131V8c0-2.757 2.243-5 5-5s5 2.243 5 5v1.895zM2.74 14.599c2.152.744 5.127.995 7.26.995s5.108-.25 7.26-.995l-2.955 2.12a7.394 7.394 0 0 1-8.61 0l-2.955-2.12z" fill="inherit" fill-rule="evenodd"></path><circle cx="16" cy="4" r="4" fill="none"></circle><circle cx="16" cy="4" r="3" fill="none"></circle></svg> */}
+                    <i class="fas fa-sort-down"></i>
+
                     </button>
                     <div role='menu' className='dropList'>
                     <input placeholder='Filter'></input>
@@ -34,21 +36,26 @@ const NavBar = props => {
                     </div>
                 </div>
 
-                <div>
-                    <form action='/search' autoComplete='off'>
-                        <input type='search' className='memeSearch' placeholder='Search Memestock' method='get'>
+                <div className="search-wrapper">
+                   
+                   
+                    <div className="search-form memeSearch" action='/search' autoComplete='off'>
+                    <label className="search-label" for = "header-search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                    </label> 
+                        <input type='search' className='me-me' id="header-search-bar" placeholder='Search Memestock'  role="search" name="q" method='get'>
                         </input>
-                    </form>
+                    </div>
                 </div>
                 <div className='rightLinksWrapper'>
                     <span className='rightLinks'>
                         <NavLink to='/PM/'>
-                            PM
+                        <i class="far fa-envelope"></i>
                         </NavLink>
                     </span>
                     <span className='rightLinks'>
                         <NavLink to='/CreatePost/'>
-                            Create Post
+                        <i className="far fa-edit" style={{color: 'rgb(0, 121, 211)'}}></i>
                         </NavLink>
                     </span>
                     <span className='rightLinks'>
@@ -58,7 +65,7 @@ const NavBar = props => {
                     </span>
                     <div className='yourStuffDrop'>
                     <button className='dropButton'>
-                        YOUR STUFF
+                        <i class="fas fa-sort-down"></i>
                     </button>
                         <div role='menu' className='yourStuffDropList'>
                             <ul className='dropUl'>
@@ -69,6 +76,9 @@ const NavBar = props => {
                     </div>
                 </div>
             </nav>
+            </div>
+            <div className="fLroyf">
+                
             </div>
        
         </Aux>
