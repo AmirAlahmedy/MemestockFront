@@ -9,18 +9,18 @@ import axios from 'axios';
 //import ginprodReducer from '../../store/reducers/production';
 
 
-let inDev = false;
+let inDev = true;
 
 export class Subreddit extends Component {
     state ={
-        name:'Jazztheory',
+        name:'OneTwoThree',
         bio:'',
         threads:[],
         moderators:[],
         subscribers: 0,
         date:'',
         rules:[],
-        subscribed:true,
+        subscribed:false,
     }
     
     componentDidMount () { 
@@ -33,15 +33,16 @@ export class Subreddit extends Component {
         axios.get('http://localhost:4000/sr/'+srName+'/meta')
         .then(resp => {
           console.log(resp);
+          console.log(resp.data);
           if (resp.status==200)
           {
             console.log(resp.data.rules);
             this.setState({
               name:this.state.name,
               bio: 'same biooooooooooo',
-              thread:resp.data.posts,
-              moderators:resp.data.ModIds,
-              subscribers:resp.data.SubCount,
+              threads:resp.data.posts,
+              //moderators:resp.data.ModIds,
+              //subscribers:resp.data.SubCount,
               date:resp.data.date,
               rules:resp.data.rules
             })
@@ -87,7 +88,7 @@ export class Subreddit extends Component {
       e.preventDefault();
       console.log('clickedd');
       let SubredditName = this.state.name;
-      axios.post( 'http://localhost:4000/sr/:SubredditName/subs',"qedwfruhssjdiuhd",SubredditName)
+      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
       .then(res => {
         if (res.status==200)
         {
@@ -109,14 +110,23 @@ export class Subreddit extends Component {
     e.preventDefault();
     console.log('clickedd');
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/:SubredditName/subs',"qedwfruhssjdiuhd",SubredditName)
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
     .then(res => {
       console.log(res);
       this.setState({
         subscribe:false
       });
     })
- }
+  }
+  /*
+  createThread = (e) => {
+    e.preventDefault();
+    console.log('Clicked on create thread');
+    let SubredditName = this.state.name;
+    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',"GoodGuys")
+  }
+  */
+
   render() {
     return (
       <div className="subredditFixed">
@@ -154,14 +164,14 @@ export class Subreddit extends Component {
         </nav>
          <div class="subredditContainer">
             <section id="subredditPageContent">
-              {/** 
-              {this.state.threads.map(thread =>({
+              
+              {/*this.state.threads.map(thread =>({
                 return(
-                  <div>
+                  <div className="subredditPageThread">
 
                   </div>
                 )
-              })}*/}
+              })*/}
               <div className="subredditPageThread">
               <Thread/>
               </div>
@@ -198,7 +208,7 @@ export class Subreddit extends Component {
                   this.state.subscribed ?  <button className="srSidebarSubscribeButton"  onClick={this.srUnSubscribe}>UNSUBSCRIBE</button> 
                   :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 }
-                <button className="srSidebarSubscribeButton" >CREATE A POST</button>
+                <button className="srSidebarSubscribeButton" onClick={this.createThread}>CREATE A POST</button>
               </div>
               <div className="subredditSidebarComponent">
                 <h5>MODERATORS</h5>
