@@ -22,7 +22,7 @@ class Listings extends Component {
     console.log(this.props.ginProd); 
 
 
-    if(inProduction === true && ginprodReducer.globalInProduction)
+    if(inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
     {
 
         axios.get('/ahmed/listing?type=new')
