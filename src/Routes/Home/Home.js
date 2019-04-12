@@ -10,6 +10,7 @@ import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
 import Button from '../../Components/UI/Button/Button';
 import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
+import SideBar from '../../Components/SideBar/SideBar';
 
 class Home extends Component {
 
@@ -31,10 +32,7 @@ class Home extends Component {
     
  }
 
- createSubHand = () => {
-    console.log('create community');
-    
- } 
+
  
 
   
@@ -60,13 +58,7 @@ class Home extends Component {
               
            
            
-             <sidebar className='sidebar'>
-               {/* <p className='sideParagraph'>Your personal Reddit frontpage. 
-               Come here to check in with your favorite communities.</p> */}
-              <Button>Create Post</Button>
-              <NavLink to='/create-subreddit/'> <Button  clicked={this.createSubHand}> Create Community</Button></NavLink>
-              
-             </sidebar>
+             
           
           <footer>
             <p><a href="#top" className='backtoTop'> Back to Top</a></p>

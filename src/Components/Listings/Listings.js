@@ -8,7 +8,8 @@ import '../../Sass/styles.scss';
 import { connect } from 'react-redux';
 import ginprodReducer from '../../store/reducers/production';
 import * as actions from '../../store/actions/index';
-
+import SideBar from '../SideBar/SideBar';
+import Aux from '../HOC/Auxiliary';
 
 let inProduction = false;
 
@@ -21,7 +22,8 @@ class Listings extends Component {
     
     componentDidMount = () => {
     console.log(this.props.ginProd); 
-
+    
+    
 
     if(inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
     {
@@ -42,7 +44,11 @@ class Listings extends Component {
     }    
     }
 
-
+    
+    createSubHand = () => {
+        console.log('create community');
+        
+     } 
 
     /**
      * For generating threads from a mock service
@@ -68,11 +74,13 @@ class Listings extends Component {
     render(){
         return(
            <Router>
+            <Aux>
 
             <div className='listingsContainer'>     
                 {this.state.threads}
             </div>
-            
+            <SideBar clickd={this.createSubHand}/>
+            </Aux>
         </Router> 
         );
         
