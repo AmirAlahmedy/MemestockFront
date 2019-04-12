@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './Login.css';
 import Aux from '../../Components/HOC/Auxiliary';
 import classes from './Login.module.css';
-import { NavLink, BrowserRouter as Router } from 'react-router-dom';
+import { NavLink, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import '../../Sass/styles.scss';
+import Registration from '../Registration/Registration';
 
 
 class Login extends Component {
@@ -21,6 +22,7 @@ class Login extends Component {
         return(
 
         <Aux>
+             {/* <Route path='/Registration/'  render={()=><Registration regHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/> */}
             <div className="logINFormWrapper">
             <form className='logInForm' onSubmit={ this.props.logHand } >
                 <h1 className='logo'> <i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
