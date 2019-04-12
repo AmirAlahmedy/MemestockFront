@@ -1,18 +1,31 @@
 .Button {
-    background-color: transparent;
+    background-color: rgb(215, 218, 220);
     border: none;
-    color: white;
+    color: rgb(39, 39, 41);
     outline: none;
     cursor: pointer;
-    font: inherit;
+    /* font: inherit; */
+    font-size: 14px;
     padding: 10px;
     margin: 10px;
     font-weight: bold;
-}
-
-.Button:first-of-type {
+    border-radius: 3px;
+    width: 100%;
     margin-left: 0;
     padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+}
+
+/* .Button:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+} */
+.Button:hover{
+    background-color: rgb(39, 39, 41);
+    border: solid 0.5px rgb(215, 218, 220);
+    color: rgb(215, 218, 220);
 }
 
 .Success {

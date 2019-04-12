@@ -1,6 +1,6 @@
 
 $subFontStyle: monospace;
-
+$divBackColor: rgb(26, 26, 27);
 sub{
     font-family: $subFontStyle;
 }
@@ -13,4 +13,33 @@ sub{
         width: 60%;
     }
     
+}
+
+@media only screen and (max-width: 900px){
+    .sidebar{
+        display: none;
+    }
+}
+
+sidebar{
+    position: fixed;
+    top: 100px;
+    right: 50px;
+    z-index: 99;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: $divBackColor; 
+}
+
+.sideParagraph{
+    font-family: "Noto Sans", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    margin-top: 8px;
+    overflow-wrap: break-word;
+    word-break:break-word;
+    width: 30%;
 }

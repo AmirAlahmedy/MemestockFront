@@ -10,4 +10,38 @@ sub {
     width: 60%;
   }
 }
+
+@media only screen and (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+sidebar {
+  position: fixed;
+  top: 100px;
+  right: 50px;
+  z-index: 99;
+  float: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 20px;
+  background-color: #1a1a1b;
+}
+
+.sideParagraph {
+  font-family: "Noto Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  margin-top: 8px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  width: 30%;
+}
 /*# sourceMappingURL=styles.css.map */

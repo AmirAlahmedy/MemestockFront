@@ -7,6 +7,7 @@ import axios from '../../axios-orders';
 import '../../Sass/styles.scss';
 import { connect } from 'react-redux';
 import ginprodReducer from '../../store/reducers/production';
+import * as actions from '../../store/actions/index';
 
 
 let inProduction = false;
@@ -28,7 +29,6 @@ class Listings extends Component {
         axios.get('/ahmed/listing?type=new')
         .then( response => {
             this.reqThreads = response.data;
-            console.log(response);
             let thrds = this.createThreads(response.data);
             this.setState({threads: thrds});
         })
@@ -66,7 +66,6 @@ class Listings extends Component {
     createThreads = Threads => Threads.map(this.createThread);
 
     render(){
-        console.log(data);
         return(
            <Router>
 
@@ -82,8 +81,15 @@ class Listings extends Component {
 }
 const mapStateToProps = state => {
     return {
-      ginProd: state.globalInProduction
+      ginProd: state.globalInProduction,
+      token: state.token
+    };
+  };
+
+  const mapDispatchToProps = dispatch => {
+    return {
+     // token: () => dispatch( actions.authSuccess() )
     };
   };
   
-export default connect(mapStateToProps)(Listings);
+export default connect(mapStateToProps, mapDispatchToProps)(Listings);

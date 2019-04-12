@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
 import Listings from '../../Components/Listings/Listings'
 import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
-import auth from '../../store/reducers/auth';
-// import { createStore } from 'redux';
-// import { connect } from 'react-redux';
-
+import Button from '../../Components/UI/Button/Button';
+import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
 
 class Home extends Component {
 
@@ -32,13 +30,12 @@ class Home extends Component {
       }
     
  }
-  
-  // shouldComponentUpdate = () => {
-  //   window.onbeforeunload = () => {
+
+ createSubHand = () => {
+    console.log('create community');
     
-  //     // return (<Redirect to='/Home/'/>);
-  //   }
-  // }
+ } 
+ 
 
   
 
@@ -57,12 +54,19 @@ class Home extends Component {
               <Route path='/settings/'  component={Settings}/>
               <Route path='/r/' component={Subreddit}/>
               <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/'  component={Listings}/>   
+              <Route path='/create-subreddit/' component={CreateSubReddit}/>
+              <Route path='/Home/' exact component={Listings}/>   
             </Switch>
               
            
            
-             {/* <Listings/> */}
+             <sidebar className='sidebar'>
+               {/* <p className='sideParagraph'>Your personal Reddit frontpage. 
+               Come here to check in with your favorite communities.</p> */}
+              <Button>Create Post</Button>
+              <NavLink to='/create-subreddit/'> <Button  clicked={this.createSubHand}> Create Community</Button></NavLink>
+              
+             </sidebar>
           
           <footer>
             <p><a href="#top" className='backtoTop'> Back to Top</a></p>

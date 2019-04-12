@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    //this.props.onTryAutoSignup();
+   // this.props.authToken();
     window.onbeforeunload = (e) => {
       console.log('stay on the same route')
       };
@@ -162,14 +162,17 @@ const mapStateToProps = state => {
     isAuthenticated: true,//state.auth.token !== null,
     authRedirectPath: state.auth.authRedirectPath,
     loggedIn: state.loggedIn,
-    alreadyRegistered: state.alalreadyRegistered
+    alreadyRegistered: state.alalreadyRegisteredو
+
+    
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
   //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
-    onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) )
+    onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
+   // authToken: () => dispatch( actions.authSuccess(this.state.auth.token) )
   };
 };
 
