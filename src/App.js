@@ -58,7 +58,7 @@ class App extends Component {
   registrationHandler = e => {
 
     e.preventDefault();
-    if( this.state.Password.length >= 8 &&  !this.state.alreadyRegistered) {
+    if( this.state.Password.length >= 8 &&  !this.state.alreadyRegistered && !localStorage.getItem('alreadyRegistered')) {
       let inputs = e.target.querySelectorAll('input');
         this.setState({
           Credentials:{
@@ -68,7 +68,8 @@ class App extends Component {
             Password: inputs[2].value
 
           },
-            loggedIn: true}, () => {
+            loggedIn: true,
+          alreadyRegistered: true}, () => {
             
             axios.post('user/register', this.state.Credentials)
                    .then( response => {
