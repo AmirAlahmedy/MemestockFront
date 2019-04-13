@@ -71,7 +71,7 @@ class PMs extends Component {
           return ;
         }
         console.log(msg);
-        axios.post( 'http://localhost:4000/aasaaa/pm/compose',msg, {
+        axios.post( 'http://localhost:4000/me/pm/compose',msg, {
           headers: {
               'Content-Type': 'application/json',
     
@@ -124,9 +124,12 @@ class PMs extends Component {
 
 
              <Head/>
+             <Route path="/inbox" component={inbox}/>
+                    <Route path="/sent" component={sent}/>
       
           <div className="container">
                  <div className="pm-form">
+                
                       
 
                   <Route exact path="/PM/Compose" render = {props=>(
@@ -179,8 +182,7 @@ class PMs extends Component {
                   )} />
                   
 
-                    <Route path="/inbox" component={inbox}/>
-                    <Route path="/sent" component={sent}/>
+                    
                 </div>    
            </div>
     

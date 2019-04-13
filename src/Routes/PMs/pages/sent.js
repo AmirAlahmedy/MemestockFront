@@ -13,7 +13,7 @@ class sent extends React.Component {
    
   componentDidMount() {
     const jsondata ={'mine':false}
-    axios.post( 'http://localhost:4000/mohamed/pm/',jsondata, {
+    axios.post( 'http://localhost:4000/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
     
@@ -49,27 +49,9 @@ class sent extends React.Component {
   
 
   render() {
-    const { isLoading, Messages } = this.state;
     return (
       <React.Fragment>
         <h2>Random Message</h2>
-        <div>
-          {!isLoading ? (
-            Messages.map(message => {
-              const { sender, reciever, subject,messageBody } = message;
-              return (
-                <div MsgSender={sender}>
-                  <h2>{reciever}</h2>
-                  <p>{subject}</p>
-                  <p>{messageBody}</p>
-                  <hr />
-                </div>
-              );
-            })
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
       </React.Fragment>
     );
   }

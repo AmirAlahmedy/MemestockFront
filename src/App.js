@@ -7,6 +7,7 @@ import Login from './Routes/Login/Login';
 import axios from './axios-orders';
 import * as actions from './store/actions/index';
 import { connect } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.css';
 
 let token = '';
 
