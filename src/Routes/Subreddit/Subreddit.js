@@ -21,6 +21,7 @@ export class Subreddit extends Component {
         date:'',
         rules:[],
         subscribed:false,
+        adminview:true
     }
     
     componentDidMount () { 
@@ -67,23 +68,7 @@ export class Subreddit extends Component {
         });
       }
    }
-/*
-     * For generating threads from a mock service
-     * @function createSubreddit
-     * @param {object} - object of the mocked subreddit
-     *     
-     *  
-    createSubreddit = subreddit => <Subreddit 
-                                    key={subreddit._id}
-                                    name={subreddit.subredditName}
-                                    bio={subreddit.bio} 
-                                    threads={subreddit.threads}
-                                    moderators={subreddit.moderators}
-                                    subscribers={subreddit.subscribers}
-                                    date={subreddit.date}
-                                    rules={subreddit.rules}
-    />;
-*/    
+   
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('clickedd');
@@ -117,6 +102,16 @@ export class Subreddit extends Component {
         subscribe:false
       });
     })
+  }
+  delSubreddit = (e) => { 
+    e.preventDefault();
+    console.log('clickedd');
+    let SubredditName = this.state.name;
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw',SubredditName)
+    .then(res => {
+      console.log(res);
+    })
+
   }
   /*
   createThread = (e) => {
@@ -209,6 +204,11 @@ export class Subreddit extends Component {
                   :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 }
                 <button className="srSidebarSubscribeButton" onClick={this.createThread}>CREATE A POST</button>
+                {/*
+                  this.state.adminview ?  <button className="srSidebarDeleteSubredditButton"  onClick={this.delSubreddit}>Delete Subreddit</button> 
+                  : <div></div>
+                  */
+                }
               </div>
               <div className="subredditSidebarComponent">
                 <h5>MODERATORS</h5>
