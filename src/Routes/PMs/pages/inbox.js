@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import axios from 'axios';
 import '../PMs.css';
+import './inbox.css';
 
 class inbox extends React.Component {
 
@@ -21,7 +22,7 @@ class inbox extends React.Component {
   componentDidMount() {
     console.log('eshta3alb2a');
     const jsondata ={'mine':true}
-    axios.post( 'http://localhost:4000/mohamed/pm/',jsondata, {
+    axios.post( 'http://localhost:4000/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
     
@@ -32,18 +33,23 @@ class inbox extends React.Component {
         console.log(response);
         console.log(response.data);
         
+        
         this.setState({
-          Messages : response.data.messages,
+          Messages : response.data
+          ,
           isLoading : false
         });
+        console.log(this.state.Messages);
+        
       })
       // Let's make sure to change the loading state to display the data
-      .then(Messages => {
+     /* .then(Messages => {
         this.setState({
           Messages,
           isLoading: false
         });
-      })
+      })*/
+      
       // We can still use the `.catch()` method since axios is promise-based
       .catch(error => {
         console.log(error.response)
@@ -54,23 +60,94 @@ class inbox extends React.Component {
         });
   });
 }
+
+handleClick(e){
+  const element = e.target;
+  const messageId=element.getAttribute("id");
+  console.log(messageId);
+  axios.delete( 'http://localhost:4000/me/pm/delete',messageId, {
+    headers: {
+        'Content-Type': 'application/json',
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data);
+
+  
+  //in case sucess..
   
 
+})
+.catch(error => {
+  console.log(error.response)
+
+
+});
+}
+
+BlockUser(e){
+  const element = e.target;
+  const user ="mohamed";
+  const Blockedusername=element.getAttribute("id");
+  console.log(Blockedusername);
+  axios.get( 'http://localhost:4000/me/blockedusers',user,Blockedusername, {
+    headers: {
+        'Content-Type': 'application/json',
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data);
+
+  
+  //in case sucess..
+  
+
+})
+.catch(error => {
+  console.log(error.response)
+
+
+});
+}
+
+getMsgs()
+{
+  return this.state.Messages.map(msg=>(
+    <div className="messageWrapper">
+    <div className="MessageContainer">
+    <h1 className="subjectTitle">{msg.subject}:</h1>
+    <h1 className="senderUsername">from {msg.sender} sent {msg.messageDate}</h1>
+    <p className="messageContent">{msg.messageBody}</p>
+    <button id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
+    <button id={msg.sender} type="submit"  name="Block" onClick={this.BlockUser}>Block User</button>
+    </div>
+    </div>
+  ))
+  
+}
+
   render() {
-    const { isLoading, Messages } = this.state;
+    let msg = this.state.Messages;
+    
     return (
-      <aux>
-      <React.Fragment>
-        <div>
-        <textarea 
-                                className="love"
-                                name="Subject"
-                                id="2"
-                               
-                            />
-                            </div>
-      </React.Fragment>
-      </aux>
+      <div>
+         <button id={msg._id} type="submit"  name="Block" onClick={this.BlockUser}>Block User</button>
+        <button id="mohamed" type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>
+{this.getMsgs()}
+  </div>
+     /* <div>
+     {msg.map(content=><div className="subjectTitle">{content.subject}:</div>)}
+     {msg.map(content=><div className="messageContent">{content.messageBody}</div>)}
+      </div>
+     */
+  
+
     );
   }
 }
