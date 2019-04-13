@@ -40,7 +40,7 @@ export class Subreddit extends Component {
             console.log(resp.data.rules);
             this.setState({
               name:this.state.name,
-              bio: 'same biooooooooooo',
+              bio: resp.data.Bio,
               threads:resp.data.posts,
               //moderators:resp.data.ModIds,
               //subscribers:resp.data.SubCount,
@@ -71,9 +71,12 @@ export class Subreddit extends Component {
    
    srSubscribe = (e) => {
       e.preventDefault();
-      console.log('clickedd');
+      console.log('Subscribe Clicked');
+      var headers = {
+        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+      }
       let SubredditName = this.state.name;
-      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
+      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs', {headers: headers})
       .then(res => {
         if (res.status==200)
         {
@@ -93,23 +96,44 @@ export class Subreddit extends Component {
    }
    srUnSubscribe = (e) => {
     e.preventDefault();
-    console.log('clickedd');
+    console.log('Unsubscribe Clicked');
+    var headers = {
+      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs', {headers: headers})
     .then(res => {
-      console.log(res);
-      this.setState({
-        subscribe:false
-      });
+      if (res.status==200)
+      {
+        console.log(res);
+        this.setState({
+          subscribe:false
+        }
+        );
+      }else if (res.status===404){
+        alert("Subreddit Not Found");
+        return Response.json;
+      }
     })
   }
   delSubreddit = (e) => { 
     e.preventDefault();
-    console.log('clickedd');
+    console.log('Del Subreddit Clicked');
+    var headers = {
+      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw',SubredditName)
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{headers: headers})
     .then(res => {
       console.log(res);
+      if (res.status==200)
+      { 
+        alert("Subreddit Deleted Successfully!");
+      }else if (res.status===401)
+      {
+        alert("You're Not Authorised");
+        return Response.json;
+      }
     })
 
   }
