@@ -1,57 +1,88 @@
 import React, { Component } from 'react';
 import './Subreddit.css';
 import defImage from '../../assets/images/subreddit.png';
-import Listing from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
 import {Link,Route,Switch } from 'react-router-dom';
+import data from '../../Mocks/subreddit-data.json';  
+
 import axios from 'axios';
+//import ginprodReducer from '../../store/reducers/production';
+
+
+let inDev = true;
 
 export class Subreddit extends Component {
     state ={
-        name:'Jazztheory',
+        name:'OneTwoThree',
         bio:'',
-        threads:[
-          {
-            username: 'GiantSteps_',
-            subreddit: 'jazztheory',
-            title: 'Modal Harmony Interchange',
-            content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-            upvotes:0
-          
-          },
-          {
-            username: 'WreakingHavoc',
-            subreddit: 'jazztheory',
-            title: 'Circle of Fifth',
-            content: 'Circle of Fifth is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-            upvotes:124
-          }
-        ],
-        moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
-        subscribers:100,
-        date:'10/10/2010'
+        threads:[],
+        moderators:[],
+        subscribers: 0,
+        date:'',
+        rules:[],
+        subscribed:false,
+        adminview:true
     }
     
     componentDidMount () { 
-      console.log("yarab");
-      let srName= this.state.name;
-      axios.get('http://localhost:4000/sr/'+srName+'/meta')
-      .then(resp => {
-        console.log(resp);
-        if (resp.status==200)
-        {
-          console.log(resp.data.rules);
-          this.setState({
-            name:'Jazztheory',
-            bio: resp.data.rules[0],
-            thread:resp.data.posts,
-            moderators:['GiantSteps_','WreakingHavoc','CluelessBastard','IronIce','ArmagedonIsNear'],
-            subscribers:100,
-            date:resp.data.date
 
-          })
-        }
-        else if (resp.status==="404"){
+      console.log("mounted");
+
+      if(inDev === true ) // && ginprodReducer.globalInProduction)
+      {
+        let srName= this.state.name;
+        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        .then(resp => {
+          console.log(resp);
+          console.log(resp.data);
+          if (resp.status==200)
+          {
+            console.log(resp.data.rules);
+            this.setState({
+              name:this.state.name,
+              bio: 'same biooooooooooo',
+              threads:resp.data.posts,
+              //moderators:resp.data.ModIds,
+              //subscribers:resp.data.SubCount,
+              date:resp.data.date,
+              rules:resp.data.rules
+            })
+          }
+          else if (resp.status===404){
+            alert("Subreddit Not Found");
+            return Response.json;
+          }
+        })
+        .catch(error => {
+          alert("Error Caught");
+        })
+      }
+      else {
+        this.setState({
+          bio:data.subreddit.bio,
+          threads:data.subreddit.threads,
+          moderators:data.subreddit.moderators,
+          subscribers:data.subreddit.subscribers,
+          date:data.subreddit.date,
+          rules:data.subreddit.rules
+        });
+      }
+   }
+   
+   srSubscribe = (e) => {
+      e.preventDefault();
+      console.log('clickedd');
+      let SubredditName = this.state.name;
+      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
+      .then(res => {
+        if (res.status==200)
+        {
+          console.log(res);
+          this.setState({
+            subscribe:true
+          }
+          );
+        }else if (res.status===404){
           alert("Subreddit Not Found");
           return Response.json;
         }
@@ -60,6 +91,37 @@ export class Subreddit extends Component {
         alert("Error Caught");
       })
    }
+   srUnSubscribe = (e) => {
+    e.preventDefault();
+    console.log('clickedd');
+    let SubredditName = this.state.name;
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw",SubredditName)
+    .then(res => {
+      console.log(res);
+      this.setState({
+        subscribe:false
+      });
+    })
+  }
+  delSubreddit = (e) => { 
+    e.preventDefault();
+    console.log('clickedd');
+    let SubredditName = this.state.name;
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJUaGVUb2tlbkd1eSIsImlhdCI6MTU1NTEwMzY1OH0.Ah6DOjKr5NsQROmgUGqIcYKpjJST1esDDfH7FSQmZtw',SubredditName)
+    .then(res => {
+      console.log(res);
+    })
+
+  }
+  /*
+  createThread = (e) => {
+    e.preventDefault();
+    console.log('Clicked on create thread');
+    let SubredditName = this.state.name;
+    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',"GoodGuys")
+  }
+  */
+
   render() {
     return (
       <div className="subredditFixed">
@@ -70,8 +132,8 @@ export class Subreddit extends Component {
         <nav id="subredditNavbar">
            <div className="subredditContainer">
               <div>
-                 <span className='srLinks'><Link to='./r/'>Posts</Link></span>
-                 <span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>
+                 <span className='srLinks'>Posts</span>
+                 {/*<span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>*/}
               </div>
             </div> 
             <div id="subredditSort">
@@ -97,14 +159,14 @@ export class Subreddit extends Component {
         </nav>
          <div class="subredditContainer">
             <section id="subredditPageContent">
-              {/** 
-              {this.state.threads.map(thread =>({
+              
+              {/*this.state.threads.map(thread =>({
                 return(
-                  <div>
+                  <div className="subredditPageThread">
 
                   </div>
                 )
-              })}*/}
+              })*/}
               <div className="subredditPageThread">
               <Thread/>
               </div>
@@ -134,11 +196,19 @@ export class Subreddit extends Component {
                   {this.state.subscribers} <br/>
                   Subscribers
                 </div>
-                <div className="srSidebarRules">
+                <div className="srSidebarBio">
                   <p>{this.state.bio}</p>
                 </div>
-                <button className="srSidebarSubscribeButton" >SUBSCRIBE</button>
-                <button className="srSidebarSubscribeButton" >CREATE A POST</button>
+                {
+                  this.state.subscribed ?  <button className="srSidebarSubscribeButton"  onClick={this.srUnSubscribe}>UNSUBSCRIBE</button> 
+                  :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
+                }
+                <button className="srSidebarSubscribeButton" onClick={this.createThread}>CREATE A POST</button>
+                {/*
+                  this.state.adminview ?  <button className="srSidebarDeleteSubredditButton"  onClick={this.delSubreddit}>Delete Subreddit</button> 
+                  : <div></div>
+                  */
+                }
               </div>
               <div className="subredditSidebarComponent">
                 <h5>MODERATORS</h5>
@@ -152,6 +222,20 @@ export class Subreddit extends Component {
                   }
                 </ul>
               </div>
+              <div className="subredditSidebarComponent">
+                <h5>RULES</h5>
+                <ol>
+                  {
+                    this.state.rules.map(rule => {
+                      let index=1;
+                      return ( 
+                        <li className="rulesSr" key={rule}>index{rule}</li>
+                      );
+                      index=index+1;
+                      })
+                  }
+                </ol>
+              </div>
             </aside>
             
         <footer id="subreddit-footer">
@@ -164,3 +248,12 @@ export class Subreddit extends Component {
 }
 
 export default Subreddit
+/*
+const mapStateToProps = state => {
+  return {
+    ginProd: state.globalInProduction
+  };
+};
+
+export default connect(mapStateToProps)(Listings);
+*/

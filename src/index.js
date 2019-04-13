@@ -15,15 +15,17 @@ import prodReducer from './store/reducers/production.js';
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 
+localStorage.setItem('inProduction', false);
+
 const rootReducer = combineReducers({
     auth: authReducer,
     prod: prodReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers(
+const store = createStore(rootReducer, compose(
     applyMiddleware(thunk)
 ));
-console.log(prodReducer);
+console.log(store.getState());
   const app = (
     <Provider store={store}>
         <BrowserRouter>

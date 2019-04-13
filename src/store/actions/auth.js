@@ -8,11 +8,10 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
-        userId: userId
+        token: token,
     };
 };
 
@@ -25,7 +24,6 @@ export const authFail = (error) => {
 
 export const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
     return {
         type: actionTypes.AUTH_LOGOUT
@@ -44,22 +42,23 @@ export const auth = (email, password, isSignup) => {
     return dispatch => {
         dispatch(authStart());
         const authData = {
-            // email: email,
-            // password: password,
-            // returnSecureToken: true
+            email: email,
+            password: password,
+             returnSecureToken: true
         };
         // let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB5cHT6x62tTe-g27vBDIqWcwQWBSj3uiY';
         // if (!isSignup) {
         //     url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyB5cHT6x62tTe-g27vBDIqWcwQWBSj3uiY';
         // }
+        
         axios.post('user/register', authData)
         .then( response => {
             
              localStorage.setItem('alreadyRegistered', true);
-             localStorage.setItem('token', response.data.idToken);   
-             localStorage.setItem('userId', response.data.localId);
+             localStorage.setItem('token', response.data.token);   
+           
                 
-             dispatch(authSuccess(response.data.idToken, response.data.localId));
+             dispatch(authSuccess(response.data.token));
         })
         .catch( error =>{
             dispatch(authFail(error.response.data.error));

@@ -17,12 +17,13 @@ class Registration extends Component {
         }
         
         this.props.history.replace('/Registration/');
-        localStorage.setItem('prevPath', this.props.authRedirectPath)
+        localStorage.setItem('prevPath', this.props.authRedirectPath);
         localStorage.setItem('loggedIn', false);
         localStorage.setItem('alreadyRegistered', false);
          
     }
-
+    
+  
     
     
     render(){
@@ -45,7 +46,7 @@ class Registration extends Component {
          <Aux>
              {authRedirect}
              <Switch>
-             <Route path='/Login/'  render={()=><Login logHand={this.props.regHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
+             <Route path='/Login/'  render={()=><Login logHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
              
             <div className="formWrapper">
            
@@ -71,6 +72,7 @@ class Registration extends Component {
                 name='password'/>
 
                 {!this.props.logged && !this.props.psrdVld ? error:null}
+                
                 </div> 
 
                 <button type="submit" className='registerButton'> Register </button>
@@ -98,10 +100,11 @@ class Registration extends Component {
         
         const mapDispatchToProps = dispatch => {
             return {
-                onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
+                // onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
                 onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( ''+window.location.pathname ) )
             };
         };
             
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(Registration));
+
 

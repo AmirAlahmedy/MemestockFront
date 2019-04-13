@@ -1,0 +1,94 @@
+{
+    "subreddit":{
+        "name":"Jazztheory",
+        "bio":"This is the subreddits biography",
+        "threads": [
+            
+            {
+                "username": "GiantSteps_",
+                "subreddit": "jazztheory",
+                "title": "Modal Harmony Interchange",
+                "content": "Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played",
+                "comments": [
+                    {
+                        "username": "WreakingHavoc",
+                        "comment": "I rememeber when I had something to say!"
+                    },
+                    {
+                        "username": "CluelessBastard",
+                        "comment": "Oh this is so relatable"
+                    }
+                ],
+                "upvotes": 0,
+                "enableUp": false,
+                "enableDown": false
+            },
+            
+            {
+                "username": "Atwa",
+                "subreddit": "webDev",
+                "title": "What is CORS?",
+                "content": "Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to tell a browser to let a web application running at one origin (domain) have permission to access selected resources from a server at a different origin. A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, and port) than its own origin.",
+                "comments": [
+                    {
+                        "username": "Bret",
+                        "comment": "alle richtig!"
+                    },
+                    {
+                        "username": "yondaime sama",
+                        "comment": "Oh this is so informative"
+                    }
+                ],
+                "upvotes": 0,
+                "enableUp": false,
+                "enableDown": false
+            },
+            
+            {
+                "username": "Billy",
+                "subreddit": "Calculus",
+                "title": "Fundamental theorem of calculus",
+                "content": "The fundamental theorem of calculus is a theorem that links the concept of differentiating a function with the concept of integrating a function.",
+                "comments": [
+                    {
+                        "username": "nerd101",
+                        "comment": "Amazing!"
+                    },
+                    {
+                        "username": "someone",
+                        "comment": "what?"
+                    }
+                ],
+                "upvotes": 0,
+                "enableUp": false,
+                "enableDown": false
+            },
+
+            {
+                "username": "Atwa",
+                "subreddit": "webDev",
+                "title": "What is CORS?",
+                "content": "Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to tell a browser to let a web application running at one origin (domain) have permission to access selected resources from a server at a different origin. A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, and port) than its own origin.",
+                "comments": [
+                    {
+                        "username": "Bret",
+                        "comment": "alle richtig!"
+                    },
+                    {
+                        "username": "yondaime sama",
+                        "comment": "Oh this is so informative"
+                    }
+                ],
+                "upvotes": 0,
+                "enableUp": false,
+                "enableDown": false
+            }
+            
+        ],
+        "moderators":["GiantSteps_","WreakingHavoc","CluelessBastard","IronIce","ArmagedonIsNear"],
+        "subscribers":100,
+        "date":"10/10/2010",
+        "rules":["No Eating Disorders","Please be professional","Contact through moderators only"],
+        "subscribed":true
+    }   
+}
