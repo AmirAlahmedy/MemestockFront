@@ -9,7 +9,8 @@ import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
 import Button from '../../Components/UI/Button/Button';
-import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
+import CreateSubreddit from '../CreateSubreddit/CreateSubreddit';
+import CreateThread from '../CreatePost/CreatePost';
 import SideBar from '../../Components/SideBar/SideBar';
 import NestedListings from '../../Components/Listings/NestedListings';
 import * as actions from '../../store/actions/index';
@@ -61,7 +62,8 @@ class Home extends Component {
               <Route path='/settings/'  component={Settings}/>
               <Route path='/r/' component={Subreddit}/>
               <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/>
+              <Route path='/create-subreddit/' component={CreateSubreddit}/>
+              <Route path='/create-thread/' component={CreateThread}/>
               
               {list}  
             </Switch>

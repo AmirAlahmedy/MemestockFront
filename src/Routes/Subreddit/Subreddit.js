@@ -21,7 +21,8 @@ export class Subreddit extends Component {
         date:'',
         rules:[],
         subscribed:false,
-        adminview:true
+        adminview:true,
+        threadCreation:false
     }
     
     componentDidMount () { 
@@ -115,6 +116,9 @@ export class Subreddit extends Component {
         return Response.json;
       }
     })
+    .catch(error => {
+      alert("Error Caught");
+    })
   }
   delSubreddit = (e) => { 
     e.preventDefault();
@@ -135,17 +139,61 @@ export class Subreddit extends Component {
         return Response.json;
       }
     })
+    .catch(error => {
+      alert("Error Caught");
+    })
 
   }
-  /*
-  createThread = (e) => {
+  createThreadSidebar = (e) =>{
     e.preventDefault();
-    console.log('Clicked on create thread');
-    let SubredditName = this.state.name;
-    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',"GoodGuys")
+    console.log('Clicked on create thread sidebar');
+    this.setState({
+      threadCreation:true
+    })
   }
-  */
-
+  CancelCreation = (e) => {
+    e.preventDefault();
+    console.log('Clicked on Cancel thread sidebar');
+    this.setState({
+      threadCreation:false
+    })
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let checker ="";
+    
+    let srThreadTitle = document.getElementById("threadTitleField").value;
+    let srThreadBody = document.getElementById("threadBodyField").value;
+    if (srThreadTitle===checker)
+    {
+      alert ("Please provide a Thread title!");
+      return ;
+    }
+    else if (srThreadBody===checker)
+    { 
+      alert ("Please provide a Thread Body !");
+      return ;
+    }
+    var headers = {
+      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    }
+    let SubredditName = this.state.name;
+    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',srThreadTitle,srThreadBody,{headers: headers})
+    .then(res => {
+      console.log(res);
+      if (res.status==200)
+      { 
+        alert("Thread Created Successfully!");
+      }else if (res.status===401 || res.status===404)
+      {
+        alert("Thread Creation Unsuccessful");
+        return Response.json;
+      }
+     })
+     .catch(error => {
+       alert("Error Caught");
+     })
+  }
   render() {
     return (
       <div className="subredditFixed">
@@ -227,13 +275,32 @@ export class Subreddit extends Component {
                   this.state.subscribed ?  <button className="srSidebarSubscribeButton"  onClick={this.srUnSubscribe}>UNSUBSCRIBE</button> 
                   :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 }
-                <button className="srSidebarSubscribeButton" onClick={this.createThread}>CREATE A POST</button>
+                <button className="srSidebarSubscribeButton" onClick={this.createThreadSidebar}>CREATE A POST</button>
                 {/*
                   this.state.adminview ?  <button className="srSidebarDeleteSubredditButton"  onClick={this.delSubreddit}>Delete Subreddit</button> 
                   : <div></div>
                   */
                 }
               </div>
+              { 
+                this.state.threadCreation ?
+              <div className="subredditSidebarComponent">
+                <h5>CREATE A POST</h5>
+                <hr></hr>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="formGroupSrComponent">
+                  <label for="ThreadTitle">Enter Title</label>
+                  <textarea type="textarea" name="text" id="threadTitleField" placeholder = "Enter Title Here" />   
+                  </div>
+                  <div className="formGroupSrComponent">
+                  <label for="ThreadBody">Enter Thread Body</label>
+                  <textarea type="textarea" name="text" id="threadBodyField" placeholder = "Enter Body Here" />  
+                  </div>
+                  <button className="srSidebarSubscribeButton">CREATE</button>
+                  <button className="srSidebarSubscribeButton" onClick={this.CancelCreation}>CANCEL</button>  
+                </form>
+              </div> : <div></div>
+              }
               <div className="subredditSidebarComponent">
                 <h5>MODERATORS</h5>
                 <ul>
