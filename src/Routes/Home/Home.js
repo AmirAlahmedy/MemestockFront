@@ -11,6 +11,9 @@ import ThreadPage from '../Thread-page/thread-page';
 import Button from '../../Components/UI/Button/Button';
 import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
 import SideBar from '../../Components/SideBar/SideBar';
+import NestedListings from '../../Components/Listings/NestedListings';
+import * as actions from '../../store/actions/index';
+import { connect } from 'react-redux';
 
 class Home extends Component {
 
@@ -18,17 +21,13 @@ class Home extends Component {
     auth: false
   }
 
-  // store = createStore(auth, window.STATE_FROM_SERVER);
+
 
   componentDidMount = () => {
-    //axios.get('/Home/')
+    
      this.props.history.replace('/Home/');
-    //  this.forceUpdate();
-      window.onbeforeunload = e => {
-        // window.location.reload();
-        // e.preventDefault();
-        //   e.target.reset();
-      }
+     console.log(this.props.token);
+     //this.props.authToken();
     
  }
 
@@ -40,6 +39,10 @@ class Home extends Component {
   
 
     render() {
+      let nestedRoutes = false;
+      let list = nestedRoutes ?  <Route path='/Home/' exact component={NestedListings}/>: <Route path='/Home/' exact component={Listings}/>;
+
+      console.log(this.props.token);
         return (
 
           <div className='Home' >
@@ -47,13 +50,20 @@ class Home extends Component {
            <NavBar/>
              
             <Switch>
-              <Route path='/PM/'  component={PMs}/>
+              <Route path='/PM/'  /*component={PMs}*/ render={
+                props=>{
+                  return(
+                    <PMs token={this.props.token}/>
+                  );
+                }
+              }/>
               <Route path='/CreatePost/'   component={CreatePost}/>
               <Route path='/settings/'  component={Settings}/>
               <Route path='/r/' component={Subreddit}/>
               <Route path='/thread/' component={ThreadPage}/>
               <Route path='/create-subreddit/' component={CreateSubReddit}/>
-              <Route path='/Home/' exact component={Listings}/>   
+              
+              {list}  
             </Switch>
               
            
@@ -68,4 +78,23 @@ class Home extends Component {
       }
 }
 
-export default withRouter(Home);
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: true,//state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath,
+   // token: state.auth.token
+    
+
+    
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
+    onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
+    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

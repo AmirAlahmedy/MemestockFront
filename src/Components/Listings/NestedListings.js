@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Listings.css';
 import Thread from '../../Routes/Thread/Thread';
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import data from '../../Mocks/threads-data.json';  
 import axios from '../../axios-orders';
 import '../../Sass/styles.scss';
@@ -13,25 +13,22 @@ import Aux from '../HOC/Auxiliary';
 
 let inProduction = false;
 
-class Listings extends Component {
+class NestedListings extends Component {
     state = {
         threads: []
     }
 
-    startPosition = { startPosition:0 };
-    headers = {
-        'Content-Type': 'application/json',
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJBcm1pIiwiaWF0IjoxNTU1MTU1MDA1fQ.XW9CbQMbQDwKVbNBaanfYLWIjDzQ6LNsIUDS5MOM09I' 
-    }
+    //  startPosition = { startPosition:0 };
+    
     componentDidMount = () => {
     console.log(this.props.ginProd); 
-    console.log(this.props.match);
+    
     
 
     if(inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
     {
 
-        axios.post('/ahmed/listing?type=new', this.startPosition,  /*{headers: this.headers}*/)
+        axios.get('/ahmed/listing?type=new')
         .then( response => {
             this.reqThreads = response.data;
             let thrds = this.createThreads(response.data);
@@ -58,13 +55,18 @@ class Listings extends Component {
      * @function createThread
      * @param {object} - object of the mocked thread ...Not working properly yet.
      */
-    createThread = thread => <Thread 
-                                    // key={thread._id}
-                                    // username={thread.subredditName}
-                                    subreddit={thread.subredditName}
-                                    title={thread.title} 
-                                    content={thread.body}
-    />;
+    createThread = thread => <Route path={`${this.props.match.path}/:threadId`} render={
+        props => {
+
+            return(
+                <Thread // key={thread._id}
+                // username={thread.subredditName}
+                subreddit={thread.subredditName}
+                title={thread.title} 
+                content={thread.body}/>
+                );
+            }
+    } />;
 
 
     /**
@@ -103,4 +105,4 @@ const mapStateToProps = state => {
     };
   };
   
-export default connect(mapStateToProps, mapDispatchToProps)(Listings);
+export default connect(mapStateToProps, mapDispatchToProps)(NestedListings);

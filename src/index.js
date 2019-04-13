@@ -15,7 +15,7 @@ import prodReducer from './store/reducers/production.js';
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 
-localStorage.setItem('inProduction', false);
+localStorage.setItem('inProduction', true);
 
 const rootReducer = combineReducers({
     auth: authReducer,

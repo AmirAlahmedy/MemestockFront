@@ -1,3 +1,5 @@
+
+
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -5,6 +7,12 @@ export const updateObject = (oldObject, updatedProperties) => {
     };
 };
 
+ /**
+     * A utiliy function to check whether a certain input is valid.
+     * @function checkValidity
+     * @param {value} - value to be checked.
+     * @param {rules} - rules the value should pass.
+     */
 export const checkValidity = ( value, rules ) => {
     let isValid = true;
     if ( !rules ) {

@@ -8,6 +8,7 @@ import axios from './axios-orders';
 import * as actions from './store/actions/index';
 import { connect } from 'react-redux';
 
+let token = '';
 
 class App extends Component {
   
@@ -29,7 +30,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-   // this.props.authToken();
+    this.props.authToken();
     window.onbeforeunload = (e) => {
       console.log('stay on the same route')
       };
@@ -77,6 +78,8 @@ class App extends Component {
                         localStorage.setItem('alreadyRegistered', true);
                         localStorage.setItem('loggedIn', true);
                         console.log(response.data);
+                        token = response.data.token;
+                        localStorage.setItem('token', token);
                         this.setState({
                           auth: {
                             token: response.data.token,
@@ -121,12 +124,14 @@ class App extends Component {
                  .then( response => {
                       localStorage.setItem('loggedIn', true);
                       console.log(response.data);
+                      token = response.data.token;
+                      localStorage.setItem('token', token);
                       this.setState({
                         auth: {
                           token: response.data.token,
                         }
                       });
-                      console.log(this.state.auth.token);
+                      console.log(token);
                  })
                  .catch( error =>{
                   this.setState({loggedIn: false});
@@ -147,7 +152,7 @@ class App extends Component {
      
             <div className="App">
 
-            {this.state.loggedIn ? <Home /> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
+            {this.state.loggedIn ? <Home  token={this.state.auth.token}/> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} />:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
    
         </div>
      
@@ -158,21 +163,23 @@ class App extends Component {
 
 
 const mapStateToProps = state => {
+  console.log(state.auth.token);
   return {
     isAuthenticated: true,//state.auth.token !== null,
     authRedirectPath: state.auth.authRedirectPath,
     loggedIn: state.loggedIn,
-    alreadyRegistered: state.alalreadyRegisteredو
-
+    alreadyRegistered: state.alalreadyRegistered,
+    token: state.auth.token
     
   };
 };
 
 const mapDispatchToProps = dispatch => {
+  console.log(token);
   return {
   //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
     onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
-   // authToken: () => dispatch( actions.authSuccess(this.state.auth.token) )
+    authToken: () => dispatch( actions.authSuccess() )
   };
 };
 

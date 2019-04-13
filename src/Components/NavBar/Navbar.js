@@ -5,6 +5,30 @@ import Aux from '../HOC/Auxiliary';
 import '../../Sass/styles.scss';
 
 
+  /**
+     * filters elements of an unordered list
+     * @function filterList
+     */
+const filterList = () =>{
+     // Declare variables
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById('filter');
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("my-ul");
+  li = ul.getElementsByClassName('dropdownItem');
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
 const NavBar = props => {
    return  (
       
@@ -19,13 +43,13 @@ const NavBar = props => {
                 </div>
                 <div className="dropdownMenu">
                     <button className='dropButton'>
-                    {/* <svg class="eZQ5o2PrhR59wkAtPbxMU" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 8c0-1.654 1.346-3 3-3s3 1.346 3 3v2.843c-.511.17-1.47.392-3 .392-1.535 0-2.495-.223-3-.391V8zm8 1.895c2.409.46 4 1.241 4 2.131 0 1.418-4.03 2.568-9 2.568s-9-1.15-9-2.568c0-.89 1.59-1.671 4-2.131V8c0-2.757 2.243-5 5-5s5 2.243 5 5v1.895zM2.74 14.599c2.152.744 5.127.995 7.26.995s5.108-.25 7.26-.995l-2.955 2.12a7.394 7.394 0 0 1-8.61 0l-2.955-2.12z" fill="inherit" fill-rule="evenodd"></path><circle cx="16" cy="4" r="4" fill="none"></circle><circle cx="16" cy="4" r="3" fill="none"></circle></svg> */}
+              
                     <i class="fas fa-sort-down"></i>
 
                     </button>
                     <div role='menu' className='dropList'>
-                    <input placeholder='Filter'></input>
-                        <ul className='dropUl'>
+                    <input id='filter' placeholder='Filter' onChange={filterList}></input>
+                        <ul id='my-ul' className='dropUl'>
                             <li className='dropdownItem'><NavLink to='/Home/' className='sort toHome'>Home</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink></li>
@@ -76,6 +100,16 @@ const NavBar = props => {
                     </div>
                 </div>
             </nav>
+           
+            </div>
+            <div className='kml'>
+                <div className='view-layout'>
+                    <i className='small-font'>view</i>
+                    <div className='bars'>
+                        <i class="fas fa-square dd"></i>    
+                        <i className="fas fa-bars dd"></i>
+                    </div>
+                </div>
             </div>
             <div className="fLroyf">
                 

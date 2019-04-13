@@ -1,6 +1,7 @@
 
 $subFontStyle: monospace;
 $divBackColor: rgb(26, 26, 27);
+$redditWhite: rgb(215, 218, 220);
 sub{
     font-family: $subFontStyle;
 }
@@ -15,7 +16,7 @@ sub{
     
 }
 
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 950px){
     .sidebar{
         display: none;
     }
@@ -42,4 +43,20 @@ sidebar{
     overflow-wrap: break-word;
     word-break:break-word;
     width: 30%;
+}
+
+.small-font{
+    font-size: 16px;
+    align-items: center;
+    cursor: default;
+}
+.kml div{
+    display: flex;
+    margin-left: 10%;
+}
+
+.dd{
+    margin-left: 20px;
+    cursor: pointer;
+    color: $redditWhite;
 }
