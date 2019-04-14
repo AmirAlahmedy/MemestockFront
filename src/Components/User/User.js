@@ -1,31 +1,47 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import CardProf from '../CardProf/CardProf';
 export class User extends Component {
+  state ={
+    username:'OneTwoThree',
+    karma:'',
+    birthday:''
+}
+
+componentDidMount () { 
+
+  console.log("mounted");
+}
   render() {
     return (
 
-      <div >
+      <div className="ana">
+        <div className="aho">
+
+        <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
            <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Overview </a>
+            <Link to ='/user/' class="nav-link">Overview </Link>
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="#">Posts</a>
+          <Link to ='/user/posts/' class="nav-link">Posts</Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Comments</a>
+          <Link to ='/user/comments/' class="nav-link">Comments</Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Saved</a>
+             <Link to ='/user/saved/' class="nav-link">Saved</Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Hidden</a>
+             <Link to ='/user/hidden/' class="nav-link">Hidden</Link>
           </li>
         </ul> 
 
       </nav>
+      </div>
+      </div>
 
 
 
@@ -37,6 +53,14 @@ export class User extends Component {
 
 
       </div>
+
+
+
+
+
+
+
+    <CardProf></CardProf>
 
       </div>
 
