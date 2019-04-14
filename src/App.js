@@ -72,7 +72,7 @@ class App extends Component {
           },
             loggedIn: true,
           alreadyRegistered: true}, () => {
-            
+            localStorage.setItem("username", this.state.Credentials.Username);
             axios.post('user/register', this.state.Credentials)
                    .then( response => {
                         this.setState({alreadyRegistered: true});
