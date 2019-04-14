@@ -104,6 +104,13 @@
     padding-left:0;
     padding-bottom:7px;
     list-style: none;
+    
+    color:white;
+    text-decoration: none;
+    font-size:18px;
+    line-height: 1em;
+    padding:10px;
+    text-align:center;
 }
 .srLinks a{
     color:white;
@@ -113,10 +120,11 @@
     padding:10px;
     text-align:center;
 }
+/*
 .srLinks a:hover{
     color: rgb(233, 172, 92);
 }
-
+*/
 .srSortdropdownMenu{
     padding-bottom: 10px;
     float:left;    
@@ -172,6 +180,31 @@
     padding-right:20px;
     padding-bottom:15px;
     color:rgb(132, 134, 136);
+}
+.subredditSidebarComponent h5 {
+    padding-top:15px;
+    font-size:12px;
+}
+/*
+.subredditSidebarComponent input {
+    width:60%;
+    float:right;
+    padding-top:3px;
+    padding-bottom:3px;
+    border-radius: 10px;
+}
+*/
+.subredditSidebarComponent label{
+    color:rgb(116, 193, 219);
+}
+.subredditSidebarComponent textarea{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:10px;
+    width:100%;
+}
+.subredditSidebarComponent label {
+    float:left;
 }
 .srSidebarCompTitle {
     font-size:24px;
