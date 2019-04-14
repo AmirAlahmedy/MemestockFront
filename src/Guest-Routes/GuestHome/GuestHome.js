@@ -14,10 +14,9 @@ import NestedListings from '../../Components/Listings/NestedListings';
 import * as actions from '../../store/actions/index';
 import GoHome from '../GoHome/index.js';
 import { connect } from 'react-redux';
-import Registration from '../Registration/Registration';
 
 
-class Home extends Component {
+class GuestHome extends Component {
 
   state = {
     auth: false
@@ -27,9 +26,9 @@ class Home extends Component {
 
   componentDidMount = () => {
     
-    console.log(this.props.token);
-    this.props.history.replace('/Home/');
-    this.props.history.push(this.props.lastRoute)
+     this.props.history.replace('/Home/');
+     console.log(this.props.token);
+     this.props.history.push(this.props.lastRoute)
      //this.props.authToken();
     
  }
@@ -51,38 +50,14 @@ class Home extends Component {
         }
       } *//>: <Route path='/Home/' exact component={Listings}/>;
 
-      let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration}/>:null;
-
       console.log(this.props.token);
         return (
           <div className='Home' >
           
            <NavBar/>
              
-              {
-                !this.props.isGuest ? 
-                <Switch>
-                
-                <Route path='/PM/'  /*component={PMs}*/ render={
-                  props=>{
-                    return(
-                      <PMs token={this.props.token}/>
-                    );
-                  }
-                }/>
-                <Route path='/CreatePost/'   component={CreatePost}/>
-                <Route path='/settings/'  render={Settings}/>
-                <Route path='/r/' component={Subreddit}/>
-                <Route path='/thread/' component={ThreadPage}/>
-                <Route path='/GoHome/' component={GoHome}/>
-                <Route path='/create-subreddit/' component={CreateSubReddit}/> 
-                </Switch>
-                :
-                <Switch>
-                <Route path='/Registration/' component={Registration}/>
-                </Switch>
-              }
-              {/* <Route path='/PM/'  /*component={PMs} render={
+            <Switch>
+              <Route path='/PM/'  /*component={PMs}*/ render={
                 props=>{
                   return(
                     <PMs token={this.props.token}/>
@@ -94,11 +69,11 @@ class Home extends Component {
               <Route path='/r/' component={Subreddit}/>
               <Route path='/thread/' component={ThreadPage}/>
               <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
+              <Route path='/create-subreddit/' component={CreateSubReddit}/>
               {/* <Route path='/:username' component={CreateSubReddit}/> */}
               
               {list}  
-            
+            </Switch>
               
            
             {this.props.lastRoute ? <div>
@@ -115,23 +90,4 @@ class Home extends Component {
       }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: true,//state.auth.token !== null,
-    authRedirectPath: state.auth.authRedirectPath,
-   // token: state.auth.token
-    
-
-    
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-  //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
-    onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
-    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default GuestHome;

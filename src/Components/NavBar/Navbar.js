@@ -39,7 +39,7 @@ const NavBar = props => {
 
             <nav className='memeNav'> 
                 <div  className="memeLogo">
-                <NavLink to='/Home/'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></NavLink>
+                <NavLink to='/GoHome/'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></NavLink>
                 </div>
                 <div className="dropdownMenu">
                     <button className='dropButton'>
@@ -50,7 +50,7 @@ const NavBar = props => {
                     <div role='menu' className='dropList'>
                     <input id='filter' placeholder='Filter' onChange={filterList}></input>
                         <ul id='my-ul' className='dropUl'>
-                            <li className='dropdownItem'><NavLink to='/Home/' className='sort toHome'>Home</NavLink></li>
+                            <li className='dropdownItem'><NavLink to='/GoHome/' className='sort toHome'>Home</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink></li>
                             <li className='dropdownItem'><NavLink  to='/Hot/'className='sort srt3'>Hot</NavLink></li>

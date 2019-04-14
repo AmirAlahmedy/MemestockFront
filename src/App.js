@@ -7,7 +7,8 @@ import Login from './Routes/Login/Login';
 import axios from './axios-orders';
 import * as actions from './store/actions/index';
 import { connect } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.css';
+import PMs from './Routes/PMs/PMs';
+//import 'bootstrap/dist/css/bootstrap.css';
 
 let token = '';
 
@@ -31,10 +32,14 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    this.loggedIn = this.state.loggedIn || localStorage.getItem("isLoggedIn"); 
     this.props.authToken();
     window.onbeforeunload = (e) => {
       console.log('stay on the same route')
-      };
+      localStorage.setItem("lastRoute", window.location.pathname);
+    };
+    this.lastRoute = localStorage.getItem("lastRoute");
+    
 }
  
 
@@ -120,7 +125,7 @@ class App extends Component {
 
         },
           loggedIn: true}, () => {
-          
+          localStorage.setItem("isLoggedIn", true);
           axios.post('user/Login', this.state.Credentials)
                  .then( response => {
                       localStorage.setItem('loggedIn', true);
@@ -143,17 +148,15 @@ class App extends Component {
         this.setState({loggedIn: false, passwordIsValid:false});
     }
   }
-
    render() {
     console.log(this.state.loggedIn);
     console.log(this.state.auth.token);
 
     return (
       
-     
+            
             <div className="App">
-
-            {this.state.loggedIn ? <Home  token={this.state.auth.token}/> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} />:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
+            {this.loggedIn ?  <Home  lastRoute={this.lastRoute} token={this.state.auth.token}/> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} />:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
    
         </div>
      

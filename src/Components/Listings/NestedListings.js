@@ -55,7 +55,7 @@ class NestedListings extends Component {
      * @function createThread
      * @param {object} - object of the mocked thread ...Not working properly yet.
      */
-    createThread = thread => <Route path={`${this.props.match.path}/:threadId`} render={
+    createThread = thread => <Route path={`${this.props.match.path}/:title`} render={
         props => {
 
             return(
