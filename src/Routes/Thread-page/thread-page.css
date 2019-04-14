@@ -33,11 +33,110 @@
      margin-left: 10px;
     
     }
+    .spoiler{
+        display: block;
+        color:rgb(214, 14, 81);
+        font-style: italic;
+        font-weight: bold;
+         overflow-wrap: break-word;
+         word-break: break-word;
+         text-align: left;
+         font-size: 15px;
+         margin-bottom: 1px;
+         line-height: 24px;
+         padding-right: 5px;
+         padding-left:20px;
+         margin-left: 10px;
+        
+        }
 
     .threadComment{
         background-color: rgb(15, 15, 17);
         margin: 5px;
+        width: 170;
+        box-align: left;
         border:  1px solid rgb(52, 53, 54);
         border-radius: 0px;
     
+    }
+    .editComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+    }
+    .deleteComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+    }
+    .spoilerComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+    }
+    .replyComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+    }
+    .commentContainer
+    {
+        background-color: rgb(255, 255, 255);
+        margin: 5px;
+        width: 170;
+        box-align: left;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+
+    }
+    .saveComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
+    .lockComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
+    .textComment
+    {
+        width: 400px;
+        height: 70px;
+        border: 0px solid #cccccc;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+      background-repeat: no-repeat;
+      position:relative;
+      display :inline-block;
+      font-family: 'Open Sans', sans-serif;
+      font-size:15px;
+      display: flex;
+      height:95px;
     }
