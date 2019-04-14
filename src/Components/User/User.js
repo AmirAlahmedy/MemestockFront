@@ -5,7 +5,8 @@ export class User extends Component {
   state ={
     username:'OneTwoThree',
     karma:'',
-    birthday:''
+    birthday:'',
+    posts:''
 }
 
 componentDidMount () { 
