@@ -16,6 +16,7 @@ import NestedListings from '../../Components/Listings/NestedListings';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import User from '../../Components/User/User';
+import ChangePass from '../Account/ChangePass'
 
 class Home extends Component {
 
@@ -66,7 +67,7 @@ class Home extends Component {
               <Route path='/create-subreddit/' component={CreateSubreddit}/>
               <Route path='/create-thread/' component={CreateThread}/>
               <Route path='/user/' component={User}/>
-                            
+              <Route path='/Settings/Account/ChangePass' component={ChangePass}/>
               {list}  
             </Switch>
               
