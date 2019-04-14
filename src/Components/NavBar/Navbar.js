@@ -93,7 +93,7 @@ const NavBar = props => {
                     </button>
                         <div role='menu' className='yourStuffDropList'>
                             <ul className='dropUl'>
-                                <li className='yourStuffItem'><NavLink to='/My profile/' className='stfitm'>My Profile</NavLink></li>
+                                <li className='yourStuffItem'><NavLink to='/user/' className='stfitm'>My Profile</NavLink></li>
                                 <li className='yourStuffItem'><NavLink to='/Settings/' className='stfitm'>User Settings</NavLink></li>
                             </ul>
                         </div>

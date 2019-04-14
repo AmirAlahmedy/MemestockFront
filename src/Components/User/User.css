@@ -1,0 +1,16 @@
+.gamb{
+    font-size:12px;
+    text-align: left;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:15px;
+    color:rgb(132, 134, 136);
+}
+.stuff{
+    overflow-wrap: break-word;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px 5px 4px 4px;
+    overflow: visible;
+    padding: 12px;
+    margin-left: 24px;
+}
