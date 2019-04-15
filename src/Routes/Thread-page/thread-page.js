@@ -27,6 +27,8 @@ class ThreadPage extends Component {
             Spoiler:true
          }
       ],
+      subredditName:'OneTwoThree',
+      id:'5cb477c49604eb218cbaf981',
       editThread:true
    }
   
@@ -61,19 +63,53 @@ class ThreadPage extends Component {
    handleEdit = (e) =>{ 
       e.preventDefault();
       console.log('Edit Clicked');
+      var threadData ={
+         newThreadTitle : document.getElementById("newThreadTitleField").value,
+         newThreadBody : document.getElementById("newThreadBodyField").value
+         } 
+         let checker ="";
+         
+         if (document.getElementById("newThreadTitleField").value===checker)
+         {
+           alert ("Please provide a new title");
+           return ;
+         }
+         else if (document.getElementById("newThreadBodyField").value===checker)
+         { alert ("Please provide a new bodyfor the thread");
+           return ;
+         }
       var headers = {
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKgeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHaWFudFN0ZXBzIiwiaWF0IjoxNTU1Mjg2NzQ2fQ.tQ49_qurWtdLeGzkoteHowHaKeFLnvrbnybDofimTk8'
+        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
       }
-      let SubredditName = this.state.name;
-      axios.put( 'http://localhost:4000/sr/'+SubredditName+'/thread/5cb3ce38fedd3f08b8535dc0', {headers: headers})
+      let SubredditName = this.state.subredditName;
+      let threadID = this.state.id;
+      axios.put( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,threadData.newThreadTitle,threadData.newThreadBody, {headers: headers})
+      .then(res => {
+        if (res.status==200)
+        {
+          console.log(res)
+        }else if (res.status===404){
+          alert("Not Found");
+          return Response.json;
+        }
+      })
+      .catch(error => {
+        alert("Error Caught");
+      })
+   }
+   delPost = (e) => { 
+      //e.preventDefault();
+      console.log('Delete Clicked');
+      var headers = {
+         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+       }
+      let SubredditName = this.state.subredditName;
+      let threadID = this.state.id;
+      axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,{headers: headers})
       .then(res => {
         if (res.status==200)
         {
           console.log(res);
-          this.setState({
-            subscribe:true
-          }
-          );
         }else if (res.status===404){
           alert("Not Found");
           return Response.json;
@@ -164,7 +200,7 @@ class ThreadPage extends Component {
                { 
                   this.state.editThread ?
                   <div className="threadPageSidebarComponent3">
-                  <h5>EDIT A POST</h5>
+                  <h5>EDIT POST</h5>
                   <hr></hr>
                   <form onSubmit={this.handleEdit}>
                      <div className="formGroupthreadComponent1">

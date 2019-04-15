@@ -1,6 +1,7 @@
 .threadPageContainer{
+    margin-top:15px;
     float:left;
-    width:70%;
+    width:68%;
 }
 .pagethread{
     margin-bottom: 5px;
@@ -156,6 +157,7 @@
 }
 .threadPageSidebarComponent1{
     
+    margin-top:15px;
     padding:15px;
     margin-bottom:15px;
     background-color: rgb(26, 26, 27);
