@@ -124,7 +124,7 @@ export class Subreddit extends Component {
     e.preventDefault();
     console.log('Del Subreddit Clicked');
     var headers = {
-      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
     }
     let SubredditName = this.state.name;
     axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{headers: headers})
@@ -133,7 +133,8 @@ export class Subreddit extends Component {
       if (res.status==200)
       { 
         alert("Subreddit Deleted Successfully!");
-      }else if (res.status===401)
+      }
+      else if (res.status===401)
       {
         alert("You're Not Authorised");
         return Response.json;
@@ -147,6 +148,10 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) =>{
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
+    // if(subscribed==false)
+    // {
+    //   alert('Cant Create Post without subscribing')
+    // }
     this.setState({
       threadCreation:true
     })
@@ -276,11 +281,6 @@ export class Subreddit extends Component {
                   :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 }
                 <button className="srSidebarSubscribeButton" onClick={this.createThreadSidebar}>CREATE A POST</button>
-                {/*
-                  this.state.adminview ?  <button className="srSidebarDeleteSubredditButton"  onClick={this.delSubreddit}>Delete Subreddit</button> 
-                  : <div></div>
-                  */
-                }
               </div>
               { 
                 this.state.threadCreation ?
@@ -327,6 +327,9 @@ export class Subreddit extends Component {
                   }
                 </ol>
               </div>
+              {
+                this.state.adminview ?  <button className="srDeleteButton" onClick={this.delSubreddit}>Delete Subreddit</button> : <div></div>
+              }
             </aside>
             
         <footer id="subreddit-footer">
@@ -339,12 +342,3 @@ export class Subreddit extends Component {
 }
 
 export default Subreddit
-/*
-const mapStateToProps = state => {
-  return {
-    ginProd: state.globalInProduction
-  };
-};
-
-export default connect(mapStateToProps)(Listings);
-*/
