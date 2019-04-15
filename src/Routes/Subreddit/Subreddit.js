@@ -10,7 +10,7 @@ import axios from 'axios';
 //import ginprodReducer from '../../store/reducers/production';
 
 
-let inDev = true;
+let inDev = false;
 
 export class Subreddit extends Component {
     state ={
@@ -30,7 +30,7 @@ export class Subreddit extends Component {
 
       console.log("mounted");
 
-      if(inDev === true ) // && ginprodReducer.globalInProduction)
+      if(inDev === false ) // && ginprodReducer.globalInProduction)
       {
         let srName= this.state.name;
         axios.get('http://localhost:4000/sr/'+srName+'/meta')
@@ -70,26 +70,26 @@ export class Subreddit extends Component {
         });
       }
    }
-   /**
-     * For generating threads from a mock service
-     * @function createThread
-     * @param {object} - object of the mocked thread ...Not working properly yet.
-     */
-    createThread = thread => <Thread 
-                                    // key={thread._id}
-                                    // username={thread.subredditName}
-                                    subreddit={thread.subredditName}
-                                    title={thread.title} 
-                                    content={thread.body}
-    />;
+  //  /**
+  //    * For generating threads from a mock service
+  //    * @function createThread
+  //    * @param {object} - object of the mocked thread ...Not working properly yet.
+  //    */
+  //   createThread = thread => <Thread 
+  //                                   // key={thread._id}
+  //                                   // username={thread.subredditName}
+  //                                   subreddit={thread.subredditName}
+  //                                   title={thread.title} 
+  //                                   content={thread.body}
+  //   />;
 
 
-    /**
-     * For generating threads from a mock service
-     * @function createThreads
-     * @param {array} - array of the mocked threads ...Not working properly yet.
-     */
-    createThreads = Threads => Threads.map(this.createThread);
+  //   /**
+  //    * For generating threads from a mock service
+  //    * @function createThreads
+  //    * @param {array} - array of the mocked threads ...Not working properly yet.
+  //    */
+  //   createThreads = Threads => Threads.map(this.createThread);
 
 
    srSubscribe = (e) => {
@@ -210,6 +210,18 @@ export class Subreddit extends Component {
       if (res.status==200)
       { 
         alert("Thread Created Successfully!");
+        let srName= this.state.name;
+        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        .then(resp => {
+          console.log(resp);
+          if (resp.status==200)
+          {
+            console.log(resp.data.rules);
+            this.setState({
+              threads:resp.data.posts
+            })
+          }
+        })
       }else if (res.status===401 || res.status===404)
       {
         alert("Thread Creation Unsuccessful");
