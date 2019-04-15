@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-//import './CreateSubreddit.css';
+import './CreatePost.css';
 
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+//import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import axios from 'axios';
 
@@ -37,16 +37,16 @@ handleSubmit (e){
   } 
   let checker ="";
   
-  if (document.getElementById("threadSubredditNameField").value===checker)
+  if (document.getElementById("threadPageSubredditNameField").value===checker)
   {
     alert ("Please provide an existing Subreddit name!");
     return ;
   }
-  else if (document.getElementById("ThreadTitleFieldinCreation").value===checker)
+  else if (document.getElementById("threadPageTitleField").value===checker)
   { alert ("Please provide a Thread Title!");
     return ;
   }
-  else if (document.getElementById("ThreadBodyFieldinCreation").value===checker)
+  else if (document.getElementById("threadPageBodyField").value===checker)
   { alert ("Please provide a Thread Body!");
     return ;
   }
@@ -69,25 +69,27 @@ handleSubmit (e){
 }
   render() {
     return (
-      <div>
-      <Form>
-        <FormGroup>
-          <Label for="threadSubredditName">Subreddit Name</Label>
-          <Input type="text" name="text" id="threadSubredditNameField" placeholder="It Should be an existing subreddit" value={this.state.value} 
-          onChange={this.handleChange} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="threadTitle">Thread Title:</Label>
-          <Input type="textarea" name="text" id="ThreadTitleFieldinCreation" placeholder = "Enter Title here" value={this.state.value}  onChange={this.handleChange} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="threadBody">Thread Body:</Label>
-          <Input type="textarea" name="text" id="ThreadBodyFieldinCreation" placeholder = "Enter Body here" value={this.state.value}  onChange={this.handleChange}/>
-         </FormGroup>
-
-        <Button onClick={this.handleSubmit}>Submit</Button>
-      </Form>
+      <div className="createPostContainer">
+                <h3>CREATE A POST</h3>
+                <hr></hr>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="formGroupThreadComponent">
+                  <label for="SubredditName">Enter Subreddit Name</label>
+                  <br></br>
+                  <input type="text" name="text" id="threadPageSubredditNameField" placeholder = "Enter Existing Subreddit Name" onChange={this.handleChange} value={this.state.value}/>   
+                  </div>
+                  <div className="formGroupThreadComponent">
+                  <label for="ThreadTitle">Enter Title</label>
+                  <textarea type="textarea" name="text" id="threadPageTitleField" placeholder = "Enter Title Here" onChange={this.handleChange} value={this.state.value}/>   
+                  </div>
+                  <div className="formGroupThreadComponent">
+                  <label for="ThreadBody">Enter Thread Body</label>
+                  <textarea type="textarea" name="text" id="threadPageBodyField" placeholder = "Enter Body Here" onChange={this.handleChange} value={this.state.value}/>  
+                  </div>
+                  <button className="threadPageCreateButton">CREATE</button>  
+                </form>
       </div>
+  
     )
   }
 }

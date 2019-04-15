@@ -1,3 +1,66 @@
-h1 {
-    text-align: center;
-}
+    .createPostContainer{
+        font-style: arial;
+        text-align: center;
+        color:rgb(132, 134, 136);
+        width:80%;
+        overflow: hidden;
+        margin-top:25px;
+        margin-bottom:15px; 
+        background-color: rgb(26, 26, 27);
+        border-bottom: 1px solid rgb(52, 53, 54);
+        border-right:  1px solid rgb(52, 53, 54);
+        border-left:  1px solid rgb(52, 53, 54);
+        border-top:  1px solid rgb(52, 53, 54);
+        border-radius: 6px;
+    }
+    h3{
+        font-style: inherit;
+        font-size:20px;
+        font-weight: 500;
+        float:center;       
+        margin:0;
+        padding-top:10px;
+        padding-left:1%;
+        border:0;
+    }
+
+    .formGroupThreadComponent{
+        font-size:18px;
+        text-align: left;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:15px;
+        color:rgb(132, 134, 136);
+    }
+    .formGroupThreadComponent label{
+        color:rgb(116, 193, 219);
+    }
+    .formGroupThreadComponent textarea{
+        margin-top:10px;
+        margin-bottom:10px;
+        border-radius:10px;
+        width:100%;
+    }
+    .formGroupThreadComponent input{
+        margin-top:10px;
+        margin-bottom:10px;
+        border-radius:10px;
+        width:100%;
+    }
+    .formGroupThreadComponent label {
+        float:left;
+    }
+    .threadPageCreateButton {
+        margin:10px 30px 30px;
+        padding:10px;
+        width:50%;
+        border-radius: 7px;
+        background-color:lightgrey;
+        font-size:18px;
+        font-weight: 600;
+        cursor:pointer;
+    }
+    .threadPageCreateButton:hover{
+        color:rgb(233, 172, 92);
+        background-color:rgb(26, 26, 27);
+    }

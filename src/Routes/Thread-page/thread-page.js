@@ -26,7 +26,10 @@ class ThreadPage extends Component {
             Lock: false,
             Spoiler:true
          }
-      ]
+      ],
+      subredditName:'OneTwoThree',
+      id:'5cb477c49604eb218cbaf981',
+      editThread:true
    }
   
 
@@ -45,6 +48,78 @@ class ThreadPage extends Component {
       
 
    };
+   editPost = (e) => {
+      e.preventDefault();
+      this.setState({
+         editThread:true
+      })
+   };
+   cancelEdit = (e) =>{
+      e.preventDefault();
+      this.setState({
+         editThread:false
+      })
+   };
+   handleEdit = (e) =>{ 
+      e.preventDefault();
+      console.log('Edit Clicked');
+      var threadData ={
+         newThreadTitle : document.getElementById("newThreadTitleField").value,
+         newThreadBody : document.getElementById("newThreadBodyField").value
+         } 
+         let checker ="";
+         
+         if (document.getElementById("newThreadTitleField").value===checker)
+         {
+           alert ("Please provide a new title");
+           return ;
+         }
+         else if (document.getElementById("newThreadBodyField").value===checker)
+         { alert ("Please provide a new bodyfor the thread");
+           return ;
+         }
+      var headers = {
+        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+      }
+      let SubredditName = this.state.subredditName;
+      let threadID = this.state.id;
+      axios.put( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,threadData.newThreadTitle,threadData.newThreadBody, {headers: headers})
+      .then(res => {
+        if (res.status==200)
+        {
+          console.log(res)
+        }else if (res.status===404){
+          alert("Not Found");
+          return Response.json;
+        }
+      })
+      .catch(error => {
+        alert("Error Caught");
+      })
+   }
+   delPost = (e) => { 
+      //e.preventDefault();
+      console.log('Delete Clicked');
+      var headers = {
+         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+       }
+      let SubredditName = this.state.subredditName;
+      let threadID = this.state.id;
+      axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,{headers: headers})
+      .then(res => {
+        if (res.status==200)
+        {
+          console.log(res);
+        }else if (res.status===404){
+          alert("Not Found");
+          return Response.json;
+        }
+      })
+      .catch(error => {
+        alert("Error Caught");
+      })
+   }
+
 
    render() {
     
@@ -55,16 +130,16 @@ class ThreadPage extends Component {
                 <Thread />
              </div>
           </div>*/
-          
+      <div>
          <div class="threadPageContainer">
             <div className="PageThread">
                <Thread />
             </div>
       
-               <div className="commentContainer">
+              
            <input  type="text" ref={(input)=>this.newComment=input}  className="textComment" placeholder="write your comment here" ></input>
            <button className="saveComment" onClick={this.saveComment}>Save</button>
-           </div>
+           
             <ul>
                   {
                     this.state.comments.map(comment => {if(localStorage.getItem("username")===comment.username)
@@ -116,6 +191,34 @@ class ThreadPage extends Component {
                   
                 </ul>
                 </div>
+            <div className="threadPageSidebarContainer">
+            
+               <div className="threadPageSidebarComponent1">
+                  <button className="threadPageSidebarEditButton1" onClick={this.editPost}>EDIT POST</button>
+                  <button className="threadPageSidebarDeleteButton" onClick={this.delPost}>DELETE POST</button>  
+               </div>
+               { 
+                  this.state.editThread ?
+                  <div className="threadPageSidebarComponent3">
+                  <h5>EDIT POST</h5>
+                  <hr></hr>
+                  <form onSubmit={this.handleEdit}>
+                     <div className="formGroupthreadComponent1">
+                     <label for="newThreadTitle">Enter new Title</label>
+                     <textarea type="textarea" name="text" id="newThreadTitleField" placeholder = "Enter Title Here" />   
+                     </div>
+                     <div className="formGroupSrComponent2">
+                     <label for="newThreadBody">Enter new Thread Body</label>
+                     <textarea type="textarea" name="text" id="newThreadBodyField" placeholder = "Enter Body Here" />  
+                     </div>
+                     <button className="threadPageSidebarEditButton2" >EDIT POST</button>
+                     <button className="threadPageSidebarCancelEditButton" onClick={this.cancelEdit}>CANCEL</button>  
+                  </form>
+               </div> : <div></div>
+              }
+
+            </div>
+         </div>
                 
 
       

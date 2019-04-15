@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import CardProf from '../CardProf/CardProf';
 export class User extends Component {
   state ={
-    username:'OneTwoThree',
-    karma:'',
-    birthday:'',
-    posts:''
+    username:'',
+    me:true
 }
 
 componentDidMount () { 
 
-  console.log("mounted");
+  console.log("User in");
 }
+
+
   render() {
     return (
 

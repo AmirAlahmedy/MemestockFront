@@ -35,7 +35,7 @@ export const changePasswordApiCall = (data) => {
 
         return axios({
             method: 'post',
-            url: 'edit/Password/:Username',
+            url: 'me/edit/Password'+this.user,
             data: data,
             config: {
                 headers: {
