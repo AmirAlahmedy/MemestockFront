@@ -1,3 +1,7 @@
+.threadPageContainer{
+    float:left;
+    width:70%;
+}
 .pagethread{
     margin-bottom: 5px;
 }
@@ -139,4 +143,220 @@
       font-size:15px;
       display: flex;
       height:95px;
-    }
+}
+.threadPageSidebarContainer{
+    width:29%;
+    float:right;
+    padding:0;
+    box-sizing:border-box;
+    margin-top:10px;
+    margin-left:10px;
+}
+.threadPageSidebarComponent1{
+    
+    padding:15px;
+    margin-bottom:15px;
+    background-color: rgb(26, 26, 27);
+    border-bottom: 1px solid rgb(52, 53, 54);
+    border-right:  1px solid rgb(52, 53, 54);
+    border-left:  1px solid rgb(52, 53, 54);
+    border-top:  1px solid rgb(52, 53, 54);
+    border-radius: 6px;
+}
+
+.threadPageSidebarComponent1 h5 {
+    padding-top:15px;
+    font-size:12px;
+}
+/*
+.subredditSidebarComponent input {
+    width:60%;
+    float:right;
+    padding-top:3px;
+    padding-bottom:3px;
+    border-radius: 10px;
+}
+*/
+.threadPageSidebarComponent1 label{
+    color:rgb(116, 193, 219);
+}
+.threadPageSidebarComponent1 textarea{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:10px;
+    width:100%;
+}
+.threadPageSidebarComponent1 label {
+    float:left;
+}
+.threadPageSidebarComponent2{
+    margin-bottom:15px;
+    background-color: rgb(26, 26, 27);
+    border-bottom: 1px solid rgb(52, 53, 54);
+    border-right:  1px solid rgb(52, 53, 54);
+    border-left:  1px solid rgb(52, 53, 54);
+    border-top:  1px solid rgb(52, 53, 54);
+    border-radius: 6px;
+}
+
+.threadPageSidebarComponent2 h5 {
+    padding-top:15px;
+    font-size:12px;
+}
+/*
+.subredditSidebarComponent input {
+    width:60%;
+    float:right;
+    padding-top:3px;
+    padding-bottom:3px;
+    border-radius: 10px;
+}
+*/
+.threadPageSidebarComponent2 label{
+    color:rgb(116, 193, 219);
+}
+.threadPageSidebarComponent2 textarea{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:10px;
+    width:100%;
+}
+.threadPageSidebarComponent2 label {
+    font-size:18px;
+    font-weight: 500;
+    text-align: left;
+    color: lightgrey;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    float:left;
+}
+.threadPageSidebarComponent3{
+    padding:15px;
+    margin-bottom:15px;
+    background-color: rgb(26, 26, 27);
+    border-bottom: 1px solid rgb(52, 53, 54);
+    border-right:  1px solid rgb(52, 53, 54);
+    border-left:  1px solid rgb(52, 53, 54);
+    border-top:  1px solid rgb(52, 53, 54);
+    border-radius: 6px;
+}
+
+.threadPageSidebarComponent3 h5 {
+    font-size:12px;
+    float: left;
+}
+/*
+.subredditSidebarComponent input {
+    width:60%;
+    float:right;
+    padding-top:3px;
+    padding-bottom:3px;
+    border-radius: 10px;
+}
+*/
+.threadPageSidebarComponent3 label{
+    font-size:18px;
+    font-weight: 500;
+    text-align: left;
+    color: lightgrey;
+    color:rgb(116, 193, 219);
+}
+.threadPageSidebarComponent3 textarea{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:10px;
+    width:100%;
+}
+.threadPageSidebarComponent3 label {
+    float:left;
+}
+.threadPageSidebarEditButton {
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 600;
+    cursor:pointer;
+}
+.threadPageSidebarEditButton:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+.threadPageSidebarCancelEditButton{
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 600;
+    cursor:pointer;
+}
+.threadPageSidebarCancelEditButton:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+.threadPageSidebarEditButton1{
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 600;
+    cursor:pointer;
+}
+.threadPageSidebarEditButton1:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+.threadPageSidebarDeleteButton { 
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 600;
+    cursor:pointer;
+}
+.threadPageSidebarDeleteButton:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+.threadPageSidebarEditButton2 { 
+    margin:10px 0px;
+    padding:10px;
+    width:100%;
+    border-radius: 7px;
+    background-color:lightgrey;
+    font-size:18px;
+    font-weight: 600;
+    cursor:pointer;
+}
+.threadPageSidebarEditButton2:hover{
+    color:rgb(233, 172, 92);
+    background-color:rgb(26, 26, 27);
+}
+
+
+
+/*
+.editPostSidebar{
+    float:left;
+    margin:0;
+    padding-top:0;
+    padding-right:0;
+    padding-left:0;
+    padding-bottom:7px;
+    list-style: none;
+    color:white;
+    text-decoration: none;
+    font-size:18px;
+    line-height: 1em;
+    padding:10px;
+    text-align:center;
+}
+*/
