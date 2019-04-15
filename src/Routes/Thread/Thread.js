@@ -3,6 +3,7 @@ import './Thread.css';
 import { Link } from 'react-router-dom';
 import '../../Sass/styles.scss';
 class Thread extends Component {
+    
     state = {
         username: 'GiantSteps_',
         subreddit: 'jazztheory',
