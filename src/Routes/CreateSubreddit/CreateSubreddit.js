@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-//import './CreateSubreddit.css';
+import './CreateSubreddit.css';
 
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+//import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import axios from 'axios';
 
@@ -39,24 +39,24 @@ handleSubmit (e){
   } 
   let checker ="";
   
-  if (document.getElementById("subredditNameField").value===checker)
+  if (document.getElementById("srSubredditName").value===checker)
   {
     alert ("Please provide a Subreddit name!");
     return ;
   }
-  else if (document.getElementById("SubredditRuleField1").value===checker)
+  else if (document.getElementById("srSubredditRule1").value===checker)
   { alert ("Please provide a Subreddit Rule!");
     return ;
   }
-  else if (document.getElementById("SubredditRuleField2").value===checker)
+  else if (document.getElementById("srSubredditRule2").value===checker)
   { alert ("Please provide a Subreddit Rule!");
     return ;
   }
-  else if (document.getElementById("SubredditRuleField3").value===checker)
+  else if (document.getElementById("srSubredditRule3").value===checker)
   { alert ("Please provide a Subreddit Rule!");
     return ;
   }
-  else if (document.getElementById("SubredditBioField").value===checker)
+  else if (document.getElementById("srSubredditBio").value===checker)
   { alert ("Please provide a Subreddit Bio For the audience!");
     return ;
   }
@@ -104,44 +104,36 @@ handleSubmit (e){
 }
   render() {
     return (
-      <div>
-      <Form>
-        <FormGroup>
-          <Label for="subredditName">Subreddit Name</Label>
-          <Input type="text" name="text" id="subredditNameField" placeholder="Think of something remarkable!" value={this.state.value} 
-          onChange={this.handleChange} />
-        </FormGroup>
-        {/*
-        <FormGroup>
-          <Label for="rulesNumberSelect">Select Number of Rules to add!</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
-        </FormGroup>
-        */}
-        <FormGroup>
-          <Label for="SubredditRule">Subreddit Rule:</Label>
-          <Input type="textarea" name="text" id="SubredditRuleField1" placeholder = "ex: Flamers will be banned! " value={this.state.value}  onChange={this.handleChange} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="SubredditRule">Subreddit Rule:</Label>
-          <Input type="textarea" name="text" id="SubredditRuleField2" placeholder = "ex: Flamers will be banned! " value={this.state.value}  onChange={this.handleChange}/>
-        </FormGroup>
-        <FormGroup>
-          <Label for="SubredditRule">Subreddit Rule:</Label>
-          <Input type="textarea" name="text" id="SubredditRuleField3" placeholder = "ex: Flamers will be banned! " value={this.state.value}  onChange={this.handleChange}/>
-        </FormGroup>
-        <FormGroup>
-          <Label for="SubredditRule">Subreddit Bio:</Label>
-          <Input type="textarea" name="text" id="SubredditBioField" placeholder = "ex: This subreddit is for people who..etc. " value={this.state.value}  onChange={this.handleChange}/>
-        </FormGroup>
-        <Button onClick={this.handleSubmit}>Submit</Button>
-      </Form>
+
+      <div className="createSubredditContainer">
+      <h3>CREATE A SUBREDDIT</h3>
+      <hr></hr>
+      <form onSubmit={this.handleSubmit}>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditName">Enter Subreddit Name</label>
+        <br></br>
+        <input type="text" name="text" id="srSubredditName" placeholder = "Think of something remarkable!" onChange={this.handleChange} value={this.state.value}/>   
+        </div>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditRule">Subreddit Rule:</label>
+        <textarea type="textarea" name="text" id="srSubredditRule1" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>   
+        </div>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditRule">Subreddit Rule:</label>
+        <textarea type="textarea" name="text" id="srSubredditRule2" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>  
+        </div>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditRule">Subreddit Rule:</label>
+        <textarea type="textarea" name="text" id="srSubredditRule3" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>  
+        </div>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditBio">Subreddit Bio:</label>
+        <textarea type="textarea" name="text" id="srSubredditBio" placeholder = "ex: This subreddit is for people who..etc. " onChange={this.handleChange} value={this.state.value}/>  
+        </div>
+        <button className="srSubredditPageCreateButton">CREATE</button>  
+      </form>
       </div>
+   
     )
   }
 }

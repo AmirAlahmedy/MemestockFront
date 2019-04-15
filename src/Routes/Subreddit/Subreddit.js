@@ -74,7 +74,7 @@ export class Subreddit extends Component {
       e.preventDefault();
       console.log('Subscribe Clicked');
       var headers = {
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHaWFudFN0ZXBzIiwiaWF0IjoxNTU1Mjg2NzQ2fQ.tQ49_qurWtdLeGzkoteHowHaKeFLnvrbnybDofimTk8'
       }
       let SubredditName = this.state.name;
       axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs', {headers: headers})
