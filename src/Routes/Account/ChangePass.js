@@ -1,40 +1,70 @@
 import React from 'react';
 import {changePasswordApiCall} from '../../actions/Profile'
-
+import axios from "axios/index";
 class ChangePass extends React.Component {
-    // constructor(props){
-    //     super(props);
-    //     this.state = { user: null, oldPassword: '', newPassword: '' };
-    //     this.getCurrentUser = this.getCurrentUser.bind(this);
-    //     this.handleSubmit = this.handleSubmit.bind(this);
-    //     this.handleOldPasswordChange = this.handleOldPasswordChange.bind(this);
-    //     this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
-    // }
+    constructor(props){
+        super(props);
+        this.state = { user: null, oldPassword: '', newPassword: '' };
+        this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOldPasswordChange = this.handleOldPasswordChange.bind(this);
+        this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
+    }
 
-    // async getCurrentUser(){
-    //     // this.props.auth.getUser()
-    //     //     .then(user => this.setState({user}));
-    // }
+    async getCurrentUser(){
+        // this.props.auth.getUser()
+        //     .then(user => this.setState({user}));
+    }
 
-    // handleOldPasswordChange(e) {
-    //     this.setState({ oldPassword: e.target.value });
-    // }
-    // handleNewPasswordChange(e) {
-    //     this.setState({ newPassword: e.target.value });
-    // }
+    handleOldPasswordChange(e) {
+        this.setState({ oldPassword: e.target.value });
+    }
+    handleNewPasswordChange(e) {
+        this.setState({ newPassword: e.target.value });
+    }
 
-    // handleSubmit(e){
-    //     e.preventDefault();
+    handleSubmit(e){
+        e.preventDefault();
 
-    //     var data = {
-    //         userId: this.state.user.sub, oldPassword: this.state.oldPassword, newPassword: this.state.newPassword
-    //     };
-    //     this.props.changePasswordApiCall(data);
-    // }
+        var data = {
+           oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+        };
+        let checker ="";
+  
+  if (document.getElementById("oldPassword").value===checker)
+  {
+    alert ("Please provide an old password!");
+    return ;
+  }
+  else if (document.getElementById("newPassword").value===checker)
+  { alert ("Please provide a new password!");
+    return ;
+  }
 
-    // componentDidMount(){
-    //     this.getCurrentUser();
-    // }
+  let headers = {
+    auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+   } 
+  axios.post( 'http://localhost:4000/me/edit/Password/'+this.user, headers)            
+  .then(res => {
+    console.log(res);
+    console.log(res.status);
+        
+    //in case sucess..
+    alert("Your Password Changed");  
+  })
+  .catch(error => {
+  console.log("Axios Error: ",error.response)
+  });
+        // this.props.changePasswordApiCall(data);
+    }
+
+
+
+
+    componentDidMount(){
+        this.getCurrentUser();
+    }
 
     render() {
         // if(!this.state.user) return null;
