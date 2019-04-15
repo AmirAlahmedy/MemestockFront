@@ -12,8 +12,8 @@ class ChangePass extends React.Component {
     }
 
     async getCurrentUser(){
-        // this.props.auth.getUser()
-        //     .then(user => this.setState({user}));
+        const username=localStorage.getItem("username");
+    
     }
 
     handleOldPasswordChange(e) {
@@ -27,6 +27,7 @@ class ChangePass extends React.Component {
         e.preventDefault();
 
         var data = {
+            user:this.state.user,
            oldPassword: this.state.oldPassword,
             newPassword: this.state.newPassword
         };
@@ -37,27 +38,46 @@ class ChangePass extends React.Component {
     alert ("Please provide an old password!");
     return ;
   }
+  else if (data.oldPassword.length < 8){
+    alert('Old password length must be minimum 8 characters');
+    return;
+}
+else if (data.newPassword.length < 8){
+    alert('New password length must be minimum 8 characters');
+    return;
+}
   else if (document.getElementById("newPassword").value===checker)
   { alert ("Please provide a new password!");
     return ;
   }
+  var headers = {
+    'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+  }
+  console.log(data);
+let username=this.state.user;
 
-  let headers = {
-    auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
-   } 
-  axios.post( 'http://localhost:4000/me/edit/Password/'+this.user, headers)            
-  .then(res => {
-    console.log(res);
-    console.log(res.status);
+
+
+ axios.post( 'http://localhost:4000/me/edit/password',username,{headers: headers}
+        )
         
-    //in case sucess..
-    alert("Your Password Changed");  
-  })
-  .catch(error => {
-  console.log("Axios Error: ",error.response)
-  });
-        // this.props.changePasswordApiCall(data);
-    }
+        .then(res => {
+            console.log(res);
+            if (res.status==200)
+            { 
+              alert("Password changed Successfully!");
+            }else if (res.status===401 || res.status===404)
+            {
+              alert("Password changes Unsuccessful");
+              return Response.json;
+            }
+           })
+           .catch(error => {
+             alert("Error Caught");
+           })
+        }
+
+    
 
 
 
@@ -67,30 +87,12 @@ class ChangePass extends React.Component {
     }
 
     render() {
-        // if(!this.state.user) return null;
-        // const errorMessage = this.props.error ?
-        //     (<div className="alert alert-danger"><strong>Error! </strong>{this.props.error}</div>):
-        //     null;
-        // const successMessage = this.props.success ?
-        //     (<div className="alert alert-success"><strong>Success! </strong>{this.props.success}</div>):
-        //     null;
 
 
         return (
             <div>
-                <section className="user-profile">
-                    <div>
-                        {/* <label>Name:</label>
-                        <span>{this.state.user.name}</span> */}
-                    </div>
-                </section>
-                <br />
-                <br />
                 <form className="form-horizontal col-sm-6" onSubmit={this.handleSubmit}>
                 <h3>Change Password</h3>
-                    <br />
-                    {/* {errorMessage}
-                    {successMessage} */}
                     <div className="form-group">
                         <label>Old Password:</label>
                         <input className="form-control" type="password" id="oldPassword" autoComplete="current-password"
@@ -101,7 +103,7 @@ class ChangePass extends React.Component {
                         <input className="form-control" type="password" id="newPassword"  autoComplete="new-password"
                                onChange={this.handleNewPasswordChange} />
                     </div>
-                    <input className="btn btn-outline-success col-2" type="submit" id="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" id="submit" value="Submit"/>
                 </form>
             </div>
         )

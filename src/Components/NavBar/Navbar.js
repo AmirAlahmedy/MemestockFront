@@ -97,8 +97,11 @@ const NavBar = props => {
                                 <li className='yourStuffItem'><NavLink to='/Settings/' className='stfitm'>User Settings</NavLink></li>
                             </ul>
                         </div>
+                         
                     </div>
                 </div>
+
+               <span> Youssef </span>
             </nav>
            
             </div>
@@ -111,6 +114,7 @@ const NavBar = props => {
                     </div>
                 </div>
             </div>
+           
             <div className="fLroyf">
                 
             </div>

@@ -12,10 +12,10 @@ class Account extends Component {
      {/* <h4 className="left">Account Settings</h4> */}
 
     <div className="leftlinks"><Link to ='/Settings/Account/Edit/'>Change/add Email</Link></div>
-    <p className="emailParag">The Above Link is not working yet GUYS Stay Tunedd!</p>
+    <p className="emailParag">Update Your email through that link!</p>
 
     <div className="leftlinks"><Link to="/Settings/Account/ChangePass">Change Password</Link></div>
-    <p className="emailParag">Change password is still oUnder Construction. We're in the process of building this functionality. Stay tuned!</p>
+    <p className="emailParag">Change password. We're in the process of building better functionality. Stay tuned!</p>
         </div>
 
 
