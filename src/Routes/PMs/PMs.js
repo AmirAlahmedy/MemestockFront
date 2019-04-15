@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import './PMs.css';
 import Head from  './Head';
-import inbox from  './pages/inbox';
-import sent from  './pages/sent';
+import Inbox from  './pages/Inbox';
+import Sent from  './pages/Sent';
 import Aux from '../../Components/HOC/Auxiliary';
 import axios from 'axios';
 
@@ -20,7 +20,6 @@ class PMs extends Component {
         error: false,
         
         }
-        
           this.handleChange = this.handleChange.bind(this); 
           this.handleSubmit = this.handleSubmit.bind(this);
     };
@@ -48,9 +47,12 @@ class PMs extends Component {
           const msg ={
             receiverUsername : this.state.To,
              subject : this.state.Subject,
-             messageBody : this.state.Message
-             
+             messageBody : this.state.Message,
+             headers: {
+              'Content-Type': 'application/json',
+             }
           }
+    
           //checking before posting request if a field isn't filled with any ''
          
           let checker ="";
@@ -73,11 +75,9 @@ class PMs extends Component {
         console.log(msg);
         axios.post( 'http://localhost:4000/me/pm/compose',msg, {
           headers: {
-              'Content-Type': 'application/json',
-    
-          },
-          
-      })
+            'auth': this.props.token
+          }
+        })
       .then(res => {
         console.log(res);
         console.log(res.data);
@@ -96,19 +96,21 @@ class PMs extends Component {
           error:true,
           submitting:false
         });
-        if
-        (error.response.statusText==="Forbidden")
-        {
-          alert("subject is too long");
+        if(error && error.response && error.response.statusText){
+          if (error.response.statusText==="Forbidden")
+          {
+            alert("subject is too long");
+          }
+          else if (error.response.statusText==="Not Found")
+          {
+            alert ("User not Found");
+          }
+          else
+          {
+            alert("internal server error");
+          }
         }
-        else if (error.response.statusText==="Not Found")
-        {
-          alert ("User not Found");
-        }
-        else
-        {
-          alert("internal server error");
-        }
+        
         
     })  ;
 
@@ -122,10 +124,21 @@ class PMs extends Component {
       <Router>
         <Aux>
 
-
              <Head/>
-             <Route path="/inbox" component={inbox}/>
-                    <Route path="/sent" component={sent}/>
+             <Route path="/Inbox" /*component={inbox}*/ render={
+               props=>{
+                 return(
+                   <Inbox token={this.props.token}/>
+                 );
+               }
+             }/>
+                    <Route path="/Sent" /*component={inbox}*/ render={
+               props=>{
+                 return(
+                   <Sent token={this.props.token}/>
+                 );
+               }
+             }/>
       
           <div className="container">
                  <div className="pm-form">
