@@ -99,7 +99,7 @@ class PMs extends Component {
         if(error && error.response && error.response.statusText){
           if (error.response.statusText==="Forbidden")
           {
-            alert("subject is too long");
+            alert("You've exceeded the limit of the Subject Or the User You're trying to reach doesn't exist");
           }
           else if (error.response.statusText==="Not Found")
           {
