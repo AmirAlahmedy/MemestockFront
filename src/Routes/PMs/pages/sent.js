@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import axios from 'axios';
 import '../PMs.css';
 
-class sent extends React.Component {
+class Sent extends React.Component {
   state = {
     Messages: [],
     isLoading: true,
@@ -16,6 +16,7 @@ class sent extends React.Component {
     axios.post( 'http://localhost:4000/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
+              'auth':this.props.token
     
           },
           
@@ -56,4 +57,4 @@ class sent extends React.Component {
     );
   }
 }
-export default withRouter(sent);
+export default withRouter(Sent);

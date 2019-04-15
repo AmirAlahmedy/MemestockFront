@@ -100,10 +100,10 @@ class ThreadPage extends Component {
                <Thread />
             </div>
       
-               <div className="commentContainer">
+              
            <input  type="text" ref={(input)=>this.newComment=input}  className="textComment" placeholder="write your comment here" ></input>
            <button className="saveComment" onClick={this.saveComment}>Save</button>
-           </div>
+           
             <ul>
                   {
                     this.state.comments.map(comment => {if(localStorage.getItem("username")===comment.username)
