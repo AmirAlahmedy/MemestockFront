@@ -13,7 +13,7 @@ class ThreadPage extends Component {
             id:'1',
             username: 'WreakingHavoc',
             comment: 'I rememeber when I had something to say!',
-            Locked: false,
+            Locked: true,
             Spoiler:false,
             reply:false
          },
@@ -40,8 +40,9 @@ class ThreadPage extends Component {
       editThread:true,
 
       editComment:false,
-      replyComment:false
-    
+      replyComment:false,
+      editID:'',
+     deleteID:''
     
    }
   
@@ -135,14 +136,27 @@ class ThreadPage extends Component {
    reply:false
 }
       this.setState({comments:[...this.state.comments, newComment]});
+      var headers = {
+         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+       }
+       
 
+       axios.post( 'http://localhost:4000/'+this.state.id,newComment.comment,newComment.Spoiler,"false",newComment.Locked, {headers: headers})
+       .then(res => {
+         if (res.status==200)
+         {
+           console.log(res)
+         }else if (res.status===404){
+           alert("Not Found");
+           return Response.json;
+         }
+       })
+       .catch(error => {
+         alert("Error Caught");
+       })
       
    }
   
-   deleteComment=()=>{
-
-
-   }
 
 
    replyComment=()=>{
@@ -154,13 +168,35 @@ class ThreadPage extends Component {
       e.preventDefault();
       this.setState({
          editComment:true
+         
+      })
+      const id=e.target.getAttribute("data-id");
+      this.setState({
+         editID:id
+         
       })
    }
 
+   
+
+
    goEdit = (e) =>{ 
+      const Cid=this.state.editID;
+      console.log(Cid);
+      const newComment ={
+          id:Cid,
+         username: localStorage.getItem("username"),
+       comment: document.getElementById("textComment").value,
+      Locked: document.getElementById("checkLocked2").checked,
+      Spoiler:document.getElementById("checkSpoiler2").checked,
+      reply:false
+   }
+  
+
       e.preventDefault();
       console.log('Edit Clicked');
       var commentData ={
+         newCommentID:Cid,
          newCommentBody : document.getElementById("textComment").value,
          newLock:document.getElementById("checkLocked2").checked,
          newSpoiler:document.getElementById("checkSpoiler2").checked
@@ -172,12 +208,18 @@ class ThreadPage extends Component {
            alert ("Please provide a new Comment");
            return ;
          }
+         else
+         {
+            this.setState({comments:[...this.state.comments.forEach(comment=>comment.id==Cid),comment.comment=newComment.comment]});
+           // this.setState({comments:[...this.state.comments, newComment]});
+   
+         }
          var headers = {
             auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
           }
-          let c_id = '3';
+          
 
-          axios.put( 'http://localhost:4000/'+c_id,commentData.newCommentBody,commentData.newSpoiler,"false",commentData.newLock, {headers: headers})
+          axios.put( 'http://localhost:4000/'+Cid,commentData.newCommentBody,commentData.newSpoiler,"false",commentData.newLock, {headers: headers})
           .then(res => {
             if (res.status==200)
             {
@@ -191,6 +233,35 @@ class ThreadPage extends Component {
             alert("Error Caught");
           })
       }
+      deleteComment = (e) => { 
+         const id=e.target.getAttribute("data-id");
+      this.setState({
+         deleteID:id
+         
+      })
+      this.setState({comments:[...this.state.comments.filter(comment=>comment.id!==id)]});
+         console.log(id);
+         //e.preventDefault();
+         console.log('Delete Clicked');
+         var headers = {
+            auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+          }
+         axios.delete( 'http://localhost:4000/sr/'+id,{"headers": headers})
+         .then(res => {
+           if (res.status==200)
+           {
+             console.log(res);
+             alert('Comment Deleted Successfully!')
+           }else if (res.status===404){
+             alert("Not Found");
+             return Response.json;
+           }
+         })
+         .catch(error => {
+           alert("Error Caught");
+         })
+      }
+   
 
    cancelEditComment = (e) =>{
       e.preventDefault();
@@ -199,11 +270,7 @@ class ThreadPage extends Component {
       })
    }
 
-getID= () =>{
-  const ID=document.getElementById("commentContainer").cID;
-  console.log(ID);
 
-}
 
 
 
@@ -235,40 +302,40 @@ getID= () =>{
                     {
                     if(comment.Locked==false)
                       return ( 
-                        <div className="threadComment" cID={comment.id} id="commentContainer" >   
+                        <div className="threadComment"  id="commentContainer"  >   
                 <div className="commentUser">u/{comment.username} </div>
                <div className="comment">{comment.comment}</div>
-               <button className="editComment" onClick={this.editComment}>Edit</button>
-               <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+               <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
+               <button className="deleteComment"  data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
                <button className="replyComment" onClick={this.handleReply} >reply</button>
                      </div>
                      );
                      else
-                     return( <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     return( <div className="threadComment"  id="commentContainer">   
                      <div className="commentUser">u/{comment.username} </div>
                     <div className="comment">{comment.comment}</div>
-                    <button className="editComment" onClick={this.editComment}>Edit</button>
-                    <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+                    <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
+                    <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
                     </div>);
                       }
                   else 
                   {if(comment.Locked==false)
                   return ( 
-                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     <div className="threadComment"  id="commentContainer">   
              <div className="commentUser">u/{comment.username} </div>
             <div className="spoiler">{comment.comment}</div>
-            <button className="editComment" onClick={this.editComment}>Edit</button>
-            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+            <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
+            <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
             <button className="replyComment" onClick={this.handleReply}>reply</button>
                   </div>
                   );
                   else
                   return ( 
-                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     <div className="threadComment"  id="commentContainer">   
              <div className="commentUser">u/{comment.username} </div>
             <div className="spoiler">{comment.comment}</div>
-            <button className="editComment" onClick={this.editComment}>Edit</button>
-            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+            <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
+            <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
                   </div>
                   );
                   }
@@ -278,26 +345,24 @@ getID= () =>{
                      if(comment.Spoiler==false)
                      {
                         if(comment.Locked==false)
-                     return( <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     return( <div className="threadComment"  id="commentContainer">   
                      <div className="commentUser">u/{comment.username} </div>
                     <div className="comment">{comment.comment}</div>
-                    <button className="replyComment" onClick={this.handleReply}>reply</button>
+                    <button className="replyComment" >reply</button>
                     </div>
                     );
                     else 
                     return ( 
-                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     <div className="threadComment"  id="commentContainer">   
              <div className="commentUser">u/{comment.username} </div>
-            <div className="spoiler">{comment.comment}</div>
-            <button className="editComment">Edit</button>
-            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+            <div className="comment">{comment.comment}</div>
                   </div>
                     );
                      }
                     else
                     { 
                        if(comment.Locked==false)
-                       return( <div className="threadComment" cID={comment.id} id="commentContainer">   
+                       return( <div className="threadComment"  id="commentContainer">   
                     <div className="commentUser">u/{comment.username} </div>
                    <div className="spoiler">{comment.comment}</div>
                    <button className="replyComment" onClick={this.handleReply}>reply</button>
@@ -305,11 +370,10 @@ getID= () =>{
                    );
                   else
                   return ( 
-                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     <div className="threadComment"  id="commentContainer">   
              <div className="commentUser">u/{comment.username} </div>
             <div className="spoiler">{comment.comment}</div>
-            <button className="editComment">Edit</button>
-            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+            
                   </div>
                   );}
                      }
@@ -329,7 +393,7 @@ getID= () =>{
                  name="comment" placeholder="Edit your comment here..."
                  value={this.state.comment} onChange={this.onChange}
                     />
-                      <input type="submit" value="Edit" className="goEdit" onClick={this.goEdit}/>
+                      <input type="submit" value="Edit" className="goEdit"  onClick={this.goEdit.bind(this)}/>
                       <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelEditComment}/>
     
                       </form>
