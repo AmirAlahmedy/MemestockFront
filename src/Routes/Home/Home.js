@@ -29,7 +29,8 @@ class Home extends Component {
     
     console.log(this.props.token);
     this.props.history.replace('/Home/');
-    this.props.history.push(this.props.lastRoute)
+    
+     this.props.lastRoute != '/Registration/' ? this.props.history.push(this.props.lastRoute):this.props.history.replace('/Home/');
      //this.props.authToken();
     
  }

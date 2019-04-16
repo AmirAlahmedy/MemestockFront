@@ -187,8 +187,16 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
- export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+const app =  withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+const registrationHandler = app.registrationHandler;
+const logInHandler = app.logInHandler;
 
+export{
+  app,
+  registrationHandler,
+  logInHandler
+
+}
 
 // import React, { Component } from 'react';
 // import { Route, Switch, withRouter, Redirect } from 'react-router-dom';

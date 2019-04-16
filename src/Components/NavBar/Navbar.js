@@ -111,10 +111,6 @@ const NavBar = props => {
                     </div>
                 </div>
             </div>
-            <div className="fLroyf">
-                
-            </div>
-       
         </Aux>
        
        

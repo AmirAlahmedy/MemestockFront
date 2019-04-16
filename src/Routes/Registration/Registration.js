@@ -64,7 +64,7 @@ class Registration extends Component {
            
             <form className='regForm' onSubmit={ this.props.regHand }>
               
-                <h1 className='logo'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></h1>
+                <h1 className='logo'>{/*<i className="fab fa-fort-awesome-alt"></i>*/} <link rel="shortcut icon" href="../../assets/icons/fort-awesome-alt-brands.ico" /><sub>Memestock</sub></h1>
                  <div className='inputs'>
 
                 <input  className="emailInput in"

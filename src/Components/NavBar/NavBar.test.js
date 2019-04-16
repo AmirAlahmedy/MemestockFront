@@ -20,7 +20,12 @@ describe('<NavBar />', () => {
 
   it('NavBar contains right links (PM, Create Post, Notifications)', () => {
     // wrapper.setProps({isAuthenticated: true});
-    expect(wrapper.find('.rightLinksWrapper')).toHaveLength(1);
+    expect(wrapper.find('.rightLinksWrapper')).toHaveLength(1);  
+  });
+
+  it('NavBar contains a searchbar', () => {
+   
+    expect(wrapper.find('.me-me')).toHaveLength(1);  
   });
 
 });
