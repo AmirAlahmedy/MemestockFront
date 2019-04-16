@@ -21,11 +21,12 @@ export class Subreddit extends Component {
         subscribers: 0,
         date:'',
         rules:[],
+        posts:[],
         subscribed:false,
         adminview:true,
         threadCreation:false
     }
-    
+  
     componentDidMount () { 
 
       console.log("mounted");
@@ -66,32 +67,10 @@ export class Subreddit extends Component {
           moderators:data.subreddit.moderators,
           subscribers:data.subreddit.subscribers,
           date:data.subreddit.date,
-          rules:data.subreddit.rules
+          rules:data.subreddit.rules,
         });
       }
    }
-  //  /**
-  //    * For generating threads from a mock service
-  //    * @function createThread
-  //    * @param {object} - object of the mocked thread ...Not working properly yet.
-  //    */
-  //   createThread = thread => <Thread 
-  //                                   // key={thread._id}
-  //                                   // username={thread.subredditName}
-  //                                   subreddit={thread.subredditName}
-  //                                   title={thread.title} 
-  //                                   content={thread.body}
-  //   />;
-
-
-  //   /**
-  //    * For generating threads from a mock service
-  //    * @function createThreads
-  //    * @param {array} - array of the mocked threads ...Not working properly yet.
-  //    */
-  //   createThreads = Threads => Threads.map(this.createThread);
-
-
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('Subscribe Clicked');
@@ -270,14 +249,40 @@ export class Subreddit extends Component {
          <div class="subredditContainer">
             <section id="subredditPageContent">
                 <div> 
-                    {this.state.threads.map(thread => {
-                      console.log(thread);
-                      return(
-                        <div className="subredditPageThread">
-                          <Thread props={{ title:thread.title, content:thread.content, subreddit: this.state.name} } />                         }
-                        </div>
-                      );}
-                    )}
+                    {
+                      this.state.threads.map(thread => {
+                      //console.log(thread);
+                      let srName=this.state.name;
+                      let post = {
+                        title:'',
+                        body:''
+                      }
+                      axios.get('http://localhost:4000/sr/'+srName+'/thread/'+thread)
+                      .then(resp => {
+                            //console.log(resp);
+                            if (resp.status==200)
+                            {
+                              console.log(resp.data)
+                              post.title=resp.data.title;
+                              post.body=resp.data.body;
+                            }
+                            else if (resp.status===404){
+                              alert("Thread Not Found");
+                              return Response.json;
+                            }
+                          })
+                          .catch(error => {
+                            alert("Error Caught");
+                          })
+                          return(
+                            <div className="subredditPageThread">
+                            {console.log(post.body)}
+                              <Thread props={{title:post.title, content:post.content, subreddit: this.state.name}}/>                         }
+                            </div>
+                          );
+                        })
+                      }
+                      
                 </div>
             </section> 
             
