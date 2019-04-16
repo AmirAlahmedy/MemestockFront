@@ -1,29 +1,33 @@
 import React from 'react';
+import { configure, shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import Registration from './Registration';
-import ReactDOM from 'react-dom';
+import Aux from '../../Components/HOC/Auxiliary';
 import renderer from 'react-test-renderer';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-it('Registration page renders without crashing', () => {
-    const form = document.createElement('form');
-    ReactDOM.render(<Registration/>, form);
-    ReactDOM.unmountComponentAtNode(form);
+configure({adapter: new Adapter()});
 
-});
+// describe('<Registration />', () => {
 
-test('', () => {
-    const component = renderer.create(
-      <Registration/>,
-    );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+//   let wrapper;
+
+//   beforeEach(() => {
+//       wrapper = shallow(<Registration />);
+//   });
+
+//   it('Registration component renders', () => {
+//     expect(wrapper.find(Aux)).toHaveLength(1);
+//   });
+
   
-   
-    // re-rendering
-    tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
 
-
-// test('Adds 2 + 2 to equal 4', () => {
-//     expect(functions.add(2, 2)).toBe(4);
 // });
+
+
+const Component = () => <Registration />
+const WrappedComponent = withRouter(connect(Component))
+
+it('will render', () => expect(renderer.create(<Component />)).toBeDefined())
+it('will fail', () => renderer.create(<WrappedComponent />))

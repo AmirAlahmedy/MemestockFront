@@ -8,7 +8,12 @@ describe('auth reducer', () => {
             userId: null,
             error: null,
             loading: false,
-            authRedirectPath: '/'
+            authRedirectPath: '/',
+            Credentials: {
+                Email: '',
+                Username: '',
+                Password: ''
+              },
         });
     });
 
@@ -18,17 +23,32 @@ describe('auth reducer', () => {
             userId: null,
             error: null,
             loading: false,
-            authRedirectPath: '/'
+            authRedirectPath: '/',
+            Credentials: {
+                Email: '',
+                Username: '',
+                Password: ''
+              },
         }, { 
             type: actionTypes.AUTH_SUCCESS,
             idToken: 'some-token',
-            userId: 'some-user-id'
+            userId: 'some-user-id',
+            Credentials: {
+                Email: 'some-email',
+                Username: 'some-username',
+                Password: 'some-password'
+              },
          })).toEqual({
             token: 'some-token',
             userId: 'some-user-id',
+            Credentials: {
+                Email: 'some-email',
+                Username: 'some-username',
+                Password: 'some-password'
+              },
             error: null,
             loading: false,
-            authRedirectPath: '/'
+            authRedirectPath: '/',
         });
     })
 });

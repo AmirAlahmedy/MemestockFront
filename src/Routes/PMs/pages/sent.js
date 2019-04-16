@@ -14,6 +14,7 @@ class Sent extends React.Component {
     errors: null
     
     }
+    this.handleClick = this.handleClick.bind(this);
     /*this.handleClick = this.handleClick.bind(this); */
   };
   
@@ -49,6 +50,11 @@ class Sent extends React.Component {
         });
   });
 }
+// displaying the inbox messages.
+   /**
+     * Receiving the messages and displaying them in the inbox.
+     * @function getMsgs
+     */
 getMsgs()
 {
   return this.state.Messages.map(msg=>(
@@ -63,6 +69,45 @@ getMsgs()
   ))
   
 }
+// If a user want to delete the messages he/she sent.
+   /**
+     * Deletes sent messages.
+     * @function handleClick
+     * @param {event} e - Clicking on Delete button.
+     */
+handleClick(e){
+  const element = e.target;
+  const messageId=element.getAttribute("id");
+  console.log(this.props.token);
+  console.log(messageId);
+  axios.delete( `http://localhost:4000/me/pm/delete?messageId=${messageId}`, 
+  {
+    headers: {
+        'Content-Type': 'application/json',
+        'auth': this.props.token
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data); 
+  alert("Message Successfully Deleted");
+
+
+  
+  //in case sucess..
+  
+
+})
+.catch(error => {
+  console.log(error.response)
+  alert("Message Not Found");
+
+
+});
+}
+
   
 
   render() {
