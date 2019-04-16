@@ -50,6 +50,11 @@ class Sent extends React.Component {
         });
   });
 }
+// displaying the inbox messages.
+   /**
+     * Receiving the messages and displaying them in the inbox.
+     * @function getMsgs
+     */
 getMsgs()
 {
   return this.state.Messages.map(msg=>(
@@ -64,6 +69,12 @@ getMsgs()
   ))
   
 }
+// If a user want to delete the messages he/she sent.
+   /**
+     * Deletes sent messages.
+     * @function handleClick
+     * @param {event} e - Clicking on Delete button.
+     */
 handleClick(e){
   const element = e.target;
   const messageId=element.getAttribute("id");
