@@ -271,6 +271,7 @@ export class Subreddit extends Component {
             <section id="subredditPageContent">
                 <div> 
                     {this.state.threads.map(thread => {
+                      console.log(thread);
                       return(
                         <div className="subredditPageThread">
                           <Thread props={{ title:thread.title, content:thread.content, subreddit: this.state.name} } />                         }
