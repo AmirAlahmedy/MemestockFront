@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Thread from '../Thread/Thread';
+import AddComment from '../AddComment/AddComment';
 import './thread-page.css';
 import { Link, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
@@ -8,46 +9,42 @@ class ThreadPage extends Component {
    state = {
 
       comments: [
-         {
+         {  
+            id:'1',
             username: 'WreakingHavoc',
             comment: 'I rememeber when I had something to say!',
-            Lock: false,
-            Spoiler:false
+            Locked: false,
+            Spoiler:false,
+            reply:false
          },
          {
+            id:'2',
             username: 'CluelessBastard',
             comment: 'Oh this is so relatable',
-            Lock: false,
-            Spoiler:false
+            Locked: false,
+            Spoiler:false,
+            reply:false
+
          },
          {
+            id:'3',
             username:'Armi',
             comment:'Awesome',
-            Lock: false,
-            Spoiler:true
+            Locked: false,
+            Spoiler:true,
+            reply:false
          }
       ],
       subredditName:'OneTwoThree',
       id:'5cb477c49604eb218cbaf981',
-      editThread:true
+      editThread:true,
+
+      editComment:false,
+      replyComment:false
    }
   
 
-    showReply=()=>{
-
-
-    };
-   
-
-   saveComment(e)  {
-      e.preventDefault();
-      const username=localStorage.getItem("username");
-      //const newComment=this.newComment.value;
     
-      this.setState({comments:this.state.comments.concat(username,this.newComment.value)});
-      
-
-   };
    editPost = (e) => {
       e.preventDefault();
       this.setState({
@@ -97,6 +94,7 @@ class ThreadPage extends Component {
         alert("Error Caught");
       })
    }
+
    delPost = (e) => { 
       //e.preventDefault();
       console.log('Delete Clicked');
@@ -121,15 +119,94 @@ class ThreadPage extends Component {
    }
 
 
+
+   addComment=(comment)=>{
+      const newComment ={
+      username: localStorage.getItem("username"),
+   comment,
+   Locked: document.getElementById("checkLocked").checked,
+   Spoiler:document.getElementById("checkSpoiler").checked,
+   reply:false
+}
+      this.setState({comments:[...this.state.comments, newComment]});
+
+      
+   }
+  
+   deleteComment=()=>{
+
+
+   }
+
+
+   replyComment=()=>{
+
+
+   }
+
+   editComment = (e) => {
+      e.preventDefault();
+      this.setState({
+         editComment:true
+      })
+   }
+
+   goEdit = (e) =>{ 
+      e.preventDefault();
+      console.log('Edit Clicked');
+      var commentData ={
+         newCommentBody : document.getElementById("textComment").value,
+         newLock:document.getElementById("checkLocked2").checked,
+         newSpoiler:document.getElementById("checkSpoiler2").checked
+         } 
+         let checker ="";
+         
+         if (document.getElementById("textComment").value===checker)
+         {
+           alert ("Please provide a new Comment");
+           return ;
+         }
+         var headers = {
+            auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+          }
+          let c_id = '3';
+
+          axios.put( 'http://localhost:4000/'+c_id,commentData.newCommentBody,commentData.newSpoiler,"false",commentData.newLock, {headers: headers})
+          .then(res => {
+            if (res.status==200)
+            {
+              console.log(res)
+            }else if (res.status===404){
+              alert("Not Found");
+              return Response.json;
+            }
+          })
+          .catch(error => {
+            alert("Error Caught");
+          })
+      }
+
+   cancelEditComment = (e) =>{
+      e.preventDefault();
+      this.setState({
+         editComment:false
+      })
+   }
+
+getID= () =>{
+  const ID=document.getElementById("commentContainer").cID;
+  console.log(ID);
+
+}
+
+
+
+
+
    render() {
     
       return (
-        /*  <div class="threadPageContainer">
- 
-             <div className="PageThread">
-                <Thread />
-             </div>
-          </div>*/
+        
       <div>
          <div class="threadPageContainer">
             <div className="PageThread">
@@ -137,60 +214,133 @@ class ThreadPage extends Component {
             </div>
       
               
-           <input  type="text" ref={(input)=>this.newComment=input}  className="textComment" placeholder="write your comment here" ></input>
-           <button className="saveComment" onClick={this.saveComment}>Save</button>
+           
+              <AddComment   addComment={this.addComment}/>
+              <input type="checkbox" id="checkLocked" />
+     <button className="lockComment">Lock</button>
+     <input type="checkbox" id="checkSpoiler"  />
+     <button className="spoilerComment" >Mark as spoiler</button>
            
             <ul>
                   {
                     this.state.comments.map(comment => {if(localStorage.getItem("username")===comment.username)
                     {
                     if(comment.Spoiler==false)
+                    {
+                    if(comment.Locked==false)
                       return ( 
-                        <div className="threadComment">   
+                        <div className="threadComment" cID={comment.id} id="commentContainer" >   
                 <div className="commentUser">u/{comment.username} </div>
                <div className="comment">{comment.comment}</div>
-               <button className="editComment">Edit</button>
-               <button className="deleteComment">Delete</button>
-               <button className="replyComment" onClick={this.showReply}>reply</button>
-               <button className="lockComment">Lock</button>
-               <button className="spoilerComment">Mark as spoiler</button>
+               <button className="editComment" onClick={this.editComment}>Edit</button>
+               <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+               <button className="replyComment" onClick={this.handleReply} >reply</button>
                      </div>
                      );
+                     else
+                     return( <div className="threadComment" cID={comment.id} id="commentContainer">   
+                     <div className="commentUser">u/{comment.username} </div>
+                    <div className="comment">{comment.comment}</div>
+                    <button className="editComment" onClick={this.editComment}>Edit</button>
+                    <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+                    </div>);
+                      }
                   else 
+                  {if(comment.Locked==false)
                   return ( 
-                     <div className="threadComment">   
+                     <div className="threadComment" cID={comment.id} id="commentContainer">   
              <div className="commentUser">u/{comment.username} </div>
             <div className="spoiler">{comment.comment}</div>
-            <button className="editComment">Edit</button>
-            <button className="deleteComment">Delete</button>
-            <button className="replyComment" onClick={this.showReply}>reply</button>
-            <button className="lockComment">Lock</button>
-            <button className="spoilerComment">Mark as spoiler</button>
+            <button className="editComment" onClick={this.editComment}>Edit</button>
+            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+            <button className="replyComment" onClick={this.handleReply}>reply</button>
                   </div>
                   );
+                  else
+                  return ( 
+                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+             <div className="commentUser">u/{comment.username} </div>
+            <div className="spoiler">{comment.comment}</div>
+            <button className="editComment" onClick={this.editComment}>Edit</button>
+            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+                  </div>
+                  );
+                  }
                   }
                      else 
                      {
                      if(comment.Spoiler==false)
-                     return( <div className="threadComment">   
+                     {
+                        if(comment.Locked==false)
+                     return( <div className="threadComment" cID={comment.id} id="commentContainer">   
                      <div className="commentUser">u/{comment.username} </div>
                     <div className="comment">{comment.comment}</div>
-                    <button className="replyComment" onClick={this.showReply}>reply</button>
+                    <button className="replyComment" onClick={this.handleReply}>reply</button>
                     </div>
                     );
+                    else 
+                    return ( 
+                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+             <div className="commentUser">u/{comment.username} </div>
+            <div className="spoiler">{comment.comment}</div>
+            <button className="editComment">Edit</button>
+            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+                  </div>
+                    );
+                     }
                     else
-                    { return( <div className="threadComment">   
+                    { 
+                       if(comment.Locked==false)
+                       return( <div className="threadComment" cID={comment.id} id="commentContainer">   
                     <div className="commentUser">u/{comment.username} </div>
                    <div className="spoiler">{comment.comment}</div>
-                   <button className="replyComment" onClick={this.showReply}>reply</button>
+                   <button className="replyComment" onClick={this.handleReply}>reply</button>
                    </div>
-                   );}
+                   );
+                  else
+                  return ( 
+                     <div className="threadComment" cID={comment.id} id="commentContainer">   
+             <div className="commentUser">u/{comment.username} </div>
+            <div className="spoiler">{comment.comment}</div>
+            <button className="editComment">Edit</button>
+            <button className="deleteComment" onClick={this.deleteComment}>Delete</button>
+                  </div>
+                  );}
                      }
-                        })
+                        }
+                        
+                        )
+                       
                   }
                   
                 </ul>
+                { 
+                  this.state.editComment ?
+                  <div className="threadComment2">
+                  
+                  <form  onSubmit={this.onSave}>
+                   <input   className="textComment" id="textComment" type="text"
+                 name="comment" placeholder="Edit your comment here..."
+                 value={this.state.comment} onChange={this.onChange}
+                    />
+                      <input type="submit" value="Edit" className="goEdit" onClick={this.goEdit}/>
+                      <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelEditComment}/>
+    
+                      </form>
+                  <input type="checkbox" id="checkLocked2" />
+                  <button className="lockComment">Lock</button>
+                  <input type="checkbox" id="checkSpoiler2"  />
+                 <button className="spoilerComment" >Mark as spoiler</button>
+                </div> : <div></div>
+              }
                 </div>
+
+
+
+
+
+
+                
             <div className="threadPageSidebarContainer">
             
                <div className="threadPageSidebarComponent1">

@@ -24,6 +24,7 @@ return(
      value={this.state.comment} onChange={this.onChange}
     />
     <input type="submit" value="Save" className="saveComment"/>
+    
 </form>
 
 );

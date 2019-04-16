@@ -83,15 +83,7 @@
         font-size: 13px;
         text-align: left;
     }
-    .spoilerComment
-    {
-        background-color: rgb(167, 115, 48);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-    }
+   
     .replyComment
     {
         background-color: rgb(167, 115, 48);
@@ -121,16 +113,7 @@
         text-align: left;
 
     }
-    .lockComment
-    {
-        background-color: rgb(167, 115, 48);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-
-    }
+    
     .textComment
     {
         width: 600px;
@@ -364,3 +347,42 @@
     text-align:center;
 }
 */
+.spoilerComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+    }
+    .lockComment
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
+    .goEdit
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
+    .goCancel
+    {
+        background-color: rgb(167, 115, 48);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
