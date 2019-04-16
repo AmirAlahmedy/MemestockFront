@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import './Subreddit.css';
 import defImage from '../../assets/images/subreddit.png';
+import Listings from '../../Components/Listings/Listings';
 import Thread from '../Thread/Thread';
-import {Link,Route,Switch } from 'react-router-dom';
+import {Link,Route,Switch,Router} from 'react-router-dom';
 import data from '../../Mocks/subreddit-data.json';  
 
 import axios from 'axios';
 //import ginprodReducer from '../../store/reducers/production';
 
 
-let inDev = true;
+let inDev = false;
 
 export class Subreddit extends Component {
     state ={
@@ -29,7 +30,7 @@ export class Subreddit extends Component {
 
       console.log("mounted");
 
-      if(inDev === true ) // && ginprodReducer.globalInProduction)
+      if(inDev === false ) // && ginprodReducer.globalInProduction)
       {
         let srName= this.state.name;
         axios.get('http://localhost:4000/sr/'+srName+'/meta')
@@ -69,21 +70,44 @@ export class Subreddit extends Component {
         });
       }
    }
-   
+  //  /**
+  //    * For generating threads from a mock service
+  //    * @function createThread
+  //    * @param {object} - object of the mocked thread ...Not working properly yet.
+  //    */
+  //   createThread = thread => <Thread 
+  //                                   // key={thread._id}
+  //                                   // username={thread.subredditName}
+  //                                   subreddit={thread.subredditName}
+  //                                   title={thread.title} 
+  //                                   content={thread.body}
+  //   />;
+
+
+  //   /**
+  //    * For generating threads from a mock service
+  //    * @function createThreads
+  //    * @param {array} - array of the mocked threads ...Not working properly yet.
+  //    */
+  //   createThreads = Threads => Threads.map(this.createThread);
+
+
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('Subscribe Clicked');
-      var headers = {
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+      let headers = {
+        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJmZmZmIiwiaWF0IjoxNTU1MzYxODI3fQ.Bk7rNdYB1ccV7MhKqoOGGOp-ppj4as0BeNZ3GkA7Tns'
       }
       let SubredditName = this.state.name;
-      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs', {headers: headers})
+      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',null, {"headers": headers})
       .then(res => {
         if (res.status==200)
         {
           console.log(res);
+          
+          console.log('subscribed!')
           this.setState({
-            subscribe:true
+            subscribed:true
           }
           );
         }else if (res.status===404){
@@ -98,17 +122,17 @@ export class Subreddit extends Component {
    srUnSubscribe = (e) => {
     e.preventDefault();
     console.log('Unsubscribe Clicked');
-    var headers = {
-      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    let headers = {
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJmZmZmIiwiaWF0IjoxNTU1MzYxODI3fQ.Bk7rNdYB1ccV7MhKqoOGGOp-ppj4as0BeNZ3GkA7Tns'
     }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs', {headers: headers})
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{"headers": headers})
     .then(res => {
       if (res.status==200)
       {
         console.log(res);
         this.setState({
-          subscribe:false
+          subscribed:false
         }
         );
       }else if (res.status===404){
@@ -123,17 +147,22 @@ export class Subreddit extends Component {
   delSubreddit = (e) => { 
     e.preventDefault();
     console.log('Del Subreddit Clicked');
-    var headers = {
-      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    let headers = {
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
     }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{headers: headers})
+    axios.delete( 'http://localhost:4000/sr/'+SubredditName,{"headers": headers})
     .then(res => {
       console.log(res);
       if (res.status==200)
       { 
         alert("Subreddit Deleted Successfully!");
-      }else if (res.status===401)
+        this.setState({
+          subscribed:false
+        }
+        );
+      }
+      else if (res.status===401)
       {
         alert("You're Not Authorised");
         return Response.json;
@@ -147,6 +176,10 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) =>{
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
+    // if(subscribed==false)
+    // {
+    //   alert('Cant Create Post without subscribing')
+    // }
     this.setState({
       threadCreation:true
     })
@@ -160,30 +193,35 @@ export class Subreddit extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    let checker ="";
+   
+      const srdata= {
+        "title" : document.getElementById("threadTitleField").value,
+        "threadBody" : document.getElementById("threadBodyField").value
+      }
     
-    let srThreadTitle = document.getElementById("threadTitleField").value;
-    let srThreadBody = document.getElementById("threadBodyField").value;
-    if (srThreadTitle===checker)
-    {
-      alert ("Please provide a Thread title!");
-      return ;
-    }
-    else if (srThreadBody===checker)
-    { 
-      alert ("Please provide a Thread Body !");
-      return ;
-    }
-    var headers = {
-      'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+ 
+    let headers = {
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
     }
     let SubredditName = this.state.name;
-    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',srThreadTitle,srThreadBody,{headers: headers})
+    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
       if (res.status==200)
       { 
         alert("Thread Created Successfully!");
+        let srName= this.state.name;
+        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        .then(resp => {
+          console.log(resp);
+          if (resp.status==200)
+          {
+            console.log(resp.data.rules);
+            this.setState({
+              threads:resp.data.posts
+            })
+          }
+        })
       }else if (res.status===401 || res.status===404)
       {
         alert("Thread Creation Unsuccessful");
@@ -231,30 +269,16 @@ export class Subreddit extends Component {
         </nav>
          <div class="subredditContainer">
             <section id="subredditPageContent">
-              
-              {/*this.state.threads.map(thread =>({
-                return(
-                  <div className="subredditPageThread">
-
-                  </div>
-                )
-              })*/}
-              <div className="subredditPageThread">
-              <Thread/>
-              </div>
-              
-              <div className="subredditPageThread">
-              <Thread/>
-              </div>
-              <div className="subredditPageThread">
-              <Thread/>
-              </div>
-              
-              <div className="subredditPageThread">
-              <Thread/>
-              </div>
-              
-              
+                <div> 
+                    {this.state.threads.map(thread => {
+                      console.log(thread);
+                      return(
+                        <div className="subredditPageThread">
+                          <Thread props={{ title:thread.title, content:thread.content, subreddit: this.state.name} } />                         }
+                        </div>
+                      );}
+                    )}
+                </div>
             </section> 
             
             <aside id="subredditSidebarContainer">
@@ -276,11 +300,6 @@ export class Subreddit extends Component {
                   :<button className="srSidebarSubscribeButton"  onClick={this.srSubscribe}>SUBSCRIBE</button>
                 }
                 <button className="srSidebarSubscribeButton" onClick={this.createThreadSidebar}>CREATE A POST</button>
-                {/*
-                  this.state.adminview ?  <button className="srSidebarDeleteSubredditButton"  onClick={this.delSubreddit}>Delete Subreddit</button> 
-                  : <div></div>
-                  */
-                }
               </div>
               { 
                 this.state.threadCreation ?
@@ -327,6 +346,9 @@ export class Subreddit extends Component {
                   }
                 </ol>
               </div>
+              {
+                this.state.adminview ?  <button className="srDeleteButton" onClick={this.delSubreddit}>Delete Subreddit</button> : <div></div>
+              }
             </aside>
             
         <footer id="subreddit-footer">
@@ -339,12 +361,3 @@ export class Subreddit extends Component {
 }
 
 export default Subreddit
-/*
-const mapStateToProps = state => {
-  return {
-    ginProd: state.globalInProduction
-  };
-};
-
-export default connect(mapStateToProps)(Listings);
-*/

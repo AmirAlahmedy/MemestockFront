@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../PMs.css';
 import './inbox.css';
 
-class inbox extends React.Component {
+class Inbox extends React.Component {
 
               constructor(props) {
                 super(props);
@@ -15,17 +15,21 @@ class inbox extends React.Component {
                 errors: null
                 
                 }
-  
+              
+  this.handleClick = this.handleClick.bind(this); 
+  this.BlockUser = this.BlockUser.bind(this);
             };
   
    
   componentDidMount() {
     console.log('eshta3alb2a');
+    console.log(this.props);
+
     const jsondata ={'mine':true}
     axios.post( 'http://localhost:4000/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
-    
+              'auth': this.props.token
           },
           
       })
@@ -64,17 +68,22 @@ class inbox extends React.Component {
 handleClick(e){
   const element = e.target;
   const messageId=element.getAttribute("id");
+  console.log(this.props.token);
   console.log(messageId);
-  axios.delete( 'http://localhost:4000/me/pm/delete',messageId, {
+  axios.delete( `http://localhost:4000/me/pm/delete?messageId=${messageId}`, 
+  {
     headers: {
         'Content-Type': 'application/json',
+        'auth': this.props.token
 
     },
     
 })
 .then(res => {
   console.log(res);
-  console.log(res.data);
+  console.log(res.data); 
+  alert("Message Successfully Deleted");
+
 
   
   //in case sucess..
@@ -83,6 +92,7 @@ handleClick(e){
 })
 .catch(error => {
   console.log(error.response)
+  alert("Message Not Found");
 
 
 });
@@ -90,12 +100,14 @@ handleClick(e){
 
 BlockUser(e){
   const element = e.target;
-  const user ="mohamed";
-  const Blockedusername=element.getAttribute("id");
-  console.log(Blockedusername);
-  axios.get( 'http://localhost:4000/me/blockedusers',user,Blockedusername, {
+  const blockedUser=element.getAttribute("id");
+  axios.post( 'http://localhost:4000/me/pm/block',{
+    blocked: blockedUser,
+    block: true
+  }, {
     headers: {
         'Content-Type': 'application/json',
+        'auth': this.props.token
 
     },
     
@@ -103,6 +115,8 @@ BlockUser(e){
 .then(res => {
   console.log(res);
   console.log(res.data);
+  alert ("Block Succeeded");
+  
 
   
   //in case sucess..
@@ -111,6 +125,10 @@ BlockUser(e){
 })
 .catch(error => {
   console.log(error.response)
+  if (error.response.statusText="Forbidden")
+  {
+    alert ("Error you're trying to block yourself");
+  }
 
 
 });
@@ -137,8 +155,7 @@ getMsgs()
     
     return (
       <div>
-         <button id={msg._id} type="submit"  name="Block" onClick={this.BlockUser}>Block User</button>
-        <button id="mohamed" type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>
+  
 {this.getMsgs()}
   </div>
      /* <div>
@@ -151,4 +168,4 @@ getMsgs()
     );
   }
 }
-export default withRouter(inbox);
+export default withRouter(Inbox);

@@ -8,8 +8,8 @@ export class Head extends Component {
    <header style = {styleAtt}> 
           <h1 style = {headStyle}>Messaging</h1> 
           <NavLink style={linkStyle} to = "/PM/Compose">Compose a Message</NavLink> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <NavLink style={linkStyle} to ="/inbox">Inbox</NavLink>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <NavLink style={linkStyle} to ="/sent">Sent</NavLink>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <NavLink style={linkStyle} to ="/Inbox">Inbox</NavLink>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <NavLink style={linkStyle} to ="/Sent">Sent</NavLink>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </header>
 
             

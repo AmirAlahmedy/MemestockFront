@@ -39,7 +39,7 @@ const NavBar = props => {
 
             <nav className='memeNav'> 
                 <div  className="memeLogo">
-                <NavLink to='/GoHome/'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></NavLink>
+                <NavLink to='/Home/'><i className="fab fa-fort-awesome-alt"></i><sub>Memestock</sub></NavLink>
                 </div>
                 <div className="dropdownMenu">
                     <button className='dropButton'>
@@ -50,7 +50,7 @@ const NavBar = props => {
                     <div role='menu' className='dropList'>
                     <input id='filter' placeholder='Filter' onChange={filterList}></input>
                         <ul id='my-ul' className='dropUl'>
-                            <li className='dropdownItem'><NavLink to='/GoHome/' className='sort toHome'>Home</NavLink></li>
+                            <li className='dropdownItem'><NavLink to='/Home/' className='sort toHome'>Home</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink></li>
                             <li className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink></li>
                             <li className='dropdownItem'><NavLink  to='/Hot/'className='sort srt3'>Hot</NavLink></li>
@@ -93,12 +93,15 @@ const NavBar = props => {
                     </button>
                         <div role='menu' className='yourStuffDropList'>
                             <ul className='dropUl'>
-                                <li className='yourStuffItem'><NavLink to='/My profile/' className='stfitm'>My Profile</NavLink></li>
+                                <li className='yourStuffItem'><NavLink to='/user/' className='stfitm'>My Profile</NavLink></li>
                                 <li className='yourStuffItem'><NavLink to='/Settings/' className='stfitm'>User Settings</NavLink></li>
                             </ul>
                         </div>
+                         
                     </div>
                 </div>
+
+               <span> Youssef </span>
             </nav>
            
             </div>
@@ -111,6 +114,14 @@ const NavBar = props => {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
+           
+            <div className="fLroyf">
+                
+            </div>
+       
+>>>>>>> b0ba34a00424675266d9f309b0706510484d37f4
         </Aux>
        
        

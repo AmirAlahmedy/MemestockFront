@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './Thread.css';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../Sass/styles.scss';
-import Subreddit from '../../Routes/Subreddit/Subreddit';
 class Thread extends Component {
+    
     state = {
         username: 'GiantSteps_',
         subreddit: 'jazztheory',
@@ -80,13 +80,13 @@ class Thread extends Component {
     render() {
 
         return (
+
             <div className='threadWrapper'>
                 <div className="threadContainer">
-                
                     <Link to='/r/' className="threadSubreddit"> r/{this.props.subreddit}</Link>
                     <br></br>
                     <div className="threadUsername">
-                        Posted by u/{this.state.username}
+                     <Link to="/user/">   Posted by u/{this.state.username} </Link>
                     </div>
                     <br></br>
                     <div className="threadTitle">{this.props.title}</div>
@@ -105,8 +105,6 @@ class Thread extends Component {
 
 
                 </div>
-                {/* <Route path="/r/" component={Subreddit} /> */}
-
             </div>
         );
     }

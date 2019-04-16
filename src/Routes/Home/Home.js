@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
 import Listings from '../../Components/Listings/Listings'
 import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
+import Button from '../../Components/UI/Button/Button';
+import CreateSubreddit from '../CreateSubreddit/CreateSubreddit';
+import CreateThread from '../CreatePost/CreatePost';
 import SideBar from '../../Components/SideBar/SideBar';
 import NestedListings from '../../Components/Listings/NestedListings';
 import * as actions from '../../store/actions/index';
-import GoHome from '../GoHome/index.js';
-import Registration from '../Registration/Registration';
-import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
-
+import { connect } from 'react-redux';
+import User from '../../Components/User/User';
+import ChangePass from '../Account/ChangePass'
 
 class Home extends Component {
 
@@ -44,46 +45,17 @@ class Home extends Component {
 
     render() {
       let nestedRoutes = false;
-      let list = nestedRoutes ?  <Route path='/Home/' exact component={NestedListings} /*render={
-        props=>{
-          return(
-            <NestedListings />
-          );
-        }
-      } *//>: <Route path='/Home/' exact component={Listings}/>;
-
-      let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration}/>:null;
+      let list = nestedRoutes ?  <Route path='/Home/' exact component={NestedListings}/>: <Route path='/Home/' exact component={Listings}/>;
 
       console.log(this.props.token);
         return (
+
           <div className='Home' >
           
            <NavBar/>
              
-              {
-                !this.props.isGuest ? 
-                <Switch>
-                
-                <Route path='/PM/'  /*component={PMs}*/ render={
-                  props=>{
-                    return(
-                      <PMs token={this.props.token}/>
-                    );
-                  }
-                }/>
-                <Route path='/CreatePost/'   component={CreatePost}/>
-                <Route path='/settings/'  render={Settings}/>
-                <Route path='/r/' component={Subreddit}/>
-                <Route path='/thread/' component={ThreadPage}/>
-                <Route path='/GoHome/' component={GoHome}/>
-                <Route path='/create-subreddit/' component={CreateSubReddit}/> 
-                </Switch>
-                :
-                <Switch>
-                <Route path='/Registration/' component={Registration}/>
-                </Switch>
-              }
-              {/* <Route path='/PM/'  /*component={PMs} render={
+            <Switch>
+              <Route path='/PM/'  /*component={PMs}*/ render={
                 props=>{
                   return(
                     <PMs token={this.props.token}/>
@@ -91,20 +63,17 @@ class Home extends Component {
                 }
               }/>
               <Route path='/CreatePost/'   component={CreatePost}/>
-              <Route path='/settings/'  render={Settings}/>
+              <Route path='/settings/'  component={Settings}/>
               <Route path='/r/' component={Subreddit}/>
               <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
-              {/* <Route path='/:username' component={CreateSubReddit}/> */}
-              
+              <Route path='/create-subreddit/' component={CreateSubreddit}/>
+              <Route path='/create-thread/' component={CreateThread}/>
+              <Route path='/user/' component={User}/>
+              <Route path='/Settings/Account/ChangePass' component={ChangePass}/>
               {list}  
-            
+            </Switch>
               
            
-            {this.props.lastRoute ? <div>
-              <Redirect to={this.props.lastRoute} />
-            </div> : <span></span>}
            
              
           

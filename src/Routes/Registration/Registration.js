@@ -7,7 +7,6 @@ import './Registration.scss';
 import '../../Sass/styles.scss';
 import * as actions from '../../store/actions/index';
 import { connect } from  'react-redux';
-import Home from '../Home/Home';
 
 class Registration extends Component {
 
@@ -25,11 +24,7 @@ class Registration extends Component {
     }
     
   
-    handleGuestLogin = () =>{
-        return(
-            <Route path="/Home/" component={Home} /> 
-        )
-    }
+    
     
     render(){
 
@@ -49,15 +44,8 @@ class Registration extends Component {
 
 
          <Aux>
-    
+             {authRedirect}
              <Switch>
-             <Route path="/Home/" /*component={Home}*/ render={
-                 props=>{
-                     return(
-                        <Home isGuest={true}/>
-                     );
-                 }
-             } /> 
              <Route path='/Login/'  render={()=><Login logHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
              
             <div className="formWrapper">
@@ -89,20 +77,17 @@ class Registration extends Component {
 
                 <button type="submit" className='registerButton'> Register </button>
                 <NavLink to='/Login/'>Already Registered?</NavLink>
-                <NavLink to='/Home/' >Login as a guest</NavLink>
             </form>
 
         </div>
-     
+
        </Switch>
         </Aux>
-        );
  
 
-               }
+               );}
                
         }
-
         const mapStateToProps = state => {
             return {
                 loading: state.auth.loading,
