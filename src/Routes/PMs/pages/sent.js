@@ -14,6 +14,7 @@ class Sent extends React.Component {
     errors: null
     
     }
+    this.handleClick = this.handleClick.bind(this);
     /*this.handleClick = this.handleClick.bind(this); */
   };
   
@@ -63,6 +64,39 @@ getMsgs()
   ))
   
 }
+handleClick(e){
+  const element = e.target;
+  const messageId=element.getAttribute("id");
+  console.log(this.props.token);
+  console.log(messageId);
+  axios.delete( `http://localhost:4000/me/pm/delete?messageId=${messageId}`, 
+  {
+    headers: {
+        'Content-Type': 'application/json',
+        'auth': this.props.token
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data); 
+  alert("Message Successfully Deleted");
+
+
+  
+  //in case sucess..
+  
+
+})
+.catch(error => {
+  console.log(error.response)
+  alert("Message Not Found");
+
+
+});
+}
+
   
 
   render() {
