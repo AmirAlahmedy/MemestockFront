@@ -210,8 +210,8 @@ class ThreadPage extends Component {
          }
          else
          {
-            this.setState({comments:[...this.state.comments.forEach(comment=>comment.id==Cid),comment.comment=newComment.comment]});
-           // this.setState({comments:[...this.state.comments, newComment]});
+            //this.setState({comments:[...this.state.comments.forEach(comment=>comment.id==Cid),comment.comment=newComment.comment]});
+           this.setState({comments:[...this.state.comments, newComment]});
    
          }
          var headers = {
