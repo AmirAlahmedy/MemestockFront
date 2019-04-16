@@ -71,6 +71,11 @@ export class Subreddit extends Component {
         });
       }
    }
+    /**
+     * For sending a subscribe request to the backend and updating the subscribed boolean state
+     * @function srSubscribe
+     * @param {event} - onClick event 
+     */
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('Subscribe Clicked');
@@ -98,6 +103,11 @@ export class Subreddit extends Component {
         alert("Error Caught");
       })
    }
+   /**
+     * For sending an Unsubscribe request to the backend and updating the subscribed boolean state
+     * @function srUnSubscribe
+     * @param {event} - onClick event 
+     */
    srUnSubscribe = (e) => {
     e.preventDefault();
     console.log('Unsubscribe Clicked');
@@ -123,6 +133,11 @@ export class Subreddit extends Component {
       alert("Error Caught");
     })
   }
+   /**
+     * For sending an delete request to the backend to delete the entire subreddit from the database
+     * @function srUnSubscribe
+     * @param {event} - onClick event 
+     */
   delSubreddit = (e) => { 
     e.preventDefault();
     console.log('Del Subreddit Clicked');
@@ -152,6 +167,11 @@ export class Subreddit extends Component {
     })
 
   }
+   /**
+     * For changing the GUI and showing the fields for the thread creation
+     * @function createThreadSidebar
+     * @param {event} - onClick event 
+     */
   createThreadSidebar = (e) =>{
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
@@ -163,6 +183,11 @@ export class Subreddit extends Component {
       threadCreation:true
     })
   }
+/**
+     * For changing the GUI and hiding the fields for the thread creation
+     * @function CancelCreation
+     * @param {event} - onClick event 
+     */
   CancelCreation = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -170,6 +195,11 @@ export class Subreddit extends Component {
       threadCreation:false
     })
   }
+    /**
+     * For sending an post request to the backend and creating a thread in this subreddit
+     * @function handleSubmit
+     * @param {event} - onClick event 
+     */
   handleSubmit = (e) => {
     e.preventDefault();
    
