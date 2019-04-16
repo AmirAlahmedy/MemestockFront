@@ -111,14 +111,6 @@ const NavBar = props => {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-           
-            <div className="fLroyf">
-                
-            </div>
-       
-=======
->>>>>>> b7215f64220bc454cbd3037c73fa8070232b3123
         </Aux>
        
        
