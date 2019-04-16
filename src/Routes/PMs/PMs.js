@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import './PMs.css';
 import Head from  './Head';
-import Inbox from  './pages/Inbox';
-import Sent from  './pages/Sent';
+import Inbox from  './pages/inbox';
+import Sent from  './pages/sent';
 import Aux from '../../Components/HOC/Auxiliary';
 import axios from 'axios';
 
@@ -97,17 +97,21 @@ class PMs extends Component {
           submitting:false
         });
         if(error && error.response && error.response.statusText){
-          if (error.response.statusText==="Forbidden")
+          if (error.response.data.error==="overLengthedSubject")
           {
-            alert("You've exceeded the limit of the Subject Or the User You're trying to reach doesn't exist");
+            alert("Subject is too long");
           }
           else if (error.response.statusText==="Not Found")
           {
             alert ("User not Found");
           }
-          else
+          else if (error.response.data.error==="selfMessage")
           {
-            alert("internal server error");
+            alert("Error trying to send a message to yourself");
+          }
+          else if (error.response.data.error==="blockedFromSending")
+          {
+            alert ("User doesn't exist");
           }
         }
         

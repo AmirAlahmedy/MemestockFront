@@ -22,7 +22,6 @@ class Inbox extends React.Component {
   
    
   componentDidMount() {
-    console.log('eshta3alb2a');
     console.log(this.props);
 
     const jsondata ={'mine':true}
@@ -64,6 +63,12 @@ class Inbox extends React.Component {
         });
   });
 }
+// deletes a message when Clicked.
+   /**
+     * sends A Request to delete the message.
+     * @function handleClick
+     * @param {event} e - On clicking Delete Button.
+     */
 
 handleClick(e){
   const element = e.target;
@@ -97,7 +102,12 @@ handleClick(e){
 
 });
 }
-
+// sending a request to block a user from sending messages to me.
+   /**
+     * Sends the request to Block user from sending messages.
+     * @function BlockUser
+     * @param {event} e - Pressing block button.
+     */
 BlockUser(e){
   const element = e.target;
   const blockedUser=element.getAttribute("id");
@@ -125,15 +135,23 @@ BlockUser(e){
 })
 .catch(error => {
   console.log(error.response)
-  if (error.response.statusText="Forbidden")
+  if (error.response.data.error==="selfBlockAlertError")
   {
     alert ("Error you're trying to block yourself");
+  }
+   else if (error.response.data.error==="usersAlreadyOnBlockLists")
+  {
+    alert ("You've already blocked this user")
   }
 
 
 });
 }
-
+// displaying the inbox messages.
+   /**
+     * Receiving the messages and displaying them in the inbox.
+     * @function getMsgs
+     */
 getMsgs()
 {
   return this.state.Messages.map(msg=>(
