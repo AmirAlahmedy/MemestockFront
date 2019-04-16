@@ -21,11 +21,12 @@ export class Subreddit extends Component {
         subscribers: 0,
         date:'',
         rules:[],
+        posts:[],
         subscribed:false,
         adminview:true,
         threadCreation:false
     }
-    
+  
     componentDidMount () { 
 
       console.log("mounted");
@@ -66,32 +67,15 @@ export class Subreddit extends Component {
           moderators:data.subreddit.moderators,
           subscribers:data.subreddit.subscribers,
           date:data.subreddit.date,
-          rules:data.subreddit.rules
+          rules:data.subreddit.rules,
         });
       }
    }
-  //  /**
-  //    * For generating threads from a mock service
-  //    * @function createThread
-  //    * @param {object} - object of the mocked thread ...Not working properly yet.
-  //    */
-  //   createThread = thread => <Thread 
-  //                                   // key={thread._id}
-  //                                   // username={thread.subredditName}
-  //                                   subreddit={thread.subredditName}
-  //                                   title={thread.title} 
-  //                                   content={thread.body}
-  //   />;
-
-
-  //   /**
-  //    * For generating threads from a mock service
-  //    * @function createThreads
-  //    * @param {array} - array of the mocked threads ...Not working properly yet.
-  //    */
-  //   createThreads = Threads => Threads.map(this.createThread);
-
-
+    /**
+     * For sending a subscribe request to the backend and updating the subscribed boolean state
+     * @function srSubscribe
+     * @param {event} - onClick event 
+     */
    srSubscribe = (e) => {
       e.preventDefault();
       console.log('Subscribe Clicked');
@@ -119,6 +103,11 @@ export class Subreddit extends Component {
         alert("Error Caught");
       })
    }
+   /**
+     * For sending an Unsubscribe request to the backend and updating the subscribed boolean state
+     * @function srUnSubscribe
+     * @param {event} - onClick event 
+     */
    srUnSubscribe = (e) => {
     e.preventDefault();
     console.log('Unsubscribe Clicked');
@@ -144,6 +133,11 @@ export class Subreddit extends Component {
       alert("Error Caught");
     })
   }
+   /**
+     * For sending an delete request to the backend to delete the entire subreddit from the database
+     * @function srUnSubscribe
+     * @param {event} - onClick event 
+     */
   delSubreddit = (e) => { 
     e.preventDefault();
     console.log('Del Subreddit Clicked');
@@ -173,6 +167,11 @@ export class Subreddit extends Component {
     })
 
   }
+   /**
+     * For changing the GUI and showing the fields for the thread creation
+     * @function createThreadSidebar
+     * @param {event} - onClick event 
+     */
   createThreadSidebar = (e) =>{
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
@@ -184,6 +183,11 @@ export class Subreddit extends Component {
       threadCreation:true
     })
   }
+/**
+     * For changing the GUI and hiding the fields for the thread creation
+     * @function CancelCreation
+     * @param {event} - onClick event 
+     */
   CancelCreation = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -191,6 +195,11 @@ export class Subreddit extends Component {
       threadCreation:false
     })
   }
+    /**
+     * For sending an post request to the backend and creating a thread in this subreddit
+     * @function handleSubmit
+     * @param {event} - onClick event 
+     */
   handleSubmit = (e) => {
     e.preventDefault();
    
@@ -270,14 +279,40 @@ export class Subreddit extends Component {
          <div class="subredditContainer">
             <section id="subredditPageContent">
                 <div> 
-                    {this.state.threads.map(thread => {
-                      console.log(thread);
-                      return(
-                        <div className="subredditPageThread">
-                          <Thread props={{ title:thread.title, content:thread.content, subreddit: this.state.name} } />                         }
-                        </div>
-                      );}
-                    )}
+                    {
+                      this.state.threads.map(thread => {
+                      //console.log(thread);
+                      let srName=this.state.name;
+                      let post = {
+                        title:'',
+                        body:''
+                      }
+                      axios.get('http://localhost:4000/sr/'+srName+'/thread/'+thread)
+                      .then(resp => {
+                            //console.log(resp);
+                            if (resp.status==200)
+                            {
+                              console.log(resp.data)
+                              post.title=resp.data.title;
+                              post.body=resp.data.body;
+                            }
+                            else if (resp.status===404){
+                              alert("Thread Not Found");
+                              return Response.json;
+                            }
+                          })
+                          .catch(error => {
+                            alert("Error Caught");
+                          })
+                          return(
+                            <div className="subredditPageThread">
+                            {console.log(post.body)}
+                              <Thread props={{title:post.title, content:post.content, subreddit: this.state.name}}/>                         }
+                            </div>
+                          );
+                        })
+                      }
+                      
                 </div>
             </section> 
             
