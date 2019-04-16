@@ -27,7 +27,12 @@ handleChange(event) {
 this.setState({ [event.target.name]: event.target.value });
 }
 
-
+  /**
+     * For sending a creation post request to the backend 
+     * @function handleSubmit
+     * @param {event} - onClick event 
+     */
+    
 handleSubmit (e){
   e.preventDefault();
   var srdata ={

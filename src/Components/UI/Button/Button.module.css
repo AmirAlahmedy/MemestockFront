@@ -24,7 +24,7 @@
 } */
 .Button:hover{
     background-color: rgb(39, 39, 41);
-    border: solid 0.5px rgb(215, 218, 220);
+    border: solid 1px rgb(215, 218, 220);
     color: rgb(215, 218, 220);
 }
 

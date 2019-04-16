@@ -24,7 +24,11 @@ class CreateSubreddit extends Component {
 handleChange(event) {
 this.setState({ [event.target.name]: event.target.value });
 }
-
+  /**
+     * For sending a creation of subreddit request to the backend 
+     * @function handleSubmit
+     * @param {event} - onClick event 
+     */
 
 handleSubmit (e){
   e.preventDefault();
