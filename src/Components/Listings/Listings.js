@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Listings.css';
 import Thread from '../../Routes/Thread/Thread';
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom'
 import data from '../../Mocks/threads-data.json';  
 import axios from '../../axios-orders';
 import '../../Sass/styles.scss';
@@ -9,11 +9,31 @@ import { connect } from 'react-redux';
 import ginprodReducer from '../../store/reducers/production';
 import * as actions from '../../store/actions/index';
 import SideBar from '../SideBar/SideBar';
+import Subreddit from '../../Routes/Subreddit/Subreddit';
 import Aux from '../HOC/Auxiliary';
-
 let inProduction = false;
 
 class Listings extends Component {
+    render(){
+        return(
+            
+           <Router>
+            <Aux>
+            <Switch>
+                <Route path="/Home/" exact component = {threads}/>
+                <Route path="/r"  component={Subreddit}/>
+            </Switch>
+            <SideBar clickd={this.createSubHand}/>
+            </Aux>
+        </Router>     
+            
+            
+        );
+        
+    }
+
+}
+class threads extends Component {
     state = {
         threads: []
     }
@@ -26,7 +46,7 @@ class Listings extends Component {
     componentDidMount = () => {
     console.log(this.props.ginProd); 
     console.log(this.props.match);
-    
+  //  this.props.history.replace('/r/');
 
     if(inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
     {
@@ -74,21 +94,13 @@ class Listings extends Component {
      */
     createThreads = Threads => Threads.map(this.createThread);
 
-    render(){
-        return(
-           <Router>
-            <Aux>
-
+    render() {
+        return (
             <div className='listingsContainer'>     
                 {this.state.threads}
             </div>
-            <SideBar clickd={this.createSubHand}/>
-            </Aux>
-        </Router> 
-        );
-        
+        )
     }
-
 }
 const mapStateToProps = state => {
     return {
@@ -103,4 +115,4 @@ const mapStateToProps = state => {
     };
   };
   
-export default connect(mapStateToProps, mapDispatchToProps)(Listings);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Listings));
