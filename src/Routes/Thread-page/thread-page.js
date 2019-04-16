@@ -41,6 +41,8 @@ class ThreadPage extends Component {
 
       editComment:false,
       replyComment:false
+    
+    
    }
   
 
@@ -60,10 +62,7 @@ class ThreadPage extends Component {
    handleEdit = (e) =>{ 
       e.preventDefault();
       console.log('Edit Clicked');
-      var threadData ={
-         newThreadTitle : document.getElementById("newThreadTitleField").value,
-         newThreadBody : document.getElementById("newThreadBodyField").value
-         } 
+     
          let checker ="";
          
          if (document.getElementById("newThreadTitleField").value===checker)
@@ -75,17 +74,23 @@ class ThreadPage extends Component {
          { alert ("Please provide a new bodyfor the thread");
            return ;
          }
-      var headers = {
+      let headers = {
         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
       }
+      var threadData ={
+         title : document.getElementById("newThreadTitleField").value,
+         threadBody : document.getElementById("newThreadBodyField").value
+         } 
       let SubredditName = this.state.subredditName;
       let threadID = this.state.id;
-      axios.put( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,threadData.newThreadTitle,threadData.newThreadBody, {headers: headers})
+      axios.put( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,threadData, {"headers": headers})
       .then(res => {
         if (res.status==200)
         {
           console.log(res)
-        }else if (res.status===404){
+          alert('Post Edited Successfully');
+        }
+        else if (res.status===404){
           alert("Not Found");
           return Response.json;
         }
@@ -103,11 +108,12 @@ class ThreadPage extends Component {
        }
       let SubredditName = this.state.subredditName;
       let threadID = this.state.id;
-      axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,{headers: headers})
+      axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/thread/'+threadID,{"headers": headers})
       .then(res => {
         if (res.status==200)
         {
           console.log(res);
+          alert('Thread Deeted Successfully!')
         }else if (res.status===404){
           alert("Not Found");
           return Response.json;

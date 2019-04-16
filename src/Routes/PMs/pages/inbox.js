@@ -82,6 +82,7 @@ handleClick(e){
 .then(res => {
   console.log(res);
   console.log(res.data); 
+  alert("Message Successfully Deleted");
 
 
   
@@ -91,6 +92,7 @@ handleClick(e){
 })
 .catch(error => {
   console.log(error.response)
+  alert("Message Not Found");
 
 
 });
@@ -113,6 +115,8 @@ BlockUser(e){
 .then(res => {
   console.log(res);
   console.log(res.data);
+  alert ("Block Succeeded");
+  
 
   
   //in case sucess..
@@ -121,6 +125,10 @@ BlockUser(e){
 })
 .catch(error => {
   console.log(error.response)
+  if (error.response.statusText="Forbidden")
+  {
+    alert ("Error you're trying to block yourself");
+  }
 
 
 });

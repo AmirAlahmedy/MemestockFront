@@ -3,6 +3,7 @@ import './Thread.css';
 import { Link } from 'react-router-dom';
 import '../../Sass/styles.scss';
 class Thread extends Component {
+    
     state = {
         username: 'GiantSteps_',
         subreddit: 'jazztheory',
@@ -85,7 +86,7 @@ class Thread extends Component {
                     <Link to='/r/' className="threadSubreddit"> r/{this.props.subreddit}</Link>
                     <br></br>
                     <div className="threadUsername">
-                        Posted by u/{this.state.username}
+                     <Link to="/user/">   Posted by u/{this.state.username} </Link>
                     </div>
                     <br></br>
                     <div className="threadTitle">{this.props.title}</div>

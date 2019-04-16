@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import axios from 'axios';
 import '../PMs.css';
+import './sent.css';
 
 class Sent extends React.Component {
-  state = {
-    Messages: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+  
+      Messages: [],
     isLoading: true,
     errors: null
+    
+    }
+    /*this.handleClick = this.handleClick.bind(this); */
   };
   
    
@@ -26,17 +33,12 @@ class Sent extends React.Component {
         console.log(response.data);
         
         this.setState({
-          Messages : response.data.messages,
+          Messages : response.data,
           isLoading : false
         });
+        console.log(this.state.Messages);
       })
-      // Let's make sure to change the loading state to display the data
-      .then(Messages => {
-        this.setState({
-          Messages,
-          isLoading: false
-        });
-      })
+     
       // We can still use the `.catch()` method since axios is promise-based
       .catch(error => {
         console.log(error.response)
@@ -47,13 +49,28 @@ class Sent extends React.Component {
         });
   });
 }
+getMsgs()
+{
+  return this.state.Messages.map(msg=>(
+    <div className="messageWrapper">
+    <div className="MessageContainer">
+    <h1 className="subjectTitle">{msg.subject}:</h1>
+    <h1 className="receiverUsername">sent To {msg.receiverUsername} sent {msg.messageDate}</h1>
+    <p className="messageContent">{msg.messageBody}</p>
+    <button id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
+    </div>
+    </div>
+  ))
+  
+}
   
 
   render() {
     return (
-      <React.Fragment>
-        <h2>Random Message</h2>
-      </React.Fragment>
+      <div>
+        {this.getMsgs()}
+      </div>
+  
     );
   }
 }
