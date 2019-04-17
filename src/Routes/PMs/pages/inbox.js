@@ -28,7 +28,7 @@ class Inbox extends React.Component {
     axios.post( 'http://localhost:4000/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
-              'auth': this.props.token
+            auth: localStorage.getItem("token")
           },
           
       })
@@ -79,7 +79,7 @@ handleClick(e){
   {
     headers: {
         'Content-Type': 'application/json',
-        'auth': this.props.token
+            auth: localStorage.getItem("token")
 
     },
     
