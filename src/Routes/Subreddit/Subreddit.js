@@ -80,7 +80,7 @@ export class Subreddit extends Component {
       e.preventDefault();
       console.log('Subscribe Clicked');
       let headers = {
-        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJmZmZmIiwiaWF0IjoxNTU1MzYxODI3fQ.Bk7rNdYB1ccV7MhKqoOGGOp-ppj4as0BeNZ3GkA7Tns'
+        auth: localStorage.getItem("token")
       }
       let SubredditName = this.state.name;
       axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',null, {"headers": headers})
@@ -112,7 +112,7 @@ export class Subreddit extends Component {
     e.preventDefault();
     console.log('Unsubscribe Clicked');
     let headers = {
-      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJmZmZmIiwiaWF0IjoxNTU1MzYxODI3fQ.Bk7rNdYB1ccV7MhKqoOGGOp-ppj4as0BeNZ3GkA7Tns'
+        auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
     axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{"headers": headers})
@@ -142,7 +142,7 @@ export class Subreddit extends Component {
     e.preventDefault();
     console.log('Del Subreddit Clicked');
     let headers = {
-      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+        auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
     axios.delete( 'http://localhost:4000/sr/'+SubredditName,{"headers": headers})
@@ -210,7 +210,7 @@ export class Subreddit extends Component {
     
  
     let headers = {
-      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+        auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
     axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',srdata,{"headers": headers})
