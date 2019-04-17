@@ -75,7 +75,7 @@ class PMs extends Component {
         console.log(msg);
         axios.post( 'http://localhost:4000/me/pm/compose',msg, {
           headers: {
-            'auth': this.props.token
+            auth: localStorage.getItem("token")
           }
         })
       .then(res => {
