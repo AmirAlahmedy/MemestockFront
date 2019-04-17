@@ -60,8 +60,8 @@ handleSubmit (e){
     srRules: [document.getElementById("srSubredditRule1").value,document.getElementById("srSubredditRule2").value,document.getElementById("srSubredditRule3").value]
     } 
   let headers = {
-    auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
-   } 
+        auth: localStorage.getItem("token") 
+  } 
     axios.post( 'http://localhost:4000/sr/create',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
