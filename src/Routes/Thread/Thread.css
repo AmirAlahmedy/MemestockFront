@@ -1,18 +1,37 @@
 .threadContainer{
-    width:600px;
-    
- 
+    width:95%;
+    margin:20px;
+    overflow: hidden;
+    background-color: rgb(26, 26, 27);
+    margin: 5px;
+    border:  1px solid rgb(52, 53, 54);
+    border-radius: 3px;
+}
+.threadContainer:hover{
+    border:  1px solid rgb(129, 131, 132);
+}
+
+@media (min-width: 640px){
+
+    .threadContainer {
+        padding: 20px 20px;
+    }   
+}
+@media (max-width: 640px){
+
+    .threadContainer {
+        padding: 20px 20px;
+    }   
 }
 .threadSubreddit{
+    float:left;
     font-size: 12px;
     font-weight: 700;
     color: rgb(215, 218, 220);
-    display: inline;
     line-height: 20px;
     vertical-align: baseline;
     text-decoration: none;
-    float:left;
-    margin-left:10px;
+    margin-left:20px;
     margin-top:10px;
 }
 .threadSubreddit:hover{
@@ -43,7 +62,7 @@
     text-decoration: none;
     color: rgb(111, 112, 113);
     float: left;
-    margin-left:10px;
+    margin-left:20px;
     margin-top:3px;
 }
 .threadUsername:hover{
@@ -65,15 +84,14 @@
     padding: 5px 5px 0 5px;
 }
 .incrementVotes{
-    margin-left: 40px;
+    margin-left: 20px;
     font-size:20px;
     cursor: pointer;
     float:left;
     background-color: rgb(87, 67, 67);
     border-radius: 10px;
     content: "\21E7";
-   
-
+    padding:3px;
 }
 .incrementVotes:hover {
     background-color: #59595a52;
@@ -97,6 +115,7 @@ margin-bottom: 5px
     background-color: rgb(87, 67, 67);
     border-radius: 5px;
     content: "\21E9";
+    padding:3px;
 }
 .decrementVotes:hover {
     background-color: #59595a52;
@@ -105,22 +124,22 @@ margin-bottom: 5px
 
 
 .threadComments { 
-    
-    display: inline-block;
-   
+    display: inline-block; 
     text-align: middle;
     color: #f2f2f2; 
-    font-size: 20px;
+    font-size: 17px;
     cursor: pointer;
-
-    width: 160px;
+    width: 70;
     height: 30px;
     background: rgb(87, 67, 67);
     position: relative;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    margin-bottom: 5px;
+    padding-top:3px;
+    margin-bottom: 10px;
+    padding-left:7px;
+    padding-right:7px;
 }
 .threadComments:before {
     content: "";
@@ -132,23 +151,4 @@ margin-bottom: 5px
     border-top: 6px solid rgb(29, 27, 27);
     border-right: 14px solid rgb(87, 67, 67);
     border-bottom: 6px solid rgb(29,27,27);
-   
-}
-@media (min-width: 640px){
-
-    .threadWrapper {
-        padding: 20px 24px;
-    }   
-}
-
-.threadWrapper{
-    background-color: rgb(26, 26, 27);
-    margin: 5px;
-    border:  1px solid rgb(52, 53, 54);
-    border-radius: 3px;
-
-}
-
-.threadWrapper:hover{
-    border:  1px solid rgb(129, 131, 132);
 }

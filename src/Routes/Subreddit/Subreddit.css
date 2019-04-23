@@ -196,12 +196,14 @@
 */
 .subredditSidebarComponent label{
     color:rgb(116, 193, 219);
+    padding-top:3px;
+    padding-bottom:10px;
 }
 .subredditSidebarComponent textarea{
     margin-top:10px;
     margin-bottom:10px;
     border-radius:10px;
-    width:100%;
+    width:95%;
 }
 .subredditSidebarComponent label {
     float:left;
