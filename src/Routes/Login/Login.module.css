@@ -1,5 +1,6 @@
 .Invalid {
-    /* border: 1px solid red; */
-    /* background-color: #FDA49A; */
-    color: crimson;
+    color: #da0046;
+    text-align: left;
+    max-width: 320px;
+    margin: 0 auto;
 }

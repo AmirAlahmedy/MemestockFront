@@ -39,7 +39,7 @@ class Edit extends Component {
 };
   console.log(data);
 let username=this.state.email;
-axios.post('http://localhost:4000/me/edit/email',username,emailcontent,{headers: headers})
+axios.post('http://18.217.163.16/me/edit/email',username,emailcontent,{headers: headers})
 .then(res => {
   console.log(res);
   if (res.status==200)

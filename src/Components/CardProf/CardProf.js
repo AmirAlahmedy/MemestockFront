@@ -33,7 +33,7 @@ export class CardProf extends Component {
       'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
     }
     let postName = this.state.name;
-    axios.post('http://localhost:4000/sr/'+postName+'/thread',postTitle,postBody,{headers: headers})
+    axios.post('http://18.217.163.16/sr/'+postName+'/thread',postTitle,postBody,{headers: headers})
     .then(res => {
       console.log(res);
       if (res.status==200)

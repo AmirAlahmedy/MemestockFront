@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink} from 'react-router-dom';
 import Button from '../UI/Button/Button';
 
-
 const SideBar = props => {
 
     return(

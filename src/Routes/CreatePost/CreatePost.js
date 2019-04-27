@@ -59,7 +59,7 @@ handleSubmit (e){
   let headers = {
         auth: localStorage.getItem("token") 
   } 
-  axios.post( 'http://localhost:4000/sr/'+subredditname+'/thread',srdata,{"headers": headers})            //srdata.srName,srdata.srRules,{headers: headers})// document.getElementById("subredditNameField").value, [document.getElementById("SubredditRuleField1").value,document.getElementById("SubredditRuleField2").value,document.getElementById("SubredditRuleField3").value]
+  axios.post( 'http://18.217.163.16/sr/'+subredditname+'/thread',srdata,{"headers": headers})            //srdata.srName,srdata.srRules,{headers: headers})// document.getElementById("subredditNameField").value, [document.getElementById("SubredditRuleField1").value,document.getElementById("SubredditRuleField2").value,document.getElementById("SubredditRuleField3").value]
   .then(res => {
     console.log(res);
     console.log(res.status);

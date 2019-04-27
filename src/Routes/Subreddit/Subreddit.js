@@ -34,7 +34,7 @@ export class Subreddit extends Component {
       if(inDev === false ) // && ginprodReducer.globalInProduction)
       {
         let srName= this.state.name;
-        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        axios.get('http://18.217.163.16/sr/'+srName+'/meta')
         .then(resp => {
           console.log(resp);
           console.log(resp.data);
@@ -83,7 +83,7 @@ export class Subreddit extends Component {
         auth: localStorage.getItem("token")
       }
       let SubredditName = this.state.name;
-      axios.post( 'http://localhost:4000/sr/'+SubredditName+'/subs',null, {"headers": headers})
+      axios.post( 'http://18.217.163.16/sr/'+SubredditName+'/subs',null, {"headers": headers})
       .then(res => {
         if (res.status==200)
         {
@@ -115,7 +115,7 @@ export class Subreddit extends Component {
         auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName+'/subs',{"headers": headers})
+    axios.delete( 'http://18.217.163.16/sr/'+SubredditName+'/subs',{"headers": headers})
     .then(res => {
       if (res.status==200)
       {
@@ -145,7 +145,7 @@ export class Subreddit extends Component {
         auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
-    axios.delete( 'http://localhost:4000/sr/'+SubredditName,{"headers": headers})
+    axios.delete( 'http://18.217.163.16/sr/'+SubredditName,{"headers": headers})
     .then(res => {
       console.log(res);
       if (res.status==200)
@@ -213,14 +213,14 @@ export class Subreddit extends Component {
         auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
-    axios.post('http://localhost:4000/sr/'+SubredditName+'/thread',srdata,{"headers": headers})
+    axios.post('http://18.217.163.16/sr/'+SubredditName+'/thread',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
       if (res.status==200)
       { 
         alert("Thread Created Successfully!");
         let srName= this.state.name;
-        axios.get('http://localhost:4000/sr/'+srName+'/meta')
+        axios.get('http://18.217.163.16/sr/'+srName+'/meta')
         .then(resp => {
           console.log(resp);
           if (resp.status==200)
@@ -287,7 +287,7 @@ export class Subreddit extends Component {
                         title:'',
                         body:''
                       }
-                      axios.get('http://localhost:4000/sr/'+srName+'/thread/'+thread)
+                      axios.get('http://18.217.163.16/sr/'+srName+'/thread/'+thread)
                       .then(resp => {
                             //console.log(resp);
                             if (resp.status==200)

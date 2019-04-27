@@ -58,7 +58,7 @@ let username=this.state.user;
 
 
 
- axios.post( 'http://localhost:4000/me/edit/password',username,{headers: headers}
+ axios.post( 'http://18.217.163.16/me/edit/password',username,{headers: headers}
         )
         
         .then(res => {

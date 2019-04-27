@@ -46,7 +46,7 @@ describe('Registration request', () => {
     it('returns data when reistrationHandler is called', done => {
         var mock = new MockAdapter(axios);
         const data = { response: true };
-        mock.onGet('http://localhost:4000/user/register').reply(200, data);
+        mock.onGet('http://18.217.163.16/user/register').reply(200, data);
 
         regHand (0, 'any').then(response => {
             expect(response).toEqual(data);

@@ -1,267 +1,185 @@
 import React, { Component } from 'react';
-import './App.css';
-import Home from './Routes/Home/Home';
-import { Redirect, withRouter, Route } from 'react-router-dom';
-import Registration from './Routes/Registration/Registration';
-import Login from './Routes/Login/Login';
-import axios from './axios-orders';
-import * as actions from './store/actions/index';
+import './index.css';
+import NavBar from './Components/NavBar/Navbar';
+import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import CreatePost from './Routes/CreatePost/CreatePost';
 import PMs from './Routes/PMs/PMs';
-//import 'bootstrap/dist/css/bootstrap.css';
+import Listings from './Components/Listings/Listings'
+import Settings from './Routes/Settings/Settings';
+import Subreddit from './Routes/Subreddit/Subreddit';
+import ThreadPage from './Routes/Thread-page/thread-page';
+import SideBar from './Components/SideBar/SideBar';
+import NestedListings from './Components/Listings/NestedListings';
+import * as actions from './store/actions/index';
+import GoHome from './Routes/GoHome/index.js';
+import Registration from './Routes/Registration/Registration';
+import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
+import Logout from './Routes/Logout/Logout';
 
-let token = '';
+class Home extends Component {
 
-class App extends Component {
-  
   state = {
-    Credentials: {
-        Email: '',
-        Username: '',
-        Password: ''
-      },
-      auth: {
-        token: '',
-        loading:'',
-      },
-
-    passwordIsValid: true,
-    loggedIn: false,
-    alreadyRegistered: false,
-  
+    isAuth: Boolean(localStorage.getItem("token")),
+    view: {
+      card: true,
+      classic: false
+    }
   }
 
+
+
   componentDidMount = () => {
-    this.loggedIn = this.state.loggedIn || localStorage.getItem("isLoggedIn"); 
-    this.props.authToken();
-    window.onbeforeunload = (e) => {
-      console.log('stay on the same route')
-      localStorage.setItem("lastRoute", window.location.pathname);
-    };
-    this.lastRoute = localStorage.getItem("lastRoute");
-    
-}
- 
 
+    // console.log(this.props.token);
+    // this.props.history.replace('/Home/');
+    //  this.props.lastRoute != '/Registration/' ? 
+    //  this.props.history.push(this.props.lastRoute)
+    //  :
+    //  this.props.history.replace('/Home/');
+    //this.props.authToken();
 
+  }
 
-  /**
-   * Saves the password
-   * @function savePassword
-   * @param {event} e - On the change of the password input
-   */
-  savePassword = e => {
+  cardViewHandler() {
     this.setState({
-        Password: e.target.value
+      view: {
+        card: true,
+        classic: false
+      }
+    });
+  }
+
+  classicViewHandler(){
+    this.setState({
+      view: {
+        card: false,
+        classic: true
+      }
     });
   }
 
 
-  /**
- * Handles both the registration attempts.
- * @function registrationHandler
- * @param {event} e - The submission of the form.
- */
-  registrationHandler = e => {
-
-    e.preventDefault();
-    if( this.state.Password.length >= 8 ) {
-      let inputs = e.target.querySelectorAll('input');
-        this.setState({
-          Credentials:{
-
-            Email: inputs[0].value,
-            Username: inputs[1].value,
-            Password: inputs[2].value
-
-          },
-            loggedIn: true,
-          alreadyRegistered: true}, () => {
-            
-            axios.post('user/register', this.state.Credentials)
-                   .then( response => {
-                        this.setState({alreadyRegistered: true});
-                        localStorage.setItem('alreadyRegistered', true);
-                        localStorage.setItem('loggedIn', true);
-                        console.log(response.data);
-                        token = response.data.token;
-                        localStorage.setItem('token', token);
-                        this.setState({
-                          auth: {
-                            token: response.data.token,
-                          }
-                        });
-                      
-                   })
-                   .catch( error =>{
-                    this.setState({alreadyRegistered: false, loggedIn: false});
-                    console.log(error);
-                   })
-          });
-          
-
-    }else{
-
-        this.setState({loggedIn: false, passwordIsValid:false});
-    }
-  }
-
-   /**
- * Handles both the login attempts.
- * @function logInHandler
- * @param {event} e - The submission of the form.
- */
-  logInHandler = e => {
-
-    e.preventDefault();
-
-    if(this.state.Password.length >= 8 ){
-      let inputs = e.target.querySelectorAll('input');
+  userHasLoggedIn(token) {
+    if (token) {
+      localStorage.setItem("token", token);
       this.setState({
-        Credentials:{
-
-          Username: inputs[0].value,
-          Password: inputs[1].value,
-
-        },
-          loggedIn: true}, () => {
-          localStorage.setItem("isLoggedIn", true);
-          axios.post('user/Login', this.state.Credentials)
-                 .then( response => {
-                      localStorage.setItem('loggedIn', true);
-                      console.log(response.data);
-                      token = response.data.token;
-                      localStorage.setItem('token', token);
-                      this.setState({
-                        auth: {
-                          token: response.data.token,
-                        }
-                      });
-                      console.log(token);
-                 })
-                 .catch( error =>{
-                  this.setState({loggedIn: false});
-                 })
-        });
-    }else{
-
-        this.setState({loggedIn: false, passwordIsValid:false});
+        isAuth: true
+      });
     }
   }
-   render() {
-    console.log(this.state.loggedIn);
-    console.log(this.state.auth.token);
+
+  logout(e) {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    this.setState({
+      isAuth: false
+    });
+  }
+
+
+  render() {
+    // let nestedRoutes = false;
+    // let list = nestedRoutes ? <Route path='/Home/' exact component={NestedListings} /*render={
+    //     props=>{
+    //       return(
+    //         <NestedListings />
+    //       );
+    //     }
+    //   } *//> : <Route path='/Home/' exact component={Listings} />;
+
+    // let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration} /> : null;
 
     return (
-      
-            
-            <div className="App">
-            {this.loggedIn ?  <Home  lastRoute={this.lastRoute} token={this.state.auth.token}/> :( this.state.alreadyRegistered ? <Login logHand={this.logInHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} />:<Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword} logHand={this.logInHandler}/> )}
-   
-        </div>
-     
+      <div className='Home' >
+
+        <NavBar logout={this.logout.bind(this)}
+          finishLogin={this.userHasLoggedIn.bind(this)}
+          finishRegistration={this.userHasLoggedIn.bind(this)}
+          isAuth={this.state.isAuth}
+          classicViewHandler={this.classicViewHandler.bind(this)}
+          cardViewHandler={this.cardViewHandler.bind(this)} />
+
+        <Switch>
+          <Route path='/PM/'  /*component={PMs}*/ render={
+            props => {
+              return (
+                <PMs token={this.props.token} />
+              );
+            }
+          } />
+          <Route path='/CreatePost/' component={CreatePost} />
+          <Route path='/settings/' render={Settings} />
+          <Route path='/r/' component={Subreddit} />
+          <Route path='/thread/' exact render={
+            props => {
+              return (
+                <ThreadPage token={this.props.token} />
+              );
+            }
+          }/>
+          <Route path='/GoHome/' component={GoHome} />
+          <Route path='/create-subreddit/' component={CreateSubReddit} />
+          <Route path='/' exact  render={
+                  props=>{
+                    return <Listings authToken={this.props.token} view={this.state.view.card}/>
+                  }
+                }/>
+        </Switch>
+        {/* <Route path='/PM/'  /*component={PMs} render={
+                props=>{
+                  return(
+                    <PMs token={this.props.token}/>
+                  );
+                }
+              }/>
+              <Route path='/CreatePost/'   component={CreatePost}/>
+              <Route path='/settings/'  render={Settings}/>
+              <Route path='/r/' component={Subreddit}/>
+              <Route path='/thread/' component={ThreadPage}/>
+              <Route path='/GoHome/' component={GoHome}/>
+              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
+        {/* <Route path='/:username' component={CreateSubReddit}/> */}
+
+        
+
+
+
+        {/* {this.props.lastRoute ? <div>
+              <Redirect to={this.props.lastRoute} />
+            </div> : <span></span>}
+            */}
+
+
+        <footer>
+          <p>
+            <a href="#top" className='backtoTop'>
+              <i class="fas fa-chevron-circle-up"></i>
+            </a>
+          </p>
+        </footer>
+      </div>
     );
   }
 }
 
-
-
 const mapStateToProps = state => {
-  console.log(state.auth.token);
   return {
     isAuthenticated: true,//state.auth.token !== null,
     authRedirectPath: state.auth.authRedirectPath,
-    loggedIn: state.loggedIn,
-    alreadyRegistered: state.alalreadyRegistered,
-    token: state.auth.token
-    
+    // token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(token);
   return {
-  //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
-    onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) ),
-    authToken: () => dispatch( actions.authSuccess() )
+    //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
+    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
   };
 };
 
-const app =  withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
-const registrationHandler = app.registrationHandler;
-const logInHandler = app.logInHandler;
-
-export{
-  app,
-  registrationHandler,
-  logInHandler
-
+const app = withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export {
+  app
 }
-
-// import React, { Component } from 'react';
-// import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import asyncComponent from './Components/HOC/asyncComponent/asyncComponent';
-
-// // import Layout from './hoc/Layout/Layout';
-
-// import Logout from './Auth/Logout/Logout';
-// import * as actions from './store/actions/index';
-
-// import Home from './Routes/Home/Home';
-// import Auth from './Auth/Auth';
-
-
-// const asyncAuth = asyncComponent(() => {
-//   return import('./Auth/Auth');
-// });
-
-// class App extends Component {
-//   componentDidMount () {
-//     this.props.onTryAutoSignup();
-//   }
-
-//   render () {
-//     let routes = (
-//       <Switch>
-//         <Route path="/auth" component={asyncAuth} />
-//         <Route path="/" exact component={Auth} />
-//         <Redirect to="/" />
-//       </Switch>
-//     );
-
-//     if ( this.props.isAuthenticated ) {
-//       routes = (
-//         <Switch>
-//           {/* <Route path="/checkout" component={asyncCheckout} /> */}
-//           {/* <Route path="/orders" component={asyncOrders} /> */}
-//           <Route path="/logout" component={Logout} />
-//           <Route path="/auth" component={asyncAuth} />
-//           <Route path="/Home/" exact component={Home} />
-//           <Redirect to="/" />
-//         </Switch>
-//       );
-//     }
-
-//     return (
-//       <div>
-//           {routes}
-
-//       </div>
-//     );
-//   }
-// }
-
-// const mapStateToProps = state => {
-//   return {
-//     isAuthenticated: state.auth.token !== null
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onTryAutoSignup: () => dispatch( actions.authCheckState() )
-//   };
-// };
-
-// export default withRouter( connect( mapStateToProps, mapDispatchToProps )( App ) );

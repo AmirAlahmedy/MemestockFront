@@ -1,85 +1,64 @@
 /* $redditOrange: #ff4500;
 $redditBlack: rgb(26, 26, 27); */
 .regForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    min-height: 70vh;
     width: 50%;
-    background-color: rgb(26, 26, 27);
-    padding-top: 50px;
-    border: 1px solid rgb(52, 53, 54);
-    border-radius: 6px;
+    min-width: 320px;
+    text-align: center;
+    background: #fff;
+    padding: 2em;
+    margin: 2em auto;
 }
 .logo {
-    font-style: italic;
-    color: #f2f2f2;
-    font-size: 32px;
-    cursor: pointer;
+  color: #333;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  transition: all 0.2s ease;
+  position: relative;
 }
-.inputs {
-    padding-top: 20px;
+.logo:hover {
+  animation: bounce 0.2s linear 0 infinite alternate;
+}
+@keyframes bounce{
+  0%{
+    bottom: 50px;
+  }
+  50%{
+    bottom: -50px;
+  }
+  100%{
+    bottom: 0;
+  }
 }
 .inputs input{
-    width: 60%;
-    transition: width 0.4s ease-in-out;
-    border-radius: 20px;
-    
-
-    outline: none;
-    border: 1px solid #ccc;
-    background-color: white;
-    font: inherit;
-    padding: 6px 10px;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
+    margin: 1em auto;
+    padding: 1em;
+    border-radius: 5px;
+    max-width: 320px;
 }
 .usernameInput, .emailInput{
-    margin-bottom: 30px; 
 }
 .in:focus {
     
-    /* border: 3px solid #555; */
-    width: 70%;
-
-    outline: none;
-    background-color: #ccc;
   }
 .registerButton {
-    margin-top: 30px;
-    background-color: #ff4500;
-    //border-radius: 20px;
-    font-family: inherit;
-    font-size: 18px;
-    color: #f2f2f2;
-    padding: 10px;
-    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-    border-style: initial;
-    transition: background .3s,color .3s;
-
-    box-shadow: 0px 0px 0px 03px  #ff4400c7;
-    transition: box-shadow 1s linear;
-    margin-bottom: 0.5em;
-    
+    display: block;
+    margin: 1em auto;
+    background: #0079d3;
+    text-shadow: none;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
 }
 .registerButton:hover{
-    background-color: #f2f2f2;
-    /* border: 2px solid #ff4400c7;   */
-    color: #ff4400c7; 
-    box-shadow: 0px 0px 0px 6px #ff4400c7;
+  background: #3394dc;
+  color: #fff;
+  border: 0;
 }
 .registerButton:focus{
-    outline: none;
 }
   .formWrapper{
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     padding-top: 5%;
-    
-
  } 
 
 

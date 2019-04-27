@@ -73,7 +73,7 @@ class PMs extends Component {
           return ;
         }
         console.log(msg);
-        axios.post( 'http://localhost:4000/me/pm/compose',msg, {
+        axios.post( 'http://18.217.163.16/me/pm/compose',msg, {
           headers: {
             auth: localStorage.getItem("token")
           }

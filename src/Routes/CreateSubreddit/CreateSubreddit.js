@@ -62,7 +62,7 @@ handleSubmit (e){
   let headers = {
         auth: localStorage.getItem("token") 
   } 
-    axios.post( 'http://localhost:4000/sr/create',srdata,{"headers": headers})
+    axios.post( 'http://18.217.163.16/sr/create',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
       console.log(res.status);

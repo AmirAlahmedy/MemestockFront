@@ -1,7 +1,7 @@
 .Button {
-    background-color: rgb(215, 218, 220);
+    background-color: #0079D3;
     border: none;
-    color: rgb(39, 39, 41);
+    color: #fff;
     outline: none;
     cursor: pointer;
     /* font: inherit; */
@@ -23,9 +23,7 @@
     padding-left: 0;
 } */
 .Button:hover{
-    background-color: rgb(39, 39, 41);
-    border: solid 1px rgb(215, 218, 220);
-    color: rgb(215, 218, 220);
+    background-color: #33a8ff;
 }
 
 .Success {

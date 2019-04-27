@@ -12,18 +12,28 @@ import SideBar from '../SideBar/SideBar';
 import Subreddit from '../../Routes/Subreddit/Subreddit';
 import Aux from '../HOC/Auxiliary';
 let inProduction = false;
-
+let view = null;
 class Listings extends Component {
+   
+   
+    
     render(){
+        console.log(this.props.view);
+        view = this.props.view;
+        localStorage.setItem('view', this.props.view);
         return(
             
            <Router>
             <Aux>
             <Switch>
-                <Route path="/Home/" exact component = {threads}/>
+                <Route path="/Home/" exact render = {
+                    props => {
+                        return <Threads view={this.props.view} />
+                    }
+                }/>
                 <Route path="/r"  component={Subreddit}/>
             </Switch>
-            <SideBar clickd={this.createSubHand}/>
+          
             </Aux>
         </Router>     
             
@@ -31,9 +41,12 @@ class Listings extends Component {
         );
         
     }
+    token = this.props.authToken;
 
 }
-class threads extends Component {
+const token = Listings.token;
+
+class Threads extends Component {
     state = {
         threads: []
     }
@@ -41,19 +54,21 @@ class threads extends Component {
     startPosition = { startPosition:0 };
     headers = {
         'Content-Type': 'application/json',
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJBcm1pIiwiaWF0IjoxNTU1MTU1MDA1fQ.XW9CbQMbQDwKVbNBaanfYLWIjDzQ6LNsIUDS5MOM09I' 
+        'auth': localStorage.getItem('token')
     }
     componentDidMount = () => {
-    console.log(this.props.ginProd); 
     console.log(this.props.match);
+    console.log(token);
+    console.log(localStorage.getItem('token'));
   //  this.props.history.replace('/r/');
 
     if(inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
     {
 
-        axios.post('/ahmed/listing?type=new', this.startPosition,  /*{headers: this.headers}*/)
+        axios.post('/me/listing?type=new', this.startPosition,  {headers: this.headers})
         .then( response => {
             this.reqThreads = response.data;
+            
             let thrds = this.createThreads(response.data);
             this.setState({threads: thrds});
         })
@@ -84,8 +99,19 @@ class threads extends Component {
                                     subreddit={thread.subredditName}
                                     title={thread.title} 
                                     content={thread.body}
+                                    view={this.props.view}
     />;
-
+    
+    getThreads(view){
+        return this.state.threads.map(thr => <Thread 
+            // key={thread._id}
+            // username={thread.subredditName}
+            subreddit={thr.subredditName}
+            title={thr.title} 
+            content={thr.body}
+            view={view}
+/>)
+    }
 
     /**
      * For generating threads from a mock service
@@ -95,17 +121,25 @@ class threads extends Component {
     createThreads = Threads => Threads.map(this.createThread);
 
     render() {
+      console.log(this.props.token);
+     
         return (
+            <Aux>
+
             <div className='listingsContainer'>     
+                {/* {this.getThreads(this.props.view)} */}
                 {this.state.threads}
             </div>
+              <SideBar clickd={this.createSubHand}/>
+            </Aux>
+              
         )
     }
 }
 const mapStateToProps = state => {
     return {
       ginProd: state.globalInProduction,
-      token: state.token
+      //token: state.token
     };
   };
 

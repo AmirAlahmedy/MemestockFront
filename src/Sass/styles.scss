@@ -23,15 +23,17 @@ sub{
 }
 
 sidebar{
-    position: fixed;
-    top: 100px;
-    right: 50px;
-    z-index: 99;
-    float: right;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: $divBackColor; 
+    // position: fixed;
+    // top: 100px;
+    z-index: 0;
+    width: 20%;
+    background-color: #fff;
+    margin: 1em;
+    padding: 1em;
+    position: relative;
+    top: 1.3em;
+    box-shadow: 0 0 3px rgba(51,51,51,0.5);
+    border: 4px;
 }
 
 .sideParagraph{
@@ -50,6 +52,11 @@ sidebar{
     align-items: center;
     cursor: default;
 }
+.kml{
+    // position: fixed;
+    // top: 49px;
+    // z-index: 1;
+}
 .kml div{
     display: flex;
     margin-left: 10%;
@@ -58,5 +65,5 @@ sidebar{
 .dd{
     margin-left: 20px;
     cursor: pointer;
-    color: $redditWhite;
+    color: #333;
 }

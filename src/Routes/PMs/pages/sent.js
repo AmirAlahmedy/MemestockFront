@@ -21,7 +21,7 @@ class Sent extends React.Component {
    
   componentDidMount() {
     const jsondata ={'mine':false}
-    axios.post( 'http://localhost:4000/me/pm/',jsondata, {
+    axios.post( 'http://18.217.163.16/me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
             auth: localStorage.getItem("token")
@@ -80,7 +80,7 @@ handleClick(e){
   const messageId=element.getAttribute("id");
   console.log(this.props.token);
   console.log(messageId);
-  axios.delete( `http://localhost:4000/me/pm/delete?messageId=${messageId}`, 
+  axios.delete( `http://18.217.163.16/me/pm/delete?messageId=${messageId}`, 
   {
     headers: {
         'Content-Type': 'application/json',

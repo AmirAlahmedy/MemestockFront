@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './Thread.css';
 import { Link } from 'react-router-dom';
 import '../../Sass/styles.scss';
-class Thread extends Component {
-    
+
+export default class Thread extends Component {
+
     state = {
         username: 'GiantSteps_',
         subreddit: 'jazztheory',
@@ -78,26 +79,27 @@ class Thread extends Component {
 
 
     render() {
-
+        console.log("thread", this.props.view);
+    
         return (
 
             <div className='threadWrapper'>
                 <div className="threadContainer">
-                    <Link to='/r/' className="threadSubreddit"> r/{this.props.subreddit}</Link>
-                    <br></br>
-                    <div className="threadUsername">
-                     <Link to="/user/">   Posted by u/{this.state.username} </Link>
+                    <div class="threadLinks">
+                        <Link to='/r/' className="threadSubreddit"> r/{this.props.subreddit}</Link>
+                        .
+                        <Link to="/user/" className="posted-by">   Posted by u/{this.state.username} </Link>
                     </div>
                     <br></br>
                     <div className="threadTitle">{this.props.title}</div>
 
                     <p className="threadContent">{this.props.content}</p>
 
-                    <span onClick={this.handleIncrement} className="incrementVotes">&#8679;</span>
+                    <button type="button" onClick={this.handleIncrement} className="incrementVotes"><i class="fas fa-angle-up"></i></button>
 
                     <div className="threadUpvotes">{this.state.upvotes}</div>
 
-                    <span onClick={this.handledecrement} className="decrementVotes">&#8681;</span>
+                    <button type="button" onClick={this.handledecrement} className="decrementVotes"><i class="fas fa-angle-down"></i></button>
 
                     <Link to='/thread/' className="threadComments">
                         {this.state.comments.length} comments
@@ -109,5 +111,3 @@ class Thread extends Component {
         );
     }
 }
-
-export default Thread;
