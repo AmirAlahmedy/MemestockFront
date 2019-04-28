@@ -124,7 +124,7 @@ class PMs extends Component {
     return (
       <Router>
         <Aux>
-
+          <div style={{width: "100%"}}>
           <Head />
           <Route path="/PM" exact component={Inbox} />
           <Route path="/Sent" component={Sent} />
@@ -140,12 +140,11 @@ class PMs extends Component {
                   <form name="myForm"
                     onSubmit={this.handleSubmit}>
                     <div>
-                      <label>To:</label>
                       <textarea
                         className="To"
                         name="To"
                         id="1"
-                        placeholder="(username, or /r/name for that subreddit's moderators)"
+                        placeholder="Username, or /r/name for that subreddit's moderators"
                         value={this.state.value}
                         onChange={this.handleChange}
 
@@ -153,20 +152,19 @@ class PMs extends Component {
                     </div>
 
                     <div>
-                      <label>Subject:</label>
                       <textarea
                         className="Subject"
                         name="Subject"
                         id="2"
                         value={this.state.value}
                         onChange={this.handleChange}
-
+                        placeholder="Subject"
                       />
                     </div>
 
                     <div>
-                      <label>Your Message:</label>
                       <textarea
+                        placeholder="Your message."
                         className="Message"
                         name="Message"
                         id="3"
@@ -187,7 +185,7 @@ class PMs extends Component {
 
             </div>
           </div>
-
+          </div>
         </Aux>
       </Router>
 

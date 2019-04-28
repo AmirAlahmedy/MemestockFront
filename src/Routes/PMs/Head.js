@@ -6,7 +6,6 @@ export class Head extends Component {
   render() {
     return (
    <header style = {styleAtt}> 
-          <h1 style = {headStyle}>Messaging</h1> 
           <NavLink style={linkStyle} to = "/PM/Compose">Compose a Message</NavLink>
           <NavLink style={linkStyle} to ="/PM">Inbox</NavLink>
           <NavLink style={linkStyle} to ="/Sent">Sent</NavLink>
@@ -19,19 +18,17 @@ export class Head extends Component {
 }
 export default Head;
 const styleAtt={
- padding : '10px',
+ padding : '1em',
  border : 'none' ,
- backgroundColor:'black',
+ backgroundColor:'#fff',
  textAlign : 'Center',
- color : 'White'
-
+ color : '#333',
+ display: "flex",
+ width: "100%",
+ justifyContent: "space-between"
 }
 const linkStyle={
-
-  textDecoration:'underline',
-  color :'yellow',
-      
-  
+  color :'#333',
 }
 
 const headStyle={

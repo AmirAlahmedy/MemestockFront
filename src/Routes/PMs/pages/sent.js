@@ -64,10 +64,11 @@ getMsgs()
   return this.state.Messages.map(msg=>(
     <div className="messageWrapper">
     <div className="MessageContainer">
-    <h1 className="subjectTitle">{msg.subject}:</h1>
-    <h1 className="receiverUsername">sent To {msg.receiverUsername}</h1>
+    <h1 className="subjectTitle">Subject: {msg.subject}</h1>
+    <h1 className="receiverUsername">To: {msg.receiverUsername}</h1>
+    <br />
     <p className="messageContent">{msg.messageBody}</p>
-    <button id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
+    <button class="deleteMsg" id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
     </div>
     </div>
   ))

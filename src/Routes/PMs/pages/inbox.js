@@ -163,10 +163,11 @@ getMsgs()
   return this.state.Messages.map((msg)=>(
     <div className={`messageWrapper ${msg.isRead ? "read" : "unread"}`}>
       <div className="MessageContainer">
-        <h1 className="subjectTitle">{msg.subject}:</h1>
-        <h1 className="senderUsername">from {msg.sender}</h1>
+        <h1 className="subjectTitle">Subject: {msg.subject}</h1>
+        <h1 className="senderUsername">From: {msg.sender}</h1>
+        <br />
         <p className="messageContent">{msg.messageBody}</p>
-        <button id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
+        <button className="deleteMsg" id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
         <button id={msg.sender} type="submit"  name="Block" onClick={this.BlockUser}>Block User</button>
         <button id={msg._id} type="submit"  name="markRead" onClick={this.MarkRead}>Mark Read  </button> 
         <button id={msg._id} type="submit"  name="markRead" onClick={this.MarkUnRead}>MarkUnRead  </button>   

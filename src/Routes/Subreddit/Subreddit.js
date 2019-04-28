@@ -309,18 +309,13 @@ export class Subreddit extends Component {
         </section>
         <nav id="subredditNavbar">
           <div className="subredditContainer">
-            <div>
-              <span className='srLinks'>Posts</span>
-              {/*<span className='srLinks'><Link to='./r/Rules'>Rules</Link></span>*/}
-            </div>
-          </div>
-          <div id="subredditSort">
+                <div id="subredditSort">
             <div className="subredditContainer">
 
               <div className="srSortdropdownMenu">
                 <button className='srSortdropButton'>
-                  SORT
-                    </button>
+                  Sorting <i class="downIcon fas fa-sort-down"></i>
+                </button>
                 <div role='menu' className='srdropList'>
                   <ul className='srSortdropUl'>
                     <li className='srSortdropdownItem' className='sort toHome'>Hot</li>
@@ -333,6 +328,8 @@ export class Subreddit extends Component {
                 </div>
               </div>
             </div>
+          </div>
+
           </div>
         </nav>
         <div class="subredditContainer">
