@@ -71,7 +71,7 @@ export class CardProf extends Component {
         </div>
 
         <button  onClick={this.createThread} className='new-post-button'>New post</button>
-        <Button clicked={this.gotoMod.bind(this)}>Profile Moderation</Button>
+        <a onClick={this.gotoMod.bind(this)} className='mod'>Profile Moderation</a>
         { 
                 this.state.threadCreation ?
               <div className="subredditSidebarComponent">
