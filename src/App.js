@@ -13,6 +13,7 @@ import * as actions from './store/actions/index';
 import GoHome from './Routes/GoHome/index.js';
 import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
 import User from './Components/User/User';
+import Moderation from './Routes/ModerationPage/ModerationPage';
 
 class Home extends Component {
 
@@ -106,6 +107,7 @@ class Home extends Component {
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
           <Route path='/user/' component={User}/>
+          <Route path='/user/moderation' component={Moderation}/>
           <Route path='/Home/' render={
             props => {
               return <Listings authToken={this.props.token} view={this.state.view.card} />

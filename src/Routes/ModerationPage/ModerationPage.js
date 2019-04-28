@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './ModerationPage.css';
 import { NavLink } from 'react-router-dom';
 import ModerationQueue from './ModerationQueue'
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';

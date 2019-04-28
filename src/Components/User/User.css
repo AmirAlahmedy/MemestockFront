@@ -47,6 +47,8 @@
 }
 .profit{
     padding: 0 20px;
+    text-decoration: none;
+    color: rgb(124, 124, 124);
 }
 .profit:hover{
     cursor: pointer;

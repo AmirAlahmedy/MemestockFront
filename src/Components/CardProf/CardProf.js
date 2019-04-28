@@ -3,12 +3,15 @@ import Button from '../UI/Button/Button';
 import defImage from '../../assets/images/redditor.png'
 import axios from 'axios';
 import './CardProf.css';
+import { NavLink } from 'react-router-dom';
 
 export class CardProf extends Component {
   state={
     threadCreation:false
   }
-
+  gotoMod(){
+    window.location.href = "/user/moderation";
+}
   createThread = (e) =>{
     e.preventDefault();
     this.setState({
@@ -68,6 +71,7 @@ export class CardProf extends Component {
         </div>
 
         <button  onClick={this.createThread} className='new-post-button'>New post</button>
+        <Button clicked={this.gotoMod.bind(this)}>Profile Moderation</Button>
         { 
                 this.state.threadCreation ?
               <div className="subredditSidebarComponent">
