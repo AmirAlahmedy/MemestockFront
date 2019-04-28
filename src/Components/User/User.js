@@ -60,7 +60,7 @@ goTo(link){
 
       <div className="gamb">
           <div className="stuff">
-            <p>Youssef</p>
+            <p>{this.props.username}</p>
           </div>
      <Route path='/user/moderation' component={Moderation}/>
 

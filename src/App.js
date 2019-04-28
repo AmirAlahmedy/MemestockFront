@@ -26,7 +26,6 @@ class Home extends Component {
   }
 
 
-
   componentDidMount = () => {
 
     // console.log(this.props.token);
@@ -70,19 +69,20 @@ class Home extends Component {
     localStorage.removeItem("token");
     window.location.reload();
   }
-
+  
+ 
 
   render() {
-    // let nestedRoutes = false;
-    // let list = nestedRoutes ? <Route path='/Home/' exact component={NestedListings} /*render={
-    //     props=>{
-    //       return(
-    //         <NestedListings />
-    //       );
-    //     }
-    //   } *//> : <Route path='/Home/' exact component={Listings} />;
-
-    // let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration} /> : null;
+    console.log(window.pageYOffset);
+    console.log("app props", this.props);
+   
+    window.onscroll = function(){
+   
+    if(window.scrollY > 40)
+      document.getElementById("topJump").className = "backtoTop";
+      else
+      document.getElementById("topJump").className = "hidden";
+   }
 
     return (
       <div className='Home' >
@@ -99,14 +99,18 @@ class Home extends Component {
           <Route path='/Inbox'  component={PMs}/>
           <Route path='/Sent/'  component={PMs}/>
           <Route path='/CreatePost/' component={CreatePost} />
-          <Route path='/CreatePost/' component={CreatePost} />
-          <Route path='/CreatePost/' component={CreatePost} />
+          {/* <Route path='/CreatePost/' component={CreatePost} />
+          <Route path='/CreatePost/' component={CreatePost} /> */}
           <Route path='/settings/' component={Settings} />
           <Route path='/r/' component={Subreddit} />
           <Route path='/thread/' component={ThreadPage} />
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
-          <Route path='/user/' component={User}/>
+          <Route path='/user/' render={
+            props=>{
+              return <User username={this.props.username}/>
+            }
+          }/>
           <Route path='/user/moderation' component={Moderation}/>
           <Route path='/Home/' render={
             props => {
@@ -138,11 +142,11 @@ class Home extends Component {
             </div> : <span></span>}
             */}
 
-
+          
         <footer>
           <p>
-            <a href="#top" className='backtoTop'>
-              <i class="fas fa-chevron-circle-up"></i>
+            <a href="#top" id = "topJump" className="hidden">
+              <i className="fas fa-chevron-circle-up"></i>
             </a>
           </p>
         </footer>
