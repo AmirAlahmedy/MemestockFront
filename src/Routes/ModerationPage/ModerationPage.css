@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 .Container{
   padding-top: 80px;
@@ -27,6 +27,7 @@
 .link{
   color:blue;
   font-size:30px;
+  text-align:left;
 }
 .Intro{
   width : 50% 
