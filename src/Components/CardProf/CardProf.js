@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Button from '../UI/Button/Button';
 import defImage from '../../assets/images/redditor.png'
 import axios from 'axios';
+import './CardProf.css';
+
 export class CardProf extends Component {
   state={
     threadCreation:false
@@ -52,7 +54,7 @@ export class CardProf extends Component {
 
   render() {
     return (
-      <div>
+      
        <sidebar className='gamb'>
         <div className="awelhetta">
             <img src={defImage} alt="soret reddit"/>
@@ -65,7 +67,7 @@ export class CardProf extends Component {
 
         </div>
 
-        <button  onClick={this.createThread}>New post</button>
+        <button  onClick={this.createThread} className='new-post-button'>New post</button>
         { 
                 this.state.threadCreation ?
               <div className="subredditSidebarComponent">
@@ -85,7 +87,7 @@ export class CardProf extends Component {
               </div> : <div></div>
               }
        </sidebar>
-       </div>
+       
     )
   }
 }

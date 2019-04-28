@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import CardProf from '../CardProf/CardProf';
 import './User.css';
+import Aux from '../HOC/Auxiliary';
 export class User extends Component {
+
   state ={
     username:'',
     me:true
@@ -22,33 +24,34 @@ goTo(link){
 
   render() {
     return (
+      <Aux>
 
       <div className="ana">
         <div className="aho">
 
-        <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-           <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+        
+      <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
+           <ul className="navbar-nav mr-auto proful">
+          <li className="nav-item active profit">
             <span onClick={this.goTo('/user/')} class="nav-link">Overview</span>
           </li>
           
-          <li class="nav-item">
+          <li className="nav-item profit">
             <span onClick={this.goTo('/user/posts')} class="nav-link">Posts</span>
           </li>
-          <li class="nav-item">
+          <li className="nav-item profit">
             <span onClick={this.goTo('/user/comments')} class="nav-link">Comments</span>
           </li>
-          <li class="nav-item">
+          <li className="nav-item profit">
             <span onClick={this.goTo('/user/saved')} class="nav-link">Saved</span>
           </li>
-          <li class="nav-item">
+          <li className="nav-item profit">
             <span onClick={this.goTo('/user/hidden')} class="nav-link">Hidden</span>
           </li>
         </ul> 
 
       </nav>
-      </div>
+      
       </div>
 
 
@@ -61,17 +64,10 @@ goTo(link){
 
 
       </div>
-
-
-
-
-
-
-
-    <CardProf></CardProf>
-
       </div>
+     <CardProf></CardProf> 
 
+      </Aux>
         
 
       

@@ -14,6 +14,7 @@
     padding-right: 20px;
     padding-bottom: 15px;
     color: rgb(132, 134, 136);
+    
 }
 .tanihetta{
     margin-left: 10px;
@@ -24,4 +25,22 @@
     cursor: default;
     margin-bottom: 12px;
     flex: 1 1 50%;
+}
+
+.new-post-button{
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: calc(100% - 2em);
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 16px;
+    text-transform: uppercase;
+    margin: 0 1em;
 }
