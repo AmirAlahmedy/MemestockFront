@@ -78,7 +78,7 @@ class Home extends Component {
    
     window.onscroll = function(){
    
-    if(window.scrollY > 40)
+    if(window.scrollY > 500)
       document.getElementById("topJump").className = "backtoTop";
       else
       document.getElementById("topJump").className = "hidden";

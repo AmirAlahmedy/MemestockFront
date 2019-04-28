@@ -47,7 +47,8 @@ const token = Listings.token;
 
 class Threads extends Component {
     state = {
-        threads: []
+        threads: [],
+        sort: 'new'
     }
 
     startPosition = { startPosition: 0 };
@@ -63,14 +64,14 @@ class Threads extends Component {
 
         if (inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction')) {
 
-            axios.post('/me/listing?type=new', this.startPosition, { headers: this.headers })
+            axios.get(`/me/listing?type=${this.state.sort}&_id=0&votes=0&hotindex=0`, { headers: this.headers })
                 .then(response => {
                     console.log(response);
                     this.reqThreads = response.data;
                     this.setState({ reqThreads: response.data });
 
-                    let thrds = this.createThreads(response.data);
-                    this.setState({ threads: thrds });
+                    // let thrds = this.createThreads(response.data);
+                    // this.setState({ threads: thrds });
                 })
                 .catch(error => {
 
@@ -132,6 +133,21 @@ class Threads extends Component {
         window.location.href = "/create-subreddit/";
     }
     render() {
+        function getDocHeight() {
+            var D = document;
+            return Math.max(
+                D.body.scrollHeight, D.documentElement.scrollHeight,
+                D.body.offsetHeight, D.documentElement.offsetHeight,
+                D.body.clientHeight, D.documentElement.clientHeight
+            );
+        }
+        window.onscroll = function() {
+            let t = 1;
+            if(window.scrollY  == 1450*t) {
+                alert("bottom!");
+                t++;
+            }
+         };
         console.log(this.props.token);
 
         return (
