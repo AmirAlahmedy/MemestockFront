@@ -9,15 +9,11 @@ import Listings from './Components/Listings/Listings'
 import Settings from './Routes/Settings/Settings';
 import Subreddit from './Routes/Subreddit/Subreddit';
 import ThreadPage from './Routes/Thread-page/thread-page';
-import SideBar from './Components/SideBar/SideBar';
-import NestedListings from './Components/Listings/NestedListings';
 import * as actions from './store/actions/index';
 import GoHome from './Routes/GoHome/index.js';
-import Registration from './Routes/Registration/Registration';
 import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
-import Logout from './Routes/Logout/Logout';
-import Inbox from './Routes/PMs/pages/inbox';
-import Sent from './Routes/PMs/pages/sent';
+import User from './Components/User/User';
+
 class Home extends Component {
 
   state = {
@@ -109,6 +105,7 @@ class Home extends Component {
           <Route path='/thread/' component={ThreadPage} />
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
+          <Route path='/user/' component={User}/>
           <Route path='/Home/' render={
             props => {
               return <Listings authToken={this.props.token} view={this.state.view.card} />

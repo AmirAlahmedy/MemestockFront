@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import CardProf from '../CardProf/CardProf';
+import './User.css';
 export class User extends Component {
   state ={
     username:'',

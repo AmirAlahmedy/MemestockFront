@@ -5,14 +5,10 @@ import { BrowserRouter as Router, Switch, Route, withRouter, Redirect, NavLink }
 import data from '../../Mocks/threads-data.json';
 import axios from '../../axios-orders';
 import '../../Sass/styles.scss';
-import { connect } from 'react-redux';
-import ginprodReducer from '../../store/reducers/production';
-import * as actions from '../../store/actions/index';
-import SideBar from '../SideBar/SideBar';
 import Subreddit from '../../Routes/Subreddit/Subreddit';
 import Aux from '../HOC/Auxiliary';
 import Button from '../UI/Button/Button';
-import ClassicThread from '../../Routes/Thread/Classic View Thread/classic-view-thread';
+
 
 let inProduction = true;
 let view = null;
@@ -153,17 +149,3 @@ class Threads extends Component {
         )
     }
 }
-const mapStateToProps = state => {
-    return {
-        ginProd: state.globalInProduction,
-        //token: state.token
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        // token: () => dispatch( actions.authSuccess() )
-    };
-};
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Listings));
