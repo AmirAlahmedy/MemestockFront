@@ -1,22 +1,26 @@
 h2{
-    color: rgb(124, 124, 124);
+    color: rgb(28, 28, 28);
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
     padding: 40px 0px;
+    
 }
+
 .ayhaga-ay{
     max-width: 1200px;
     display: flex;
-    margin: 0px auto;
-    padding: 0px 16px;
+    /* margin: 0px auto; */
+    /* padding: 0px 16px; */
     float:left;
-    margin: 0;
-    padding: 0;
+    /* margin: 0 50px; */
+    /* padding: 0px; */
     border: 0;
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+   
+    
 }
 .profile-info{
     font-size: 15px;
@@ -42,7 +46,7 @@ h2{
     color: rgb(124, 124, 124);
 }
 .display-box p{
-    font-size: 17px;
+    font-size: 12px;
     font-weight: 300;
     line-height: 16px;
     color: rgb(124, 124, 124);
@@ -52,7 +56,7 @@ h2{
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
-    
+   
 
 }
 .optional-name{
@@ -95,7 +99,7 @@ h2{
 
 }
 .ab1 p{
-    font-size: 20px;
+    font-size: 12px;
     font-weight: 300;
     line-height: 16px;
     text-align: center;
@@ -112,7 +116,7 @@ h2{
     align-items: center;
 }
 .ab2 textarea{
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255);
     box-sizing: border-box;
     color: rgb(28, 28, 28);
     display: block;
@@ -122,7 +126,16 @@ h2{
     border-color: rgb(237, 239, 241);
     border-image: initial;
     border-radius: 4px;
-    padding: 8px;
+    padding: 8px; */
+    margin: 0 auto;
+    border-radius:4px;
+    border: 1px solid #ccc;
+    resize: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 0.85em;
+    padding: 1em;
+    width: 100%;
 }
 .char{
     font-size: 12px;

@@ -110,7 +110,7 @@ const NavBar = props => {
                     </span>
                     <span className='rightLinks'>
                         <NavLink to='/CreatePost/'>
-                            <i className="far fa-edit"></i>
+                            <i className="far fa-edit post"></i>
                         </NavLink>
                     </span>
                     <span className='rightLinks'>

@@ -3,13 +3,13 @@
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    color: rgb(28, 28, 28);
+    /* color: rgb(28, 28, 28); */
     display: inline-block;
     line-height: unset;
     margin-right: 8px;
-    border-bottom: 3px  rgb(65, 80, 244);
+    /* border-bottom: 3px  rgb(65, 80, 244); */
     padding: 15px 12px 12px;
-  
+    float: left;
 }
 
 .tab{
@@ -20,8 +20,14 @@
     display: inline-block;
     line-height: unset;
     margin-right: 8px;
-    border-bottom: 3px solid rgb(124, 124, 124);
+    /* border-bottom: 3px solid rgb(124, 124, 124); */
     padding: 15px 12px 12px;
+    text-decoration: none;
+}
+
+.tab:focus{
+    border-bottom: 3px solid rgb(65, 80, 244);
+    color: rgb(28, 28, 28);
 }
 
 

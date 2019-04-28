@@ -3,9 +3,9 @@ import './SettProfile.css'
 
 const SettProfile = () => {
   return (
-    <div class="ayhaga-ay">
+  //  <div class="ayhaga-ay">
     <div class="ayhaga">
-              <h2>Customize Profile</h2>
+             <h2>Customize Profile</h2>
               <h3 class="profile-info">Profile Information</h3>
 
               <div className="display-box">
@@ -38,7 +38,7 @@ const SettProfile = () => {
 
 
         </div>
-    </div>
+  //  </div>
   )
 }
 

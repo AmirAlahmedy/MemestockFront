@@ -10,7 +10,8 @@ class Settings extends Component {
   render() {
     return (
       <div className="Settings">
-      <div ><h4>User Settings</h4></div>
+      <h3>User Settings</h3>
+      <hr></hr>
       <Tablist/>
       <Switch>
 

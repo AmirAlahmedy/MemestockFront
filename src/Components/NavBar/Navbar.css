@@ -92,7 +92,8 @@ body{
     background-color: #ccc;
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(215, 218, 220);
+    /* border-color: rgb(215, 218, 220); */
+    border-color: rgb(0, 121, 211);
     border-image: initial;
 }
 .dropdownMenu{
@@ -261,4 +262,11 @@ body{
 .filter-input:focus{
     outline: 0;
     border-bottom: 1px solid #ccc;
+}
+.post{
+    color: rgb(0, 121, 211);
+}
+.rightLinks a:hover{
+    background-color: rgba(26, 26, 27, 0.1);
+    border-radius: 5px;
 }
