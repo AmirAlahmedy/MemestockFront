@@ -11,6 +11,7 @@ class Inbox extends React.Component {
                 this.state = {
               
                   Messages: [],
+                  BlockList:[],
                 isLoading: true,
                 errors: null
                 
@@ -18,6 +19,7 @@ class Inbox extends React.Component {
               
   this.handleClick = this.handleClick.bind(this); 
   this.BlockUser = this.BlockUser.bind(this);
+  this.blockList=this.blockList.bind(this);
             };
   
    
@@ -25,10 +27,10 @@ class Inbox extends React.Component {
     console.log(this.props);
 
     const jsondata ={'mine':true}
-    axios.post( 'me/pm/',jsondata, {
+    axios.get( 'me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
-            auth: localStorage.getItem("token")
+            'auth': localStorage.getItem("token")
           },
           
       })
@@ -146,6 +148,32 @@ BlockUser(e){
 
 });
 }
+blockList()
+{
+  axios.get  ( 'me/pm/blocklist', 
+  {
+    headers: {
+        'Content-Type': 'application/json',
+        auth: localStorage.getItem("token")
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data)
+  this.setState({
+    BlockList : res.data.blockList,
+    isLoading : false
+  });
+ this.getBlockList();
+})
+.catch(error => {
+  console.log(error.response)
+
+
+});
+}
 // displaying the inbox messages.
    /**
      * Receiving the messages and displaying them in the inbox.
@@ -157,9 +185,6 @@ getMsgs()
   {
     return ; 
   } 
-
-    
-
   return this.state.Messages.map((msg)=>(
     <div className={`messageWrapper ${msg.isRead ? "read" : "unread"}`}>
       <div className="MessageContainer">
@@ -177,6 +202,22 @@ getMsgs()
     </div>
   ));
   }
+  getBlockList()
+{
+  if (this.state.BlockList===0)
+  {
+    return;
+  }
+  return this.state.BlockList.map((blocklist)=>(
+
+<div className="blockeduser">
+        <h1 className="blockedusername">{blocklist.blocked}</h1>
+        <button id={blocklist.blocked}  type="submit"  name="unBlock" onClick={this.unBlockUser}>UnBlockUser  </button>  
+        <br />
+        </div>
+        ));
+      }
+  
   MarkReadAll(e){
     const element = e.target;
     const messageId=element.getAttribute("id");
@@ -384,6 +425,43 @@ getMsgs()
   });
   }
 
+  unBlockUser(e){
+    const element = e.target;
+    const blockedUser=element.getAttribute("id");
+    axios.post( 'me/pm/block',{
+      blocked: blockedUser,
+      block: false
+    }, {
+      headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+  
+      },
+      
+  })
+  .then(res => {
+    console.log(res);
+    console.log(res.data);
+    alert ("unBlock Succeeded");
+    
+  
+    
+    //in case sucess..
+    
+  
+  })
+  .catch(error => {
+    console.log(error.response)
+    if (error.response.data.error==="canNotBUnblockNonBlockedUser")
+    {
+      alert ("unblocking not blocked user");
+      return;
+    }
+  
+  
+  });
+  }
+
   render() {
     let msg = this.state.Messages;
     
@@ -391,7 +469,9 @@ getMsgs()
       <div>
         <div className="markRead">
         <button id={msg._id} type="submit"  name="markRead" onClick={this.MarkReadAll.bind(this)}>Mark AllRead  </button> 
-        <button id={msg._id} type="submit"  name="markunRead" onClick={this.MarkUnReadAll.bind(this)}>Mark All Unread  </button>  
+        <button id={msg._id} type="submit"  name="markunRead" onClick={this.MarkUnReadAll.bind(this)}>Mark All Unread  </button> 
+        <button id={msg._id} type="submit"  name="blockList" onClick={this.blockList.bind(this)}>BlockList </button>  
+
         </div>
   
 {this.getMsgs()}

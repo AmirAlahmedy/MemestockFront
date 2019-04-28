@@ -10,6 +10,7 @@ class Sent extends React.Component {
     this.state = {
   
       Messages: [],
+
     isLoading: true,
     errors: null
     
@@ -21,7 +22,7 @@ class Sent extends React.Component {
    
   componentDidMount() {
     const jsondata ={'mine':false}
-    axios.post( 'me/pm/',jsondata, {
+    axios.get( 'me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
             'auth': localStorage.getItem("token")

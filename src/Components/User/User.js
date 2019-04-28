@@ -62,7 +62,7 @@ goTo(link){
           <div className="stuff">
             <p>Youssef</p>
           </div>
-     <Route path='/user/moderation' component={Moderation}/>
+     <Route exact path='/user/moderation' component={Moderation}/>
 
 
       </div>
