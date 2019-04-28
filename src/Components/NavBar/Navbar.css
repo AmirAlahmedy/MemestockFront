@@ -241,9 +241,12 @@ body{
     color: #333;
     -webkit-flex: 1 1;
     flex: 1 1;
-    height: 36px;
-    width: 100%;
-    border: none;
+    height: 34px;
+    position: relative;
+    top: 0px;
+    width: 95%;
+    border: 0;
+    border-left: 1px solid #ccc;
     outline: none;
     background-color: #fff;
     text-indent: 10px;

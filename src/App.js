@@ -16,7 +16,8 @@ import GoHome from './Routes/GoHome/index.js';
 import Registration from './Routes/Registration/Registration';
 import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
 import Logout from './Routes/Logout/Logout';
-
+import Inbox from './Routes/PMs/pages/inbox';
+import Sent from './Routes/PMs/pages/sent';
 class Home extends Component {
 
   state = {
@@ -50,7 +51,7 @@ class Home extends Component {
     });
   }
 
-  classicViewHandler(){
+  classicViewHandler() {
     this.setState({
       view: {
         card: false,
@@ -63,18 +64,14 @@ class Home extends Component {
   userHasLoggedIn(token) {
     if (token) {
       localStorage.setItem("token", token);
-      this.setState({
-        isAuth: true
-      });
+      window.location.reload();
     }
   }
 
   logout(e) {
     e.preventDefault();
     localStorage.removeItem("token");
-    this.setState({
-      isAuth: false
-    });
+    window.location.reload();
   }
 
 
@@ -101,30 +98,22 @@ class Home extends Component {
           cardViewHandler={this.cardViewHandler.bind(this)} />
 
         <Switch>
-          <Route path='/PM/'  /*component={PMs}*/ render={
-            props => {
-              return (
-                <PMs token={this.props.token} />
-              );
-            }
-          } />
+          <Route path='/PM/'  component={PMs}/>
+          <Route path='/Inbox'  component={PMs}/>
+          <Route path='/Sent/'  component={PMs}/>
           <Route path='/CreatePost/' component={CreatePost} />
-          <Route path='/settings/' render={Settings} />
+          <Route path='/CreatePost/' component={CreatePost} />
+          <Route path='/CreatePost/' component={CreatePost} />
+          <Route path='/settings/' component={Settings} />
           <Route path='/r/' component={Subreddit} />
-          <Route path='/thread/' exact render={
-            props => {
-              return (
-                <ThreadPage token={this.props.token} />
-              );
-            }
-          }/>
+          <Route path='/thread/' component={ThreadPage} />
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
-          <Route path='/' exact  render={
-                  props=>{
-                    return <Listings authToken={this.props.token} view={this.state.view.card}/>
-                  }
-                }/>
+          <Route path='/Home/' render={
+            props => {
+              return <Listings authToken={this.props.token} view={this.state.view.card} />
+            }
+          } />
         </Switch>
         {/* <Route path='/PM/'  /*component={PMs} render={
                 props=>{
@@ -141,7 +130,7 @@ class Home extends Component {
               <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
         {/* <Route path='/:username' component={CreateSubReddit}/> */}
 
-        
+
 
 
 

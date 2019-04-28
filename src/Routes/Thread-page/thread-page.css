@@ -7,62 +7,43 @@
 .pagethread{
     margin-bottom: 5px;
 }
-
+.page{
+    width: 100%;
+}
 .commentUser{
-    width:68%;
-    display: block;
-    color: brown;
-     overflow-wrap: break-word;
-     word-break: break-word;
-     text-align: left;
-     font-size: 14px;
-     font-weight: 650;
-     margin-bottom: 1px;
-     line-height: 24px;
-     padding-right: 5px;
-     padding-left:20px;
-     margin-left: 5px;
-    
+    padding: 1em;
+    color: grey;
+    text-align: left;
+    cursor: pointer;
 }
 .commentUser:hover{
     text-decoration: underline;
 }
 .comment{
-    display: block;
-     overflow-wrap: break-word;
-     word-break: break-word;
-     text-align: left;
-     font-size: 15px;
-     margin-bottom: 1px;
-     line-height: 24px;
-     padding-right: 5px;
-    
-    }
+    color: #333;
+    text-align: left;
+    padding: 1em;    
+}
     .spoiler{
-        display: block;
-        color:rgb(25, 180, 46);
-        font-style: italic;
-        font-weight: bold;
-         overflow-wrap: break-word;
-         word-break: break-word;
-         text-align: left;
-         font-size: 15px;
-         margin-bottom: 1px;
-         line-height: 24px;
-         padding-right: 5px;
-         padding-left:20px;
-         margin-left: 10px;
-        
-        }
-
+        color: #333;
+        text-align: left;
+        line-height: 24px;
+        margin-left: 1em;
+        position: relative;
+    }
+.spoiler::after{
+    content: "Spoiler";
+    position: absolute;
+    top: -2.5em;
+    font-weight: bold;
+    color: #da0046;
+    padding: 0px 0.5em;
+    border: 1px solid #da0046; 
+}
     .threadComment{
-        background-color: rgb(15, 15, 17);
         width: 95%;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 0px;
-        float:left;
-        padding-left:10px;
-    
+        background: #fff;
+        list-style-type: none;
     }
     .editComment
     {
@@ -85,12 +66,18 @@
    
     .replyComment
     {
-        background-color: rgb(167, 115, 48);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
+        background: transparent;
+        border: 0;
+        font-size: 1em;
+        position: relative;
+        left: 45%;
+        bottom: 3em;
+        text-align: right;
+        cursor: pointer;
+        color: grey;
+    }
+    .replyComment:hover{
+        color: #333;
     }
     .commentContainer
     {
@@ -102,54 +89,59 @@
         border-radius: 5px;
 
     }
-    .saveComment
-    {
-        margin-right: 300px;
-        margin-top:30px;
-        margin-left: 40px;
-        background-color: rgb(167, 115, 48);
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-        float:left;
+    .saveComment {
+        text-align: center;
+        background-color: #0079D3;
+        border: none;
+        color: #fff;
+        outline: none;
+        cursor: pointer;
+        /* font: inherit; */
+        font-size: 14px;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 3px;
+        width: 90%;
+        display: inline-block;
+        margin: 1em 5%;
+        padding-left: 0;
+        letter-spacing: 0.5px;
+        line-height: 32px;
+        text-transform: uppercase;
+        transition: box-shadow 0.2s ease;
     }
-    
-    .textComment
-    {
-        margin-left:10px;
-        width: 98%;
-        top:10px;
-        height: 70px;
-        border: 0px solid #cccccc;
-        font-family: Tahoma, sans-serif;
-         background-repeat: no-repeat;float:left;
-        display :inline-block;
-        font-family: 'Open Sans', sans-serif;
-         font-size:15px;
-        display: flex;
-        border-radius: 7px;
-      height:95px;
+    .saveComment:hover{
+        background-color: #33a8ff;
+    }
+    .textComment {
+        width: 100%;
+        border-radius: 0;
+        height:95px;
+        margin: 0;
+        padding: 1em;
+        border-bottom: 1px solid #fff;
+    }
+    .textComment:focus{
+        outline: 0;
+        border-bottom: 1px solid #ccc;
+    }
+.addCommentSection{
+    margin: 0 1.5em;
+    width: 90%;
+    border: 1px solid #ccc;
+    background: #fff;
+    text-align: left;
 }
 .threadPageSidebarContainer{
     width:29%;
-    float:right;
-    padding:0;
+    float:left;
+    margin: 2.6em 0;
     box-sizing:border-box;
-    margin-top:10px;
-    margin-left:10px;
+    box-shadow: 0 0 3px rgba(51,51,51,0.5);
 }
 .threadPageSidebarComponent1{
-    
-    margin-top:15px;
-    padding:15px;
-    margin-bottom:15px;
-    background-color: rgb(26, 26, 27);
-    border-bottom: 1px solid rgb(52, 53, 54);
-    border-right:  1px solid rgb(52, 53, 54);
-    border-left:  1px solid rgb(52, 53, 54);
-    border-top:  1px solid rgb(52, 53, 54);
-    border-radius: 6px;
+    padding: 1em;
+    background-color: #fff;
 }
 
 .threadPageSidebarComponent1 h5 {
@@ -291,32 +283,48 @@
     background-color:rgb(26, 26, 27);
 }
 .threadPageSidebarEditButton1{
-    margin:10px 0px;
-    padding:10px;
-    width:100%;
-    border-radius: 7px;
-    background-color:lightgrey;
-    font-size:18px;
-    font-weight: 600;
-    cursor:pointer;
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    /* font: inherit; */
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+    transition: box-shadow 0.2s ease;
 }
 .threadPageSidebarEditButton1:hover{
-    color:rgb(233, 172, 92);
-    background-color:rgb(26, 26, 27);
+    background-color: #33a8ff;
 }
 .threadPageSidebarDeleteButton { 
-    margin:10px 0px;
-    padding:10px;
-    width:100%;
-    border-radius: 7px;
-    background-color:lightgrey;
-    font-size:18px;
-    font-weight: 600;
-    cursor:pointer;
+    background:rgb(128,12,12);
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
 }
 .threadPageSidebarDeleteButton:hover{
-    color:rgb(233, 172, 92);
-    background-color:rgb(26, 26, 27);
+    background: #da0046;
 }
 .threadPageSidebarEditButton2 { 
     margin:10px 0px;
@@ -352,27 +360,18 @@
     text-align:center;
 }
 */
-.spoilerComment
+.commentList{
+    padding: 0;
+    margin: 1.5em;
+    width: 95%;
+}
+.spoilerComment,
+.lockComment
     {
-        background-color: rgb(167, 115, 48);
-        margin-left:10px;
-        margin-top:20px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-    }
-    .lockComment
-    {
-        margin-left:10px;
-        margin-top:30px;
-        margin-right:10px;
-        background-color: rgb(167, 115, 48);
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-
+        color: #333;
+        margin: 0.5em 1em;
+        display: inline-block;
+        padding: 1em;
     }
     .goEdit
     {

@@ -1,17 +1,15 @@
     .createPostContainer{
-        font-style: arial;
-        text-align: center;
-        color:rgb(132, 134, 136);
-        width:80%;
+        font-style: inherit;
+        color:#333;
+        width:50%;
+        max-width: 600px;
+        min-width: 300px;
         overflow: hidden;
-        margin-top:25px;
-        margin-bottom:15px; 
-        background-color: rgb(26, 26, 27);
-        border-bottom: 1px solid rgb(52, 53, 54);
-        border-right:  1px solid rgb(52, 53, 54);
-        border-left:  1px solid rgb(52, 53, 54);
-        border-top:  1px solid rgb(52, 53, 54);
-        border-radius: 6px;
+        margin: 0 auto;
+        border-radius: 4px;
+        background: #fff;
+        padding: 1em;
+        box-shadow: 0 0 7px rgba(51,51,51,0.5);        
     }
     h3{
         font-style: inherit;
@@ -23,44 +21,61 @@
         padding-left:1%;
         border:0;
     }
-
+    .formGroupThreadCheckbox{
+        font-size:18px;
+        text-align: left;
+        padding-bottom:15px;
+    }
     .formGroupThreadComponent{
         font-size:18px;
         text-align: left;
-        padding-left:20px;
-        padding-right:20px;
-        padding-bottom:15px;
-        color:rgb(132, 134, 136);
-    }
-    .formGroupThreadComponent label{
-        color:rgb(116, 193, 219);
+        padding: 1em;
+        display: block;
+        box-sizing: border-box;
     }
     .formGroupThreadComponent textarea{
-        margin-top:10px;
-        margin-bottom:10px;
-        border-radius:10px;
-        width:100%;
+        margin: 0 auto;
+        border-radius:4px;
+        border: 1px solid #ccc;
+        resize: none;
+        overflow-y: auto;
+        overflow-x: hidden;
+        font-size: 0.85em;
+        padding: 1em;
+        width: 100%;
+    }
+    .spoilerLabel{
+        margin: 0 1em;
     }
     .formGroupThreadComponent input{
-        margin-top:10px;
-        margin-bottom:10px;
-        border-radius:10px;
+        border-radius:4px;
+        border: 1px solid #ccc;
+        padding: 1em;
+        font-size: 0.85em;
         width:100%;
     }
     .formGroupThreadComponent label {
-        float:left;
+        padding-bottom: 0.7em;
+        display: inline-block;
     }
     .threadPageCreateButton {
-        margin:10px 30px 30px;
-        padding:10px;
-        width:50%;
-        border-radius: 7px;
-        background-color:lightgrey;
-        font-size:18px;
-        font-weight: 600;
-        cursor:pointer;
+        background-color: #0079D3;
+        border: none;
+        color: #fff;
+        outline: none;
+        cursor: pointer;
+        /* font: inherit; */
+        font-size: 14px;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 3px;
+        width: calc(100% - 2em);
+        padding-left: 0;
+        letter-spacing: 0.5px;
+        line-height: 32px;
+        text-transform: uppercase;
+        margin: 0 1em;
     }
     .threadPageCreateButton:hover{
-        color:rgb(233, 172, 92);
-        background-color:rgb(26, 26, 27);
+        background-color: #33a8ff;
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
-import axios from 'axios';
+import axios from '../../../axios-orders.js';
 import '../PMs.css';
 import './sent.css';
 
@@ -21,10 +21,10 @@ class Sent extends React.Component {
    
   componentDidMount() {
     const jsondata ={'mine':false}
-    axios.post( 'http://18.217.163.16/me/pm/',jsondata, {
+    axios.post( 'me/pm/',jsondata, {
           headers: {
               'Content-Type': 'application/json',
-            auth: localStorage.getItem("token")
+            'auth': localStorage.getItem("token")
     
           },
           
@@ -34,7 +34,7 @@ class Sent extends React.Component {
         console.log(response.data);
         
         this.setState({
-          Messages : response.data,
+          Messages : response.data.messages,
           isLoading : false
         });
         console.log(this.state.Messages);
@@ -57,11 +57,15 @@ class Sent extends React.Component {
      */
 getMsgs()
 {
+  if (this.state.Messages.length === 0)
+  {
+    return ;
+  }
   return this.state.Messages.map(msg=>(
     <div className="messageWrapper">
     <div className="MessageContainer">
     <h1 className="subjectTitle">{msg.subject}:</h1>
-    <h1 className="receiverUsername">sent To {msg.receiverUsername} sent {msg.messageDate}</h1>
+    <h1 className="receiverUsername">sent To {msg.receiverUsername}</h1>
     <p className="messageContent">{msg.messageBody}</p>
     <button id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  </button>   
     </div>
@@ -78,9 +82,8 @@ getMsgs()
 handleClick(e){
   const element = e.target;
   const messageId=element.getAttribute("id");
-  console.log(this.props.token);
   console.log(messageId);
-  axios.delete( `http://18.217.163.16/me/pm/delete?messageId=${messageId}`, 
+  axios.delete( `me/pm/delete?messageId=${messageId}`, 
   {
     headers: {
         'Content-Type': 'application/json',

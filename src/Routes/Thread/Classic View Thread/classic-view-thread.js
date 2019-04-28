@@ -1,34 +1,7 @@
 import React, { Component } from 'react';
-import './Thread.css';
-import { Link } from 'react-router-dom';
-import '../../Sass/styles.scss';
-
-export default class Thread extends Component {
-
-    state = {
-        username: 'GiantSteps_',
-        subreddit: 'jazztheory',
-        title: 'Modal Harmony Interchange',
-        content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-        comments: [
-            {
-                username: 'WreakingHavoc',
-                comment: 'I rememeber when I had something to say!'
-            },
-            {
-                username: 'CluelessBastard',
-                comment: 'Oh this is so relatable'
-            }
-        ],
-        upvotes: 0,
-        date:'',
-        enableUp: false,
-        enableDown: false
-    }
-    // mocks = data.threads[2];
 
 
-
+export default class ClasssicThread extends Component{
     /**
      * Handles upvotes increments.
      * @function handleIncrement
@@ -84,22 +57,20 @@ export default class Thread extends Component {
     }
 
     render() {
-        let thrdWrapper = this.props.view ? 'threadWrapper':'classicThreadWrapper';
-        let thrdCont = this.props.view ? "threadContainer":'classicThreadContainer';
-        let thrdContent = this.props.view ? 'threadContent':'classicThreadContent';
+
         return (
         
-            <div /*className={thrdWrapper}*/>
-                <div className={thrdCont}>
+           
+                <div className= 'classicThreadContiner'>
+                    
+                    <div className="threadTitle">{this.props.title}</div>
+
                     <div class="threadLinks">
                         <span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}</span>
                         .
                         <span onClick={this.goTo(`/user/${this.props.username}`)}className="posted-by">   Posted by u/{this.props.username} </span>
                     </div>
                     <br></br>
-                    <div className="threadTitle">{this.props.title}</div>
-
-                    <p className={thrdContent}>{this.props.content}</p>
 
                     <button type="button" onClick={this.handleIncrement} className="incrementVotes"><i class="fas fa-angle-up"></i></button>
 
@@ -112,7 +83,7 @@ export default class Thread extends Component {
 
 
                 </div>
-            </div>
+            
         );
     }
 }

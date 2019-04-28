@@ -53,6 +53,13 @@ function closeRegistration(){
 function closeLogin(){
     document.querySelector(".loginContainer").style.display = "none";
 }
+
+function goTo(link){
+    return function(){
+        window.location.href = link;
+    } 
+}
+
 const NavBar = props => {
     console.log("navBar props: ", props)
 
@@ -74,10 +81,10 @@ const NavBar = props => {
                     <div role='menu' className='dropList'>
                         <input id='filter' className="filter-input" placeholder='Filter' onChange={filterList}></input>
                         <ul id='my-ul' className='dropUl'>
-                            <li className='dropdownItem'><NavLink to='/GoHome/' className='sort toHome'>Home</NavLink></li>
-                            <li className='dropdownItem'><NavLink to='/popular/' className='sort srt1'>Popular</NavLink></li>
-                            <li className='dropdownItem'><NavLink to='/All/' className='sort srt2'>All</NavLink></li>
-                            <li className='dropdownItem'><NavLink to='/Hot/' className='sort srt3'>Hot</NavLink></li>
+                            <li className='dropdownItem'><span onClick={goTo("/Home/")} className='sort toHome'>Home</span></li>
+                            <li className='dropdownItem'><span onClick={goTo("/popular/")} className='sort srt1'>Popular</span></li>
+                            <li className='dropdownItem'><span onClick={goTo("/Home/")} className='sort srt2'>All</span></li>
+                            <li className='dropdownItem'><span onClick={goTo("/Hot/")}  className='sort srt3'>Hot</span></li>
 
                         </ul>
 
@@ -103,7 +110,7 @@ const NavBar = props => {
                     </span>
                     <span className='rightLinks'>
                         <NavLink to='/CreatePost/'>
-                            <i className="far fa-edit" style={{ color: 'rgb(0, 121, 211)' }}></i>
+                            <i className="far fa-edit"></i>
                         </NavLink>
                     </span>
                     <span className='rightLinks'>
@@ -114,13 +121,13 @@ const NavBar = props => {
                     {props.isAuth ?
                         <div className='yourStuffDrop'>
                             <button className='dropButton'>
-                                <i class="fas fa-sort-down"></i>
-                                <i class="fas fa-user"></i>
+                                <i className="fas fa-sort-down"></i>
+                                <i className="fas fa-user"></i>
                             </button>
                             <div role='menu' className='yourStuffDropList'>
                                 <ul className='dropUl'>
-                                    <li className='yourStuffItem'><NavLink to='/user/' className='stfitm'>My Profile</NavLink></li>
-                                    <li className='yourStuffItem'><NavLink to='/Settings/' className='stfitm'>User Settings</NavLink></li>
+                                    <li className='yourStuffItem'><span onClick={goTo("/user/")} to='/user/' className='stfitm'>My Profile</span></li>
+                                    <li className='yourStuffItem'><span onClick={goTo("/settings/")} to='/settings/' className='stfitm'>User Settings</span></li>
                                     <li className='yourStuffItem'><a href="#logout" onClick={props.logout} className='logoutitm stfitm'>Logout</a></li>
                                 </ul>
                             </div>
@@ -156,6 +163,14 @@ const NavBar = props => {
                         <i className="fas fa-bars dd" onClick={props.classicViewHandler}></i>
                     </div>
                 </div>
+                {/* <div className='sort-layout'>
+                <i className='small-font'>sort</i>
+                    <select className='drop-sort'>
+                        <option value="top">Top</option>    
+                        <option value="new">New</option>
+                        <option value="hot">Hot</option>
+                    </select>
+                </div> */}
             </div>
         </div>
 

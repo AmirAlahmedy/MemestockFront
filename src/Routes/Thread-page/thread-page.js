@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Thread from '../Thread/Thread';
+import GoHome from '../GoHome/index.js';
 import AddComment from '../AddComment/AddComment';
 import './thread-page.css';
 import { Link, Route, Switch } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../axios-orders';
 
 class ThreadPage extends Component {
    state = {
-
+      id: window.location.href.split("/").pop(),
       comments: [
          {
             id: '1',
@@ -35,10 +36,13 @@ class ThreadPage extends Component {
             reply: false
          }
       ],
-      subredditName: 'OneTwoThree',
-      id: '5cb477c49604eb218cbaf981',
-      editThread: true,
-
+      subredditName: window.location.href.split("srName=").pop().replace("#top", ""),
+      editThread: false,
+      threadBody:'',
+      threadTitle:'',
+      creator:'',
+      postdate:'',
+      votes:0,
       editComment: false,
       replyComment: false,
       editID: '',
@@ -46,6 +50,23 @@ class ThreadPage extends Component {
 
    }
 
+   componentDidMount(){
+      let srName=this.state.subredditName;
+      let threadID=this.state.id;
+      axios.get(`/sr/${srName}/thread/${threadID}`)
+      .then(resp => {
+        if(resp.data && resp.status === 200){
+          this.setState({
+            subredditName:resp.data.subredditName,
+            threadBody:resp.data.body,
+            postdate:resp.data.postDate,
+            threadTitle:resp.data.title,
+            votes:resp.data.__v,
+            creator:resp.data.creatorUsername
+          });
+        }
+   });
+}
 
 
    editPost = (e) => {
@@ -75,7 +96,7 @@ class ThreadPage extends Component {
          return;
       }
       let headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token")
       }
       var threadData = {
          title: document.getElementById("newThreadTitleField").value,
@@ -83,7 +104,7 @@ class ThreadPage extends Component {
       }
       let SubredditName = this.state.subredditName;
       let threadID = this.state.id;
-      axios.put('http://18.217.163.16/sr/' + SubredditName + '/thread/' + threadID, threadData, { "headers": headers })
+      axios.put('/sr/' + SubredditName + '/thread/' + threadID, threadData, { "headers": headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
@@ -103,15 +124,17 @@ class ThreadPage extends Component {
       //e.preventDefault();
       console.log('Delete Clicked');
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token")
       }
       let SubredditName = this.state.subredditName;
       let threadID = this.state.id;
-      axios.delete('http://18.217.163.16/sr/' + SubredditName + '/thread/' + threadID, { "headers": headers })
+      axios.delete('/sr/' + SubredditName + '/thread/' + threadID, { "headers": headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res);
-               alert('Thread Deeted Successfully!')
+               alert('Thread Deleted Successfully!');
+               return (<Route path='/GoHome/' component={GoHome} />);
+               
             } else if (res.status === 404) {
                alert("Not Found");
                return Response.json;
@@ -134,11 +157,11 @@ class ThreadPage extends Component {
       }
       this.setState({ comments: [...this.state.comments, newComment] });
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token")
       }
 
 
-      axios.post('http://18.217.163.16/' + this.state.id, newComment.comment, newComment.Spoiler, "false", newComment.Locked, { headers: headers })
+      axios.post('/' + this.state.id, newComment.comment, newComment.Spoiler, "false", newComment.Locked, { headers: headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
@@ -209,11 +232,11 @@ class ThreadPage extends Component {
 
       }
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token")
       }
 
 
-      axios.put('http://18.217.163.16/' + Cid, commentData.newCommentBody, commentData.newSpoiler, "false", commentData.newLock, { headers: headers })
+      axios.put('/' + Cid, commentData.newCommentBody, commentData.newSpoiler, "false", commentData.newLock, { headers: headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
@@ -237,9 +260,9 @@ class ThreadPage extends Component {
       //e.preventDefault();
       console.log('Delete Clicked');
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token")
       }
-      axios.delete('http://18.217.163.16/sr/' + id, { "headers": headers })
+      axios.delete('/sr/' + id, { "headers": headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res);
@@ -271,97 +294,103 @@ class ThreadPage extends Component {
    render() {
       return (
 
-         <div className="Hello">
+         <div className="page">
             <div class="threadPageContainer">
                <div className="PageThread">
-                  <Thread />
+               <Thread 
+                  id={this.state.id}
+                  username={this.state.creator}
+                  subreddit={this.state.subredditName}
+                  title={this.state.threadTitle} 
+                  content={this.state.threadBody}
+                  upvotes={this.state.votes}
+                  date={this.state.postdate}
+                />
                </div>
-
-
-
-               <AddComment addComment={this.addComment} />
-               <input type="checkbox" id="checkLocked" />
-               <button className="lockComment">Lock</button>
-               <input type="checkbox" id="checkSpoiler" />
-               <button className="spoilerComment" >Mark as spoiler</button>
-
-               <ul>
+               <div class="addCommentSection">
+                  <AddComment addComment={this.addComment} />
+                  <label for="checkLocked"  className="lockComment">Lock</label>
+                  <input type="checkbox" name="checkLocked" id="checkLocked" />
+                  <label for="checkSpoiler" className="spoilerComment" >Mark as spoiler</label>
+                  <input type="checkbox" name="checkSpoiler" id="checkSpoiler" />
+               </div>
+               <ul class="commentList">
                   {
                      this.state.comments.map(comment => {
                         if (localStorage.getItem("username") === comment.username) {
                            if (comment.Spoiler == false) {
                               if (comment.Locked == false)
                                  return (
-                                    <div className="threadComment" id="commentContainer"  >
+                                    <li className="threadComment" id="commentContainer"  >
                                        <div className="commentUser">u/{comment.username} </div>
                                        <div className="comment">{comment.comment}</div>
                                        <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                       <button className="replyComment" onClick={this.handleReply} >reply</button>
-                                    </div>
+                                       <button className="replyComment" onClick={this.handleReply} >r<i class="fas fa-reply"></i>eply</button>
+                                    </li>
                                  );
                               else
-                                 return (<div className="threadComment" id="commentContainer">
+                                 return (<li className="threadComment" id="commentContainer">
                                     <div className="commentUser">u/{comment.username} </div>
                                     <div className="comment">{comment.comment}</div>
                                     <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                     <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                 </div>);
+                                 </li>);
                            }
                            else {
                               if (comment.Locked == false)
                                  return (
-                                    <div className="threadComment" id="commentContainer">
+                                    <li className="threadComment" id="commentContainer">
                                        <div className="commentUser">u/{comment.username} </div>
                                        <div className="spoiler">{comment.comment}</div>
                                        <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                       <button className="replyComment" onClick={this.handleReply}>reply</button>
-                                    </div>
+                                       <button className="replyComment" onClick={this.handleReply}><i class="fas fa-reply"></i></button>
+                                    </li>
                                  );
                               else
                                  return (
-                                    <div className="threadComment" id="commentContainer">
+                                    <li className="threadComment" id="commentContainer">
                                        <div className="commentUser">u/{comment.username} </div>
                                        <div className="spoiler">{comment.comment}</div>
                                        <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                    </div>
+                                    </li>
                                  );
                            }
                         }
                         else {
                            if (comment.Spoiler == false) {
                               if (comment.Locked == false)
-                                 return (<div className="threadComment" id="commentContainer">
+                                 return (<li className="threadComment" id="commentContainer">
                                     <div className="commentUser">u/{comment.username} </div>
                                     <div className="comment">{comment.comment}</div>
-                                    <button className="replyComment" >reply</button>
-                                 </div>
+                                    <button className="replyComment" ><i class="fas fa-reply"></i></button>
+                                 </li>
                                  );
                               else
                                  return (
-                                    <div className="threadComment" id="commentContainer">
+                                    <li className="threadComment" id="commentContainer">
                                        <div className="commentUser">u/{comment.username} </div>
                                        <div className="comment">{comment.comment}</div>
-                                    </div>
+                                    </li>
                                  );
                            }
                            else {
                               if (comment.Locked == false)
-                                 return (<div className="threadComment" id="commentContainer">
+                                 return (<li className="threadComment" id="commentContainer">
                                     <div className="commentUser">u/{comment.username} </div>
                                     <div className="spoiler">{comment.comment}</div>
-                                    <button className="replyComment" onClick={this.handleReply}>reply</button>
-                                 </div>
+                                    <button className="replyComment" onClick={this.handleReply}><i class="fas fa-reply"></i></button>
+                                 </li>
                                  );
                               else
                                  return (
-                                    <div className="threadComment" id="commentContainer">
+                                    <li className="threadComment" id="commentContainer">
                                        <div className="commentUser">u/{comment.username} </div>
                                        <div className="spoiler">{comment.comment}</div>
 
-                                    </div>
+                                    </li>
                                  );
                            }
                         }

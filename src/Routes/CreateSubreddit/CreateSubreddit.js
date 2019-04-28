@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './CreateSubreddit.css';
-
-import axios from 'axios';
+import axios from '../../axios-orders';
 
 class CreateSubreddit extends Component {
 
@@ -62,16 +61,23 @@ handleSubmit (e){
   let headers = {
         auth: localStorage.getItem("token") 
   } 
-    axios.post( 'http://18.217.163.16/sr/create',srdata,{"headers": headers})
+    axios.post( 'sr/create',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
       console.log(res.status);
-      alert("Your Subreddit was sucessfully Created");  
+      window.location.href = "/r/" + srdata.srName;
     })
     .catch(error => {
     console.log("Axios Error: ",error.response)
 
   });
+}
+
+componentDidMount() {
+  document.body.classList.add("verticalAlign");
+}
+componentWillUnmount() {
+  document.body.classList.remove("verticalAlign");
 }
   render() {
     return (

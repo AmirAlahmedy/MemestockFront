@@ -19,7 +19,7 @@ html{
   display: flex;
   flex-direction: row;
   text-align: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 79px);
   width: 100%;
   align-items: baseline;
   font-size: 1.1em;
@@ -37,3 +37,13 @@ html{
   cursor: pointer;
   text-decoration: none;
 }
+*{
+  box-sizing: border-box !important;
+}
+.notHome .backtoTop{
+  display: none;
+}
+.verticalAlign .Home{
+  align-items: center;
+}
+

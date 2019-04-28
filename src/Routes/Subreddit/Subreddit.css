@@ -65,19 +65,14 @@
 }
 #subredditSidebarContainer{
     width:30%;
-    float:right;
+    float:left;
     padding:0;
     box-sizing:border-box;
     margin-top:50px;
 }
 .subredditSidebarComponent{
-    margin-bottom:15px;
-    background-color: rgb(26, 26, 27);
-    border-bottom: 1px solid rgb(52, 53, 54);
-    border-right:  1px solid rgb(52, 53, 54);
-    border-left:  1px solid rgb(52, 53, 54);
-    border-top:  1px solid rgb(52, 53, 54);
-    border-radius: 6px;
+    background: #fff;
+    border-radius: 4px;
 }
 #subredditNavbar{
     background-color:black;
@@ -180,6 +175,7 @@
     padding-right:20px;
     padding-bottom:15px;
     color:rgb(132, 134, 136);
+    box-shadow: 0 0 5px rgba(51,51,51,0.5);
 }
 .subredditSidebarComponent h5 {
     padding-top:15px;
@@ -212,7 +208,7 @@
     font-size:24px;
     font-weight: 500;
     text-align: left;
-    color: lightgrey;
+    color: #333;
     padding-top: 10px;
     padding-bottom: 20px;
 }
@@ -225,7 +221,7 @@
 }
 .srSidebarSubscribers {
     margin-left:10px;
-    color:lightgrey;
+    color:#333;
     font-size:26px;
     font-weight: 700;
     margin-bottom:10px;
@@ -233,36 +229,52 @@
 .srSidebarBio { 
     margin-left:5px;
     padding-right:10px;
-    color:lightgrey;
+    color:#333;
     font-size:16px;
 }
 .srSidebarSubscribeButton {
-    margin:10px 0px;
-    padding:10px;
-    width:100%;
-    border-radius: 7px;
-    background-color:lightgrey;
-    font-size:18px;
-    font-weight: 600;
-    cursor:pointer;
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    /* font: inherit; */
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+    transition: box-shadow 0.2s ease;
 }
 .srSidebarSubscribeButton:hover{
-    color:rgb(233, 172, 92);
-    background-color:rgb(26, 26, 27);
+    background-color: #33a8ff;
 }
 .srDeleteButton {
-    margin:10px 0px;
-    padding:10px;
-    width:100%;
-    border-radius: 7px;
-    background-color:rgb(233, 172, 92);
-    font-size:18px;
-    font-weight: 600;
-    cursor:pointer;
+    background:rgb(128,12,12);
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
 }
 .srDeleteButton:hover{
-    color:rgb(128,12,12);
-    background-color:rgb(26, 26, 27);
+    background: #da0046;
 }
 .moderatorSr {
     cursor:pointer;
@@ -276,11 +288,15 @@
     font-size:20px;
     padding-bottom:5px;
     margin:0;
-    color: #fcfcfb;
+    color: #333;
 }
 
-.moderatorSr:hover{
+.moderatorSr a:hover{
     text-decoration: underline;
+}
+.moderatorSr a{
+    text-decoration: none;
+    color: #0079D3;
 }
 #subreddit-footer{
     padding-top:30px;

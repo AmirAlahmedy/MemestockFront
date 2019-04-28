@@ -13,6 +13,12 @@ componentDidMount () {
 }
 
 
+goTo(link){
+  return function(){
+      window.location.href = link;
+  } 
+}
+
   render() {
     return (
 
@@ -23,20 +29,20 @@ componentDidMount () {
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
            <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <Link to ='/user/' class="nav-link">Overview </Link>
+            <span onClick={this.goTo('/user/')} class="nav-link">Overview</span>
           </li>
           
           <li class="nav-item">
-          <Link to ='/user/posts/' class="nav-link">Posts</Link>
+            <span onClick={this.goTo('/user/posts')} class="nav-link">Posts</span>
           </li>
           <li class="nav-item">
-          <Link to ='/user/comments/' class="nav-link">Comments</Link>
+            <span onClick={this.goTo('/user/comments')} class="nav-link">Comments</span>
           </li>
           <li class="nav-item">
-             <Link to ='/user/saved/' class="nav-link">Saved</Link>
+            <span onClick={this.goTo('/user/saved')} class="nav-link">Saved</span>
           </li>
           <li class="nav-item">
-             <Link to ='/user/hidden/' class="nav-link">Hidden</Link>
+            <span onClick={this.goTo('/user/hidden')} class="nav-link">Hidden</span>
           </li>
         </ul> 
 
