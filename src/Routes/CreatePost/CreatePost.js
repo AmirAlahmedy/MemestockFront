@@ -39,7 +39,8 @@ class CreatePost extends Component {
     e.preventDefault();
     var srdata = {
       title: document.getElementById("threadPageSubredditNameField").value,
-      threadBody: document.getElementById("threadPageBodyField").value
+      threadBody: document.getElementById("threadPageBodyField").value,
+      spoiler:this.state.spoiler
     }
     let checker = "";
 
@@ -60,7 +61,7 @@ class CreatePost extends Component {
     let headers = {
       auth: localStorage.getItem("token")
     }
-    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })            //srdata.srName,srdata.srRules,{headers: headers})// document.getElementById("subredditNameField").value, [document.getElementById("SubredditRuleField1").value,document.getElementById("SubredditRuleField2").value,document.getElementById("SubredditRuleField3").value]
+    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })           
       .then(res => {
         console.log(res);
         console.log(res.status);

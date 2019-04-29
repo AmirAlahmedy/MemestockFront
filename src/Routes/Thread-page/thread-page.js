@@ -71,8 +71,8 @@ class ThreadPage extends Component {
 
    editPost = (e) => {
       e.preventDefault();
-      this.setState({
-         editThread: true
+       this.setState({
+          editThread: true
       })
    };
    cancelEdit = (e) => {
@@ -123,6 +123,7 @@ class ThreadPage extends Component {
    delPost = (e) => {
       //e.preventDefault();
       console.log('Delete Clicked');
+      
       var headers = {
          auth: localStorage.getItem("token")
       }
@@ -429,11 +430,17 @@ class ThreadPage extends Component {
 
 
             <div className="threadPageSidebarContainer">
-
-               <div className="threadPageSidebarComponent1">
+               
+               {
+                  (this.state.username==localStorage.getItem("Username")) ?
+                  <div className="threadPageSidebarComponent1">
                   <button className="threadPageSidebarEditButton1" onClick={this.editPost}>EDIT POST</button>
-                  <button className="threadPageSidebarDeleteButton" onClick={this.delPost}>DELETE POST</button>
-               </div>
+                  <button className="threadPageSidebarDeleteButton" onClick={this.delPost}>DELETE POST</button> 
+                  </div>
+                  : <div></div>
+                 
+               }
+               
                {
                   this.state.editThread ?
                      <div className="threadPageSidebarComponent3">

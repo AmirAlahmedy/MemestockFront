@@ -11,6 +11,7 @@ class CreateSubreddit extends Component {
     Rule1:'',
     Rule2 :'',
     Rule3 : '',
+    moderators:[],
     bio:''
   }
   
@@ -54,9 +55,18 @@ handleSubmit (e){
   { alert ("Please provide a Subreddit Bio For the audience!");
     return ;
   }
+  else if (document.getElementById("srSubredditModerator").value===checker)
+  { 
+    alert ("Please provide a Subreddit Moderator");
+    return ;
+  }
+  let newmods = this.state.moderators;
+  newmods.push(document.getElementById("srSubredditModerator").value);
+
   var srdata ={
     srName : document.getElementById("srSubredditName").value,
-    srRules: [document.getElementById("srSubredditRule1").value,document.getElementById("srSubredditRule2").value,document.getElementById("srSubredditRule3").value]
+    srRules: [document.getElementById("srSubredditRule1").value,document.getElementById("srSubredditRule2").value,document.getElementById("srSubredditRule3").value],
+    modUsername : newmods
     } 
   let headers = {
         auth: localStorage.getItem("token") 
@@ -106,6 +116,10 @@ componentWillUnmount() {
         <div className="formGroupSubredditComponent">
         <label for="SubredditBio">Subreddit Bio:</label>
         <textarea type="textarea" name="text" id="srSubredditBio" placeholder = "ex: This subreddit is for people who..etc. " onChange={this.handleChange} value={this.state.value}/>  
+        </div>
+        <div className="formGroupSubredditComponent">
+        <label for="SubredditModeator">Subreddit Moderator:</label>
+        <textarea type="textarea" name="text" id="srSubredditModerator" placeholder = " " onChange={this.handleChange} value={this.state.value}/>  
         </div>
         <button className="srSubredditPageCreateButton">CREATE</button>  
       </form>

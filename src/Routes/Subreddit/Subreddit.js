@@ -17,6 +17,7 @@ export class Subreddit extends Component {
     bio: '',
     threads: [],
     moderators: '',
+    moderatorsList:[],
     subscribers: 0,
     subscribersList:[],
     date: '',
@@ -47,6 +48,7 @@ export class Subreddit extends Component {
               bio: resp.data.Bio,
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
+              moderatorsList:resp.data.modUsername,
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
               date: resp.data.date,
@@ -118,7 +120,7 @@ export class Subreddit extends Component {
     axios.post('/sr/' + SubredditName + '/subs', null, { "headers": headers })
       .then(res => {
         if (res.status == 200) {
-          console.log(res);
+          console.log(res); 
 
           console.log('subscribed!')
           this.setState({
@@ -280,10 +282,13 @@ export class Subreddit extends Component {
 
   handleEdit = (e) =>{
     e.preventDefault();
-
+    let newmods=this.state.moderatorsList;
+    newmods.push(document.getElementById("subredditmoderatorField").value);
     const srdata = {
       "newName": document.getElementById("subredditNameField").value,
-      "newRules": [document.getElementById("subredditRule1Field").value,document.getElementById("subredditRule2Field").value,document.getElementById("subredditRule3Field").value]
+      "newRules": [document.getElementById("subredditRule1Field").value,document.getElementById("subredditRule2Field").value,document.getElementById("subredditRule3Field").value],
+      "newBio":document.getElementById("subredditBioField").value,
+      "newMods":newmods,
     }
 
 
@@ -409,6 +414,14 @@ export class Subreddit extends Component {
                       <label for="Rule3">Enter Rule </label>
                       <textarea type="textarea" name="text" id="subredditRule3Field" placeholder="Enter Rule Here" />
                     </div>
+                    <div className="formGroupSrComponent">
+                      <label for="Bio">Enter Bio </label>
+                      <textarea type="textarea" name="text" id="subredditBioField" placeholder="Enter Bio Here" />
+                    </div>
+                    <div className="formGroupSrComponent">
+                      <label for="Bio">Add a new moderator </label>
+                      <textarea type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
+                    </div>
                     <button className="srSidebarSubscribeButton">Edit Subreddit</button>
                     <button className="srSidebarSubscribeButton" onClick={this.cancelSubreddit}>CANCEL</button>
                   </form>
@@ -436,14 +449,14 @@ export class Subreddit extends Component {
             <div className="subredditSidebarComponent">
               <h5>MODERATORS</h5>
               <ul>
-                <li className="moderatorSr" ><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li> 
-                {/* {
-                  this.state.moderators.map(moderator => {
+                {/*<li className="moderatorSr" ><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li> */}
+                 {
+                  this.state.moderatorsList.map(moderator => {
                     return (
-                      <li className="moderatorSr" key={moderator}>u/{moderator}</li>
+                      <li className="moderatorSr" key={moderator}><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li>
                     );
                   })
-                } */}
+                } 
               </ul>
             </div>
             <div className="subredditSidebarComponent">
