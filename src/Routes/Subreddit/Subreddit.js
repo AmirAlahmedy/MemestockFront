@@ -18,11 +18,12 @@ export class Subreddit extends Component {
     threads: [],
     moderators: '',
     subscribers: 0,
+    subscribersList:[],
     date: '',
     rules: [],
     posts: [],
-    subscribed: true,
-    adminview: true,
+    subscribed: false,
+    adminview: false,
     threadCreation: false,
     subredditEdit:false,
     threadsContent: []
@@ -47,6 +48,7 @@ export class Subreddit extends Component {
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
               subscribers: resp.data.subscribed_users.length,
+              subscribersList: resp.data.subscribed_users,
               date: resp.data.date,
               rules: resp.data.rules
             })
@@ -84,6 +86,22 @@ export class Subreddit extends Component {
         rules: data.subreddit.rules,
       });
     }
+    let token=localStorage.getItem("token");
+    let username=localStorage.getItem("Username");
+    for(let i = 0; i < this.state.subscribers; i++){
+      if(username==this.state.subscribersList[i]) 
+      {
+        this.setState({
+          subscribed:true
+        })
+      }
+      if(username==this.state.moderators)
+      {
+        this.setState({
+          adminview:true
+        })
+      }
+   }
   }
   /**
    * For sending a subscribe request to the backend and updating the subscribed boolean state
@@ -185,13 +203,16 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) => {
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
-    // if(subscribed==false)
-    // {
-    //   alert('Cant Create Post without subscribing')
-    // }
-    this.setState({
-      threadCreation: true
-    })
+    if(this.state.subscribed==false)
+    {
+      //CANNOT CREATE A POST UNLESS SUBSCRIBED
+      alert('CANNOT CREATE A POST UNLESS SUBSCRIBED');
+    }
+    else{
+      this.setState({
+        threadCreation: true
+      })
+    }
   }
 /**
        * For changing the GUI and hiding the fields for the thread creation
@@ -208,9 +229,15 @@ export class Subreddit extends Component {
   editSubreddit= (e) => { 
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
-    this.setState({
-      subredditEdit: true
-    })
+    if(this.state.adminview==false){
+      //CANNOT CREATE A POST UNLESS SUBSCRIBED
+      alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
+    }
+    else{    
+      this.setState({
+        subredditEdit: true
+      })
+    }
   }
   cancelSubreddit = (e) => {
     e.preventDefault();
