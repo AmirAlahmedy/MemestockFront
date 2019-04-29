@@ -188,7 +188,7 @@ DeleteReportedPost(e)
   console.log(this.props);
   const element = e.target;
   const reportId=element.getAttribute("id");
-  axios.get( 'Moderator/Reports/',{reportId:reportId}, {
+  axios.delete( 'Moderator/Reports/',{reportId:reportId}, {
         headers: {
             'Content-Type': 'application/json',
           auth: localStorage.getItem("token")
