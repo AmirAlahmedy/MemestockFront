@@ -246,9 +246,10 @@ getReports()
    
       <div className="repContainer">
         <h1 className="ReportName">ReportedSubr : {rep.srName}</h1>
-  
+        <button id={rep.reportedId} type="submit"  name="deleteReport" onClick={this.DeleteReport}>DeleteReport  </button>   
+        {this.checkforpostorcomment(rep.post,rep.reportedId)}
         <br />
-        {this.checkforpostorcomment(rep.post,rep.reportedId)}} 
+         
 
 
       </div>
