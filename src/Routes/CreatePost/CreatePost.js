@@ -37,7 +37,7 @@ handleSubmit (e){
   e.preventDefault();
   var srdata ={
    title: document.getElementById("threadPageSubredditNameField").value,
-   body : document.getElementById("threadPageBodyField").value
+   threadBody : document.getElementById("threadPageBodyField").value
   } 
   let checker ="";
   

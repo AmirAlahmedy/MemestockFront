@@ -36,7 +36,7 @@ class ThreadPage extends Component {
          }
       ],
       subredditName:'OneTwoThree',
-      id:'5cb477c49604eb218cbaf981',
+      id:'5cc462cc03415129705d2d36',
       editThread:true,
 
       editComment:false,
@@ -76,7 +76,7 @@ class ThreadPage extends Component {
            return ;
          }
       let headers = {
-        auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token") 
       }
       var threadData ={
          title : document.getElementById("newThreadTitleField").value,
@@ -105,7 +105,7 @@ class ThreadPage extends Component {
       //e.preventDefault();
       console.log('Delete Clicked');
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token") 
        }
       let SubredditName = this.state.subredditName;
       let threadID = this.state.id;
@@ -137,7 +137,7 @@ class ThreadPage extends Component {
 }
       this.setState({comments:[...this.state.comments, newComment]});
       var headers = {
-         auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+         auth: localStorage.getItem("token") 
        }
        
 
@@ -215,7 +215,7 @@ class ThreadPage extends Component {
    
          }
          var headers = {
-            auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+            auth: localStorage.getItem("token") 
           }
           
 
@@ -244,7 +244,7 @@ class ThreadPage extends Component {
          //e.preventDefault();
          console.log('Delete Clicked');
          var headers = {
-            auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJLYXJpbSIsImlhdCI6MTU1NTI4NTc5M30.nKpRwi_EfA6ZBmGoE56MlRJ-N7DpdxmEyjua0h8UyKg'
+            auth: localStorage.getItem("token") 
           }
          axios.delete( 'http://localhost:4000/sr/'+id,{"headers": headers})
          .then(res => {
