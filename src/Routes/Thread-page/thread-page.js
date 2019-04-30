@@ -16,7 +16,8 @@ class ThreadPage extends Component {
             comment: 'I rememeber when I had something to say!',
             Locked: true,
             Spoiler: false,
-            reply: false
+            reply: false,
+            replies:[]
          },
          {
             id: '2',
@@ -24,7 +25,8 @@ class ThreadPage extends Component {
             comment: 'Oh this is so relatable',
             Locked: false,
             Spoiler: false,
-            reply: false
+            reply: false,
+            replies:[]
 
          },
          {
@@ -33,7 +35,8 @@ class ThreadPage extends Component {
             comment: 'Awesome',
             Locked: false,
             Spoiler: true,
-            reply: false
+            reply: false,
+            replies:[]
          }
       ],
       subredditName: window.location.href.split("srName=").pop().replace("#top", ""),
@@ -46,6 +49,7 @@ class ThreadPage extends Component {
       editComment: false,
       replyComment: false,
       editID: '',
+      replyID:'',
       deleteID: ''
 
    }
@@ -286,9 +290,26 @@ class ThreadPage extends Component {
       })
    }
 
+  handleReply=(e)=>{
+       e.preventDefault();
+       this.setState({
+         replyComment: true
 
+      })
+      const id = e.target.getAttribute("comment-id");
+      this.setState({
+         editID: id
 
+      })
 
+  }
+
+  cancelReplyComment = (e) => {
+   e.preventDefault();
+   this.setState({
+      replyComment: false
+   })
+}
 
 
 
@@ -327,7 +348,7 @@ class ThreadPage extends Component {
                                        <div className="comment">{comment.comment}</div>
                                        <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                       <button className="replyComment" onClick={this.handleReply} >r<i class="fas fa-reply"></i>eply</button>
+                                       <button className="replyComment" comment-id={comment.id} onClick={this.handleReply} >r<i class="fas fa-reply"></i>eply</button>
                                     </li>
                                  );
                               else
@@ -346,7 +367,7 @@ class ThreadPage extends Component {
                                        <div className="spoiler">{comment.comment}</div>
                                        <button className="editComment" data-id={comment.id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment.id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                       <button className="replyComment" onClick={this.handleReply}><i class="fas fa-reply"></i></button>
+                                       <button className="replyComment"  comment-id={comment.id} onClick={this.handleReply}><i class="fas fa-reply"></i></button>
                                     </li>
                                  );
                               else
@@ -366,7 +387,7 @@ class ThreadPage extends Component {
                                  return (<li className="threadComment" id="commentContainer">
                                     <div className="commentUser">u/{comment.username} </div>
                                     <div className="comment">{comment.comment}</div>
-                                    <button className="replyComment" ><i class="fas fa-reply"></i></button>
+                                    <button className="replyComment"  comment-id={comment.id} onClick={this.handleReply} ><i class="fas fa-reply"></i></button>
                                  </li>
                                  );
                               else
@@ -382,7 +403,7 @@ class ThreadPage extends Component {
                                  return (<li className="threadComment" id="commentContainer">
                                     <div className="commentUser">u/{comment.username} </div>
                                     <div className="spoiler">{comment.comment}</div>
-                                    <button className="replyComment" onClick={this.handleReply}><i class="fas fa-reply"></i></button>
+                                    <button className="replyComment"  comment-id={comment.id} onClick={this.handleReply}><i class="fas fa-reply"></i></button>
                                  </li>
                                  );
                               else
@@ -413,6 +434,25 @@ class ThreadPage extends Component {
                            />
                            <input type="submit" value="Edit" className="goEdit" onClick={this.goEdit.bind(this)} />
                            <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelEditComment} />
+
+                        </form>
+                        <input type="checkbox" id="checkLocked2" />
+                        <button className="lockComment">Lock</button>
+                        <input type="checkbox" id="checkSpoiler2" />
+                        <button className="spoilerComment" >Mark as spoiler</button>
+                     </div> : <div></div>
+               }
+               {
+                  this.state.replyComment ?
+                     <div className="threadComment2">
+
+                        <form onSubmit={this.onSave}>
+                           <input className="textComment" id="textComment" type="text"
+                              name="comment" placeholder="Reply here..."
+                              value={this.state.comment} onChange={this.onChange}
+                           />
+                           <input type="submit" value="Reply" className="goReply" onClick={this.goEdit.bind(this)} />
+                           <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelReplyComment} />
 
                         </form>
                         <input type="checkbox" id="checkLocked2" />
