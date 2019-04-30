@@ -38,7 +38,7 @@ class CreatePost extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var srdata = {
-      title: document.getElementById("threadPageSubredditNameField").value,
+      title: document.getElementById("threadPageTitleField").value,
       threadBody: document.getElementById("threadPageBodyField").value,
       spoiler:this.state.spoiler
     }
