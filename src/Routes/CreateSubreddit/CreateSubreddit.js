@@ -17,9 +17,22 @@ class CreateSubreddit extends Component {
   
     this.handleChange = this.handleChange.bind(this); 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
 };
 
+handleFileChange(e){
+  const files = e.target.files;
+  if(!files || !files.length) return;
+  const reader = new FileReader();
 
+  reader.onload = (evtReader) => {
+    if(!evtReader.target.result) return;
+    this.setState({
+      image: evtReader.target.result
+    });
+  }
+  reader.readAsDataURL(files[0]);
+}
 
 handleChange(event) {
 this.setState({ [event.target.name]: event.target.value });
@@ -36,38 +49,57 @@ handleSubmit (e){
   let checker ="";
   if (document.getElementById("srSubredditName").value===checker)
   {
-    alert ("Please provide a Subreddit name!");
+    this.setState({UIErr: "Please provide a Subreddit name!"})
     return ;
   }
   else if (document.getElementById("srSubredditRule1").value===checker)
-  { alert ("Please provide a Subreddit Rule!");
+  { 
+    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
     return ;
   }
   else if (document.getElementById("srSubredditRule2").value===checker)
-  { alert ("Please provide a Subreddit Rule!");
+  { 
+    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
     return ;
   }
   else if (document.getElementById("srSubredditRule3").value===checker)
-  { alert ("Please provide a Subreddit Rule!");
+  { 
+    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
     return ;
   }
   else if (document.getElementById("srSubredditBio").value===checker)
-  { alert ("Please provide a Subreddit Bio For the audience!");
-    return ;
-  }
-  else if (document.getElementById("srSubredditModerator").value===checker)
   { 
-    alert ("Please provide a Subreddit Moderator");
+    this.setState({UIErr: "Please provide a Subreddit Bio For the audience!"})
     return ;
   }
+  else if (!this.state.image)
+  { 
+    this.setState({UIErr: "Please provide a Subreddit Cover Photo!"})
+    return ;
+  }
+  //Add more moderators should be optional...
+  // else if (document.getElementById("srSubredditModerator").value===checker)
+  // { 
+  //   this.setState({UIErr: "Please provide a Subreddit Bio For the audience!"})
+  //   return ;
+  // }
   let newmods = this.state.moderators;
-  newmods.push(document.getElementById("srSubredditModerator").value);
+  const modInput = document.getElementById("srSubredditModerator");
+  if(modInput.value.trim() && modInput.value.trim() !== ","){
+    newmods.push(modInput.value.split(",").map(val => val.trim()).filter(val => val));
+  }
 
   var srdata ={
     srName : document.getElementById("srSubredditName").value,
-    srRules: [document.getElementById("srSubredditRule1").value,document.getElementById("srSubredditRule2").value,document.getElementById("srSubredditRule3").value],
-    modUsername : newmods
-    } 
+    srRules: [
+      document.getElementById("srSubredditRule1").value,
+      document.getElementById("srSubredditRule2").value,
+      document.getElementById("srSubredditRule3").value
+    ],
+    modUsername : newmods.length ? newmods : null,
+    bio: document.getElementById("srSubredditBio").value,
+    base64image: this.state.image
+  } 
   let headers = {
         auth: localStorage.getItem("token") 
   } 
@@ -119,7 +151,9 @@ componentWillUnmount() {
         </div>
         <div className="formGroupSubredditComponent">
         <label for="SubredditModeator">Subreddit Moderator:</label>
-        <textarea type="textarea" name="text" id="srSubredditModerator" placeholder = " " onChange={this.handleChange} value={this.state.value}/>  
+        <textarea type="textarea" name="text" id="srSubredditModerator" placeholder="Usernames separated by commas. EX: Mahmoud, Mohamed, JamesBond" onChange={this.handleChange} value={this.state.value}/>  
+        <label for="coverPhoto">Cover Photo:</label>
+        <input type="file" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />  
         </div>
         <button className="srSubredditPageCreateButton">CREATE</button>  
       </form>

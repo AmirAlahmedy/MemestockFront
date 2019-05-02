@@ -48,11 +48,13 @@ export class Subreddit extends Component {
               bio: resp.data.Bio,
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
-              moderatorsList:resp.data.modUsername,
+              moderatorsList:resp.data.modUsername.length ?  resp.data.modUsername : [resp.data.adminUsername],
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
+              subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
               date: resp.data.date,
-              rules: resp.data.rules
+              rules: resp.data.rules,
+              cover: resp.data.subredditFile
             })
             for(const threadID of resp.data.posts){
               axios.get(`/sr/${srName}/thread/${threadID}`)
@@ -335,7 +337,7 @@ export class Subreddit extends Component {
   render() {
     return (
       <div className="subredditFixed">
-        <section id="subredditShowcase">
+        <section id="subredditShowcase" style={{backgroundImage: this.state.cover ? `url(http://18.217.163.16/api${this.state.cover})` : null}}>
           <img src={defImage} alt="Subreddit Default" />
           <h1>r/{this.state.name}</h1>
         </section>
@@ -387,8 +389,9 @@ export class Subreddit extends Component {
                 <p>{this.state.bio}</p>
               </div>
               {
-                this.state.subscribed ? <button className="srSidebarSubscribeButton" onClick={this.srUnSubscribe}>UNSUBSCRIBE</button>
-                  : <button className="srSidebarSubscribeButton" onClick={this.srSubscribe}>SUBSCRIBE</button>
+                this.state.moderators === localStorage.getItem("Username") ? <span></span>
+                : this.state.subscribed ? <button className="srSidebarSubscribeButton" onClick={this.srUnSubscribe}>UNSUBSCRIBE</button>
+                : <button className="srSidebarSubscribeButton" onClick={this.srSubscribe}>SUBSCRIBE</button>
               }
               <button className="srSidebarSubscribeButton" onClick={this.createThreadSidebar}>CREATE A POST</button>
             </div>
@@ -447,7 +450,7 @@ export class Subreddit extends Component {
                 </div> : <div></div>
             }
             <div className="subredditSidebarComponent">
-              <h5>MODERATORS</h5>
+              <h5>MODERATORS & ADMINS</h5>
               <ul>
                 {/*<li className="moderatorSr" ><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li> */}
                  {
@@ -464,11 +467,9 @@ export class Subreddit extends Component {
               <ol>
                 {
                   this.state.rules.map(rule => {
-                    let index = 1;
                     return (
                       <li className="rulesSr" key={rule}>{rule}</li>
                     );
-                    index = index + 1;
                   })
                 }
               </ol>

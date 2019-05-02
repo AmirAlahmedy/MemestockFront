@@ -16,9 +16,9 @@
 }
 #subredditShowcase{
     top:49;
-    background-image: url('../../assets/images/Covertest.jpg');
-    background-position: initial;
-    background-color:grey;
+    background-image: url('../../assets/images/loading.gif');
+    background-position: center;
+    background-size: contain;
     background-size: 100%;
     background-repeat: none;
     min-height: 250px;

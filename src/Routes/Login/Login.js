@@ -26,7 +26,7 @@ class Login extends Component {
             .then(response => {
                 if(response.data.token){
                     this.props.close();
-                    this.props.finishLogin(response.data.token);
+                    this.props.finishLogin(response.data.token, data.Username);
                 }else{
                     this.setState({
                         error: "*That's awkawrd, our servers are unable to process your request properly. Please try again later."

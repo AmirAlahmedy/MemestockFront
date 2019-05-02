@@ -1,9 +1,17 @@
 import React from 'react'
 import './SettProfile.css'
 
-const SettProfile = () => {
+class SettProfile extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = { about: '' };
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+  render() {
   return (
-  //  <div class="ayhaga-ay">
+      <form className="form-h" onSubmit={this.handleSubmit}>
     <div class="ayhaga">
              <h2>Customize Profile</h2>
               <h3 class="profile-info">Profile Information</h3>
@@ -16,8 +24,9 @@ const SettProfile = () => {
 
 
                   <div className="box">
-                  <input class="optional-name" placeholder="Display Name (optional)" type="text"  maxLength="15" />
-                  </div>
+                  <input class="optional-name" placeholder="Display Name (optional)" type="text"  maxLength="15" id="displayname" onChange={this.handleDisplayName} />
+                  
+                                    </div>
 
               </div>
 
@@ -29,17 +38,18 @@ const SettProfile = () => {
                 </div>
 
                 <div className="ab2">
-                  <textarea placeholder="About (optional)" maxLength="200" rows="5"></textarea>
+                  <textarea placeholder="About (optional)" maxLength="200" rows="5"  id="about"></textarea>
                   </div>
                   <div class="char">200 Characters</div>
-          
-
+                  <input class="btn btn-primary" type="submit" id="submit" value="Save" />
+    
               </div>
 
 
         </div>
-  //  </div>
+        </form>
   )
+}
 }
 
 export default SettProfile
