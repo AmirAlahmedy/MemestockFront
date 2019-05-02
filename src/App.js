@@ -78,7 +78,7 @@ class Home extends Component {
    
     window.onscroll = function(){
    
-    if(window.scrollY > 500)
+    if(window.scrollY > 600)
       document.getElementById("topJump").className = "backtoTop";
       else
       document.getElementById("topJump").className = "hidden";
@@ -118,29 +118,6 @@ class Home extends Component {
             }
           } />
         </Switch>
-        {/* <Route path='/PM/'  /*component={PMs} render={
-                props=>{
-                  return(
-                    <PMs token={this.props.token}/>
-                  );
-                }
-              }/>
-              <Route path='/CreatePost/'   component={CreatePost}/>
-              <Route path='/settings/'  render={Settings}/>
-              <Route path='/r/' component={Subreddit}/>
-              <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
-        {/* <Route path='/:username' component={CreateSubReddit}/> */}
-
-
-
-
-
-        {/* {this.props.lastRoute ? <div>
-              <Redirect to={this.props.lastRoute} />
-            </div> : <span></span>}
-            */}
 
           
         <footer>

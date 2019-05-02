@@ -37,16 +37,16 @@ goTo(link){
           <li className="nav-item active ">
             <span /*onClick={this.goTo('/user/')}*/ className="nav-link"><NavLink className='profit' to="/user/">Overview</NavLink></span></li>
           
-          <li className="nav-item profit">
+          <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
           </li>
-          <li className="nav-item profit">
+          <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/comments')}*/ className="nav-link"><NavLink className='profit' to="/user/comments">Comments</NavLink></span>
           </li>
-          <li className="nav-item profit">
+          <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/saved')}*/ className="nav-link"><NavLink className='profit' to="/user/saved">Saved</NavLink></span>
           </li>
-          <li className="nav-item profit">
+          <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/hidden">Hidden</NavLink></span>
           </li>
         </ul> 

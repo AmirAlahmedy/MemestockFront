@@ -145,7 +145,21 @@ class Threads extends Component {
             let t = 1;
             if(window.scrollY  == 1450*t) {
                 alert("bottom!");
+                axios.get(`/me/listing?type=${this.state.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                .then(response => {
+                    console.log(response);
+                    this.reqThreads = response.data;
+                    this.setState({ 
+                        reqThreads: response.data,
+
+                     });
+
+                })
+                .catch(error => {
+
+                })
                 t++;
+
             }
          };
         console.log(this.props.token);
