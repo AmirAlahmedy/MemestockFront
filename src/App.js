@@ -88,8 +88,16 @@ class Home extends Component {
  
 
   render() {
-    // console.log(window.pageYOffset);
-    // console.log("app props", this.props);
+    console.log(window.pageYOffset);
+    console.log("app props", this.props);
+   
+    window.onscroll = function(){
+   
+    if(window.scrollY > 600)
+      document.getElementById("topJump").className = "backtoTop";
+      else
+      document.getElementById("topJump").className = "hidden";
+   }
 
     return (
       <div className='Home' >
@@ -125,29 +133,6 @@ class Home extends Component {
             }
           } />
         </Switch>
-        {/* <Route path='/PM/'  /*component={PMs} render={
-                props=>{
-                  return(
-                    <PMs token={this.props.token}/>
-                  );
-                }
-              }/>
-              <Route path='/CreatePost/'   component={CreatePost}/>
-              <Route path='/settings/'  render={Settings}/>
-              <Route path='/r/' component={Subreddit}/>
-              <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
-        {/* <Route path='/:username' component={CreateSubReddit}/> */}
-
-
-
-
-
-        {/* {this.props.lastRoute ? <div>
-              <Redirect to={this.props.lastRoute} />
-            </div> : <span></span>}
-            */}
 
           
         <footer>

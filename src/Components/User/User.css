@@ -46,7 +46,7 @@
     list-style: none;
 }
 .profit{
-    padding: 0 20px;
+    /* padding: 0 20px; */
     text-decoration: none;
     color: rgb(124, 124, 124);
 }
@@ -56,4 +56,7 @@
 .profit:focus{
     border-bottom: 3px solid rgb(65, 80, 244);
     color: rgb(28, 28, 28);
+}
+.profit1{
+    padding: 0 20px;
 }

@@ -62,7 +62,7 @@ class Threads extends Component {
         console.log(localStorage.getItem('token'));
         //  this.props.history.replace('/r/');
 
-        if (inProduction === true && /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction')) {
+        if (inProduction === true && localStorage.getItem('inProduction')) {
 
             axios.get(`/me/listing?type=${this.state.sort}&_id=0&votes=0&hotindex=0`, { headers: this.headers })
                 .then(response => {
@@ -70,8 +70,6 @@ class Threads extends Component {
                     this.reqThreads = response.data;
                     this.setState({ reqThreads: response.data });
 
-                    // let thrds = this.createThreads(response.data);
-                    // this.setState({ threads: thrds });
                 })
                 .catch(error => {
 
@@ -94,7 +92,7 @@ class Threads extends Component {
     /**
      * For generating threads from a mock service
      * @function createThread
-     * @param {object} - object of the mocked thread ...Not working properly yet.
+     * @param {object} - object of the mocked thread.
      */
     createThread = thread => <Thread
         // key={thread._id}
@@ -106,11 +104,17 @@ class Threads extends Component {
     />;
     // Ya Amiir....
     //Aywa 3ayyez eh?
-
+    
+    /**
+     * For generating threads from a mock service
+     * @function getThreads
+     * @param {view} - the listings view, whether cards or calssic.
+     */
     getThreads(view) {
         if (!this.state.reqThreads || !this.state.reqThreads.posts) return;
         console.log("threads", this.state.reqThreads)
-        return this.state.reqThreads.posts.map(thr => <Thread
+        let posts = inProduction ? this.state.reqThreads.posts : data.threads;
+        return posts.map(thr => <Thread
             id={thr._id}
             username={thr.creatorUsername}
             subreddit={thr.subredditName}
@@ -133,22 +137,30 @@ class Threads extends Component {
         window.location.href = "/create-subreddit/";
     }
     render() {
-        function getDocHeight() {
-            var D = document;
-            return Math.max(
-                D.body.scrollHeight, D.documentElement.scrollHeight,
-                D.body.offsetHeight, D.documentElement.offsetHeight,
-                D.body.clientHeight, D.documentElement.clientHeight
-            );
-        }
+     console.log(this.state);
         window.onscroll = function() {
             let t = 1;
-            if(window.scrollY  == 1450*t) {
+            if(window.scrollY  >= 1450*t) {
                 alert("bottom!");
+                console.log(this.state);
+                axios.get(`/me/listing?type=${this.state.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                .then(response => {
+                    console.log(response);
+                    this.reqThreads = response.data;
+                    this.setState({ 
+                        reqThreads: response.data,
+
+                     });
+
+                })
+                .catch(error => {
+
+                })
                 t++;
+
             }
-         };
-        console.log(this.props.token);
+         }.bind(this);
+        
 
         return (
             <Aux>
