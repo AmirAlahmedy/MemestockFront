@@ -121,7 +121,20 @@
         padding: 1em;
         border-bottom: 1px solid #fff;
     }
+    
     .textComment:focus{
+        outline: 0;
+        border-bottom: 1px solid #ccc;
+    }
+    .textReply {
+        width: 100%;
+        border-radius: 0;
+        height:95px;
+        margin: 0;
+        padding: 1em;
+        border-bottom: 1px solid #fff;
+    }
+    .textReply:focus{
         outline: 0;
         border-bottom: 1px solid #ccc;
     }

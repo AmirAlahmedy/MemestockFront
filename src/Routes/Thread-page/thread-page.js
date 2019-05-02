@@ -291,10 +291,12 @@ class ThreadPage extends Component {
       const newComment = {
          id: Cid,
          username: localStorage.getItem("username"),
-         comment: document.getElementById("textComment").value,
-         locked: document.getElementById("checkLocked2").checked,
-         spoiler: document.getElementById("checkSpoiler2").checked,
-         reply: false
+         content: document.getElementById("textComment").value,
+       //  reply: false,
+       spoiler: document.getElementById("checkSpoiler2").checked,
+         locked: document.getElementById("checkLocked2").checked
+         
+         
       }
 
 
@@ -312,17 +314,17 @@ class ThreadPage extends Component {
          alert("Please provide a new Comment");
          return;
       }
-      else {
+     // else {
          //this.setState({comments:[...this.state.comments.forEach(comment=>comment.id==Cid),comment.comment=newComment.comment]});
-         this.setState({ comments: [...this.state.comments, newComment] });
+       //  this.setState({ comments: [...this.state.comments, newComment] });
 
-      }
+      //}
       var headers = {
          auth: localStorage.getItem("token")
       }
 
 
-      axios.put('/' + Cid, commentData.newCommentBody, commentData.newSpoiler, "false", commentData.newLock, { headers: headers })
+      axios.put('/' + Cid, commentData, { headers: headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
@@ -341,7 +343,7 @@ class ThreadPage extends Component {
          deleteID: id
 
       })
-      this.setState({ comments: [...this.state.comments.filter(comment => comment.id !== id)] });
+      //this.setState({ comments: [...this.state.comments.filter(comment => comment._id !== id)] });
       console.log(id);
       //e.preventDefault();
       console.log('Delete Clicked');
