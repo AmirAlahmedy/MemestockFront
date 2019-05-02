@@ -9,36 +9,7 @@ import axios from '../../axios-orders';
 class ThreadPage extends Component {
    state = {
       id: window.location.href.split("/").pop(),
-      comments: [
-        /* {
-            id: '',
-            username: '',
-            comment: '',
-            locked: false,
-            spoiler: false,
-            reply: false,
-           // replies:[]
-         },
-         {
-            id: '2',
-            username: 'CluelessBastard',
-            comment: 'Oh this is so relatable',
-            locked: false,
-            spoiler: false,
-            reply: false,
-            replies:[]
-
-         },
-         {
-            id: '3',
-            username: 'Armi',
-            comment: 'Awesome',
-            locked: false,
-            spoiler: true,
-            reply: false,
-            replies:[]
-         }*/
-      ],
+      comments: [],
       subredditName: window.location.href.split("srName=").pop().replace("#top", ""),
       editThread: false,
       threadBody:'',
@@ -65,7 +36,7 @@ class ThreadPage extends Component {
             threadBody:resp.data.body,
             postdate:resp.data.postDate,
             threadTitle:resp.data.title,
-            votes:resp.data.__v,
+            votes:resp.data.__v || resp.data.votes,
             creator:resp.data.creatorUsername
           });
         }
@@ -79,11 +50,17 @@ class ThreadPage extends Component {
       .then(res => {
          if (res.status == 200) {
             console.log(res)
-            this.setState( {
-               comments: res.data.comments 
-            }      )      
-            for(const _id of res.data.comments){
-               axios.get(`/comment/${_id}`)
+            
+            //Removing duplicate comments:
+            // for(let i = 0; i < res.data.comments.length; i++){
+            //    for(let x = i+1; x < res.data.comments.length; x++){
+            //       if(res.data.comments[i]._id === res.data.comments[x]._id){
+            //          res.data.comments.splice(x, 1);
+            //       }
+            //    }
+            // }
+            for(const comment of res.data.comments){
+               axios.get(`/comment/${comment._id}`)
                .then(res => {
                  if(res.data && res.status === 200){
                    let myComments = this.state.comments;
@@ -102,7 +79,7 @@ class ThreadPage extends Component {
          }
       })
       .catch(error => {
-         alert("Error Caught");
+         console.log(error);
       })
 
 
@@ -341,7 +318,6 @@ class ThreadPage extends Component {
       const id = e.target.getAttribute("data-id");
       this.setState({
          deleteID: id
-
       })
       //this.setState({ comments: [...this.state.comments.filter(comment => comment._id !== id)] });
       console.log(id);
@@ -350,11 +326,13 @@ class ThreadPage extends Component {
       var headers = {
          auth: localStorage.getItem("token")
       }
-      axios.delete('/sr/' + id, { "headers": headers })
+      axios.delete('/comment/' + id, { "headers": headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res);
-               alert('Comment Deleted Successfully!')
+               // e.target.remove();
+               alert('Comment Deleted Successfully!');
+
             } else if (res.status === 404) {
                alert("Not Found");
                return Response.json;
@@ -422,7 +400,7 @@ class ThreadPage extends Component {
                <ul class="commentList">
                   {
                      this.state.comments.map(comment => {
-                        if (localStorage.getItem("username") === comment.username) {
+                        if (localStorage.getItem("Username") === comment.username) {
                            if (comment.spoiler == false) {
                               if (comment.locked == false)
                                  return (
@@ -431,7 +409,7 @@ class ThreadPage extends Component {
                                        <div className="comment">{comment.content}</div>
                                        <button className="editComment" data-id={comment._id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment._id} onClick={this.deleteComment.bind(this)}>Delete</button>
-                                       <button className="replyComment" comment-id={comment._id} onClick={this.handleReply} >r<i class="fas fa-reply"></i>eply</button>
+                                       <button className="replyComment" comment-id={comment._id} onClick={this.handleReply} ><i class="fas fa-reply"></i></button>
                                     </li>
                                  );
                               else

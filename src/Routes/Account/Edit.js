@@ -6,10 +6,14 @@ class Edit extends Component {
     email:''
   }
 
+  getCurrentUser() {
+    return localStorage.getItem("Username");
+}
+
   /**
- * Handles email change.
+ * Handles Email change.
  * @function handleChange
- * @param {event} e - The change of the email.
+ * @param {event} e - The change of the Email.
  */
   handleChange =(e) =>{
     this.setState({
@@ -17,29 +21,32 @@ class Edit extends Component {
     })
   }
   /**
- * Handles edit-email form submission.
+ * Handles edit-Email form submission.
  * @function handleSubmit
- * @param {event} e - The submission of the edit-email form.
+ * @param {event} e - The submission of the edit-Email form.
  */
   handleSubmit =(e) =>{
     e.preventDefault();
+    let username = this.getCurrentUser();
+    alert(username);
+
+
     let checker ="";
-    let emailcontent = document.getElementById("useremail").value;
+    
+    let Emailcontent = document.getElementById("userEmail").value;
   
-  if (emailcontent===checker)
+  if (Emailcontent===checker)
   {
-    alert ("Please provide an email password!");
+    alert ("Please provide an Email !");
     return ;
   }
   var headers = {
-    'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtZW1lc3RvY2siLCJzdWIiOiJHb29kR3V5cyIsImlhdCI6MTU1NTEwMDEyOX0.Fz8Abtwx-vmoKnncKdmJr-_kYb4Zl-YPQJeO26iMaFA'
+    'auth': localStorage.getItem("token")
   }
-  var data = {
-    email:this.state.email
-};
-  console.log(data);
-let username=this.state.email;
-axios.post('http://18.217.163.16/me/edit/email',username,emailcontent,{headers: headers})
+  var data = {Email:this.state.email}
+
+    console.log(data);
+  axios.put('me/edit/email/' + username, data, { headers: headers })
 .then(res => {
   console.log(res);
   if (res.status==200)
@@ -62,7 +69,7 @@ axios.post('http://18.217.163.16/me/edit/email',username,emailcontent,{headers: 
       <div className="edit">
 
         <form onSubmit={this.handleSubmit}>
-          <input type="email" placeholder="Update E-mail" id="useremail"onChange={this.handleChange} />
+          <input type="Email" placeholder="Update E-mail" id="userEmail"onChange={this.handleChange} />
         <input type="submit" value="Update" />
         </form>
        <h6>Your new mail : {this.state.email} </h6>
