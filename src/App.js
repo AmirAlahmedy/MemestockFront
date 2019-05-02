@@ -27,6 +27,20 @@ class Home extends Component {
 
 
   componentDidMount = () => {
+    const roots = ["http://localhost:3000", "http://localhost:3000/", "http://18.217.163.16/", "http://18.217.163.16"]
+    if(roots.includes(window.location.href)){
+      window.location.href = "/Home";
+    }
+
+    window.addEventListener("scroll", (e) => {
+      if(window.scrollY > 0){
+        document.getElementById("topJump").className = "backtoTop";
+      }else{
+        document.getElementById("topJump").className = "hidden";
+      }
+      // console.log(window.scrollY);
+      // console.log("height: ", window.innerHeight);
+    });
 
     // console.log(this.props.token);
     // this.props.history.replace('/Home/');
@@ -57,9 +71,10 @@ class Home extends Component {
   }
 
 
-  userHasLoggedIn(token) {
+  userHasLoggedIn(token, username) {
     if (token) {
       localStorage.setItem("token", token);
+      localStorage.setItem("Username", username);
       window.location.reload();
     }
   }

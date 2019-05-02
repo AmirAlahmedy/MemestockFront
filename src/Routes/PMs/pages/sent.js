@@ -22,7 +22,7 @@ class Sent extends React.Component {
    
   componentDidMount() {
     const jsondata ={'mine':false}
-    axios.get( 'me/pm/',jsondata, {
+    axios.get( 'me/pm/?mine=false', {
           headers: {
               'Content-Type': 'application/json',
             'auth': localStorage.getItem("token")

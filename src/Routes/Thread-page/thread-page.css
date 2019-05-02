@@ -47,7 +47,7 @@
     }
     .editComment
     {
-        background-color: rgb(167, 115, 48);
+        background-color: rgb(104, 135, 194);
         margin: 5px;
         border:  1px solid rgb(52, 53, 54);
         border-radius: 5px;
@@ -56,7 +56,7 @@
     }
     .deleteComment
     {
-        background-color: rgb(167, 115, 48);
+        background-color: rgb(104, 135, 194);
         margin: 5px;
         border:  1px solid rgb(52, 53, 54);
         border-radius: 5px;
@@ -121,7 +121,20 @@
         padding: 1em;
         border-bottom: 1px solid #fff;
     }
+    
     .textComment:focus{
+        outline: 0;
+        border-bottom: 1px solid #ccc;
+    }
+    .textReply {
+        width: 100%;
+        border-radius: 0;
+        height:95px;
+        margin: 0;
+        padding: 1em;
+        border-bottom: 1px solid #fff;
+    }
+    .textReply:focus{
         outline: 0;
         border-bottom: 1px solid #ccc;
     }
@@ -375,7 +388,17 @@
     }
     .goEdit
     {
-        background-color: rgb(167, 115, 48);
+        background-color: rgb(104, 135, 194);
+        margin: 5px;
+        border:  1px solid rgb(52, 53, 54);
+        border-radius: 5px;
+        font-size: 13px;
+        text-align: left;
+
+    }
+    .goReply
+    {
+        background-color: rgb(104, 135, 194);
         margin: 5px;
         border:  1px solid rgb(52, 53, 54);
         border-radius: 5px;
@@ -385,7 +408,7 @@
     }
     .goCancel
     {
-        background-color: rgb(167, 115, 48);
+        background-color: rgb(104, 135, 194);
         margin: 5px;
         border:  1px solid rgb(52, 53, 54);
         border-radius: 5px;

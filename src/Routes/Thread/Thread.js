@@ -6,20 +6,11 @@ import '../../Sass/styles.scss';
 export default class Thread extends Component {
 
     state = {
-        username: 'GiantSteps_',
-        subreddit: 'jazztheory',
-        title: 'Modal Harmony Interchange',
-        content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-        comments: [
-            {
-                username: 'WreakingHavoc',
-                comment: 'I rememeber when I had something to say!'
-            },
-            {
-                username: 'CluelessBastard',
-                comment: 'Oh this is so relatable'
-            }
-        ],
+        username: '',
+        subreddit: '',
+        title: '',
+        content: '',
+        comments: [],
         upvotes: 0,
         date:'',
         enableUp: false,
@@ -107,7 +98,7 @@ export default class Thread extends Component {
 
                     <button type="button" onClick={this.handledecrement} className="decrementVotes"><i class="fas fa-angle-down"></i></button>
                     <span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                        {this.state.comments.length} comments
+                        {window.location.href.includes("/thread/") ? "" : "View"}
                     </span>
 
 
