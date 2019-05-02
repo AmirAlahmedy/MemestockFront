@@ -26,6 +26,10 @@ class ThreadPage extends Component {
    }
 
    componentDidMount(){
+
+console.log(localStorage.getItem("Username"));
+
+
       let srName=this.state.subredditName;
       let threadID=this.state.id;
       axios.get(`/sr/${srName}/thread/${threadID}`)
@@ -163,46 +167,10 @@ class ThreadPage extends Component {
          })
    }
 
-   /*getAllComments = () => {
-      var headers = {
-         auth: localStorage.getItem("token")
-      }
 
-      axios.get('/comment/all/' + this.state.id, { headers: headers })
-         .then(res => {
-            if (res.status == 200) {
-               console.log(res)
-               this.setState( {
-                  comments: res.data.comments 
-               }      )      
-               for(const _id of res.data.comments){
-                  axios.get(`/comment/${_id}`)
-                  .then(res => {
-                    if(res.data && res.status === 200){
-                      let myComments = this.state.comments;
-                      myComments.push(res.data);
-                      this.setState({
-                        comments: myComments
-                      });
-                    }
-                  });    
-                
-            }
-         }
-             else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
-            }
-         })
-         .catch(error => {
-            alert("Error Caught");
-         })
-
-
-   }*/
  
    addComment = (comment) => {
-      var newComment = {
+     /* var newComment = {
           username: localStorage.getItem("username"),
           content:comment,
           reply: false,
@@ -210,7 +178,7 @@ class ThreadPage extends Component {
           locked: document.getElementById("checkLocked").checked
        }
 
-      this.setState({ comments: [...this.state.comments, newComment] });
+      this.setState({ comments: [...this.state.comments, newComment] });*/
 
 
       var headers = {
@@ -241,8 +209,30 @@ class ThreadPage extends Component {
 
 
 
-   replyComment = () => {
-
+   replyComment = (e) => {
+      var headers = {
+         auth: localStorage.getItem("token")
+      }
+      var newComment = {
+         // username: localStorage.getItem("username"),
+         content: document.getElementById("textReply").value,
+          reply: true,
+          spoiler: document.getElementById("checkSpoiler3").checked,
+          locked: document.getElementById("checkLocked3").checked
+       }
+     
+      axios.post('/comment/' + this.state.replyID, newComment, { headers: headers })
+         .then(res => {
+            if (res.status == 200) {
+               console.log(res)
+            } else if (res.status === 404) {
+               alert("Not Found");
+               return Response.json;
+            }
+         })
+         .catch(error => {
+            alert("Error Caught");
+         })
 
    }
 
@@ -265,7 +255,7 @@ class ThreadPage extends Component {
    goEdit = (e) => {
       const Cid = this.state.editID;
       console.log(Cid);
-      const newComment = {
+      /*const newComment = {
          id: Cid,
          username: localStorage.getItem("username"),
          content: document.getElementById("textComment").value,
@@ -274,16 +264,16 @@ class ThreadPage extends Component {
          locked: document.getElementById("checkLocked2").checked
          
          
-      }
+      }*/
 
 
       e.preventDefault();
       console.log('Edit Clicked');
       var commentData = {
-         newCommentID: Cid,
-         newCommentBody: document.getElementById("textComment").value,
-         newLock: document.getElementById("checkLocked2").checked,
-         newSpoiler: document.getElementById("checkSpoiler2").checked
+       //  c_id: Cid,
+         content: document.getElementById("textComment").value,
+         spoiler: document.getElementById("checkSpoiler2").checked,
+         locked: document.getElementById("checkLocked2").checked
       }
       let checker = "";
 
@@ -291,11 +281,7 @@ class ThreadPage extends Component {
          alert("Please provide a new Comment");
          return;
       }
-     // else {
-         //this.setState({comments:[...this.state.comments.forEach(comment=>comment.id==Cid),comment.comment=newComment.comment]});
-       //  this.setState({ comments: [...this.state.comments, newComment] });
-
-      //}
+    
       var headers = {
          auth: localStorage.getItem("token")
       }
@@ -359,7 +345,7 @@ class ThreadPage extends Component {
       })
       const id = e.target.getAttribute("comment-id");
       this.setState({
-         editID: id
+         replyID: id
 
       })
 
@@ -512,13 +498,13 @@ class ThreadPage extends Component {
                               name="comment" placeholder="Reply here..."
                               value={this.state.comment} onChange={this.onChange}
                            />
-                           <input type="submit" value="Reply" className="goReply" onClick={this.goEdit.bind(this)} />
+                           <input type="submit" value="Reply" className="goReply" onClick={this.replyComment.bind(this)} />
                            <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelReplyComment} />
 
                         </form>
-                        <input type="checkbox" id="checkLocked2" />
+                        <input type="checkbox" id="checkLocked3" />
                         <button className="lockComment">Lock</button>
-                        <input type="checkbox" id="checkSpoiler2" />
+                        <input type="checkbox" id="checkSpoiler3" />
                         <button className="spoilerComment" >Mark as spoiler</button>
                      </div> : <div></div>
                }

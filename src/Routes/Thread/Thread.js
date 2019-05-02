@@ -18,7 +18,7 @@ export default class Thread extends Component {
     }
     // mocks = data.threads[2];
 
-
+    
 
     /**
      * Handles upvotes increments.
