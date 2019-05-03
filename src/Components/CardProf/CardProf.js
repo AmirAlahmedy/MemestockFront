@@ -22,6 +22,10 @@ getCurrentUser() {
 componentDidMount () { 
 
   console.log(localStorage.getItem("Username"));
+  
+};
+
+addData= (e) =>{
   alert(localStorage.getItem("Username"));
   var headers = {
     'auth': localStorage.getItem("token")
@@ -50,7 +54,7 @@ componentDidMount () {
 .catch(error => {
    console.log(error);
 })
-};
+}
   gotoMod(){
     window.location.href = "/user/moderation";
 }
@@ -110,9 +114,9 @@ componentDidMount () {
         </div>
 
         <div className="tanihetta">
-        <h5>Cake Day</h5> 
+        <h5  >Cake Day</h5> 
+        {this.addData}
         <p>{this.state.cakeday}</p>
-        <h5>Email</h5>
 
         </div>
 
