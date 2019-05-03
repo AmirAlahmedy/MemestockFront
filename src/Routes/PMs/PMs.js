@@ -118,6 +118,11 @@ class PMs extends Component {
 
   }
 
+  componentDidMount() {
+    if(localStorage.getItem("Username") === "guest"){
+     window.location.href = "/Home"; 
+    }
+  }
 
   render() {
 

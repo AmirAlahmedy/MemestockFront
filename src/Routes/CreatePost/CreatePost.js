@@ -40,6 +40,7 @@ class CreatePost extends Component {
     var srdata = {
       title: document.getElementById("threadPageTitleField").value,
       threadBody: document.getElementById("threadPageBodyField").value,
+      postFile:{},
       spoiler:this.state.spoiler
     }
     let checker = "";

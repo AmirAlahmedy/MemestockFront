@@ -90,7 +90,7 @@ export default class Thread extends Component {
                     <br></br>
                     <div className="threadTitle">{this.props.title}</div>
 
-                    <p className={thrdContent}>{this.props.content}</p>
+                    <p className={window.location.href.includes("/thread/") ? "threadContent" : thrdContent}>{this.props.content}</p>
 
                     <button type="button" onClick={this.handleIncrement} className="incrementVotes"><i class="fas fa-angle-up"></i></button>
 

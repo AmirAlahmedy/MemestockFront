@@ -14,6 +14,9 @@ import GoHome from './Routes/GoHome/index.js';
 import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
 import User from './Components/User/User';
 import Moderation from './Routes/ModerationPage/ModerationPage';
+import axios from './axios-orders';
+import Notifications from './Routes/Notifications/Notifications';
+import io from 'socket.io-client';
 
 class Home extends Component {
 
@@ -22,33 +25,47 @@ class Home extends Component {
     view: {
       card: true,
       classic: false
-    }
+    },
+    sort: 'new'
   }
 
 
   componentDidMount = () => {
     const roots = ["http://localhost:3000", "http://localhost:3000/", "http://18.217.163.16/", "http://18.217.163.16"]
-    if(roots.includes(window.location.href)){
+    if (roots.includes(window.location.href)) {
       window.location.href = "/Home";
     }
 
     window.addEventListener("scroll", (e) => {
-      if(window.scrollY > 0){
+      if(!document.getElementById("topJump")) return;
+      if (window.scrollY > 0) {
         document.getElementById("topJump").className = "backtoTop";
-      }else{
+      } else {
         document.getElementById("topJump").className = "hidden";
       }
-      // console.log(window.scrollY);
-      // console.log("height: ", window.innerHeight);
+
     });
 
-    // console.log(this.props.token);
-    // this.props.history.replace('/Home/');
-    //  this.props.lastRoute != '/Registration/' ? 
-    //  this.props.history.push(this.props.lastRoute)
-    //  :
-    //  this.props.history.replace('/Home/');
-    //this.props.authToken();
+    if (!this.state.isAuth) {
+      axios.get("/guest")
+        .then(resp => {
+          if (!resp.data.Token) throw new Error("Couldn't Sign you as a guest...");
+          this.userHasLoggedIn(resp.data.Token, "guest");
+        })
+    } else if (localStorage.getItem("Username") !== "guest") {
+      this.socket = io("http://18.217.163.16/", {
+        path: "/api/socket.io",
+        query: {
+          token: localStorage.getItem("token")
+        }
+      });
+      this.socket.on('connect', function () {
+        console.log("socket connected");
+      });
+      this.socket.on('notification', function(data){
+        console.log("notification data: ", data);
+      });
+    }
 
   }
 
@@ -82,22 +99,54 @@ class Home extends Component {
   logout(e) {
     e.preventDefault();
     localStorage.removeItem("token");
+    localStorage.removeItem("Username");
     window.location.reload();
   }
-  
- 
+
+  sortHandNew() {
+    this.setState({
+      sort: 'new'
+    })
+    this.updateSort('new');
+  }
+
+
+  sortHandTop() {
+    this.setState({
+      sort: 'top'
+    })
+    this.updateSort('top');
+  }
+
+
+  sortHandHot() {
+    this.setState({
+      sort: 'hot'
+    });
+    this.updateSort('hot');
+  }
+
+  sortChanged() {
+    // alert('sort cahnged');
+    //La2 //La2!!!
+    console.log("sort changed...");
+  }
+  listingUpdater(getListing) {
+    this.updateSort = getListing;
+  }
 
   render() {
     console.log(window.pageYOffset);
     console.log("app props", this.props);
-   
-    window.onscroll = function(){
-   
-    if(window.scrollY > 600)
-      document.getElementById("topJump").className = "backtoTop";
+    console.log('sort in home', this.state.sort);
+
+    window.onscroll = function () {
+      if(!document.getElementById("topJump")) return;
+      if (window.scrollY > 600)
+        document.getElementById("topJump").className = "backtoTop";
       else
-      document.getElementById("topJump").className = "hidden";
-   }
+        document.getElementById("topJump").className = "hidden";
+    }
 
     return (
       <div className='Home' >
@@ -105,39 +154,43 @@ class Home extends Component {
         <NavBar logout={this.logout.bind(this)}
           finishLogin={this.userHasLoggedIn.bind(this)}
           finishRegistration={this.userHasLoggedIn.bind(this)}
-          isAuth={this.state.isAuth}
+          isAuth={this.state.isAuth && localStorage.getItem("Username") !== "guest"}
           classicViewHandler={this.classicViewHandler.bind(this)}
-          cardViewHandler={this.cardViewHandler.bind(this)} />
+          cardViewHandler={this.cardViewHandler.bind(this)}
+          sortHandNew={this.sortHandNew.bind(this)}
+          sortHandHot={this.sortHandHot.bind(this)}
+          sortHandTop={this.sortHandTop.bind(this)}
+          onSortChange={this.sortChanged.bind(this)} />
 
         <Switch>
-          <Route path='/PM/'  component={PMs}/>
-          <Route path='/Inbox'  component={PMs}/>
-          <Route path='/Sent/'  component={PMs}/>
+          <Route path='/PM/' component={PMs} />
+          <Route path='/Inbox' component={PMs} />
+          <Route path='/Sent/' component={PMs} />
           <Route path='/CreatePost/' component={CreatePost} />
-          {/* <Route path='/CreatePost/' component={CreatePost} />
-          <Route path='/CreatePost/' component={CreatePost} /> */}
           <Route path='/settings/' component={Settings} />
           <Route path='/r/' component={Subreddit} />
           <Route path='/thread/' component={ThreadPage} />
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
+          <Route path='/notifications/' component={Notifications} />
           <Route path='/user/' render={
-            props=>{
-              return <User username={this.props.username}/>
+            props => {
+              return <User username={this.props.username} />
             }
-          }/>
-          <Route path='/user/moderation' component={Moderation}/>
+          } />
+          <Route path='/user/moderation' component={Moderation} />
           <Route path='/Home/' render={
             props => {
-              return <Listings authToken={this.props.token} view={this.state.view.card} />
+              console.log('sort in home', this.state.sort);
+              return <Listings listingUpdater={this.listingUpdater.bind(this)} authToken={this.props.token} view={this.state.view.card} sort={this.state.sort} />
             }
           } />
         </Switch>
 
-          
+
         <footer>
           <p>
-            <a href="#top" id = "topJump" className="hidden">
+            <a href="#top" id="topJump" className="hidden">
               <i className="fas fa-chevron-circle-up"></i>
             </a>
           </p>

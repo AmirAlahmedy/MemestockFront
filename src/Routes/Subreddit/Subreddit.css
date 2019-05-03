@@ -327,3 +327,18 @@
 
 }
 */
+.flairInput{
+    border-radius:4px;
+    border: 1px solid #ccc;
+    padding: 1em;
+    font-size: 0.85em;
+    width:100%;
+}
+.flairComp{
+    margin-top: 1em;
+}
+#flairForm{
+    padding: 1em;
+    justify-content: center;
+    align-content: center;
+}

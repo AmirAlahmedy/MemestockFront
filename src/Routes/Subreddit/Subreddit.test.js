@@ -11,9 +11,3 @@ it('renders without crashing', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-
-// test('Link changes the class when hovered', () => {
-//     const component = renderer.create(
-//       <Subreddit page="http://www.facebook.com">Facebook</Subreddit>,
-//     );
-// })

@@ -12,6 +12,8 @@ class ModerationQueue extends Component{
           Reports: [],
         isLoading: true,
         errors: null
+
+        
         
         }
       
@@ -20,14 +22,10 @@ class ModerationQueue extends Component{
       
   componentDidMount() {
     console.log(this.props);
-
-    axios.get( 'Moderator/Reports/', {
-          headers: {
-              'Content-Type': 'application/json',
-            auth: localStorage.getItem("token")
-          },
-          
-      })
+    const headers = {
+      auth: localStorage.getItem("token")
+    }
+    axios.get( 'Moderator/Reports/',{ "headers": headers })
       .then(response =>{
         console.log(response);
         console.log(response.data);
@@ -60,6 +58,8 @@ class ModerationQueue extends Component{
         if (error.response.data ="You are not a moderator to any subreddit")
         {
         alert ("you are not a moderator to any subreddit");
+        
+
         }
         else if(error.response.data = "No reports")
         {
@@ -219,6 +219,7 @@ DeleteReportedPost(e)
       if (error.response.data === "You are not a moderator to any subreddit")
       {
       alert ("you are not a moderator to any subreddit");
+     
       }
       else if(error.response.data === "report doesnt exist")
       {
@@ -259,6 +260,7 @@ getReports()
 
 
     render (){
+    
         return (
 <div>
     {this.getReports()}

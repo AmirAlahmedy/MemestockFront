@@ -5,4 +5,22 @@ Set Tasks For The frontend.
 Create Networking Class.
 Service worker customization for push notifications.
 
- 
+ 2.5.19
+ Ali :       1. leave moderation.
+             2. Needs reports.
+             3. Replacing alerts with erro handlers.
+            + testing
+
+ Karim : 1. Testing           
+
+ Youssef : 1. get posts/comments in user profile.
+           2. other users profile.
+           + testing
+
+ Noura : 1. Moderation: Ban user, Delete thread/comment, invite moderators.
+        + testing
+
+ Amir : 1. Notifications. //Me
+        2. Forgot Password. 
+        3. Flair request done but doesn't appear in the sureddit.
+       +testing        

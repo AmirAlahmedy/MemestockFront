@@ -24,20 +24,15 @@ class Home extends Component {
     view: {
       card: true,
       classic: false
-    }
+    },
+    sort: 'new'
   }
 
 
 
   componentDidMount = () => {
-
-    // console.log(this.props.token);
+    
     this.props.history.replace('/Home/');
-    //  this.props.lastRoute != '/Registration/' ? 
-    //  this.props.history.push(this.props.lastRoute)
-    //  :
-    //  this.props.history.replace('/Home/');
-    //this.props.authToken();
 
   }
 
@@ -76,18 +71,29 @@ class Home extends Component {
     });
   }
 
+  sortHandNew(){
+    this.setState({
+      sort: 'new'
+    })
+  }
+
+  
+  sortHandTop(){
+    this.setState({
+      sort: 'top'
+    })
+  }
+
+  
+  sortHandHot(){
+    this.setState({
+      sort: 'hot'
+    })
+  }
 
   render() {
-    let nestedRoutes = false;
-    let list = nestedRoutes ? <Route path='/Home/' exact component={NestedListings} /*render={
-        props=>{
-          return(
-            <NestedListings />
-          );
-        }
-      } *//> : <Route path='/Home/' exact component={Listings} />;
+    console.log(this.state.sort);
 
-    let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration} /> : null;
     return (
       <div className='Home' >
 
@@ -96,13 +102,16 @@ class Home extends Component {
           finishRegistration={this.userHasLoggedIn.bind(this)} 
           isAuth={this.state.isAuth} 
           classicViewHandler={this.classicViewHandler.bind(this)}
-          cardViewHandler={this.cardViewHandler.bind(this)} />
+          cardViewHandler={this.cardViewHandler.bind(this)}
+          sortHandNew={this.sortHandNew.bind(this)}
+          sortHandHot={this.sortHandHot.bind(this)}
+          sortHandTop={this.sortHandTop.bind(this)} />
 
         {
           !this.props.isGuest ?
             <Switch>
 
-              <Route path='/PM/'  /*component={PMs}*/ render={
+              <Route path='/PM/'  render={
                 props => {
                   return (
                     <PMs token={this.props.token} />
@@ -122,36 +131,15 @@ class Home extends Component {
               <Route path='/Logout/' component={GoHome} />
             </Switch>
         }
-        {/* <Route path='/PM/'  /*component={PMs} render={
-                props=>{
-                  return(
-                    <PMs token={this.props.token}/>
-                  );
-                }
-              }/>
-              <Route path='/CreatePost/'   component={CreatePost}/>
-              <Route path='/settings/'  render={Settings}/>
-              <Route path='/r/' component={Subreddit}/>
-              <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
-        {/* <Route path='/:username' component={CreateSubReddit}/> */}
               
         <Route path='/Home/' exact  render={
                   props=>{
+                    console.log('sort in home',this.state.sort);
                     return(
-                      <Listings authToken={this.props.token} view={this.state.view.card}/>
+                      <Listings authToken={this.props.token} view={this.state.view.card} sort={this.state.sort}/>
                     );
                   }
                 }/>
-
-
-
-        {/* {this.props.lastRoute ? <div>
-              <Redirect to={this.props.lastRoute} />
-            </div> : <span></span>}
-            */}
-
 
         <footer>
           <p>
@@ -165,20 +153,5 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: true,//state.auth.token !== null,
-    authRedirectPath: state.auth.authRedirectPath,
-    // token: state.auth.token
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
-    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(Home);

@@ -17,17 +17,18 @@ export class Subreddit extends Component {
     bio: '',
     threads: [],
     moderators: '',
-    moderatorsList:[],
+    moderatorsList: [],
     subscribers: 0,
-    subscribersList:[],
+    subscribersList: [],
     date: '',
     rules: [],
     posts: [],
     subscribed: false,
     adminview: false,
     threadCreation: false,
-    subredditEdit:false,
-    threadsContent: []
+    subredditEdit: false,
+    threadsContent: [],
+    flair: null
   }
 
   componentDidMount() {
@@ -48,25 +49,33 @@ export class Subreddit extends Component {
               bio: resp.data.Bio,
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
-              moderatorsList:resp.data.modUsername.length ?  resp.data.modUsername : [resp.data.adminUsername],
+              moderatorsList: resp.data.modUsername ? resp.data.modUsername : [resp.data.adminUsername],
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
               subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
               date: resp.data.date,
               rules: resp.data.rules,
               cover: resp.data.subredditFile
+            }, () => {
+              console.log("state: ", this.state);
+              const isAdmin = this.state.moderators === localStorage.getItem("Username")
+                || this.state.moderatorsList.includes(localStorage.getItem("Username"));
+              this.setState({
+                adminview: isAdmin,
+                subscribed: isAdmin
+              })
             })
-            for(const threadID of resp.data.posts){
+            for (const threadID of resp.data.posts) {
               axios.get(`/sr/${srName}/thread/${threadID}`)
-              .then(resp => {
-                if(resp.data && resp.status === 200){
-                  let threads = this.state.threadsContent;
-                  threads.push(resp.data);
-                  this.setState({
-                    threadsContent: threads
-                  });
-                }
-              });
+                .then(resp => {
+                  if (resp.data && resp.status === 200) {
+                    let threads = this.state.threadsContent;
+                    threads.push(resp.data);
+                    this.setState({
+                      threadsContent: threads
+                    });
+                  }
+                });
             }
           }
           else if (resp.status === 404) {
@@ -80,7 +89,7 @@ export class Subreddit extends Component {
         })
     }
     else {
-     
+
       this.setState({
         bio: data.subreddit.bio,
         threads: data.subreddit.threads,
@@ -90,22 +99,20 @@ export class Subreddit extends Component {
         rules: data.subreddit.rules,
       });
     }
-    let token=localStorage.getItem("token");
-    let username=localStorage.getItem("Username");
-    for(let i = 0; i < this.state.subscribers; i++){
-      if(username==this.state.subscribersList[i]) 
-      {
+    let token = localStorage.getItem("token");
+    let username = localStorage.getItem("Username");
+    for (let i = 0; i < this.state.subscribers; i++) {
+      if (username == this.state.subscribersList[i] || username == this.state.moderatorsList[i] || username == this.state.moderatorsList) {
         this.setState({
-          subscribed:true
+          subscribed: true
         })
       }
-      if(username==this.state.moderators)
-      {
+      if (username == this.state.moderators) {
         this.setState({
-          adminview:true
+          adminview: true
         })
       }
-   }
+    }
   }
   /**
    * For sending a subscribe request to the backend and updating the subscribed boolean state
@@ -122,7 +129,7 @@ export class Subreddit extends Component {
     axios.post('/sr/' + SubredditName + '/subs', null, { "headers": headers })
       .then(res => {
         if (res.status == 200) {
-          console.log(res); 
+          console.log(res);
 
           console.log('subscribed!')
           this.setState({
@@ -207,37 +214,36 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) => {
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
-    if(this.state.subscribed==false)
-    {
+    if (this.state.subscribed == false) {
       //CANNOT CREATE A POST UNLESS SUBSCRIBED
       alert('CANNOT CREATE A POST UNLESS SUBSCRIBED');
     }
-    else{
+    else {
       this.setState({
         threadCreation: true
       })
     }
   }
-/**
-       * For changing the GUI and hiding the fields for the thread creation
-       * @function CancelCreation
-       * @param {event} - onClick event 
-       */
-      CancelCreation = (e) => {
-        e.preventDefault();
-        console.log('Clicked on Cancel thread sidebar');
-        this.setState({
-          threadCreation: false
-        })
-      }
-  editSubreddit= (e) => { 
+  /**
+         * For changing the GUI and hiding the fields for the thread creation
+         * @function CancelCreation
+         * @param {event} - onClick event 
+         */
+  CancelCreation = (e) => {
+    e.preventDefault();
+    console.log('Clicked on Cancel thread sidebar');
+    this.setState({
+      threadCreation: false
+    })
+  }
+  editSubreddit = (e) => {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
-    if(this.state.adminview==false){
+    if (this.state.adminview == false) {
       //CANNOT CREATE A POST UNLESS SUBSCRIBED
       alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
     }
-    else{    
+    else {
       this.setState({
         subredditEdit: true
       })
@@ -250,7 +256,7 @@ export class Subreddit extends Component {
       subredditEdit: false
     })
   }
-  
+
   /**
    * For sending an post request to the backend and creating a thread in this subreddit
    * @function handleSubmit
@@ -263,11 +269,14 @@ export class Subreddit extends Component {
       "title": document.getElementById("threadTitleField").value,
       "threadBody": document.getElementById("threadBodyField").value
     }
+    if(this.state.imagePost){
+      srdata.base64image = this.state.imagePost
+    }
     let headers = {
       auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
-    axios.post('/sr/'+SubredditName+'/thread', srdata, { "headers": headers })
+    axios.post('/sr/' + SubredditName + '/thread', srdata, { "headers": headers })
       .then(res => {
         console.log(res);
         if (res.status == 200) {
@@ -282,23 +291,26 @@ export class Subreddit extends Component {
       })
   }
 
-  handleEdit = (e) =>{
+  handleEdit = (e) => {
     e.preventDefault();
-    let newmods=this.state.moderatorsList;
-    newmods.push(document.getElementById("subredditmoderatorField").value);
+    let newmods = this.state.moderatorsList;
+    const newMod = document.getElementById("subredditmoderatorField").value;
+    if (newMod) {
+      newmods.push(newMod);
+    }
     const srdata = {
       "newName": document.getElementById("subredditNameField").value,
-      "newRules": [document.getElementById("subredditRule1Field").value,document.getElementById("subredditRule2Field").value,document.getElementById("subredditRule3Field").value],
-      "newBio":document.getElementById("subredditBioField").value,
-      "newMods":newmods,
+      "newRules": [document.getElementById("subredditRule1Field").value, document.getElementById("subredditRule2Field").value, document.getElementById("subredditRule3Field").value],
+      "newBio": document.getElementById("subredditBioField").value,
+      "newMods": newmods,
+      "base64image": this.state.image
     }
-
 
     let headers = {
       auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
-    axios.put('/sr/'+ SubredditName + '/thread', srdata, { "headers": headers })
+    axios.put('/sr/' + SubredditName, srdata, { "headers": headers })
       .then(res => {
         console.log(res);
         if (res.status == 200) {
@@ -310,9 +322,7 @@ export class Subreddit extends Component {
               if (resp.status == 200) {
                 console.log(resp.data.rules);
                 console.log("length", resp.data.posts.length)
-                this.setState({
-                  threads: resp.data.posts
-                })
+                window.location.href = "/r/" + SubredditName;
               }
             })
         } else if (res.status === 401 || res.status === 404) {
@@ -325,44 +335,105 @@ export class Subreddit extends Component {
       })
   }
   getThreads() {
-    if(!this.state.threadsContent ) return;
-    return this.state.threadsContent.map(thr => <Thread 
+    if (!this.state.threadsContent) return;
+    return this.state.threadsContent.map(thr => <Thread
       id={thr._id}
       username={thr.creatorUsername}
       subreddit={thr.subredditName}
-      title={thr.title} 
+      title={thr.title}
       content={thr.body}
-      />);
+    />);
+  }
+  /**
+  * For changing the GUI and hiding the fields for the thread creation
+  * @function CreateFlair 
+  * @param {event} - Submition event 
+  */
+  CreateFlair(e) {
+    e.preventDefault();
+   
+    let body = {
+      srName: this.state.name,
+      flair: e.target.querySelector('.flairInput').value
+    }
+    let headers = {
+      'auth': localStorage.getItem('token')
+    }
+    axios.post('/user/CreateFlair', body, { "headers": headers })
+      .then(response => {
+        console.log('flair response', response);
+        //Na hash3'al l server bta3 l backend 3andi 3shan hazbot feeh 7agat 
+        //Ha sharo fa l mafrod ysht3'al...
+        this.setState({
+          flair: body.flair
+        })
+      })
+      .catch(error => {
+
+      })
+  }
+  handleNewImage(e) {
+    const files = e.target.files;
+    if (!files || !files.length) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (eReader) => {
+      if (!eReader.target || !eReader.target.result) return;
+      this.setState({
+        image: eReader.target.result
+      });
+    }
+
+    reader.readAsDataURL(files[0]);
+
+  }
+  handleNewImagePost(e) {
+    const files = e.target.files;
+    if (!files || !files.length) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (eReader) => {
+      if (!eReader.target || !eReader.target.result) return;
+      this.setState({
+        imagePost: eReader.target.result
+      });
+    }
+
+    reader.readAsDataURL(files[0]);
+
   }
   render() {
+    console.log(this.state.flair);
     return (
       <div className="subredditFixed">
-        <section id="subredditShowcase" style={{backgroundImage: this.state.cover ? `url(http://18.217.163.16/api${this.state.cover})` : null}}>
+        <section id="subredditShowcase" style={{ backgroundImage: this.state.cover ? `url(http://18.217.163.16/api${this.state.cover})` : null }}>
           <img src={defImage} alt="Subreddit Default" />
           <h1>r/{this.state.name}</h1>
         </section>
         <nav id="subredditNavbar">
           <div className="subredditContainer">
-                <div id="subredditSort">
-            <div className="subredditContainer">
+            <div id="subredditSort">
+              <div className="subredditContainer">
 
-              <div className="srSortdropdownMenu">
-                <button className='srSortdropButton'>
-                  Sorting <i class="downIcon fas fa-sort-down"></i>
-                </button>
-                <div role='menu' className='srdropList'>
-                  <ul className='srSortdropUl'>
-                    <li className='srSortdropdownItem' className='sort toHome'>Hot</li>
-                    <li className='srSortdropdownItem' className='sort toHome'>New</li>
-                    <li className='srSortdropdownItem' className='sort toHome'>Controversial</li>
-                    <li className='srSortdropdownItem' className='sort toHome'>Top</li>
-                    <li className='srSortdropdownItem' className='sort toHome'>Rating</li>
-                  </ul>
+                <div className="srSortdropdownMenu">
+                  <button className='srSortdropButton'>
+                    Sorting <i class="downIcon fas fa-sort-down"></i>
+                  </button>
+                  <div role='menu' className='srdropList'>
+                    <ul className='srSortdropUl'>
+                      <li className='srSortdropdownItem' className='sort toHome'>Hot</li>
+                      <li className='srSortdropdownItem' className='sort toHome'>New</li>
+                      <li className='srSortdropdownItem' className='sort toHome'>Controversial</li>
+                      <li className='srSortdropdownItem' className='sort toHome'>Top</li>
+                      <li className='srSortdropdownItem' className='sort toHome'>Rating</li>
+                    </ul>
 
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
           </div>
         </nav>
@@ -390,8 +461,8 @@ export class Subreddit extends Component {
               </div>
               {
                 this.state.moderators === localStorage.getItem("Username") ? <span></span>
-                : this.state.subscribed ? <button className="srSidebarSubscribeButton" onClick={this.srUnSubscribe}>UNSUBSCRIBE</button>
-                : <button className="srSidebarSubscribeButton" onClick={this.srSubscribe}>SUBSCRIBE</button>
+                  : this.state.subscribed ? <button className="srSidebarSubscribeButton" onClick={this.srUnSubscribe}>UNSUBSCRIBE</button>
+                    : <button className="srSidebarSubscribeButton" onClick={this.srSubscribe}>SUBSCRIBE</button>
               }
               <button className="srSidebarSubscribeButton" onClick={this.createThreadSidebar}>CREATE A POST</button>
             </div>
@@ -425,8 +496,12 @@ export class Subreddit extends Component {
                       <label for="Bio">Add a new moderator </label>
                       <textarea type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
                     </div>
+                    <div className="formGroupSrComponent">
+                      <label for="cover">Cover </label>
+                      <input type="file" name="cover" id="cover" onChange={this.handleNewImage.bind(this)} />
+                    </div>
                     <button className="srSidebarSubscribeButton">Edit Subreddit</button>
-                    <button className="srSidebarSubscribeButton" onClick={this.cancelSubreddit}>CANCEL</button>
+                    <button type="button" className="srSidebarSubscribeButton" onClick={this.cancelSubreddit}>CANCEL</button>
                   </form>
                 </div> : <div></div>
             }
@@ -444,6 +519,10 @@ export class Subreddit extends Component {
                       <label for="ThreadBody">Enter Thread Body</label>
                       <textarea type="textarea" name="text" id="threadBodyField" placeholder="Enter Body Here" />
                     </div>
+                    <div className="formGroupSrComponent">
+                      <label for="coverPost">Cover </label>
+                      <input type="file" name="coverPost" id="coverPost" onChange={this.handleNewImagePost.bind(this)} />
+                    </div>
                     <button className="srSidebarSubscribeButton" >CREATE</button>
                     <button className="srSidebarSubscribeButton" onClick={this.CancelCreation}>CANCEL</button>
                   </form>
@@ -453,13 +532,13 @@ export class Subreddit extends Component {
               <h5>MODERATORS & ADMINS</h5>
               <ul>
                 {/*<li className="moderatorSr" ><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li> */}
-                 {
+                {
                   this.state.moderatorsList.map(moderator => {
                     return (
                       <li className="moderatorSr" key={moderator}><Link to={`/user/${this.state.moderators}`}>u/{this.state.moderators}</Link></li>
                     );
                   })
-                } 
+                }
               </ul>
             </div>
             <div className="subredditSidebarComponent">
@@ -474,13 +553,25 @@ export class Subreddit extends Component {
                 }
               </ol>
             </div>
-            
+
             {
-              this.state.adminview ? <button className="srSidebarSubscribeButton"onClick={this.editSubreddit}>Edit Subreddit</button> : <div></div>
+              this.state.adminview ? <button className="srSidebarSubscribeButton" onClick={this.editSubreddit}>Edit Subreddit</button> : <div></div>
             }
             {
               this.state.adminview ? <button className="srDeleteButton" onClick={this.delSubreddit}>Delete Subreddit</button> : <div></div>
             }
+            <div className="subredditSidebarComponent flairComp">
+              <h5>CREATE YOUR OWN NAME</h5>
+              <form id='flairForm' onSubmit={this.CreateFlair.bind(this)}>
+                <input
+                  className='flairInput'
+                  type='text'
+                  placeholder='Flair' />
+                <button className="srSidebarSubscribeButton" type='submit' >Create a flair</button>
+              </form>
+
+            </div>
+
           </aside>
 
         </div>

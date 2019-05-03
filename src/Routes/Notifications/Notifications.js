@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import './Notifications.css';
+import axios from '../../axios-orders';
 
-getNotifications = () =>{
+class Notifications extends Component{
 
-}
+    // componentDidMount = () => {
+    //     axios.get('/notif/', {headers: })
+    // }
 
-const Notifications = props =>{
-    return(
-        
+    render(){
+
+        return(
+            <div className='notiContainer'>
+            nothing
+        </div>
     );
+    }
 }
 
 export default Notifications;
