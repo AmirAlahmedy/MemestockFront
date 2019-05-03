@@ -21,7 +21,8 @@ class ThreadPage extends Component {
       replyComment: false,
       editID: '',
       replyID:'',
-      deleteID: ''
+      deleteID: '',
+     // upvotes: 0
 
    }
 
@@ -375,6 +376,7 @@ console.log(localStorage.getItem("Username"));
                   upvotes={this.state.votes}
                   date={this.state.postdate}
                 />
+              
                </div>
                <div class="addCommentSection">
                   <AddComment addComment={this.addComment} />

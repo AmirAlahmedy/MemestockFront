@@ -416,3 +416,25 @@
         text-align: left;
 
     }
+    
+    .threadUpvotes{
+        float:left;
+        font-size:19px;
+        margin-left: 20px;
+        margin-top: 4px;
+    }
+    .decrementVotes, .incrementVotes{
+        color: #777777;
+        cursor: pointer;
+        font-size:24px;
+        float:left;
+        margin-left: 20px;
+        border-radius: 5px;
+        padding:3px;
+        background: transparent;
+        border: 0;
+    }
+    .decrementVotes:hover,
+    .incrementVotes:hover{
+        color: #0079D3;
+    }
