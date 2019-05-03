@@ -5,7 +5,10 @@ import Head from './Head';
 import Inbox from './pages/inbox';
 import Sent from './pages/sent';
 import Aux from '../../Components/HOC/Auxiliary';
+import Popup from "reactjs-popup";
 import axios from '../../axios-orders';
+import classes from './PMs.module.css';
+
 
 class PMs extends Component {
   //assume all submitted for now
@@ -18,6 +21,8 @@ class PMs extends Component {
       Message: '',
       submitting: false,
       error: false,
+      errors:'',
+      success:''
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -85,7 +90,9 @@ class PMs extends Component {
         });
 
         //in case sucess..
-        alert("your message was sucessfully delievered");
+        this.setState({
+         success : "Message Successfully Delievered"
+        });
 
       })
       .catch(error => {
@@ -96,19 +103,29 @@ class PMs extends Component {
         });
         if (error && error.response && error.response.statusText) {
           if (error.response.data.error === "overLengthedSubject") {
-            alert("Subject is too long");
-            return;
+            this.setState({
+              errors: "*" + error.response.data.error +",subject Too long"
+          });
+            
           }
-          else if (error.response.statusText === "Not Found") {
-            alert("User not Found");
+          else if (error.response.data.error === "receiverNotFound") {
+            this.setState({
+              errors: "*" + error.response.data.error
+          });
             return;
           }
           else if (error.response.data.error === "selfMessage") {
-            alert("Error trying to send a message to yourself");
+            
+            this.setState({
+              errors: "*" + error.response.data.error +", Trying to send a message to yourself"
+          });
             return;
           }
           else if (error.response.data.error === "blockedFromSending") {
-            alert("User doesn't exist");
+            
+            this.setState({
+              errors: "*" + error.response.data.error +",Reciever blocked you"
+          });
             return;
           }
         }
@@ -120,8 +137,10 @@ class PMs extends Component {
 
 
   render() {
-
+    let error =this.state.errors != ""?<p className={classes.Invalid}>{this.state.errors}</p>:null
+    let success =this.state.success != ""?<p className={classes.Invalid}>{this.state.success}</p>:null
     return (
+     
       <Router>
         <Aux>
           <div style={{width: "100%"}}>
@@ -129,16 +148,26 @@ class PMs extends Component {
           <Route path="/PM" exact component={Inbox} />
           <Route path="/Sent" component={Sent} />
 
+          
           <div className="container">
             <div className="pm-form">
+            
+            
 
 
 
               <Route exact path="/PM/Compose" render={props => (
                 <React.Fragment>
-
-                  <form name="myForm"
+                {error}
+                {success} 
+                {this.setState.errors=""}
+              {this.setState.success=""}
+             
+         
+             
+                <form name="myForm"
                     onSubmit={this.handleSubmit}>
+                    
                     <div>
                       <textarea
                         className="To"
@@ -176,8 +205,8 @@ class PMs extends Component {
                     <input type="submit" value="Submit" />
 
                   </form>
-
-
+                
+                  
                 </React.Fragment>
               )} />
 
