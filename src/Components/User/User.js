@@ -2,20 +2,54 @@ import React, { Component } from 'react'
 import { NavLink, Route } from 'react-router-dom';
 import CardProf from '../CardProf/CardProf';
 import './User.css';
+import axios from "../../axios-orders";
 import Aux from '../HOC/Auxiliary';
 import Moderation from '../../Routes/ModerationPage/ModerationPage';
 
 export class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
 
-  state ={
-    username:'',
-    me:true
+       Comments: []
+
+    }
+
+    // this.handleClick = this.handleClick.bind(this);
+    // this.BlockUser = this.BlockUser.bind(this);
+    // this.blockList = this.blockList.bind(this);
+  };
+
+  getCurrentUser() {
+    return localStorage.getItem("Username");
 }
 
-componentDidMount () { 
+  componentDidMount() {
+    console.log(this.props);
+    const headers = {
+      auth: localStorage.getItem("token")
+    }
+    let username = this.getCurrentUser();
+    axios.get('/user/'+ username +'/comments/listing?type=hot', { "headers": headers })
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
 
-  console.log("User in");
-}
+
+        this.setState({
+          Comments: response.data.comments
+        });
+        console.log(this.state.Messages);
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert("Error")
+      });
+  }
+
+
+
 
 
 goTo(link){
