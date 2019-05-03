@@ -1,0 +1,39 @@
+.InviteMods{
+margin-bottom: 10px;
+font-weight: bold;
+
+}
+.username
+{
+    width: 50%;
+    height: 50px;
+    border: 0px solid #cccccc;
+    padding: 5px;
+    font-family: Tahoma, sans-serif;
+  background-repeat: no-repeat;
+  position:relative;
+  display :inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size:15px;
+  display: flex;
+border-radius: 7px;
+  height:95px;
+  margin-left: 50px;
+}
+.srName
+{
+    width: 50%;
+    height: 50px;
+    border: 0px solid #cccccc;
+    padding: 5px;
+    font-family: Tahoma, sans-serif;
+  background-repeat: no-repeat;
+  position:relative;
+  display :inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size:15px;
+  display: flex;
+border-radius: 7px;
+  height:95px;
+  margin-left: 50px;
+}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './ModerationPage.css';
 import { NavLink } from 'react-router-dom';
 import ModerationQueue from './ModerationQueue'
+import Moderators from '../InviteModerators/InviteModerators';
+import BanUsers from '../BanUsers/BanUsers';
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import Aux from '../../Components/HOC/Auxiliary';
 
@@ -30,7 +32,7 @@ If you do choose to post to your profile, then it's important to get familiar wi
         <p className="par">View traffic statistics and graphs for your profile.</p>
        
       
-        <NavLink activeClassName="link" to = "/user/moderation//Moderators">Moderators</NavLink>
+        <NavLink activeClassName="link" to = "/user/moderation//Moderators" >Moderators</NavLink>
         <p className="par">If your profile's comments are busy and you need some help with moderation, you might want to add on some users as mods to assist you. You can do this here. Choose users that you trust to represent you via their statements and mod actions, and be mindful of what permissions your grant them.</p>
 
         <NavLink activeClassName="link" to = "/user/moderation//ModerationLog">ModerationLog</NavLink>
@@ -66,8 +68,8 @@ You can approve content that was removed accidentally.</p>
               )} />
 
 <Route path="/user/ModerationQueue" component={ModerationQueue} />
-
-
+<Route path="/user/moderation//Moderators" component={Moderators} />
+<Route path="/user/moderation//BanUsers" component={BanUsers} />
 </div>
     </div>
     </Aux>
