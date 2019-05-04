@@ -63,7 +63,7 @@ export class Subreddit extends Component {
                 || this.state.moderatorsList.includes(localStorage.getItem("Username"));
               this.setState({
                 adminview: isAdmin,
-                subscribed: isAdmin
+                //subscribed: isAdmin
               })
             })
             for (const threadID of resp.data.posts) {
