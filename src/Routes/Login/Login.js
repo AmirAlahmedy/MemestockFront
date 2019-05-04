@@ -24,7 +24,7 @@ class Login extends Component {
             Password: inputs[1].value,
 
         }
-        axios.post('http://18.217.163.16/api/user/Login', data)
+        return axios.post('http://18.217.163.16/api/user/Login', data)
             .then(response => {
                 if(response.data.token){
                     this.props.close();
@@ -97,7 +97,7 @@ render(){
                     </div>
 
                     <button type="submit" className='registerButton'> Login </button>
-                     <a href='#' onClick={this.forgotPassHand.bind(this)}>Forgot your password?</a>
+                     <a href='#' id='frgt' onClick={this.forgotPassHand.bind(this)}>Forgot your password?</a>
                    
                 </form>
 

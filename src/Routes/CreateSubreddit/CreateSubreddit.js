@@ -12,7 +12,8 @@ class CreateSubreddit extends Component {
     Rule2 :'',
     Rule3 : '',
     moderators:[],
-    bio:''
+    bio:'',
+    error:false
   }
   
     this.handleChange = this.handleChange.bind(this); 
@@ -110,7 +111,7 @@ handleSubmit (e){
       window.location.href = "/r/" + srdata.srName;
     })
     .catch(error => {
-    console.log("Axios Error: ",error.response)
+    alert(error.response);
 
   }); 
 }
@@ -126,6 +127,11 @@ componentWillUnmount() {
 
       <div className="createSubredditContainer">
       <h3>CREATE A SUBREDDIT</h3>
+      {
+        this.state.error  ? <div>
+
+        </div> : <div></div>
+      }
       <hr></hr>
       <form onSubmit={this.handleSubmit}>
         <div className="formGroupSubredditComponent">

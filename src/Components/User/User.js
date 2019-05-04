@@ -13,7 +13,9 @@ export class User extends Component {
     this.state = {
 
       Comments: [],
-      Posts: []
+      Posts: [],
+       username:'',
+       cakeday:''
 
     }
   };
@@ -28,21 +30,28 @@ export class User extends Component {
       'auth': localStorage.getItem("token")
     }
     let username = this.getCurrentUser();
-    axios.get('/user/info/' + username, { "headers": headers })
-      .then(response => {
-        console.log(response);
-        console.log(response.data);
+    axios.get('/user/info/'+ username , { "headers": headers })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
 
-
+        if (res.status == 200) {
         this.setState({
-          Comments: response.data.comments
+          username: res.data.username,
+          cakeday:res.data.cakeday
         });
-
+      }
       })
       .catch(error => {
-        console.log(error.response)
+        console.log(error.res)
         alert("Error")
       });
+
+
+
+
+      
+  
   }
 
 
@@ -59,14 +68,35 @@ export class User extends Component {
     return (
       <Aux>
 
-        <div className="ana">
-          <div className="aho">
+      <div className="ana">
+        <div className="aho">
 
+        
+      <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
+           <ul className="navbar-nav mr-auto proful">
 
-            <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
-              <ul className="navbar-nav mr-auto proful">
-
-
+          
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
+          </li>
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/comments')}*/ className="nav-link"><NavLink className='profit' to="/user/comments">Comments</NavLink></span>
+          </li>
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/saved')}*/ className="nav-link"><NavLink className='profit' to="/user/saved">Saved</NavLink></span>
+          </li>
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/flairs">Flairs</NavLink></span>
+          </li>
+  
+        </ul> 
+        
+      </nav>
+      
+      
+      </div>
+        <nav >
+        <ul>
                 <li className="nav-item profit1">
                   <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
                 </li>
@@ -84,6 +114,9 @@ export class User extends Component {
             </nav>
 
 
+      <div className="gamb">
+          <div className="stuff">
+             <p>{localStorage.getItem('Username')}</p> 
           </div>
 
 
@@ -114,9 +147,9 @@ export class User extends Component {
                 />
       </div>
       </div> */}
-
-        <CardProf></CardProf>
-
+     <CardProf cake={this.state.cakeday}></CardProf> 
+     </div>
+      
       </Aux>
 
 

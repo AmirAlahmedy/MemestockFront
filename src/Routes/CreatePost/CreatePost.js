@@ -15,7 +15,9 @@ class CreatePost extends Component {
       body: '',
       spoiler: false,
       subreddit: '',
-      image: null
+      image: null,
+      error: false,
+      errornumber: 0
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,6 +40,10 @@ class CreatePost extends Component {
      */
 
   handleSubmit(e) {
+    this.setState({
+      error: false,
+      errornumber: 0
+    })
     e.preventDefault();
     var srdata = {
       title: document.getElementById("threadPageTitleField").value,
@@ -49,15 +55,27 @@ class CreatePost extends Component {
     let checker = "";
 
     if (document.getElementById("threadPageSubredditNameField").value === checker) {
-      alert("Please provide an existing Subreddit name!");
+      //alert("Please provide an existing Subreddit name!");
+      this.setState({
+        error: true,
+        errornumber: 1
+      })
       return;
     }
     else if (document.getElementById("threadPageTitleField").value === checker) {
-      alert("Please provide a Thread Title!");
+      this.setState({
+        error: true,
+        errornumber: 2
+      })
+      //alert("Please provide a Thread Title!");
       return;
     }
     else if (document.getElementById("threadPageBodyField").value === checker) {
-      alert("Please provide a Thread Body!");
+      //alert("Please provide a Thread Body!");
+      this.setState({
+        error: true,
+        errornumber: 3
+      })
       return;
     }
 
@@ -72,7 +90,10 @@ class CreatePost extends Component {
         window.location.href = "/thread/" + res.data._id + "?srName=" + subredditname;
       })
       .catch(error => {
-        console.log("Axios Error: ", error.response)
+        alert(error.response);
+        this.setState({
+          error: true
+        })
       });
   }
   componentDidMount() {
@@ -99,6 +120,7 @@ class CreatePost extends Component {
     return (
       <div className="createPostContainer">
         <h3>CREATE A POST</h3>
+
         <hr></hr>
         <form onSubmit={this.handleSubmit}>
           <div className="formGroupThreadComponent">
@@ -106,14 +128,48 @@ class CreatePost extends Component {
             <br></br>
             <input type="text" name="text" id="threadPageSubredditNameField" placeholder="Enter Existing Subreddit Name" onChange={this.handleChange} value={this.state.value} />
           </div>
+          {
+            this.state.error ?
+              <div>
+                {
+                  this.state.errornumber == 1 ?
+                    <div className="errorMessageCreatePost">
+                      *Please provide an existing Subreddit name!
+            </div> : <div></div>
+                }
+              </div> : <div></div>
+          }
           <div className="formGroupThreadComponent">
             <label for="ThreadTitle">Thread Title</label>
             <textarea type="textarea" name="text" id="threadPageTitleField" placeholder="Enter Title Here" onChange={this.handleChange} value={this.state.value} />
           </div>
+          {
+            this.state.error ?
+              <div>
+                {
+                  this.state.errornumber == 2 ?
+                    <div className="errorMessageCreatePost">
+                      *Please provide a Thread Title!
+            </div> : <div></div>
+                }
+              </div> : <div></div>
+          }
           <div className="formGroupThreadComponent">
             <label for="ThreadBody">Thread Body</label>
             <textarea type="textarea" name="text" id="threadPageBodyField" placeholder="Enter Body Here" onChange={this.handleChange} value={this.state.value} />
           </div>
+          {
+            this.state.error ?
+              <div>
+                {
+                  this.state.errornumber == 3 ?
+                    <div className="errorMessageCreatePost">
+                      *Please provide a Thread Body!
+            </div> : <div></div>
+                }
+              </div> : <div></div>
+          }
+
           <div className="formGroupThreadComponent">
             <label for="coverPhoto">Cover Photo:</label>
             <input type="file" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
@@ -122,13 +178,11 @@ class CreatePost extends Component {
             <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>
             <input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
           </div>
-
           <button className="threadPageCreateButton">CREATE</button>
-
         </form>
       </div >
 
     )
-  }
+  } 
 }
 export default CreatePost;

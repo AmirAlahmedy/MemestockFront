@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
-import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
-import Listings from '../../Components/Listings/Listings'
+import { Listings } from '../../Components/Listings/Listings'
 import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
-import SideBar from '../../Components/SideBar/SideBar';
-import NestedListings from '../../Components/Listings/NestedListings';
-import * as actions from '../../store/actions/index';
 import GoHome from '../GoHome/index.js';
 import Registration from '../Registration/Registration';
 import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
-import Logout from '../Logout/Logout';
+
 
 class Home extends Component {
 
@@ -152,6 +148,5 @@ class Home extends Component {
     );
   }
 }
-
 
 export default withRouter(Home);

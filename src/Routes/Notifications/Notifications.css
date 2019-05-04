@@ -1,12 +1,17 @@
 .notiContainer{
+
     width:90%;
-    margin:20px;
+    /* margin:20px; */
     overflow: hidden;
     background-color: #fff;
-    margin: 1.5em;
+    margin: .5em 1.5em;
     box-shadow: 0 0 5px rgba(51,51,51,0.5);
     border-radius: 3px;
     color: #333;
+    text-align: center;
+    vertical-align: middle;
+/* line-height: 90px;  */
+   
 }
 .notiContainer:hover{
     border:  1px solid rgb(129, 131, 132);
@@ -24,3 +29,35 @@
         padding: 20px 20px;
     }   
 }
+
+
+
+.allNotiWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    width: 70%;
+}
+
+.markOne{
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+
+    float: right;
+    letter-spacing: 0.5px;
+    /* line-height: 32px; */
+    text-transform: uppercase;
+    transition: box-shadow 0.2s ease;
+}
+

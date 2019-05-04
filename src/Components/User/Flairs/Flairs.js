@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import './Flairs.css';
 import axios from '../../../axios-orders';
-
+import Aux from '../../HOC/Auxiliary';
 
 
 
 
 class Flairs extends Component {
         state = {
-                // flairs: [
-                //         'ali'
-                // ],
-                // correspondingSubreddits: [
-                //         'test'
-                // ]
+        
                 response: []
         }
         header = {
@@ -34,8 +29,7 @@ class Flairs extends Component {
                 if(error.status === 404){
 
                         this.setState({
-                                // flairs: [],
-                                // correspondingSubreddits: []
+
                                 response: []
                         })
                         
@@ -44,7 +38,7 @@ class Flairs extends Component {
             }
 
         /**
-         * For generating flairs
+         * Renders flairs component
          * @function getFlairs
          */
          getFlairs() {
@@ -56,6 +50,7 @@ class Flairs extends Component {
         }
 
         render() {
+                
                 console.log(this.state);
              if( this.state.response.length > 0 ){
 
@@ -63,6 +58,7 @@ class Flairs extends Component {
                          <div>{this.getFlairs()}</div>
                         );
                 }else{
+                        
                         return(
                                 <em style={{color: 'red'}}>You have no flairs</em>
                         );
@@ -73,7 +69,33 @@ class Flair extends Component{
 
         render(){
                 return(
-                        <div>Flair: {this.props.flair} Subreddit: {this.props.sub}</div>
+                        <Aux>
+
+                                {/* <div className='labels'>
+                                        <div id="l1">        
+                                        <label style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}>FLAIR</label> 
+                                        </div>
+                                        <div style={{width: '25px'}}></div>
+                                        <div id="l2">
+                                        <label style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}>Subreddit</label>
+                                        </div> 
+                                        
+                                </div>
+
+                                <div className='list'>
+                                        <div>{this.props.flair}</div>
+                                        <div style={{width: '25px'}}></div>
+                                        <div>{this.props.sub}</div>
+                                </div> */}
+
+                                <div>        
+                                        <label /*style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}*/>FLAIR: {this.props.flair}   </label>    
+                                       
+                                        <label /*style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}*/>Subreddit: {this.props.sub}</label>
+                                </div>
+
+                        </Aux>
+
                         );
         }
 }

@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import './Notifications.css';
 import axios from '../../axios-orders';
 import Aux from '../../Components/HOC/Auxiliary';
+import Button from '../../Components/UI/Button/Button';
 
 class Notifications extends Component{
     state = {}
     header = {
-        SyncToken: localStorage.getItem('token')
+        auth: localStorage.getItem('token')
     }
     params = {
         startPosition: 0
     }
     componentDidMount = () => {
-        axios.get('/notif/', {headers: this.header})
+        axios.get('notif?startPosition=0', {headers: this.header})
             .then( response => {
                 console.log(response);
                 this.setState({
@@ -23,7 +24,10 @@ class Notifications extends Component{
                 console.log(error);
             })
     }
-
+    /**
+     *Maps notifications into components
+     * @function getNotif
+     */
     getNotif(){
         if(!this.state.notif) return;
         return this.state.notif.map( noti => 
@@ -34,16 +38,25 @@ class Notifications extends Component{
     }    
     render(){
         console.log(this.state.notif);
-        return(<p>ssdasdad</p>/*<Aux>{this.getNotif()}</Aux>*/);
+        return(
+                
+                    <div className='allNotiWrapper'>
+                       <p> {this.getNotif()} </p>
+                    </div>
+               
+            );
     }
 }
 
 class Noti extends Component{
     render(){
         return(
-            <div className='notiContainer'>
-              <p>{this.props.user}</p>  {this.props.message}
-            </div>
+         
+                <div className='notiContainer'>
+                {this.props.message}
+                <button className='markOne'>Mark as read</button>
+                </div>
+        
         );
     }
 }

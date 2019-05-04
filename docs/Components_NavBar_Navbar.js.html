@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components/NavBar/Navbar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components/NavBar/Navbar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import './Navbar.css';
+import { NavLink, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Aux from '../HOC/Auxiliary';
+import '../../Sass/styles.scss';
+import Login from '../../Routes/Login/Login';
+import Registration from '../../Routes/Registration/Registration';
+
+
+/**
+   * filters elements of an unordered list
+   * @function filterList
+   */
+const filterList = () => {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('filter');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("my-ul");
+    li = ul.getElementsByClassName('dropdownItem');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i &lt; li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+function openLogInDialogue() {
+    document.querySelector(".loginContainer").style.display = "initial";
+}
+function handleLoginContainerClick(e) {
+    if (e &amp;&amp; e.target &amp;&amp; e.target.className === "loginContainer") {
+        e.target.style.display = "none";
+    }
+}
+
+function openRegDialogue() {
+    document.querySelector(".regContainer").style.display = "initial";
+}
+function handleRegContainerClick(e) {
+    if (e &amp;&amp; e.target &amp;&amp; e.target.className === "regContainer") {
+        e.target.style.display = "none";
+    }
+}
+function closeRegistration(){
+    document.querySelector(".regContainer").style.display = "none";
+}
+function closeLogin(){
+    document.querySelector(".loginContainer").style.display = "none";
+}
+
+function goTo(link){
+    return function(){
+        window.location.href = link;
+    } 
+}
+
+const NavBar = props => {
+    console.log("navBar props: ", props)
+
+    return (
+
+
+        &lt;div className='navWrapper'>
+
+            &lt;nav className='memeNav'>
+                &lt;div className="memeLogo">
+                    &lt;NavLink to='/GoHome/'>Memestock&lt;/NavLink>
+                &lt;/div>
+                &lt;div className="dropdownMenu">
+                    &lt;button className='dropButton'>
+
+                        &lt;i class="fas fa-sort-down">&lt;/i>
+
+                    &lt;/button>
+                    &lt;div role='menu' className='dropList'>
+                        &lt;input id='filter' className="filter-input" placeholder='Filter' onChange={filterList}>&lt;/input>
+                        &lt;ul id='my-ul' className='dropUl'>
+                            &lt;li className='dropdownItem'>&lt;span onClick={goTo("/Home/")} className='sort toHome'>Home&lt;/span>&lt;/li>
+                            &lt;li className='dropdownItem'>&lt;span onClick={props.sortHandNew} className='sort srt1'>New&lt;/span>&lt;/li>
+                            &lt;li className='dropdownItem'>&lt;span onClick={props.sortHandTop} className='sort srt2'>Top&lt;/span>&lt;/li>
+                            &lt;li className='dropdownItem'>&lt;span onClick={props.sortHandHot}  className='sort srt3'>Hot&lt;/span>&lt;/li>
+
+                        &lt;/ul>
+
+                    &lt;/div>
+                &lt;/div>
+
+                &lt;div className="search-wrapper">
+
+
+                    &lt;div className="search-form memeSearch" action='/search' autoComplete='off'>
+                        &lt;label className="search-label" for="header-search-bar">
+                            &lt;i class="fas fa-search search-icon">&lt;/i>
+                        &lt;/label>
+                        &lt;input type='search' className='me-me' id="header-search-bar" placeholder='Search' role="search" name="q" method='get'>
+                        &lt;/input>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className='rightLinksWrapper'>
+                    &lt;span className='rightLinks'>
+                        &lt;NavLink to='/PM/'>
+                            &lt;i class="far fa-envelope">&lt;/i>
+                        &lt;/NavLink>
+                    &lt;/span>
+                    &lt;span className='rightLinks'>
+                        &lt;NavLink to='/CreatePost/'>
+                            &lt;i className="far fa-edit post">&lt;/i>
+                        &lt;/NavLink>
+                    &lt;/span>
+                    &lt;span className='rightLinks'>
+                        &lt;NavLink to='/notifications/'>
+                        &lt;i class="fas fa-bell">&lt;/i>
+                        &lt;/NavLink>
+                    &lt;/span>
+                    {props.isAuth ?
+                        &lt;div className='yourStuffDrop'>
+                            &lt;button className='dropButton'>
+                                &lt;i className="fas fa-sort-down">&lt;/i>
+                                &lt;i className="fas fa-user">&lt;/i>
+                            &lt;/button>
+                            &lt;div role='menu' className='yourStuffDropList'>
+                                &lt;ul className='dropUl' onChange={props.sortChanged}>
+                                    &lt;li className='yourStuffItem'>&lt;span onClick={goTo("/user/")} to='/user/' className='stfitm'>My Profile&lt;/span>&lt;/li>
+                                    &lt;li className='yourStuffItem'>&lt;span onClick={goTo("/settings/")} to='/settings/' className='stfitm'>User Settings&lt;/span>&lt;/li>
+                                    &lt;li className='yourStuffItem'>&lt;a href="#logout" onClick={props.logout} className='logoutitm stfitm'>Logout&lt;/a>&lt;/li>
+                                &lt;/ul>
+                            &lt;/div>
+                        &lt;/div>
+                        :
+                        &lt;div className="authBtnsContainer">
+
+                            &lt;button type="button" onClick={openLogInDialogue} class="authAction">
+                                Log In
+                            &lt;/button>
+                            &lt;button type="button" onClick={openRegDialogue} class="authAction">
+                                Sign Up
+                            &lt;/button>
+
+                        &lt;/div>
+                    }
+
+
+                &lt;/div>
+                &lt;div style={{ display: "none" }} class="loginContainer" onClick={handleLoginContainerClick}>
+                    &lt;Login close={closeLogin} finishLogin={props.finishLogin} />
+                &lt;/div>
+                &lt;div style={{ display: "none" }} class="regContainer" onClick={handleRegContainerClick}>
+                    &lt;Registration close={closeRegistration} finishReg={props.finishRegistration} />
+                &lt;/div>
+                {/* &lt;span> Youssef &lt;/span> */}
+            &lt;/nav>
+            &lt;div className='kml'>
+                &lt;div className='view-layout'>
+                    &lt;i className='small-font'>view&lt;/i>
+                    &lt;div className='bars'>
+                        &lt;i className="fas fa-square dd"  onClick={props.cardViewHandler}>&lt;/i>
+                        &lt;i className="fas fa-bars dd" onClick={props.classicViewHandler}>&lt;/i>
+                    &lt;/div>
+                &lt;/div>
+                {/* &lt;div className='sort-layout'>
+                &lt;i className='small-font'>sort&lt;/i>
+                    &lt;select className='drop-sort'>
+                        &lt;option value="top">Top&lt;/option>    
+                        &lt;option value="new">New&lt;/option>
+                        &lt;option value="hot">Hot&lt;/option>
+                    &lt;/select>
+                &lt;/div> */}
+            &lt;/div>
+        &lt;/div>
+
+
+
+
+    );
+}
+
+export default NavBar;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

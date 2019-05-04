@@ -29,112 +29,221 @@
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
 import './Thread.css';
 import { Link } from 'react-router-dom';
-import data from '../../Mocks/threads-data.json';
-class Thread extends Component {
-    // state = {
-    //     username: 'GiantSteps_',
-    //     subreddit: 'jazztheory',
-    //     title: 'Modal Harmony Interchange',
-    //     content: 'Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played Modal Harmony is easier explained than played',
-    //     comments: [
-    //         {
-    //             username: 'WreakingHavoc',
-    //             comment: 'I rememeber when I had something to say!'
-    //         },
-    //         {
-    //             username: 'CluelessBastard',
-    //             comment: 'Oh this is so relatable'
-    //         }
-    //     ],
-    //     upvotes: 0,
-    //     enableUp: false,
-    //     enableDown: false
-    // }
-    mocks = data.threads[2];
-    //upvotes: this.state.upvotes + 1
+import '../../Sass/styles.scss';
+import axios from '../../axios-orders';
+
+export default class Thread extends Component {
+
+   state = {
+      username: '',
+      subreddit: '',
+      title: '',
+      content: '',
+      comments: [],
+      upvotes: null,
+      date: '',
+      enableUp: false,
+      enableDown: false
+   }
+   // mocks = data.threads[2];
 
 
-    /**
-     * Handles upvotes increments.
-     * @function handleIncrement
-     */
-    handleIncrement = () => {
-        console.log(this.state.upvotes)
 
-        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableUp: false });
+   componentDidMount() {
 
-        }
-        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableUp: true });
-
-        }
-        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-
-            this.setState({ enableDown: false });
-            this.setState({ enableUp: true });
-            this.setState({ upvotes: this.state.upvotes + 2 });
-        }
-
-    };
-
-    /**
-     * Handles downvotes.
-     * @function handledecrement
-     */
-    handledecrement = () => {
-
-        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableDown: false });
-        }
-        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableDown: true });
-        }
-        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ enableDown: true });
-            this.setState({ enableUp: false });
-            this.setState({ upvotes: this.state.upvotes - 2 });
-        }
-
-    };
-    render() {
-        
-        return (
-
-            &lt;div className='threadWrapper'>
-                &lt;div className="threadContainer">
-                    &lt;Link to='/r/' className="threadSubreddit"> r/{this.mocks.subreddit}&lt;/Link>
-                    &lt;br>&lt;/br>
-                    &lt;div className="threadUsername">
-                        Posted by u/{this.mocks.username}
-                    &lt;/div>
-                    &lt;br>&lt;/br>
-                    &lt;div className="threadTitle">{this.mocks.title}&lt;/div>
-
-                    &lt;p className="threadContent">{this.mocks.content}&lt;/p>
-
-                    &lt;span onClick={this.handleIncrement} className="incrementVotes">&amp;#8679;&lt;/span>
-
-                    &lt;div className="threadUpvotes">{this.mocks.upvotes}&lt;/div>
-
-                    &lt;span onClick={this.handledecrement} className="decrementVotes">&amp;#8681;&lt;/span>
-
-                    &lt;span className="threadComments">
-                        {this.mocks.comments.length} comments
-                    &lt;/span>
+      // this.setState({
+      //    upvotes: this.props.upvotes
+      // })
+      console.log("propaat", this.props)
+   }
 
 
-                &lt;/div>
+   /**
+    * Handles upvotes increments.
+    * @function handleIncrement
+    */
+   handleIncrement = (e) => {
+
+
+      // if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
+      //    // this.setState({ upvotes: this.state.upvotes - 1 });
+
+      //    this.setState({ enableUp: false });
+
+      //    console.log(this.props.id);
+      //    console.log(this.props.upvotes);
+      //    var postId = this.props.id;
+      //    var headers = {
+      //       auth: localStorage.getItem("token")
+      //    }
+
+      //    axios.post('/sr/' + postId.split("?").pop() + '/thread/' + postId.split("?").shift() + '/vote', { headers: headers })
+      //       .then(res => {
+      //          if (res.status == 200) {
+      //             console.log(res)
+      //          } else if (res.status === 404) {
+      //             alert("Not Found");
+      //             return Response.json;
+      //          }
+      //       })
+      //       .catch(error => {
+      //          alert("Error Caught");
+      //       })
+      //    this.setState({ enableUp: true });
+
+      // }
+      // else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
+      //    console.log(this.props.id);
+      //    console.log(this.props.upvotes);
+      //    var postId = this.props.id;
+      //    var headers = {
+      //       auth: localStorage.getItem("token")
+      //    }
+
+      //    axios.post('/sr/' + this.state.subreddit + '/thread/' + postId + '/vote', true, { headers: headers })
+      //       .then(res => {
+      //          if (res.status == 200) {
+      //             console.log(res)
+      //          } else if (res.status === 404) {
+      //             alert("Not Found");
+      //             return Response.json;
+      //          }
+      //       })
+      //       .catch(error => {
+      //          alert("Error Caught");
+      //       })
+      //    this.setState({ enableUp: true });
+
+      // }
+      // else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
+
+      //    this.setState({ enableDown: false });
+      //    this.setState({ enableUp: true });
+      //    this.setState({ upvotes: this.state.upvotes + 2 });
+
+      //    var postId = this.props.id;
+      //    var headers = {
+      //       auth: localStorage.getItem("token")
+      //    }
+
+      //    axios.post('/sr/' + this.state.subreddit + '/thread/' + postId + '/vote', { headers: headers })
+      //       .then(res => {
+      //          if (res.status == 200) {
+      //             console.log(res)
+      //          } else if (res.status === 404) {
+      //             alert("Not Found");
+      //             return Response.json;
+      //          }
+      //       })
+      //       .catch(error => {
+      //          alert("Error Caught");
+      //       })
+      // }
+      const srName = this.props.id.split("?").pop();
+      const postID = this.props.id.split("?").shift();
+
+      let el = e.target;
+      while(el.getAttribute("type") !== "button"){
+         el = el.parentElement;
+      }
+      if(el.getAttribute("disabled") === "true") return;
+
+      axios.post('/sr/' + srName + '/thread/' + postID + '/vote', { "upvote": true }, { headers: { "auth": localStorage.getItem("token") } })
+         .then(res => {
+            if (res.status == 200) {
+               this.setState({ upvotes: res.data.votes });
+            } else if (res.status === 404) {
+               alert("Not Found");
+               return Response.json;
+            }
+         })
+         .catch(error => {
+            const errMsg = error.response.data.error;
+            if(errMsg === "already voted: true "){
+               alert("Already upvoted");
+               el.setAttribute("disabled", true);
+               document.querySelector(".incrementVotes").setAttribute("disabled", false);
+            }
+            console.log(errMsg);
+         })
+
+   }
+
+   /**
+    * Handles downvotes.
+    * @function handledecrement
+    */
+   handledecrement = (e) => {
+      let el = e.target;
+      while(el.getAttribute("type") !== "button"){
+         el = el.parentElement;
+      }
+      if(el.getAttribute("disabled") === "true") return;
+      const srName = this.props.id.split("?").pop();
+      const postID = this.props.id.split("?").shift();
+      axios.post('/sr/' + srName + '/thread/' + postID + '/vote', { "upvote": false }, { headers: { "auth": localStorage.getItem("token") } })
+         .then(res => {
+            if (res.status == 200) {
+               this.setState({ upvotes: res.data.votes });
+            } else if (res.status === 404) {
+               alert("Not Found");
+               return Response.json;
+            }
+         })
+         .catch(error => {
+            const errMsg = error.response.data.error;
+            if(errMsg === "already voted: false "){
+               alert("Already downvoted");
+               el.setAttribute("disabled", true);
+               document.querySelector(".incrementVotes").setAttribute("disabled", false);
+            }
+            console.log(errMsg);
+         });
+
+   };
+
+   goTo(link) {
+      return function () {
+         window.location.href = link;
+      }
+   }
+
+   render() {
+      let thrdWrapper = this.props.view ? 'threadWrapper' : 'classicThreadWrapper';
+      let thrdCont = this.props.view ? "threadContainer" : 'classicThreadContainer';
+      let thrdContent = this.props.view ? 'threadContent' : 'classicThreadContent';
+      return (
+
+         &lt;div /*className={thrdWrapper}*/>
+            &lt;div className={thrdCont}>
+               &lt;div class="threadLinks">
+                  &lt;span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}&lt;/span>
+                  .
+                        &lt;span onClick={this.goTo(`/user/${this.props.username}`)} className="posted-by">   Posted by u/{this.props.username} &lt;/span>
+               &lt;/div>
+               &lt;br>&lt;/br>
+               &lt;div className="threadTitle">{this.props.title}&lt;/div>
+
+               &lt;p className={window.location.href.includes("/thread/") ? "threadContent" : thrdContent}>{this.props.content}&lt;/p>
+
+               &lt;button type="button" onClick={this.handleIncrement} className="incrementVotes">&lt;i class="fas fa-angle-up">&lt;/i>&lt;/button>
+
+               &lt;div className="threadUpvotes">{typeof this.state.upvotes === "object" ? this.props.upvotes: this.state.upvotes}&lt;/div>
+
+               &lt;button type="button" onClick={this.handledecrement} className="decrementVotes">&lt;i class="fas fa-angle-down">&lt;/i>&lt;/button>
+
+               &lt;span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
+                  {window.location.href.includes("/thread/") ? "" : "View"}
+               &lt;/span>
+
+
             &lt;/div>
-        );
-    }
+         &lt;/div>
+      );
+   }
 }
 
-export default Thread;</code></pre>
+</code></pre>
         </article>
     </section>
 
@@ -144,13 +253,13 @@ export default Thread;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#registrationHandler">registrationHandler</a></li><li><a href="global.html#savePassword">savePassword</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 24 2019 01:16:12 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

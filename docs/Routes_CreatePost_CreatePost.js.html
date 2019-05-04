@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Routes/CreatePost/CreatePost.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Routes/CreatePost/CreatePost.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import './CreatePost.css';
+
+//import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
+import axios from '../../axios-orders';
+
+class CreatePost extends Component {
+  //assume all submitted for now
+  constructor(props) {
+    super(props);
+    this.state = {
+
+      title: '',
+      body: '',
+      spoiler: false,
+      subreddit: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  };
+
+
+
+  handleChange(e) {
+    this.setState({
+      spoiler: e.target.checked
+    });
+  }
+
+  /**
+     * For sending a creation post request to the backend 
+     * @function handleSubmit
+     * @param {event} - onClick event 
+     */
+
+  handleSubmit(e) {
+    e.preventDefault();
+    var srdata = {
+      title: document.getElementById("threadPageTitleField").value,
+      threadBody: document.getElementById("threadPageBodyField").value,
+      postFile:{},
+      spoiler:this.state.spoiler
+    }
+    let checker = "";
+
+    if (document.getElementById("threadPageSubredditNameField").value === checker) {
+      alert("Please provide an existing Subreddit name!");
+      return;
+    }
+    else if (document.getElementById("threadPageTitleField").value === checker) {
+      alert("Please provide a Thread Title!");
+      return;
+    }
+    else if (document.getElementById("threadPageBodyField").value === checker) {
+      alert("Please provide a Thread Body!");
+      return;
+    }
+
+    let subredditname = document.getElementById("threadPageSubredditNameField").value;
+    let headers = {
+      auth: localStorage.getItem("token")
+    }
+    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })           
+      .then(res => {
+        console.log(res);
+        console.log(res.status);
+        window.location.href = "/r/" + subredditname;
+      })
+      .catch(error => {
+        console.log("Axios Error: ", error.response)
+      });
+  }
+  componentDidMount() {
+    document.body.classList.add("verticalAlign");
+  }
+  componentWillUnmount() {
+    document.body.classList.remove("verticalAlign");
+  }
+  render() {
+    return (
+      &lt;div className="createPostContainer">
+        &lt;h3>CREATE A POST&lt;/h3>
+        &lt;hr>&lt;/hr>
+        &lt;form onSubmit={this.handleSubmit}>
+          &lt;div className="formGroupThreadComponent">
+            &lt;label for="SubredditName">Subreddit Name&lt;/label>
+            &lt;br>&lt;/br>
+            &lt;input type="text" name="text" id="threadPageSubredditNameField" placeholder="Enter Existing Subreddit Name" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          &lt;div className="formGroupThreadComponent">
+            &lt;label for="ThreadTitle">Thread Title&lt;/label>
+            &lt;textarea type="textarea" name="text" id="threadPageTitleField" placeholder="Enter Title Here" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          &lt;div className="formGroupThreadComponent">
+            &lt;label for="ThreadBody">Thread Body&lt;/label>
+            &lt;textarea type="textarea" name="text" id="threadPageBodyField" placeholder="Enter Body Here" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          &lt;div className="formGroupThreadCheckbox">
+            &lt;label className="spoilerLabel" for="Spoiler">Is it a spoiler?&lt;/label>
+            &lt;input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
+          &lt;/div>
+          &lt;button className="threadPageCreateButton">CREATE&lt;/button>
+
+        &lt;/form>
+      &lt;/div>
+
+    )
+  }
+}
+export default CreatePost;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

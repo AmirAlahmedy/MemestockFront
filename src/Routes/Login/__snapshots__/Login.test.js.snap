@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> it matches the snapshot 1`] = `
+<div
+  className="logINFormWrapper"
+>
+  <form
+    className="logInForm"
+    onSubmit={[Function]}
+  >
+    <h1
+      className="logo"
+    >
+      LOG IN
+    </h1>
+    <p
+      className="Invalid"
+    >
+      
+    </p>
+    <div
+      className="inputs"
+    >
+      <input
+        className="usernameInput logi"
+        placeholder="User name"
+        type="text"
+      />
+      <input
+        className="passInput logi"
+        placeholder="Password"
+        type="password"
+      />
+    </div>
+    <button
+      className="registerButton"
+      type="submit"
+    >
+       Login 
+    </button>
+    <a
+      href="#"
+      id="frgt"
+      onClick={[Function]}
+    >
+      Forgot your password?
+    </a>
+  </form>
+</div>
+`;

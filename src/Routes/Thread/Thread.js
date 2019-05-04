@@ -196,7 +196,11 @@ export default class Thread extends Component {
                <div className="threadTitle">{this.props.title}</div>
 
                <p className={window.location.href.includes("/thread/") ? "threadContent" : thrdContent}>{this.props.content}</p>
-
+               {this.props.image ? 
+                  <img className="imageContent" src={`http://18.217.163.16/api${this.props.image}`} />
+                  :
+                  null
+               }
                <button type="button" onClick={this.handleIncrement} className="incrementVotes"><i class="fas fa-angle-up"></i></button>
 
                <div className="threadUpvotes">{typeof this.state.upvotes === "object" ? this.props.upvotes: this.state.upvotes}</div>

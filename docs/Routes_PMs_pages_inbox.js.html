@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Routes/PMs/pages/inbox.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Routes/PMs/pages/inbox.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+import axios from '../../../axios-orders.js';
+import '../PMs.css';
+import './inbox.css';
+class Inbox extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+      Messages: [],
+      BlockList: [],
+      isLoading: true,
+      errors: null
+
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+    this.BlockUser = this.BlockUser.bind(this);
+    this.blockList = this.blockList.bind(this);
+  };
+
+
+  componentDidMount() {
+    console.log(this.props);
+    const headers = {
+      auth: localStorage.getItem("token")
+    }
+    const jsondata = { 'mine': true }
+    // axios({ method: 'get', url: 'http://18.217.163.16/api/me/pm/?mine=true', headers: { auth: localStorage.getItem("token") } })
+    axios.get('me/pm/?mine=true', { "headers": headers })
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+
+
+        this.setState({
+          Messages: response.data.messages
+          ,
+          isLoading: false
+        });
+        console.log(this.state.Messages);
+
+      })
+      // Let's make sure to change the loading state to display the data
+      /* .then(Messages => {
+         this.setState({
+           Messages,
+           isLoading: false
+         });
+       })*/
+
+      // We can still use the `.catch()` method since axios is promise-based
+      .catch(error => {
+        console.log(error.response)
+        this.setState
+          ({
+            errors: true,
+            isLoading: false
+          });
+      });
+  }
+  // deletes a message when Clicked.
+  /**
+    * sends A Request to delete the message.
+    * @function handleClick
+    * @param {event} e - On clicking Delete Button.
+    */
+
+  handleClick(e) {
+    const element = e.target;
+    const messageId = element.getAttribute("id");
+    console.log(messageId);
+    axios.delete(`me/pm/delete?messageId=${messageId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          auth: localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("Message Successfully Deleted");
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert("Message Not Found");
+
+
+      });
+  }
+  // sending a request to block a user from sending messages to me.
+  /**
+    * Sends the request to Block user from sending messages.
+    * @function BlockUser
+    * @param {event} e - Pressing block button.
+    */
+  BlockUser(e) {
+    const element = e.target;
+    const blockedUser = element.getAttribute("id");
+    axios.post('me/pm/block', {
+      blocked: blockedUser,
+      block: true
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("Block Succeeded");
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        if (error.response.data.error === "selfBlockAlertError") {
+          alert("Error you're trying to block yourself");
+        }
+        else if (error.response.data.error === "usersAlreadyOnBlockLists") {
+          alert("You've already blocked this user")
+        }
+
+
+      });
+  }
+  blockList() {
+    this.setState({
+      showBlockList: true
+    });
+    axios.get('me/pm/blocklist',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          auth: localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data)
+        this.setState({
+          BlockList: res.data.blockList,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        console.log(error.response)
+
+
+      });
+  }
+  // displaying the inbox messages.
+  /**
+    * Receiving the messages and displaying them in the inbox.
+    * @function getMsgs
+    */
+  getMsgs() {
+    if (this.state.Messages.length === 0) {
+      return;
+    }
+    return this.state.Messages.map((msg) => (
+      &lt;div className={`messageWrapper ${msg.isRead ? "read" : "unread"}`}>
+        &lt;div className="MessageContainer">
+          &lt;h1 className="subjectTitle">Subject: {msg.subject}&lt;/h1>
+          &lt;h1 className="senderUsername">From: {msg.sender}&lt;/h1>
+          &lt;br />
+          &lt;p className="messageContent">{msg.messageBody}&lt;/p>
+          &lt;button className="deleteMsg" id={msg._id} type="submit" name="Delete" onClick={this.handleClick}>Delete  &lt;/button>
+          &lt;button id={msg.sender} type="submit" name="Block" onClick={this.BlockUser}>Block User&lt;/button>
+          &lt;button id={msg._id} type="submit" name="markRead" onClick={this.MarkRead}>Mark Read  &lt;/button>
+          &lt;button id={msg._id} type="submit" name="markRead" onClick={this.MarkUnRead}>MarkUnRead  &lt;/button>
+
+
+        &lt;/div>
+      &lt;/div>
+    ));
+  }
+  getBlockList() {
+    if (this.state.BlockList === 0) {
+      return;
+    }
+    return this.state.BlockList.map((blocklist) => (
+
+      &lt;div className="blockeduser">
+        &lt;h1 className="blockedusername">{blocklist.blocked}&lt;/h1>
+        &lt;button id={blocklist.blocked} type="submit" name="unBlock" onClick={this.unBlockUser}>UnBlockUser  &lt;/button>
+        &lt;br />
+      &lt;/div>
+    ));
+  }
+
+  MarkReadAll(e) {
+    const element = e.target;
+    const messageId = element.getAttribute("id");
+    const jsondata = { 'isReadRequest': true }
+    console.log(messageId);
+    axios.post('me/pm/markreadall', jsondata,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        if (res.data !== "OK") return;
+        let msgs = this.state.Messages.map(msg => {
+          msg.isRead = true;
+          return msg;
+        });
+        console.log(msgs);
+        this.setState({
+          Messages: msgs
+        });
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error)
+        alert("Message Not Found");
+
+
+      });
+  }
+  MarkUnReadAll(e) {
+    const element = e.target;
+    const messageId = element.getAttribute("id");
+    const jsondata = { 'isReadRequest': false }
+    console.log(messageId);
+    axios.post('me/pm/markreadall', jsondata,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+
+        console.log(res);
+        if (res.data.status !== "200") return;
+        let msgs = this.state.Messages.map(msg => {
+          msg.isRead = false;
+          return msg;
+        });
+        console.log(msgs);
+        this.setState({
+          Messages: msgs
+        });
+
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert("Message Not Found");
+
+
+      });
+  }
+  MarkRead(e) {
+    const element = e.target;
+    const messageId = element.getAttribute("id");
+    const jsondata = { 'isReadRequest': true, "messageId": messageId }
+    console.log(messageId);
+    axios.put(`me/pm/markread?messageId=${messageId}`, jsondata,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+
+        alert("Message Successfully Read");
+
+        const wrapper = element.parentElement.parentElement;
+        wrapper.classList.remove("unread");
+        wrapper.classList.add("read");
+        console.log(wrapper);
+
+
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert("Message Not Found");
+
+
+      });
+  }
+  MarkUnRead(e) {
+    const element = e.target;
+    const messageId = element.getAttribute("id");
+    const jsondata = { 'isReadRequest': false, "messageId": messageId }
+    console.log(messageId);
+    axios.put(`me/pm/markread?messageId=${messageId}`, jsondata,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("Message Successfully UnRead");
+        const wrapper = element.parentElement.parentElement;
+        wrapper.classList.remove("read");
+        wrapper.classList.add("unread");
+
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert("Message Not Found");
+
+
+      });
+  }
+
+  // sending a request to block a user from sending messages to me.
+  /**
+    * Sends the request to Block user from sending messages.
+    * @function BlockUser
+    * @param {event} e - Pressing block button.
+    */
+  BlockUser(e) {
+    const element = e.target;
+    const blockedUser = element.getAttribute("id");
+    axios.post('me/pm/block', {
+      blocked: blockedUser,
+      block: true
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("Block Succeeded");
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        if (error.response.data.error === "selfBlockAlertError") {
+          alert("Error you're trying to block yourself");
+          return;
+        }
+        else if (error.response.data.error === "usersAlreadyOnBlockLists") {
+          alert("You've already blocked this user")
+          return;
+        }
+
+
+      });
+  }
+
+  unBlockUser(e) {
+    const element = e.target;
+    const blockedUser = element.getAttribute("id");
+    axios.post('me/pm/block', {
+      blocked: blockedUser,
+      block: false
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth': localStorage.getItem("token")
+
+        },
+
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("unBlock Succeeded");
+
+
+
+        //in case sucess..
+
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        if (error.response.data.error === "canNotBUnblockNonBlockedUser") {
+          alert("unblocking not blocked user");
+          return;
+        }
+
+
+      });
+  }
+
+  render() {
+    let msg = this.state.Messages;
+
+    return (
+      &lt;div>
+        &lt;div className="markRead">
+          &lt;button id={msg._id} type="submit" name="markRead" onClick={this.MarkReadAll.bind(this)}>Mark AllRead  &lt;/button>
+          &lt;button id={msg._id} type="submit" name="markunRead" onClick={this.MarkUnReadAll.bind(this)}>Mark All Unread  &lt;/button>
+          &lt;button id={msg._id} type="submit" name="blockList" onClick={this.blockList.bind(this)}>BlockList &lt;/button>
+
+        &lt;/div>
+
+        {this.getMsgs()}
+        {this.state.showBlockList ? this.getBlockList() : null}
+      &lt;/div>
+      /* &lt;div>
+      {msg.map(content=>&lt;div className="subjectTitle">{content.subject}:&lt;/div>)}
+      {msg.map(content=>&lt;div className="messageContent">{content.messageBody}&lt;/div>)}
+       &lt;/div>
+      */
+
+
+    );
+  }
+}
+export default withRouter(Inbox);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
