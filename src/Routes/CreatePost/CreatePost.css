@@ -79,3 +79,8 @@
     .threadPageCreateButton:hover{
         background-color: #33a8ff;
     }
+.errorMessageCreatePost{
+    font-style: inherit;
+    color:maroon;
+    font-size: 0.77em;
+}

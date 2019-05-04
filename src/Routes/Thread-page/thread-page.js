@@ -21,7 +21,9 @@ class ThreadPage extends Component {
       replyComment: false,
       editID: '',
       replyID: '',
-      deleteID: ''
+      deleteID: '',
+      error:false,
+      errornumber:0
 
    }
 
@@ -113,17 +115,29 @@ class ThreadPage extends Component {
       })
    };
    handleEdit = (e) => {
+      this.setState({
+         error:false,
+         errornumber:0
+      })
       e.preventDefault();
       console.log('Edit Clicked');
 
       let checker = "";
 
       if (document.getElementById("newThreadTitleField").value === checker) {
-         alert("Please provide a new title");
+         this.setState({
+            error:true,
+            errornumber:1
+         })
+         //alert("Please provide a new title");
          return;
       }
       else if (document.getElementById("newThreadBodyField").value === checker) {
-         alert("Please provide a new bodyfor the thread");
+      this.setState({
+         error:true,
+         errornumber:2
+      })
+      //alert("Please provide a new bodyfor the thread");
          return;
       }
       let headers = {
@@ -140,14 +154,13 @@ class ThreadPage extends Component {
             if (res.status == 200) {
                console.log(res)
                alert('Post Edited Successfully');
-            }
-            else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
+               this.setState({
+                  editThread:false
+               })
             }
          })
          .catch(error => {
-            alert("Error Caught");
+            alert(error.Response);
          })
    }
 
@@ -167,13 +180,10 @@ class ThreadPage extends Component {
                alert('Thread Deleted Successfully!');
                return (<Route path='/GoHome/' component={GoHome} />);
 
-            } else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
-            }
+            } 
          })
          .catch(error => {
-            alert("Error Caught");
+            alert(error.response);
          })
    }
 
@@ -216,13 +226,10 @@ class ThreadPage extends Component {
          .then(res => {
             if (res.status == 200) {
                console.log(res)
-            } else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
             }
          })
          .catch(error => {
-            alert("Error Caught");
+            alert(error.response);
          })
 
    }
@@ -289,13 +296,10 @@ class ThreadPage extends Component {
          .then(res => {
             if (res.status == 200) {
                console.log(res)
-            } else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
-            }
+            } 
          })
          .catch(error => {
-            alert("Error Caught");
+            alert(error.response);
          })
    }
    deleteComment = (e) => {
@@ -317,13 +321,10 @@ class ThreadPage extends Component {
                // e.target.remove();
                alert('Comment Deleted Successfully!');
 
-            } else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
             }
          })
          .catch(error => {
-            alert("Error Caught");
+            alert(error.response);
          })
    }
 
@@ -497,10 +498,22 @@ class ThreadPage extends Component {
                               <label for="newThreadTitle">Enter new Title</label>
                               <textarea type="textarea" name="text" id="newThreadTitleField" placeholder="Enter Title Here" />
                            </div>
+                           {  
+                              this.state.errornumber==1 ? 
+                              <div className="errorMessageEditPost">
+                              *Please provide a  new title for the post
+                              </div> : <div></div>
+                            }
                            <div className="formGroupSrComponent2">
                               <label for="newThreadBody">Enter new Thread Body</label>
                               <textarea type="textarea" name="text" id="newThreadBodyField" placeholder="Enter Body Here" />
                            </div>
+                           {  
+                              this.state.errornumber==2 ? 
+                              <div className="errorMessageEditPost">
+                              *Please provide a new body for the post
+                              </div> : <div></div>
+                           }
                            <button className="threadPageSidebarEditButton2" >EDIT POST</button>
                            <button className="threadPageSidebarCancelEditButton" onClick={this.cancelEdit}>CANCEL</button>
                         </form>

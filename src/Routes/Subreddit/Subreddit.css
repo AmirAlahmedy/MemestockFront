@@ -342,3 +342,8 @@
     justify-content: center;
     align-content: center;
 }
+.errorMessageSubreddit { 
+    font-style: inherit;
+    color:maroon;
+    font-size: 0.77em;
+}

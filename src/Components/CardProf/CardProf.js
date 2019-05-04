@@ -28,25 +28,28 @@ componentDidMount () {
 
  let username = this.getCurrentUser();
  
-  axios.get('user/info/'+ username , { headers: headers })
-  .then(resp => {
-      console.log(resp);
-      let myusername=this.state.username;
-       let mysubscriptions = this.state.subscriptions;
-       let mycakeday=this.state.cakeday;
-       mycakeday.push(resp.data.cakeday);
-       myusername.push(resp.data.Username);
-       mysubscriptions.push(resp.data.Subscriptions);
-      this.setState({
-        subscriptions:mysubscriptions,
-        username:myusername,
-        cakeday:mycakeday
-      });
-    })
-      .catch(error => {
-        console.log(error.response)
-        alert("Error")
-      });
+  // axios.get('user/info/'+ username , { headers: headers })
+  // .then(resp => {
+  //   if (resp.status == 200) {
+  //     console.log(resp);
+  //     let myusername=this.state.username;
+  //      let mysubscriptions = this.state.subscriptions;
+  //      let mycakeday=this.state.cakeday;
+  //      mycakeday.push(resp.data.cakeday);
+  //      myusername.push(resp.data.Username);
+  //      mysubscriptions.push(resp.data.Subscriptions);
+    
+  //     this.setState({
+  //       username:myusername,
+  //       cakeday:mycakeday
+  //     });
+  //   }
+  //   })
+  
+  //     .catch(error => {
+  //       console.log(error.response)
+  //       alert("Error")
+  //     });
   
 };
 
@@ -113,7 +116,7 @@ componentDidMount () {
         <div className="tanihetta">
        
         <h5  >Cake Day</h5> 
-        {this.cakeday}
+      <h6>  {this.props.cake}</h6>
                         
                            
 

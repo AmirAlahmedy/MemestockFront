@@ -12,8 +12,8 @@ export class User extends Component {
     super(props);
     this.state = {
 
-       Comments: [],
-       Posts:[]
+       username:'',
+       cakeday:''
 
     }
   };
@@ -29,21 +29,30 @@ export class User extends Component {
     }
     let username = this.getCurrentUser();
     axios.get('/user/info/'+ username , { "headers": headers })
-      .then(response => {
-        console.log(response);
-        console.log(response.data);
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
 
-
+        if (res.status == 200) {
         this.setState({
-          Comments: response.data.comments
+          username: res.data.username,
+          cakeday:res.data.cakeday
         });
-
+      }
       })
       .catch(error => {
-        console.log(error.response)
+        console.log(error.res)
         alert("Error")
       });
+
+
+
+
+      
+  
   }
+
+
 
 
 
@@ -79,8 +88,9 @@ goTo(link){
           <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/flairs">Flairs</NavLink></span>
           </li>
+  
         </ul> 
-
+        
       </nav>
       
       
@@ -91,7 +101,7 @@ goTo(link){
 
       <div className="gamb">
           <div className="stuff">
-            <p>{localStorage.getItem('Username')}</p>
+             <p>{localStorage.getItem('Username')}</p> 
           </div>
      <Route exact path='/user/moderation' component={Moderation}/>
      <Route exact path='/user/flairs' component={Flairs}/>
@@ -115,7 +125,7 @@ goTo(link){
       </div>
       </div> */}
 
-     <CardProf></CardProf> 
+     <CardProf cake={this.state.cakeday}></CardProf> 
       
       </Aux>
         
