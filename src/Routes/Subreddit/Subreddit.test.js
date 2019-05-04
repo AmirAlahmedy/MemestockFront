@@ -1,4 +1,5 @@
 import React from "react";
+import { configure, shallow, mount } from 'enzyme';
 import { create } from "react-test-renderer";
 import Subreddit from "./subreddit";
 
@@ -16,40 +17,47 @@ it("Shows subreddit page meta", async () => {
   console.log(instance.state); 
 });
 
-test("Buttons", () => {
-  const component = create(<Subreddit  />);
-  const rootInstance = component.root;
-  const button = rootInstance.findByType("button");
-  button.props.onClick();
-  expect(button.props.children).toHaveBeenCalled();
-});
-//subscribed={false}
-/*
-describe("Subscribe Button", () => {
-  test("it shows the expected text when clicked", () => {
-    const component = create(<Subreddit />);
+describe("Subreddit component subscribe button", () => {
+  test("it shows that subscribed state is changed!)", () => {
+    const component = create(<Subreddit subscribed={true} />);
     const instance = component.getInstance();
-    //expect(instance.state.text).toBe("");
-    instance.editSubreddit();
-    expect(instance.state.subredditEdit).toBe(true);
+    instance.srUnSubscribe({ 
+      preventDefault: () => {
+  }});
+    expect(instance.state.subscribed).toBe(false);
   });
 });
-*/
-/*
-it('Login should call handleSubmit when clicked', () => {
-  const spy = jest.spyOn(Subreddit.prototype, 'handleChange');
-  const component = create(<Subreddit />);
+
+describe("Subreddit component cancel button", () => {
+  test("it shows that threadCreation state is changed!)", () => {
+    const component = create(<Subreddit threadCreation={true} />);
     const instance = component.getInstance();
-  //const f_wrapper = create(<Subreddit/>);
-  instance.find('.logInForm').simulate('submit');
-  expect(spy).toHaveBeenCalled() 
+    instance.CancelCreation({ 
+      preventDefault: () => {
+  }});
+    expect(instance.state.threadCreation).toBe(false);
+  });
 });
-/*
-test("it shows the expected text when clicked", () => {
-  const component = create(<Subreddit  />);
-  const rootInstance = component.root;
-  const button = rootInstance.findByType("button");
-  button.props.onClick();
-  expect(button.props.children).toBe("SUBSCRIBE");
+
+
+describe("Subreddit component CreatePost button", () => {
+  test("it shows that threadCreation state is changed!)", () => {
+    const component = create(<Subreddit threadCreation={true} subscribed={true} />);
+    const instance = component.getInstance();
+    instance.createThreadSidebar({ 
+      preventDefault: () => {
+  }});
+    expect(instance.state.threadCreation).toBe(false);
+  });
 });
-*/
+
+describe("Subreddit component cancel edit button", () => {
+  test("it shows that threadCreation state is changed!)", () => {
+    const component = create(<Subreddit subredditEdit={true} />);
+    const instance = component.getInstance();
+    instance.cancelSubreddit({ 
+      preventDefault: () => {
+  }});
+    expect(instance.state.subredditEdit).toBe(false);
+  });
+});

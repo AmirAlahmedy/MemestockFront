@@ -452,7 +452,7 @@ export class Subreddit extends Component {
             <div id="subredditSort">
               <div className="subredditContainer">
                 {
-                  this.state.error ? <div className="errorMessageSubreddit"> </div> : <div></div>
+                  this.state.error ? <div className="errorMessageSubreddit"> this.state.errormessage</div> : <div></div>
                 }
                 {/* <div className="srSortdropdownMenu">
                   <button className='srSortdropButton'>
