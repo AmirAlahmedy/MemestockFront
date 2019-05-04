@@ -135,6 +135,11 @@ class PMs extends Component {
 
   }
 
+  componentDidMount() {
+    if(localStorage.getItem("Username") === "guest"){
+     window.location.href = "/Home"; 
+    }
+  }
 
   render() {
     let error =this.state.errors != ""?<p className={classes.Invalid}>{this.state.errors}</p>:null

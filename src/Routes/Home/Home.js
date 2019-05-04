@@ -21,13 +21,13 @@ class Home extends Component {
       card: true,
       classic: false
     },
-    sort:'new'
+    sort: 'new'
   }
 
 
 
   componentDidMount = () => {
-
+    
     this.props.history.replace('/Home/');
 
   }
@@ -67,12 +67,28 @@ class Home extends Component {
     });
   }
 
-  sortHand(choice){
+  sortHandNew(){
     this.setState({
-      sort: choice
+      sort: 'new'
     })
   }
+
+  
+  sortHandTop(){
+    this.setState({
+      sort: 'top'
+    })
+  }
+
+  
+  sortHandHot(){
+    this.setState({
+      sort: 'hot'
+    })
+  }
+
   render() {
+    console.log(this.state.sort);
 
     return (
       <div className='Home' >
@@ -82,14 +98,16 @@ class Home extends Component {
           finishRegistration={this.userHasLoggedIn.bind(this)} 
           isAuth={this.state.isAuth} 
           classicViewHandler={this.classicViewHandler.bind(this)}
-          cardViewHandler={this.cardViewHandler.bind(this)} 
-          sortHand={this.sortHand.bind(this)}/>
+          cardViewHandler={this.cardViewHandler.bind(this)}
+          sortHandNew={this.sortHandNew.bind(this)}
+          sortHandHot={this.sortHandHot.bind(this)}
+          sortHandTop={this.sortHandTop.bind(this)} />
 
         {
           !this.props.isGuest ?
             <Switch>
 
-              <Route path='/PM/' render={
+              <Route path='/PM/'  render={
                 props => {
                   return (
                     <PMs token={this.props.token} />
@@ -109,10 +127,10 @@ class Home extends Component {
               <Route path='/Logout/' component={GoHome} />
             </Switch>
         }
-      
               
         <Route path='/Home/' exact  render={
                   props=>{
+                    console.log('sort in home',this.state.sort);
                     return(
                       <Listings authToken={this.props.token} view={this.state.view.card} sort={this.state.sort}/>
                     );

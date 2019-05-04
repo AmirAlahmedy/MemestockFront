@@ -17,7 +17,6 @@ class Listings extends Component {
 
 
     render() {
-        console.log(this.props.view);
         view = this.props.view;
         localStorage.setItem('view', this.props.view);
         return (
@@ -27,7 +26,7 @@ class Listings extends Component {
                     <Switch>
                         <Route path="/Home/" exact render={
                             props => {
-                                return <Threads view={this.props.view} />
+                                return <Threads listingUpdater={this.props.listingUpdater} view={this.props.view} sort={this.props.sort} />
                             }
                         } />
                         <Route path="/r" component={Subreddit} />
@@ -48,7 +47,7 @@ const token = Listings.token;
 class Threads extends Component {
     state = {
         threads: [],
-        sort: 'new'
+        sort: 'new',
     }
 
     startPosition = { startPosition: 0 };
@@ -61,25 +60,32 @@ class Threads extends Component {
         console.log(token);
         console.log(localStorage.getItem('token'));
         //  this.props.history.replace('/r/');
+        this.getListing(this.props.sort);
+        this.setState({
+            sort: this.props.sort
+        });
+        this.props.listingUpdater(this.getListing.bind(this));
+        window.addEventListener("scroll", () => {
+            if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
 
-        if (inProduction === true && localStorage.getItem('inProduction')) {
+                axios.get(`/me/listing?type=${this.props.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                    .then(response => {
+                        console.log(response);
+                        this.reqThreads = response.data;
+                        this.setState({
+                            reqThreads: response.data,
 
-            axios.get(`/me/listing?type=${this.state.sort}&_id=0&votes=0&hotindex=0`, { headers: this.headers })
-                .then(response => {
-                    console.log(response);
-                    this.reqThreads = response.data;
-                    this.setState({ reqThreads: response.data });
+                        });
 
-                })
-                .catch(error => {
+                    })
+                    .catch(error => {
 
-                })
-        } else {
+                    })
 
-            this.setState({ reqThreads: data.threads });
-            let thrds = this.createThreads(data.threads);
-            this.setState({ threads: thrds });
-        }
+            }
+        })
+
+
     }
 
 
@@ -101,10 +107,11 @@ class Threads extends Component {
         title={thread.title}
         conten t={thread.body}
         view={this.props.view}
+        upvotes={thread.votes}
     />;
     // Ya Amiir....
     //Aywa 3ayyez eh?
-    
+
     /**
      * For generating threads from a mock service
      * @function getThreads
@@ -112,7 +119,6 @@ class Threads extends Component {
      */
     getThreads(view) {
         if (!this.state.reqThreads || !this.state.reqThreads.posts) return;
-        console.log("threads", this.state.reqThreads)
         let posts = inProduction ? this.state.reqThreads.posts : data.threads;
         return posts.map(thr => <Thread
             id={thr._id}
@@ -121,50 +127,45 @@ class Threads extends Component {
             title={thr.title}
             content={thr.body}
             view={view}
+            upvotes={thr.votes}
         />)
     }
 
     /**
      * For generating threads from a mock service
      * @function createThreads
-     * @param {array} - array of the mocked threads ...Not working properly yet.
+     * @param {array} - array of the mocked threads
      */
     createThreads = Threads => Threads.map(this.createThread);
     goToCreatePost() {
         window.location.href = "/CreatePost/";
     }
-    goToCreateSr(){
+    goToCreateSr() {
         window.location.href = "/create-subreddit/";
     }
-    render() {
-     console.log(this.state);
-        window.onscroll = function() {
-            let t = 1;
-            if(window.scrollY  >= 1450*t) {
-                alert("bottom!");
-                console.log(this.state);
-                axios.get(`/me/listing?type=${this.state.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+    getListing(sort) {
+        console.log("sort: ", sort);
+        if (inProduction === true && localStorage.getItem('inProduction')) {
+            //It's done ha, zbat l configuration bta3ha b2a
+            axios.get(`/me/listing?type=${sort}&_id=0&votes=0&hotindex=0`, { headers: this.headers })
                 .then(response => {
-                    console.log(response);
                     this.reqThreads = response.data;
-                    this.setState({ 
-                        reqThreads: response.data,
-
-                     });
-
+                    this.setState({ reqThreads: response.data });
                 })
                 .catch(error => {
 
                 })
-                t++;
+        } else {
 
-            }
-         }.bind(this);
-        
+            this.setState({ reqThreads: data.threads });
+            let thrds = this.createThreads(data.threads);
+            this.setState({ threads: thrds });
+        }
+    }
+    render() {
 
         return (
             <Aux>
-
                 <div className='listingsContainer'>
                     {this.getThreads(this.props.view)}
                 </div>

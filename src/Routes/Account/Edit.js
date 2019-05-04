@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import axios from '../../axios-orders';
 class Edit extends Component {
 
   state={
@@ -46,7 +46,7 @@ class Edit extends Component {
   var data = {Email:this.state.email}
 
     console.log(data);
-  axios.put('me/edit/email/' + username, data, { headers: headers })
+  axios.put('/me/edit/email/' + username, data, { headers: headers })
 .then(res => {
   console.log(res);
   if (res.status==200)

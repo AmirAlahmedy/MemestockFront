@@ -21,7 +21,7 @@ const filterList = () => {
 
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
+        a = li[i].getElementsByTagName("span")[0];
         txtValue = a.textContent || a.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
             li[i].style.display = "";
@@ -82,9 +82,9 @@ const NavBar = props => {
                         <input id='filter' className="filter-input" placeholder='Filter' onChange={filterList}></input>
                         <ul id='my-ul' className='dropUl'>
                             <li className='dropdownItem'><span onClick={goTo("/Home/")} className='sort toHome'>Home</span></li>
-                            <li className='dropdownItem'><span onClick={props.sortHand} className='sort srt1'>New</span></li>
-                            <li className='dropdownItem'><span onClick={props.sortHand} className='sort srt2'>Top</span></li>
-                            <li className='dropdownItem'><span onClick={props.sortHand}  className='sort srt3'>Hot</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHandNew} className='sort srt1'>New</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHandTop} className='sort srt2'>Top</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHandHot}  className='sort srt3'>Hot</span></li>
 
                         </ul>
 
@@ -114,9 +114,9 @@ const NavBar = props => {
                         </NavLink>
                     </span>
                     <span className='rightLinks'>
-                        <a href='#'>
+                        <NavLink to='/notifications/'>
                         <i class="fas fa-bell"></i>
-                        </a>
+                        </NavLink>
                     </span>
                     {props.isAuth ?
                         <div className='yourStuffDrop'>
@@ -125,7 +125,7 @@ const NavBar = props => {
                                 <i className="fas fa-user"></i>
                             </button>
                             <div role='menu' className='yourStuffDropList'>
-                                <ul className='dropUl'>
+                                <ul className='dropUl' onChange={props.sortChanged}>
                                     <li className='yourStuffItem'><span onClick={goTo("/user/")} to='/user/' className='stfitm'>My Profile</span></li>
                                     <li className='yourStuffItem'><span onClick={goTo("/settings/")} to='/settings/' className='stfitm'>User Settings</span></li>
                                     <li className='yourStuffItem'><a href="#logout" onClick={props.logout} className='logoutitm stfitm'>Logout</a></li>

@@ -5,6 +5,7 @@ import './User.css';
 import axios from "../../axios-orders";
 import Aux from '../HOC/Auxiliary';
 import Moderation from '../../Routes/ModerationPage/ModerationPage';
+import Flairs from './Flairs/Flairs';
 import Thread from '../../Routes/Thread/Thread'
 export class User extends Component {
   constructor(props) {
@@ -72,8 +73,12 @@ goTo(link){
           <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/comments')}*/ className="nav-link"><NavLink className='profit' to="/user/comments">Comments</NavLink></span>
           </li>
-         
-         
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/saved')}*/ className="nav-link"><NavLink className='profit' to="/user/saved">Saved</NavLink></span>
+          </li>
+          <li className="nav-item profit1">
+            <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/flairs">Flairs</NavLink></span>
+          </li>
         </ul> 
 
       </nav>
@@ -86,9 +91,11 @@ goTo(link){
 
       <div className="gamb">
           <div className="stuff">
-            <p>{this.props.username}</p>
+            <p>{localStorage.getItem('Username')}</p>
           </div>
      <Route exact path='/user/moderation' component={Moderation}/>
+     <Route exact path='/user/flairs' component={Flairs}/>
+
 
 
       </div>
@@ -109,7 +116,6 @@ goTo(link){
       </div> */}
 
      <CardProf></CardProf> 
-     {/* <Route path='/user/moderation' component={Moderation}/> */}
       
       </Aux>
         

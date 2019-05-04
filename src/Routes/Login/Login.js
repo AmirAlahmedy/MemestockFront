@@ -9,7 +9,9 @@ import axios from '../../axios-orders';
 
 
 class Login extends Component {
-    state = {}
+    state = {
+        forgot: " "
+    }
     componentDidMount = () => {
     }
     handleSubmit(e) {
@@ -45,17 +47,41 @@ class Login extends Component {
                 }
             })
 }
+forgotPassHand(e){  
+    e.preventDefault();
+    let username = document.getElementsByClassName('usernameInput')[0].value;
+    console.log(username);
+    axios.put(`/user/ForgetPassword/${username}`)
+        .then(response => {
+            if(response.status === 200){
+                this.setState({
+                    forgot: response.data.message
+                })
+
+               console.log(response);
+            }
+        })
+        .catch(error => {
+            if(error.status === 404){
+                this.setState({
+                    forgot: 'User Does not exist'
+                })
+            }
+        })
+}
 render(){
 
     let error = <p className={classes.Invalid}>{this.state.error || ""}</p>
+    let frgpss = this.state.forgot != " " ?  <p className={classes.Invalid}>{"*"+this.state.forgot}</p> : null;
     return (
 
         <Aux>
-            {/* <Route path='/Registration/'  render={()=><Registration regHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/> */}
+           
             <div className="logINFormWrapper">
                 <form className='logInForm' onSubmit={this.handleSubmit.bind(this)} >
                     <h1 className='logo'>LOG IN</h1>
                     {error || null}
+                    {frgpss}
                     <div className='inputs'>
 
                         <input className="usernameInput logi"
@@ -71,9 +97,8 @@ render(){
                     </div>
 
                     <button type="submit" className='registerButton'> Login </button>
-                    {/* <Router> */}
-                    {/* <NavLink to='/Registration/'>Create a new account</NavLink> */}
-                    {/* </Router> */}
+                     <a href='#' onClick={this.forgotPassHand.bind(this)}>Forgot your password?</a>
+                   
                 </form>
 
             </div>
