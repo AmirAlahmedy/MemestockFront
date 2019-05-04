@@ -29,7 +29,9 @@ export class Subreddit extends Component {
     subredditEdit: false,
     threadsContent: [],
     flair: null,
-    spoiler: false,
+    spoiler: false, 
+    error:false,
+    errormessage:''
   }
 
   componentDidMount() {
@@ -53,7 +55,7 @@ export class Subreddit extends Component {
               moderatorsList: resp.data.modUsername ? resp.data.modUsername : [resp.data.adminUsername],
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
-              subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
+              subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username"))   ? true : false,
               adminview: resp.data.modUsername.includes(localStorage.getItem("Username")) ? true : false,
               date: resp.data.date,
               rules: resp.data.rules,
@@ -79,14 +81,9 @@ export class Subreddit extends Component {
                 });
             }
           }
-          else if (resp.status === 404) {
-            alert("Subreddit Not Found");
-            return Response.json;
-          }
         })
         .catch(error => {
-          // alert(cons);
-          console.log(error);
+          alert(error.response);
         })
     }
     else {
@@ -148,13 +145,10 @@ export class Subreddit extends Component {
             subscribed: true
           }
           );
-        } else if (res.status === 404) {
-          alert("Subreddit Not Found");
-          return Response.json;
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
   /**
@@ -177,13 +171,10 @@ export class Subreddit extends Component {
             subscribed: false
           }
           );
-        } else if (res.status === 404) {
-          alert("Subreddit Not Found");
-          return Response.json;
-        }
+        } 
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
   /**
@@ -208,13 +199,13 @@ export class Subreddit extends Component {
           }
           );
         }
-        else if (res.status === 401) {
-          alert("You're Not Authorised");
-          return Response.json;
-        }
+        // else if (res.status === 401) {
+        //   alert("You're Not Authorised");
+        //   return Response.json;
+        // }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
 
   }
@@ -226,9 +217,11 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) => {
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
-    if (this.state.subscribed == false) {
-      //CANNOT CREATE A POST UNLESS SUBSCRIBED
-      alert('CANNOT CREATE A POST UNLESS SUBSCRIBED');
+    if (this.state.subscribed == false && !this.state.moderatorsList.includes(localStorage.getItem("Username"))) {
+      this.setState({
+        error:true,
+        errormessage:'Cant create a post unless subscribed'
+      })
     }
     else {
       this.setState({
@@ -254,7 +247,7 @@ export class Subreddit extends Component {
     console.log("Clicked on the edit subredditbutton");
     if (this.state.adminview == false) {
       //CANNOT CREATE A POST UNLESS SUBSCRIBED
-      alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
+     // alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
     }
     else {
       this.setState({
@@ -276,13 +269,37 @@ export class Subreddit extends Component {
    * @param {event} - onClick event 
    */
   handleSubmit = (e) => {
+    this.setState({
+      error:false,
+      errornumber:0
+    })
     e.preventDefault();
+
+    let checker = "";
+
+    if (document.getElementById("threadTitleField").value === checker) {
+      this.setState({
+        error:true,
+        errornumber:1
+      })
+      //alert("Please provide a Thread Title!");
+      return;
+    }
+    else if (document.getElementById("threadBodyField").value === checker) {
+      //alert("Please provide a Thread Body!");
+      this.setState({
+        error:true,
+        errornumber:2
+      })
+      return;
+    }
 
     const srdata = {
       "title": document.getElementById("threadTitleField").value,
       "threadBody": document.getElementById("threadBodyField").value,
       "spoiler": this.state.spoiler
     }
+
     if (this.state.imagePost) {
       srdata.base64image = this.state.imagePost
     }
@@ -295,13 +312,16 @@ export class Subreddit extends Component {
         console.log(res);
         if (res.status == 200) {
           alert("Thread Created Successfully!");
+        this.setState({
+          threadCreation:false
+        })
         } else if (res.status === 401 || res.status === 404) {
           alert("Thread Creation Unsuccessful");
           return Response.json;
         }
       })
       .catch(error => {
-        alert("Errorrrrrrr Caught");
+        alert(error.response);
       })
   }
 
@@ -345,7 +365,7 @@ export class Subreddit extends Component {
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
   getThreads() {
@@ -385,7 +405,7 @@ export class Subreddit extends Component {
         })
       })
       .catch(error => {
-
+        alert(error.response);
       })
   }
   handleNewImage(e) {
@@ -429,12 +449,14 @@ export class Subreddit extends Component {
           <h1>r/{this.state.name}</h1>
         </section>
 
-        {/*<nav id="subredditNavbar">
+        {<nav id="subredditNavbar">
           <div className="subredditContainer">
             <div id="subredditSort">
               <div className="subredditContainer">
-
-                <div className="srSortdropdownMenu">
+                {
+                  this.state.error ? <div className="errorMessageSubreddit"> </div> : <div></div>
+                }
+                {/* <div className="srSortdropdownMenu">
                   <button className='srSortdropButton'>
                     Sorting <i class="downIcon fas fa-sort-down"></i>
                   </button>
@@ -447,13 +469,13 @@ export class Subreddit extends Component {
                       <li className='srSortdropdownItem' className='sort toHome'>Rating</li>
                     </ul>
 
-                  </div>
-                </div>
+                  </div> 
+                </div>*/}
               </div>
             </div>
 
           </div>
-        </nav>*/}
+        </nav>}
         <div class="subredditContainer">
           <section id="subredditPageContent">
             <div>
@@ -532,15 +554,27 @@ export class Subreddit extends Component {
                       <label for="ThreadTitle">Enter Title</label>
                       <textarea type="textarea" name="text" id="threadTitleField" placeholder="Enter Title Here" />
                     </div>
+                    { 
+                      this.state.errornumber==1 ? 
+                      <div className="errorMessageSubreddit">
+                      *Please Provide a title for the thread
+                      </div> : <div></div>
+                    }
                     <div className="formGroupSrComponent">
                       <label for="ThreadBody">Enter Thread Body</label>
                       <textarea type="textarea" name="text" id="threadBodyField" placeholder="Enter Body Here" />
                     </div>
+                    { 
+                      this.state.errornumber==2 ? 
+                      <div className="errorMessageSubreddit">
+                      *Please Provide a body for the thread
+                      </div> : <div></div>
+                    }
                     <div className="formGroupSrComponent">
                       <label for="coverPost">Cover </label>
                       <input type="file" name="coverPost" id="coverPost" onChange={this.handleNewImagePost.bind(this)} />
                     </div>
-                    <div className="formGroupThreadCheckbox">
+                    <div className="formGroupSrComponent">
                       <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>
                       <input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
                     </div>

@@ -445,3 +445,8 @@
     .incrementVotes:hover{
         color: #0079D3;
     }
+.errorMessageEditPost{
+    font-style: inherit;
+    color:maroon;
+    font-size: 0.77em;
+}
