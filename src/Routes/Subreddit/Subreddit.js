@@ -28,7 +28,8 @@ export class Subreddit extends Component {
     threadCreation: false,
     subredditEdit: false,
     threadsContent: [],
-    flair: null
+    flair: null,
+    spoiler: false,
   }
 
   componentDidMount() {
@@ -43,7 +44,7 @@ export class Subreddit extends Component {
           console.log(resp);
           console.log(resp.data);
           if (resp.status == 200) {
-            console.log(resp.data.rules);
+            console.log(resp.data);
             this.setState({
               name: this.state.name,
               bio: resp.data.Bio,
@@ -53,6 +54,7 @@ export class Subreddit extends Component {
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
               subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
+              adminview: resp.data.modUsername.includes(localStorage.getItem("Username")) ? true : false,
               date: resp.data.date,
               rules: resp.data.rules,
               cover: resp.data.subredditFile
@@ -112,7 +114,18 @@ export class Subreddit extends Component {
         })
       }
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  };
+
+
+
+  handleChange(e) {
+    this.setState({
+      spoiler: e.target.checked
+    });
   }
+
   /**
    * For sending a subscribe request to the backend and updating the subscribed boolean state
    * @function srSubscribe
@@ -221,6 +234,7 @@ export class Subreddit extends Component {
       this.setState({
         threadCreation: true
       })
+
     }
   }
   /**
@@ -266,9 +280,10 @@ export class Subreddit extends Component {
 
     const srdata = {
       "title": document.getElementById("threadTitleField").value,
-      "threadBody": document.getElementById("threadBodyField").value
+      "threadBody": document.getElementById("threadBodyField").value,
+      "spoiler": this.state.spoiler
     }
-    if(this.state.imagePost){
+    if (this.state.imagePost) {
       srdata.base64image = this.state.imagePost
     }
     let headers = {
@@ -335,14 +350,15 @@ export class Subreddit extends Component {
   }
   getThreads() {
     if (!this.state.threadsContent) return;
-    return this.state.threadsContent.map(thr => <Thread
-      id={thr._id}
-      username={thr.creatorUsername}
-      subreddit={thr.subredditName}
-      title={thr.title}
-      content={thr.body}
-      upvotes={thr.votes}
-    />);
+    return this.state.threadsContent.map(thr =>
+      <Thread
+        id={thr._id}
+        username={thr.creatorUsername}
+        subreddit={thr.subredditName}
+        title={thr.title}
+        content={thr.body}
+        upvotes={thr.votes}
+      />);
   }
   /**
   * For changing the GUI and hiding the fields for the thread creation
@@ -351,7 +367,7 @@ export class Subreddit extends Component {
   */
   CreateFlair(e) {
     e.preventDefault();
-   
+
     let body = {
       srName: this.state.name,
       flair: e.target.querySelector('.flairInput').value
@@ -412,7 +428,8 @@ export class Subreddit extends Component {
           <img src={defImage} alt="Subreddit Default" />
           <h1>r/{this.state.name}</h1>
         </section>
-        <nav id="subredditNavbar">
+
+        {/*<nav id="subredditNavbar">
           <div className="subredditContainer">
             <div id="subredditSort">
               <div className="subredditContainer">
@@ -436,7 +453,7 @@ export class Subreddit extends Component {
             </div>
 
           </div>
-        </nav>
+        </nav>*/}
         <div class="subredditContainer">
           <section id="subredditPageContent">
             <div>
@@ -522,6 +539,10 @@ export class Subreddit extends Component {
                     <div className="formGroupSrComponent">
                       <label for="coverPost">Cover </label>
                       <input type="file" name="coverPost" id="coverPost" onChange={this.handleNewImagePost.bind(this)} />
+                    </div>
+                    <div className="formGroupThreadCheckbox">
+                      <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>
+                      <input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
                     </div>
                     <button className="srSidebarSubscribeButton" >CREATE</button>
                     <button className="srSidebarSubscribeButton" onClick={this.CancelCreation}>CANCEL</button>

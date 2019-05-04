@@ -102,16 +102,9 @@
 .deleteMsg:hover{
     background-color: #da0046 !important;
 }
-.blockeduser{
+.blockeduser [type=submit]
+{
 
-    background-color: #fff;
-    margin: 1em;
-    border-radius: 4px;
-    text-align:left;
-    color:grey;
-
-}
-.blockeduser [type = submit] {
     background-color: #0079D3;
     border: none;
     color: #fff;
@@ -129,4 +122,13 @@
     line-height: 32px;
     text-transform: uppercase;
     transition: box-shadow 0.2s ease;
+}
+.blockeduser
+{
+    color: #333;
+    text-align:Center;
+    font-size:10px;
+    background-color: #fff;
+    margin: 1em;
+    border-radius: 4px;
 }

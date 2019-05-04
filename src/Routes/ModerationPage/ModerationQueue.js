@@ -79,11 +79,12 @@ checkforpostorcomment(x,id)
 }
 DeleteReport(e)
 {
-  console.log(this.props);
+  
   const element = e.target;
   const reportId=element.getAttribute("id");
-  axios.get( 'Moderator/Reports/',{
-    reportId  : reportId}, {
+  console.log(reportId);
+  axios.delete( "/Moderator/Reports/"+reportId,
+  {
         headers: {
             'Content-Type': 'application/json',
           auth: localStorage.getItem("token")
@@ -94,13 +95,6 @@ DeleteReport(e)
       console.log(response);
       console.log(response.data);
       
-      
-      this.setState({
-        Reports : response.data
-        ,
-        isLoading : false
-      });
-      console.log(this.state.Messages);
       
     })
     // Let's make sure to change the loading state to display the data
@@ -114,11 +108,7 @@ DeleteReport(e)
     // We can still use the `.catch()` method since axios is promise-based
     .catch(error => {
       console.log(error.response)
-      this.setState
-      ({ 
-        errors:true,
-        isLoading: false 
-      });
+   
       if (error.response.data ="You are not a moderator to any subreddit")
       {
       alert ("you are not a moderator to any subreddit");
@@ -132,10 +122,9 @@ DeleteReport(e)
 }
 DeleteReportedComment(e)
 {
-  console.log(this.props);
   const element = e.target;
   const reportId=element.getAttribute("id");
-  axios.delete( 'Moderator/Reports/',{reportId:reportId}, {
+  axios.delete( 'Moderator/Comment/',{reportId:reportId}, {
         headers: {
             'Content-Type': 'application/json',
           auth: localStorage.getItem("token")
@@ -159,11 +148,7 @@ DeleteReportedComment(e)
     // We can still use the `.catch()` method since axios is promise-based
     .catch(error => {
       console.log(error.response)
-      this.setState
-      ({ 
-        errors:true,
-        isLoading: false 
-      });
+    
       if (error.response.data ="You are not a moderator to any subreddit")
       {
       alert ("you are not a moderator to any subreddit");
@@ -185,10 +170,10 @@ DeleteReportedComment(e)
 }
 DeleteReportedPost(e)
 {
-  console.log(this.props);
+
   const element = e.target;
   const reportId=element.getAttribute("id");
-  axios.delete( 'Moderator/Reports/',{reportId:reportId}, {
+  axios.delete( 'Moderator/Post/',{reportId:reportId}, {
         headers: {
             'Content-Type': 'application/json',
           auth: localStorage.getItem("token")
@@ -211,11 +196,7 @@ DeleteReportedPost(e)
     // We can still use the `.catch()` method since axios is promise-based
     .catch(error => {
       console.log(error.response)
-      this.setState
-      ({ 
-        errors:true,
-        isLoading: false 
-      });
+    
       if (error.response.data === "You are not a moderator to any subreddit")
       {
       alert ("you are not a moderator to any subreddit");
@@ -236,6 +217,49 @@ DeleteReportedPost(e)
       }
 });
 }
+leavemoderation(e)
+
+{ 
+  const element = e.target;
+  const SubredditName=element.getAttribute("id");
+
+  axios.delete( '/Moderator/leave',{
+    SubredditName : SubredditName
+  }, {
+  headers: {
+      'Content-Type': 'application/json',
+    auth: localStorage.getItem("token")
+  },
+  
+})
+.then(response =>{
+console.log(response);
+console.log(response.data);
+
+
+})
+// Let's make sure to change the loading state to display the data
+/* .then(Messages => {
+this.setState({
+  Messages,
+  isLoading: false
+});
+})*/
+
+// We can still use the `.catch()` method since axios is promise-based
+.catch(error => {
+console.log(error.response)
+
+if (error.response.data ="user or subreddit not found")
+{
+alert ("user or subreddit not found");
+}
+
+});
+}
+  
+
+
 
 
 getReports()
@@ -246,9 +270,11 @@ getReports()
   return this.state.Reports.map((rep)=>(
    
       <div className="repContainer">
-        <h1 className="ReportName">ReportedSubr : {rep.srName}</h1>
-        <button id={rep.reportedId} type="submit"  name="deleteReport" onClick={this.DeleteReport}>DeleteReport  </button>   
-        {this.checkforpostorcomment(rep.post,rep.reportedId)}
+        <span className="ReportName">ReportedSubr : {rep.srName}</span>
+        <button id={rep.srName} type="submit"  name="leavemoderation" onClick={this.leavemoderation}>LeaveModeration  </button> 
+        <h1 className="ReportDesc">Report Description : {rep.description}</h1>
+        <button id={rep._id} type="submit"  name="deleteReport" onClick={this.DeleteReport}>DeleteReport  </button>   
+        {this.checkforpostorcomment(rep.post,rep._id)}
         <br />
          
 
@@ -263,6 +289,7 @@ getReports()
     
         return (
 <div>
+
     {this.getReports()}
 </div>
         );

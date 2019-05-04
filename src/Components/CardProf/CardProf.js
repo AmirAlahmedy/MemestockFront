@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Button from '../UI/Button/Button';
+
 import defImage from '../../assets/images/redditor.png'
 import axios from 'axios';
 import './CardProf.css';
@@ -10,9 +10,9 @@ export class CardProf extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: '',
-      subscriptions:[],
-      cakeday: ''
+     username:'',
+     subscriptions:[],
+     cakeday:''
        };
 }
 getCurrentUser() {
@@ -21,7 +21,6 @@ getCurrentUser() {
 
 componentDidMount () { 
 
-  console.log(localStorage.getItem("Username"));
   alert(localStorage.getItem("Username"));
   var headers = {
     'auth': localStorage.getItem("token")
@@ -31,26 +30,27 @@ componentDidMount () {
  
   axios.get('user/info/'+ username , { headers: headers })
   .then(resp => {
-    if( resp.status === 200){
       console.log(resp);
-      // let mysubscriptions = this.state.subscriptions;
-      // mysubscriptions.push(resp.data);
+      let myusername=this.state.username;
+       let mysubscriptions = this.state.subscriptions;
+       let mycakeday=this.state.cakeday;
+       mycakeday.push(resp.data.cakeday);
+       myusername.push(resp.data.Username);
+       mysubscriptions.push(resp.data.Subscriptions);
       this.setState({
-        username:resp.data.Username,
-        // subscriptions: res.data.mysubscriptions,
-        cakeday:resp.data.Cakeday
+        subscriptions:mysubscriptions,
+        username:myusername,
+        cakeday:mycakeday
       });
-    }
-    else if (resp.status === 404) {
-      alert("Not Found");
-      return Response.json;
-   }
-})
-
-.catch(error => {
-   console.log(error);
-})
+    })
+      .catch(error => {
+        console.log(error.response)
+        alert("Error")
+      });
+  
 };
+
+
   gotoMod(){
     window.location.href = "/user/moderation";
 }
@@ -109,12 +109,19 @@ componentDidMount () {
             <img src={defImage} alt="soret reddit"/>
         </div>
 
+        <div className="user">{this.getCurrentUser()}</div>
         <div className="tanihetta">
-        <h5>Cake Day</h5> 
-        <p>{this.state.cakeday}</p>
-        <h5>Email</h5>
+       
+        <h5  >Cake Day</h5> 
+        {this.cakeday}
+                        
+                           
+
+       
 
         </div>
+             
+                             
 
         {/* <button  onClick={this.createThread} className='new-post-button'>New post</button> */}
         <a onClick={this.gotoMod.bind(this)} className='mod'>Profile Moderation</a>

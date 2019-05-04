@@ -6,19 +6,16 @@ import axios from "../../axios-orders";
 import Aux from '../HOC/Auxiliary';
 import Moderation from '../../Routes/ModerationPage/ModerationPage';
 import Flairs from './Flairs/Flairs';
-
+import Thread from '../../Routes/Thread/Thread'
 export class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
 
-       Comments: []
+       Comments: [],
+       Posts:[]
 
     }
-
-    // this.handleClick = this.handleClick.bind(this);
-    // this.BlockUser = this.BlockUser.bind(this);
-    // this.blockList = this.blockList.bind(this);
   };
 
   getCurrentUser() {
@@ -28,10 +25,10 @@ export class User extends Component {
   componentDidMount() {
     console.log(this.props);
     const headers = {
-      auth: localStorage.getItem("token")
+      'auth': localStorage.getItem("token")
     }
     let username = this.getCurrentUser();
-    axios.get('/user/'+ username +'/comments/listing?type=hot', { "headers": headers })
+    axios.get('/user/info/'+ username , { "headers": headers })
       .then(response => {
         console.log(response);
         console.log(response.data);
@@ -40,7 +37,6 @@ export class User extends Component {
         this.setState({
           Comments: response.data.comments
         });
-        console.log(this.state.Messages);
 
       })
       .catch(error => {
@@ -69,8 +65,7 @@ goTo(link){
         
       <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
            <ul className="navbar-nav mr-auto proful">
-          <li className="nav-item active ">
-            <span /*onClick={this.goTo('/user/')}*/ className="nav-link"><NavLink className='profit' to="/user/">Overview</NavLink></span></li>
+
           
           <li className="nav-item profit1">
             <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
@@ -88,6 +83,7 @@ goTo(link){
 
       </nav>
       
+      
       </div>
 
 
@@ -104,6 +100,20 @@ goTo(link){
 
       </div>
       </div>
+
+      {/* <div className="postsPageContainer">
+      <div className="PostsPage">
+      <Thread 
+                  id={this.state.id}
+                  username={this.state.creator}
+                  subreddit={this.state.subredditName}
+                  title={this.state.threadTitle} 
+                  content={this.state.threadBody}
+                  upvotes={this.state.votes}
+                  date={this.state.postdate}
+                />
+      </div>
+      </div> */}
 
      <CardProf></CardProf> 
       

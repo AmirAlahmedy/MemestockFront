@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
 import axios from '../../../axios-orders.js';
 import '../PMs.css';
 import './inbox.css';
-
 class Inbox extends React.Component {
 
   constructor(props) {
@@ -268,7 +267,7 @@ class Inbox extends React.Component {
         console.log(res.data);
 
         console.log(res);
-        if (res.data !== "OK") return;
+        if (res.data.status !== "200") return;
         let msgs = this.state.Messages.map(msg => {
           msg.isRead = false;
           return msg;
