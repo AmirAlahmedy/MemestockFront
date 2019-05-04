@@ -97,13 +97,13 @@ handleSubmit (e){
       document.getElementById("srSubredditRule3").value
     ],
     modUsername : newmods.length ? newmods : null,
-    bio: document.getElementById("srSubredditBio").value,
+    //bio: document.getElementById("srSubredditBio").value,
     base64image: this.state.image
   } 
   let headers = {
         auth: localStorage.getItem("token") 
-  } 
-    axios.post( 'sr/create',srdata,{"headers": headers})
+  }
+  axios.post( 'sr/create',srdata,{"headers": headers})
     .then(res => {
       console.log(res);
       console.log(res.status);
@@ -112,7 +112,7 @@ handleSubmit (e){
     .catch(error => {
     console.log("Axios Error: ",error.response)
 
-  });
+  }); 
 }
 
 componentDidMount() {
