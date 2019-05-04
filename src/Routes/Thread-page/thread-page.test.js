@@ -1,10 +1,18 @@
-// import React from 'react';
-// import threadPage from './thread-page';
-// import ReactDOM from 'react-dom';
+import React from "react";
+import { create } from "react-test-renderer";
+import ThreadPage from "./thread-page";
+
+describe("Subreddit component snapshot", () => {
+  test("it matches the snapshot", () => {
+    const component = create(<ThreadPage />);
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+});
 
 
-// it('A listning renders without crashing', () => {
-//     const div = document.createElement('div');
-//     ReactDOM.render(<threadPage />, div);
-//     ReactDOM.unmountComponentAtNode(div);
-//   });
+it("Shows thread page meta", async () => {
+    const component = create(<ThreadPage />);
+    const instance = component.getInstance();
+    await instance.componentDidMount();
+    console.log(instance.state); 
+  });

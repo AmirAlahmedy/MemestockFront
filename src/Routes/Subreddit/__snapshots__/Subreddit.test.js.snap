@@ -1,0 +1,424 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Feature component it matches the snapshot 1`] = `
+<div
+  className="subredditFixed"
+>
+  <section
+    id="subredditShowcase"
+    style={
+      Object {
+        "backgroundImage": null,
+      }
+    }
+  >
+    <img
+      alt="Subreddit Default"
+      src="subreddit.png"
+    />
+    <h1>
+      r/
+      
+    </h1>
+  </section>
+  <nav
+    id="subredditNavbar"
+  >
+    <div
+      className="subredditContainer"
+    >
+      <div
+        id="subredditSort"
+      >
+        <div
+          className="subredditContainer"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div
+    class="subredditContainer"
+  >
+    <section
+      id="subredditPageContent"
+    >
+      <div />
+    </section>
+    <aside
+      id="subredditSidebarContainer"
+    >
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          COMMUNITY DETAILS
+        </h5>
+        <div
+          className="srSidebarCompTitle"
+        >
+          <img
+            alt="Subreddit Default"
+            src="subreddit.png"
+          />
+          r/
+          
+        </div>
+        <div
+          className="srSidebarSubscribers"
+        >
+          0
+           
+          <br />
+          Subscribers
+        </div>
+        <div
+          className="srSidebarBio"
+        >
+          <p>
+            
+          </p>
+        </div>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          SUBSCRIBE
+        </button>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          CREATE A POST
+        </button>
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          MODERATORS & ADMINS
+        </h5>
+        <ul />
+      </div>
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          RULES
+        </h5>
+        <ol />
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent flairComp"
+      >
+        <h5>
+          CREATE YOUR OWN NAME
+        </h5>
+        <form
+          id="flairForm"
+          onSubmit={[Function]}
+        >
+          <input
+            className="flairInput"
+            placeholder="Flair"
+            type="text"
+          />
+          <button
+            className="srSidebarSubscribeButton"
+            type="submit"
+          >
+            Create a flair
+          </button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</div>
+`;
+
+exports[`Subreddit component it matches the snapshot 1`] = `
+<div
+  className="subredditFixed"
+>
+  <section
+    id="subredditShowcase"
+    style={
+      Object {
+        "backgroundImage": null,
+      }
+    }
+  >
+    <img
+      alt="Subreddit Default"
+      src="subreddit.png"
+    />
+    <h1>
+      r/
+      
+    </h1>
+  </section>
+  <nav
+    id="subredditNavbar"
+  >
+    <div
+      className="subredditContainer"
+    >
+      <div
+        id="subredditSort"
+      >
+        <div
+          className="subredditContainer"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div
+    class="subredditContainer"
+  >
+    <section
+      id="subredditPageContent"
+    >
+      <div />
+    </section>
+    <aside
+      id="subredditSidebarContainer"
+    >
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          COMMUNITY DETAILS
+        </h5>
+        <div
+          className="srSidebarCompTitle"
+        >
+          <img
+            alt="Subreddit Default"
+            src="subreddit.png"
+          />
+          r/
+          
+        </div>
+        <div
+          className="srSidebarSubscribers"
+        >
+          0
+           
+          <br />
+          Subscribers
+        </div>
+        <div
+          className="srSidebarBio"
+        >
+          <p>
+            
+          </p>
+        </div>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          SUBSCRIBE
+        </button>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          CREATE A POST
+        </button>
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          MODERATORS & ADMINS
+        </h5>
+        <ul />
+      </div>
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          RULES
+        </h5>
+        <ol />
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent flairComp"
+      >
+        <h5>
+          CREATE YOUR OWN NAME
+        </h5>
+        <form
+          id="flairForm"
+          onSubmit={[Function]}
+        >
+          <input
+            className="flairInput"
+            placeholder="Flair"
+            type="text"
+          />
+          <button
+            className="srSidebarSubscribeButton"
+            type="submit"
+          >
+            Create a flair
+          </button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</div>
+`;
+
+exports[`Subreddit component snapshot it matches the snapshot 1`] = `
+<div
+  className="subredditFixed"
+>
+  <section
+    id="subredditShowcase"
+    style={
+      Object {
+        "backgroundImage": null,
+      }
+    }
+  >
+    <img
+      alt="Subreddit Default"
+      src="subreddit.png"
+    />
+    <h1>
+      r/
+      
+    </h1>
+  </section>
+  <nav
+    id="subredditNavbar"
+  >
+    <div
+      className="subredditContainer"
+    >
+      <div
+        id="subredditSort"
+      >
+        <div
+          className="subredditContainer"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div
+    class="subredditContainer"
+  >
+    <section
+      id="subredditPageContent"
+    >
+      <div />
+    </section>
+    <aside
+      id="subredditSidebarContainer"
+    >
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          COMMUNITY DETAILS
+        </h5>
+        <div
+          className="srSidebarCompTitle"
+        >
+          <img
+            alt="Subreddit Default"
+            src="subreddit.png"
+          />
+          r/
+          
+        </div>
+        <div
+          className="srSidebarSubscribers"
+        >
+          0
+           
+          <br />
+          Subscribers
+        </div>
+        <div
+          className="srSidebarBio"
+        >
+          <p>
+            
+          </p>
+        </div>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          SUBSCRIBE
+        </button>
+        <button
+          className="srSidebarSubscribeButton"
+          onClick={[Function]}
+        >
+          CREATE A POST
+        </button>
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          MODERATORS & ADMINS
+        </h5>
+        <ul />
+      </div>
+      <div
+        className="subredditSidebarComponent"
+      >
+        <h5>
+          RULES
+        </h5>
+        <ol />
+      </div>
+      <div />
+      <div />
+      <div
+        className="subredditSidebarComponent flairComp"
+      >
+        <h5>
+          CREATE YOUR OWN NAME
+        </h5>
+        <form
+          id="flairForm"
+          onSubmit={[Function]}
+        >
+          <input
+            className="flairInput"
+            placeholder="Flair"
+            type="text"
+          />
+          <button
+            className="srSidebarSubscribeButton"
+            type="submit"
+          >
+            Create a flair
+          </button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</div>
+`;

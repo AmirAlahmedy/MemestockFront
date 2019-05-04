@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreatePost component snapshot it matches the snapshot 1`] = `
+<div
+  className="createPostContainer"
+>
+  <h3>
+    CREATE A POST
+  </h3>
+  <hr />
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="formGroupThreadComponent"
+    >
+      <label
+        for="SubredditName"
+      >
+        Subreddit Name
+      </label>
+      <br />
+      <input
+        id="threadPageSubredditNameField"
+        name="text"
+        onChange={[Function]}
+        placeholder="Enter Existing Subreddit Name"
+        type="text"
+      />
+    </div>
+    <div />
+    <div
+      className="formGroupThreadComponent"
+    >
+      <label
+        for="ThreadTitle"
+      >
+        Thread Title
+      </label>
+      <textarea
+        id="threadPageTitleField"
+        name="text"
+        onChange={[Function]}
+        placeholder="Enter Title Here"
+        type="textarea"
+      />
+    </div>
+    <div />
+    <div
+      className="formGroupThreadComponent"
+    >
+      <label
+        for="ThreadBody"
+      >
+        Thread Body
+      </label>
+      <textarea
+        id="threadPageBodyField"
+        name="text"
+        onChange={[Function]}
+        placeholder="Enter Body Here"
+        type="textarea"
+      />
+    </div>
+    <div />
+    <div
+      className="formGroupThreadCheckbox"
+    >
+      <label
+        className="spoilerLabel"
+        for="Spoiler"
+      >
+        Is it a spoiler?
+      </label>
+      <input
+        id="Spoiler"
+        name="Spoiler"
+        onChange={[Function]}
+        type="checkbox"
+        value={false}
+      />
+    </div>
+    <button
+      className="threadPageCreateButton"
+    >
+      CREATE
+    </button>
+  </form>
+</div>
+`;
