@@ -1,5 +1,5 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
+import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Login from './Login';
 import Aux from '../../Components/HOC/Auxiliary';
@@ -18,6 +18,19 @@ describe('<Login />', () => {
     expect(wrapper.find(Aux)).toHaveLength(1);
   });
 
-  
+  it('Login should call handleSubmit when clicked', () => {
+    const spy = jest.spyOn(Login.prototype, 'handleSubmit');
+    const f_wrapper = mount(<Login/>);
+    f_wrapper.find('.logInForm').simulate('submit');
+    expect(spy).toHaveBeenCalled() 
+  });
+
+  it('Inputs render', () => {
+    expect(wrapper.find('.inputs')).toHaveLength(1);
+  });
+
+  it('Login button renders ', () => {
+    expect(wrapper.find('.registerButton')).toHaveLength(1);
+  });
 
 });

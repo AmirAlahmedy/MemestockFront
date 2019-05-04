@@ -12,7 +12,7 @@ import Button from '../UI/Button/Button';
 
 let inProduction = true;
 let view = null;
-export default class Listings extends Component {
+class Listings extends Component {
 
 
 
@@ -169,11 +169,17 @@ class Threads extends Component {
                     {this.getThreads(this.props.view)}
                 </div>
                 <sidebar className='sidebar'>
-                <Button clicked={this.goToCreatePost}>Create Post</Button>
-                <Button clicked={this.goToCreateSr.bind(this)}> Create Community</Button>
+                <Button clicked={this.goToCreatePost} id='Cp'>Create Post</Button>
+                <Button clicked={this.goToCreateSr.bind(this)} id='Sr'> Create Community</Button>
                 </sidebar>
             </Aux>
 
         )
     }
+}
+
+const Thr = Threads;
+export{
+    Listings,
+    Thr
 }

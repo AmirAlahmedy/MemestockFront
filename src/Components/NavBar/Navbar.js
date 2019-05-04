@@ -82,9 +82,9 @@ const NavBar = props => {
                         <input id='filter' className="filter-input" placeholder='Filter' onChange={filterList}></input>
                         <ul id='my-ul' className='dropUl'>
                             <li className='dropdownItem'><span onClick={goTo("/Home/")} className='sort toHome'>Home</span></li>
-                            <li className='dropdownItem'><span onClick={goTo("/popular/")} className='sort srt1'>Popular</span></li>
-                            <li className='dropdownItem'><span onClick={goTo("/Home/")} className='sort srt2'>All</span></li>
-                            <li className='dropdownItem'><span onClick={goTo("/Hot/")}  className='sort srt3'>Hot</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHand} className='sort srt1'>New</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHand} className='sort srt2'>Top</span></li>
+                            <li className='dropdownItem'><span onClick={props.sortHand}  className='sort srt3'>Hot</span></li>
 
                         </ul>
 

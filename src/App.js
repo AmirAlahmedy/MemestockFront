@@ -5,7 +5,7 @@ import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CreatePost from './Routes/CreatePost/CreatePost';
 import PMs from './Routes/PMs/PMs';
-import Listings from './Components/Listings/Listings'
+import { Listings } from './Components/Listings/Listings'
 import Settings from './Routes/Settings/Settings';
 import Subreddit from './Routes/Subreddit/Subreddit';
 import ThreadPage from './Routes/Thread-page/thread-page';

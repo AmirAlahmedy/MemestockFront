@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import './Home.css';
 import NavBar from '../../Components/NavBar/Navbar';
-import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import CreatePost from '../CreatePost/CreatePost';
 import PMs from '../PMs/PMs';
-import Listings from '../../Components/Listings/Listings'
+import { Listings } from '../../Components/Listings/Listings'
 import Settings from '../Settings/Settings';
 import Subreddit from '../Subreddit/Subreddit';
 import ThreadPage from '../Thread-page/thread-page';
-import SideBar from '../../Components/SideBar/SideBar';
-import NestedListings from '../../Components/Listings/NestedListings';
-import * as actions from '../../store/actions/index';
 import GoHome from '../GoHome/index.js';
 import Registration from '../Registration/Registration';
 import CreateSubReddit from '../CreateSubreddit/CreateSubreddit';
-import Logout from '../Logout/Logout';
+
 
 class Home extends Component {
 
@@ -24,20 +20,15 @@ class Home extends Component {
     view: {
       card: true,
       classic: false
-    }
+    },
+    sort:'new'
   }
 
 
 
   componentDidMount = () => {
 
-    // console.log(this.props.token);
     this.props.history.replace('/Home/');
-    //  this.props.lastRoute != '/Registration/' ? 
-    //  this.props.history.push(this.props.lastRoute)
-    //  :
-    //  this.props.history.replace('/Home/');
-    //this.props.authToken();
 
   }
 
@@ -76,18 +67,13 @@ class Home extends Component {
     });
   }
 
-
+  sortHand(choice){
+    this.setState({
+      sort: choice
+    })
+  }
   render() {
-    let nestedRoutes = false;
-    let list = nestedRoutes ? <Route path='/Home/' exact component={NestedListings} /*render={
-        props=>{
-          return(
-            <NestedListings />
-          );
-        }
-      } *//> : <Route path='/Home/' exact component={Listings} />;
 
-    let Routes = !this.props.isGuest ? <Route path='/Registration/' component={Registration} /> : null;
     return (
       <div className='Home' >
 
@@ -96,13 +82,14 @@ class Home extends Component {
           finishRegistration={this.userHasLoggedIn.bind(this)} 
           isAuth={this.state.isAuth} 
           classicViewHandler={this.classicViewHandler.bind(this)}
-          cardViewHandler={this.cardViewHandler.bind(this)} />
+          cardViewHandler={this.cardViewHandler.bind(this)} 
+          sortHand={this.sortHand.bind(this)}/>
 
         {
           !this.props.isGuest ?
             <Switch>
 
-              <Route path='/PM/'  /*component={PMs}*/ render={
+              <Route path='/PM/' render={
                 props => {
                   return (
                     <PMs token={this.props.token} />
@@ -122,36 +109,15 @@ class Home extends Component {
               <Route path='/Logout/' component={GoHome} />
             </Switch>
         }
-        {/* <Route path='/PM/'  /*component={PMs} render={
-                props=>{
-                  return(
-                    <PMs token={this.props.token}/>
-                  );
-                }
-              }/>
-              <Route path='/CreatePost/'   component={CreatePost}/>
-              <Route path='/settings/'  render={Settings}/>
-              <Route path='/r/' component={Subreddit}/>
-              <Route path='/thread/' component={ThreadPage}/>
-              <Route path='/GoHome/' component={GoHome}/>
-              <Route path='/create-subreddit/' component={CreateSubReddit}/> */}
-        {/* <Route path='/:username' component={CreateSubReddit}/> */}
+      
               
         <Route path='/Home/' exact  render={
                   props=>{
                     return(
-                      <Listings authToken={this.props.token} view={this.state.view.card}/>
+                      <Listings authToken={this.props.token} view={this.state.view.card} sort={this.state.sort}/>
                     );
                   }
                 }/>
-
-
-
-        {/* {this.props.lastRoute ? <div>
-              <Redirect to={this.props.lastRoute} />
-            </div> : <span></span>}
-            */}
-
 
         <footer>
           <p>
@@ -165,20 +131,4 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: true,//state.auth.token !== null,
-    authRedirectPath: state.auth.authRedirectPath,
-    // token: state.auth.token
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
-    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(Home);
