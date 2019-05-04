@@ -26,7 +26,6 @@ export default class Thread extends Component {
       // this.setState({
       //    upvotes: this.props.upvotes
       // })
-      console.log("propaat", this.props)
    }
 
 

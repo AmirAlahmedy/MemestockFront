@@ -14,11 +14,13 @@ class CreatePost extends Component {
       title: '',
       body: '',
       spoiler: false,
-      subreddit: ''
+      subreddit: '',
+      image: null
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
   };
 
 
@@ -40,8 +42,9 @@ class CreatePost extends Component {
     var srdata = {
       title: document.getElementById("threadPageTitleField").value,
       threadBody: document.getElementById("threadPageBodyField").value,
-      postFile:{},
-      spoiler:this.state.spoiler
+      postFile: {},
+      spoiler: this.state.spoiler,
+      base64image: this.state.image
     }
     let checker = "";
 
@@ -62,11 +65,11 @@ class CreatePost extends Component {
     let headers = {
       auth: localStorage.getItem("token")
     }
-    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })           
+    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })
       .then(res => {
         console.log(res);
         console.log(res.status);
-        window.location.href = "/r/" + subredditname;
+        window.location.href = "/thread/" + res.data._id + "?srName=" + subredditname;
       })
       .catch(error => {
         console.log("Axios Error: ", error.response)
@@ -77,6 +80,20 @@ class CreatePost extends Component {
   }
   componentWillUnmount() {
     document.body.classList.remove("verticalAlign");
+  }
+
+  handleFileChange(e) {
+    const files = e.target.files;
+    if (!files || !files.length) return;
+    const reader = new FileReader();
+
+    reader.onload = (evtReader) => {
+      if (!evtReader.target.result) return;
+      this.setState({
+        image: evtReader.target.result
+      });
+    }
+    reader.readAsDataURL(files[0]);
   }
   render() {
     return (
@@ -97,14 +114,19 @@ class CreatePost extends Component {
             <label for="ThreadBody">Thread Body</label>
             <textarea type="textarea" name="text" id="threadPageBodyField" placeholder="Enter Body Here" onChange={this.handleChange} value={this.state.value} />
           </div>
+          <div className="formGroupThreadComponent">
+            <label for="coverPhoto">Cover Photo:</label>
+            <input type="file" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
+          </div>
           <div className="formGroupThreadCheckbox">
             <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>
             <input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
           </div>
+
           <button className="threadPageCreateButton">CREATE</button>
 
         </form>
-      </div>
+      </div >
 
     )
   }

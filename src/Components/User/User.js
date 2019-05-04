@@ -12,15 +12,15 @@ export class User extends Component {
     super(props);
     this.state = {
 
-       Comments: [],
-       Posts:[]
+      Comments: [],
+      Posts: []
 
     }
   };
 
   getCurrentUser() {
     return localStorage.getItem("Username");
-}
+  }
 
   componentDidMount() {
     console.log(this.props);
@@ -28,7 +28,7 @@ export class User extends Component {
       'auth': localStorage.getItem("token")
     }
     let username = this.getCurrentUser();
-    axios.get('/user/info/'+ username , { "headers": headers })
+    axios.get('/user/info/' + username, { "headers": headers })
       .then(response => {
         console.log(response);
         console.log(response.data);
@@ -49,59 +49,59 @@ export class User extends Component {
 
 
 
-goTo(link){
-  return function(){
+  goTo(link) {
+    return function () {
       window.location.href = link;
-  } 
-}
+    }
+  }
 
   render() {
     return (
       <Aux>
 
-      <div className="ana">
-        <div className="aho">
-
-        
-      <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
-           <ul className="navbar-nav mr-auto proful">
-
-          
-          <li className="nav-item profit1">
-            <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
-          </li>
-          <li className="nav-item profit1">
-            <span /*onClick={this.goTo('/user/comments')}*/ className="nav-link"><NavLink className='profit' to="/user/comments">Comments</NavLink></span>
-          </li>
-          <li className="nav-item profit1">
-            <span /*onClick={this.goTo('/user/saved')}*/ className="nav-link"><NavLink className='profit' to="/user/saved">Saved</NavLink></span>
-          </li>
-          <li className="nav-item profit1">
-            <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/flairs">Flairs</NavLink></span>
-          </li>
-        </ul> 
-
-      </nav>
-      
-      
-      </div>
+        <div className="ana">
+          <div className="aho">
 
 
+            <nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
+              <ul className="navbar-nav mr-auto proful">
 
 
-      <div className="gamb">
-          <div className="stuff">
-            <p>{localStorage.getItem('Username')}</p>
+                <li className="nav-item profit1">
+                  <span /*onClick={this.goTo('/user/posts')}*/ className="nav-link"><NavLink className='profit' to="/user/posts">Posts</NavLink></span>
+                </li>
+                <li className="nav-item profit1">
+                  <span /*onClick={this.goTo('/user/comments')}*/ className="nav-link"><NavLink className='profit' to="/user/comments">Comments</NavLink></span>
+                </li>
+                <li className="nav-item profit1">
+                  <span /*onClick={this.goTo('/user/saved')}*/ className="nav-link"><NavLink className='profit' to="/user/saved">Saved</NavLink></span>
+                </li>
+                <li className="nav-item profit1">
+                  <span /*onClick={this.goTo('/user/hidden')}*/ className="nav-link"><NavLink className='profit' to="/user/flairs">Flairs</NavLink></span>
+                </li>
+              </ul>
+
+            </nav>
+
+
           </div>
-     <Route exact path='/user/moderation' component={Moderation}/>
-     <Route exact path='/user/flairs' component={Flairs}/>
 
 
 
-      </div>
-      </div>
 
-      {/* <div className="postsPageContainer">
+          <div className="gamb">
+            <div className="stuff">
+              <p>{localStorage.getItem('Username')}</p>
+            </div>
+            <Route exact path='/user/moderation' component={Moderation} />
+            <Route exact path='/user/flairs' component={Flairs} />
+
+
+
+          </div>
+        </div>
+
+        {/* <div className="postsPageContainer">
       <div className="PostsPage">
       <Thread 
                   id={this.state.id}
@@ -115,12 +115,12 @@ goTo(link){
       </div>
       </div> */}
 
-     <CardProf></CardProf> 
-      
-      </Aux>
-        
+        <CardProf></CardProf>
 
-      
+      </Aux>
+
+
+
 
 
 

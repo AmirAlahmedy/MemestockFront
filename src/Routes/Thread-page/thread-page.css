@@ -233,13 +233,8 @@
 }
 .threadPageSidebarComponent3{
     padding:15px;
-    background-color: rgb(26, 26, 27);
-    border-bottom: 1px solid rgb(52, 53, 54);
-    border-right:  1px solid rgb(52, 53, 54);
-    border-left:  1px solid rgb(52, 53, 54);
-    border-top:  1px solid rgb(52, 53, 54);
-    border-radius: 6px;
-    margin-bottom:10px;
+    background-color: #fff;
+    border-radius: 4px;
 }
 
 .threadPageSidebarComponent3 h5 {
@@ -247,29 +242,26 @@
     text-align:left;
     color:grey;
 } 
-/*
-.subredditSidebarComponent input {
-    width:60%;
-    float:right;
-    padding-top:3px;
-    padding-bottom:3px;
-    border-radius: 10px;
-}
-*/
 .threadPageSidebarComponent3 label{
     font-size:18px;
     font-weight: 500;
     text-align: left;
-    color: lightgrey;
-    color:rgb(116, 193, 219);
+    color:#000;
     
     padding-bottom:15px;
 }
 .threadPageSidebarComponent3 textarea{
-    margin-top:10px;
-    margin-bottom:10px;
-    border-radius:10px;
     width:95%;
+    transition: width 0.4s ease-in-out;
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    padding: 6px 10px;
+    display: block;
+    width: 100%;
+    margin: 1em 0;
+    box-sizing: border-box;
 }
 .threadPageSidebarComponent3 label {
     float:left;
@@ -302,7 +294,8 @@
     color:rgb(233, 172, 92);
     background-color:rgb(26, 26, 27);
 }
-.threadPageSidebarEditButton1{
+.threadPageSidebarEditButton1,
+.threadPageSidebarEditButton2{
     background-color: #0079D3;
     border: none;
     color: #fff;
@@ -322,10 +315,12 @@
     text-transform: uppercase;
     transition: box-shadow 0.2s ease;
 }
-.threadPageSidebarEditButton1:hover{
+.threadPageSidebarEditButton1:hover,
+.threadPageSidebarEditButton2:hover{
     background-color: #33a8ff;
 }
-.threadPageSidebarDeleteButton { 
+.threadPageSidebarDeleteButton,
+.threadPageSidebarCancelEditButton { 
     background:rgb(128,12,12);
     border: none;
     color: #fff;
@@ -343,22 +338,9 @@
     line-height: 32px;
     text-transform: uppercase;
 }
-.threadPageSidebarDeleteButton:hover{
+.threadPageSidebarDeleteButton:hover,
+.threadPageSidebarCancelEditButton:hover{
     background: #da0046;
-}
-.threadPageSidebarEditButton2 { 
-    margin:10px 0px;
-    padding:10px;
-    width:100%;
-    border-radius: 7px;
-    background-color:lightgrey;
-    font-size:18px;
-    font-weight: 600;
-    cursor:pointer;
-}
-.threadPageSidebarEditButton2:hover{
-    color:rgb(233, 172, 92);
-    background-color:rgb(26, 26, 27);
 }
 
 
