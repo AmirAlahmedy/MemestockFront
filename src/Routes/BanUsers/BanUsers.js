@@ -44,15 +44,17 @@ class BanUsers extends Component {
             auth: localStorage.getItem("token")
          }
     
-         var Username=this.state.user;
-         var SrName=this.state.sr;
-         console.log(Username);
-         console.log(SrName);
+         var newBan={
+            Username:this.state.user,
+            SrName:this.state.sr
+      }
+       //  console.log(Username);
+         //console.log(SrName);
 
 
          //ban user
          if (document.getElementById("checkBan").checked === true) {
-         axios.put('/Moderator/ban', Username,SrName, { "headers": headers })
+         axios.put('/Moderator/ban', newBan, { "headers": headers })
              .then(res => {
                 if (res.status == 200) {
                    console.log(res)
@@ -73,7 +75,7 @@ class BanUsers extends Component {
             //Unban user
             else if  (document.getElementById("checkUnBan").checked === true) {
 
-                axios.put('/Moderator/unban', Username,SrName, { "headers": headers })
+                axios.put('/Moderator/unban', newBan, { "headers": headers })
                 .then(res => {
                    if (res.status == 200) {
                       console.log(res)
