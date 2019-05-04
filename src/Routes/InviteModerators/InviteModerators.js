@@ -33,30 +33,35 @@ inviteModerators = (e) => {
      let headers = {
         auth: localStorage.getItem("token")
      }
+var newMod={
+      Username:this.state.user,
+      SrName:this.state.sr
+}
+     //console.log(Username);
+     //console.log(SrName);
 
-     var Username=this.state.user;
-     var SrName=this.state.sr;
-     console.log(Username);
-     console.log(SrName);
-
-     axios.put('/Moderator/Invite', Username,SrName, { "headers": headers })
+     axios.put('/Moderator/Invite', newMod, { "headers": headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
                alert('Invitation Sent');
             }
             else if (res.status === 404) {
-               alert("Not Found");
+              alert("Error sending invitation!");
                return Response.json;
             }
             else if (res.status === 402) {
-                alert("You're not creator of the subreddit");
+               console.log(res)
+                alert("Error sending invitation!");
                 return Response.json;
              }
-          
+             else if (res.status === 401) {
+               console.log(res)
+               alert("Error sending invitation!");
+             }
          })
          .catch(error => {
-            alert("Error Caught");
+            alert("Error sending invitation!");
          })
 
 
