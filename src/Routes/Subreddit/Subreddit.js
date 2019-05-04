@@ -57,7 +57,6 @@ export class Subreddit extends Component {
               rules: resp.data.rules,
               cover: resp.data.subredditFile
             }, () => {
-              console.log("state: ", this.state);
               const isAdmin = this.state.moderators === localStorage.getItem("Username")
                 || this.state.moderatorsList.includes(localStorage.getItem("Username"));
               this.setState({
@@ -342,6 +341,7 @@ export class Subreddit extends Component {
       subreddit={thr.subredditName}
       title={thr.title}
       content={thr.body}
+      upvotes={thr.votes}
     />);
   }
   /**

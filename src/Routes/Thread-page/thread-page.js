@@ -36,7 +36,7 @@ class ThreadPage extends Component {
                   threadBody: resp.data.body,
                   postdate: resp.data.postDate,
                   threadTitle: resp.data.title,
-                  votes: resp.data.__v || resp.data.votes,
+                  votes: resp.data.votes,
                   creator: resp.data.creatorUsername
                });
             }
@@ -177,43 +177,8 @@ class ThreadPage extends Component {
          })
    }
 
-   /*getAllComments = () => {
-      var headers = {
-         auth: localStorage.getItem("token")
-      }
 
-      axios.get('/comment/all/' + this.state.id, { headers: headers })
-         .then(res => {
-            if (res.status == 200) {
-               console.log(res)
-               this.setState( {
-                  comments: res.data.comments 
-               }      )      
-               for(const _id of res.data.comments){
-                  axios.get(`/comment/${_id}`)
-                  .then(res => {
-                    if(res.data && res.status === 200){
-                      let myComments = this.state.comments;
-                      myComments.push(res.data);
-                      this.setState({
-                        comments: myComments
-                      });
-                    }
-                  });    
-                
-            }
-         }
-             else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
-            }
-         })
-         .catch(error => {
-            alert("Error Caught");
-         })
-
-
-   }*/
+   
 
 
    replyComment(e) {
@@ -285,7 +250,7 @@ class ThreadPage extends Component {
       e.preventDefault();
       const Cid = this.state.editID;
       console.log(Cid);
-      const newComment = {
+      /*const newComment = {
          id: Cid,
          username: localStorage.getItem("username"),
          content: document.getElementById("textComment").value,
@@ -294,7 +259,7 @@ class ThreadPage extends Component {
          locked: document.getElementById("checkLocked2").checked
 
 
-      }
+      }*/
 
 
       console.log('Edit Clicked');
@@ -441,7 +406,7 @@ class ThreadPage extends Component {
                                     : null
                                  }
                               </li>
-                              {comment.children.map(child => {
+                              {comment.children ? comment.children.map(child => {
                                  return (
                                     <li className="threadComment reply" id="commentContainer"  >
                                        <div className="commentUser">u/{child.username} </div>
@@ -454,7 +419,7 @@ class ThreadPage extends Component {
                                           : null}
                                     </li>
                                  )
-                              })}
+                              }) : null}
                            </div>
                         );
 
@@ -495,9 +460,9 @@ class ThreadPage extends Component {
                            <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelReplyComment} />
 
                         </form>
-                        <input type="checkbox" id="checkLocked2" />
+                        <input type="checkbox" id="checkLocked3" />
                         <button className="lockComment">Lock</button>
-                        <input type="checkbox" id="checkSpoiler2" />
+                        <input type="checkbox" id="checkSpoiler3" />
                         <button className="spoilerComment" >Mark as spoiler</button>
                      </div> : <div></div>
                }

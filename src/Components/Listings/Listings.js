@@ -107,6 +107,7 @@ class Threads extends Component {
         title={thread.title}
         conten t={thread.body}
         view={this.props.view}
+        upvotes={thread.votes}
     />;
     // Ya Amiir....
     //Aywa 3ayyez eh?
@@ -126,6 +127,7 @@ class Threads extends Component {
             title={thr.title}
             content={thr.body}
             view={view}
+            upvotes={thr.votes}
         />)
     }
 
