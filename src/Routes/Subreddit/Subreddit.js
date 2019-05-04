@@ -246,8 +246,6 @@ export class Subreddit extends Component {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
     if (this.state.adminview == false) {
-      //CANNOT CREATE A POST UNLESS SUBSCRIBED
-     // alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
     }
     else {
       this.setState({
@@ -549,7 +547,7 @@ export class Subreddit extends Component {
                 <div className="subredditSidebarComponent">
                   <h5>CREATE A POST</h5>
                   <hr></hr>
-                  <form onSubmit={this.handleSubmit}>
+                  <form className='createPostForm' onSubmit={this.handleSubmit}>
                     <div className="formGroupSrComponent">
                       <label for="ThreadTitle">Enter Title</label>
                       <textarea type="textarea" name="text" id="threadTitleField" placeholder="Enter Title Here" />

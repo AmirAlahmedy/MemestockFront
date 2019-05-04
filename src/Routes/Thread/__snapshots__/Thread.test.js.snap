@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Thread component snapshot it matches the snapshot 1`] = `
+<div>
+  <div
+    className="classicThreadContainer"
+  >
+    <div
+      class="threadLinks"
+    >
+      <span
+        className="threadSubreddit"
+        onClick={[Function]}
+      >
+         r/
+      </span>
+      .
+      <span
+        className="posted-by"
+        onClick={[Function]}
+      >
+           Posted by u/
+         
+      </span>
+    </div>
+    <br />
+    <div
+      className="threadTitle"
+    />
+    <p
+      className="classicThreadContent"
+    />
+    <button
+      className="incrementVotes"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        class="fas fa-angle-up"
+      />
+    </button>
+    <div
+      className="threadUpvotes"
+    />
+    <button
+      className="decrementVotes"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        class="fas fa-angle-down"
+      />
+    </button>
+    <span
+      className="threadComments"
+      onClick={[Function]}
+    >
+      View
+    </span>
+  </div>
+</div>
+`;
