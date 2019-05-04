@@ -33,4 +33,10 @@ describe('<Login />', () => {
     expect(wrapper.find('.registerButton')).toHaveLength(1);
   });
 
+  it('Login should call forgotPassHand when forgot password link is clicked', () => {
+    const spy = jest.spyOn(Login.prototype, 'forgotPassHand');
+    const f_wrapper = mount(<Login/>);
+    f_wrapper.find('#frgt').simulate('click');
+    expect(spy).toHaveBeenCalled() 
+  });
 });

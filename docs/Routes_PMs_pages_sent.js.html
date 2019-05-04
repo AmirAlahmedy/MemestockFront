@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Routes/PMs/pages/sent.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Routes/PMs/pages/sent.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
+import axios from '../../../axios-orders.js';
+import '../PMs.css';
+import './sent.css';
+
+class Sent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+  
+      Messages: [],
+
+    isLoading: true,
+    errors: null
+    
+    }
+    this.handleClick = this.handleClick.bind(this);
+    /*this.handleClick = this.handleClick.bind(this); */
+  };
+  
+   
+  componentDidMount() {
+    const jsondata ={'mine':false}
+    axios.get( 'me/pm/?mine=false', {
+          headers: {
+              'Content-Type': 'application/json',
+            'auth': localStorage.getItem("token")
+    
+          },
+          
+      })
+      .then(response =>{
+        console.log(response);
+        console.log(response.data);
+        
+        this.setState({
+          Messages : response.data.messages,
+          isLoading : false
+        });
+        console.log(this.state.Messages);
+      })
+     
+      // We can still use the `.catch()` method since axios is promise-based
+      .catch(error => {
+        console.log(error.response)
+        this.setState
+        ({ 
+          errors:true,
+          isLoading: false 
+        });
+  });
+}
+// displaying the inbox messages.
+   /**
+     * Receiving the messages and displaying them in the inbox.
+     * @function getMsgs
+     */
+getMsgs()
+{
+  if (this.state.Messages.length === 0)
+  {
+    return ;
+  }
+  return this.state.Messages.map(msg=>(
+    &lt;div className="messageWrapper">
+    &lt;div className="MessageContainer">
+    &lt;h1 className="subjectTitle">Subject: {msg.subject}&lt;/h1>
+    &lt;h1 className="receiverUsername">To: {msg.receiverUsername}&lt;/h1>
+    &lt;br />
+    &lt;p className="messageContent">{msg.messageBody}&lt;/p>
+    &lt;button class="deleteMsg" id={msg._id} type="submit"  name="Delete" onClick={this.handleClick}>Delete  &lt;/button>   
+    &lt;/div>
+    &lt;/div>
+  ))
+  
+}
+// If a user want to delete the messages he/she sent.
+   /**
+     * Deletes sent messages.
+     * @function handleClick
+     * @param {event} e - Clicking on Delete button.
+     */
+handleClick(e){
+  const element = e.target;
+  const messageId=element.getAttribute("id");
+  console.log(messageId);
+  axios.delete( `me/pm/delete?messageId=${messageId}`, 
+  {
+    headers: {
+        'Content-Type': 'application/json',
+            auth: localStorage.getItem("token")
+
+    },
+    
+})
+.then(res => {
+  console.log(res);
+  console.log(res.data); 
+  alert("Message Successfully Deleted");
+
+
+  
+  //in case sucess..
+  
+
+})
+.catch(error => {
+  console.log(error.response)
+  alert("Message Not Found");
+
+
+});
+}
+
+  
+
+  render() {
+    return (
+      &lt;div>
+        {this.getMsgs()}
+      &lt;/div>
+  
+    );
+  }
+}
+export default withRouter(Sent);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

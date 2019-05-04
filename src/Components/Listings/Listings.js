@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Listings.css';
 import Thread from '../../Routes/Thread/Thread';
-import { BrowserRouter as Router, Switch, Route, withRouter, Redirect, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import data from '../../Mocks/threads-data.json';
 import axios from '../../axios-orders';
 import '../../Sass/styles.scss';
@@ -59,7 +59,7 @@ class Threads extends Component {
         console.log(this.props.match);
         console.log(token);
         console.log(localStorage.getItem('token'));
-        //  this.props.history.replace('/r/');
+
         this.getListing(this.props.sort);
         this.setState({
             sort: this.props.sort
@@ -68,7 +68,7 @@ class Threads extends Component {
         window.addEventListener("scroll", () => {
             if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
 
-                axios.get(`/me/listing?type=${this.props.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                return axios.get(`/me/listing?type=${this.props.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
                     .then(response => {
                         console.log(response);
                         this.reqThreads = response.data;
@@ -143,6 +143,11 @@ class Threads extends Component {
     goToCreateSr() {
         window.location.href = "/create-subreddit/";
     }
+    /**
+     * For generating threads from a mock service
+     * @function getListing
+     * @param {sort} - criteria on which threads are sorted
+     */
     getListing(sort) {
         console.log("sort: ", sort);
         if (inProduction === true && localStorage.getItem('inProduction')) {

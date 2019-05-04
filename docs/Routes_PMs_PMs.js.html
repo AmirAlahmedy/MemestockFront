@@ -27,134 +27,232 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
 import './PMs.css';
-import Head from  './Head';
-import inbox from  './pages/inbox';
-import sent from  './pages/sent';
+import Head from './Head';
+import Inbox from './pages/inbox';
+import Sent from './pages/sent';
 import Aux from '../../Components/HOC/Auxiliary';
+// import Popup from "reactjs-popup";
+import axios from '../../axios-orders';
+import classes from './PMs.module.css';
+
 
 class PMs extends Component {
-   //assume all submitted for now
-   constructor(props) {
-        super(props);
-        this.state = {
-      
-          To: 'Mohamed',
-          Subject:'Software',
-          Message :'we need to handle our project'
-        }
-          this.handleChange = this.handleChange.bind(this);
-          this.handleSubmit = this.handleSubmit.bind(this);
-    };
+  //assume all submitted for now
+  constructor(props) {
+    super(props);
+    this.state = {
 
-   /**
-     * Handles change in PM inputs.
-     * @function handleChange
-     * @param {event} e - The change of the PM inputs.
-     */
-    handleChange(event) {
-      this.setState({ [event.target.name]: event.target.value });
+      To: '',
+      Subject: '',
+      Message: '',
+      submitting: false,
+      error: false,
+      errors:'',
+      success:''
+
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  };
+
+
+
+  // updating state values with form inputs each time it changes.
+  /**
+    * Handles change in PM inputs.
+    * @function handleChange
+    * @param {event} e - The change of the PM inputs.
+    */
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  //submitting the request
+  /**
+   * Handles PM submit.
+   * @function handleSubmit
+   * @param {event} e - The submission of the PM form.
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    const msg = {
+      receiverUsername: this.state.To,
+      subject: this.state.Subject,
+      messageBody: this.state.Message,
+      headers: {
+        'Content-Type': 'application/json',
+      }
     }
 
-    /**
-     * Handles PM submit.
-     * @function handleSubmit
-     * @param {event} e - The submission of the PM form.
-     */
-    handleSubmit(event) { 
-          event.preventDefault();
-          let checker ="";
+    //checking before posting request if a field isn't filled with any ''
 
-          if (document.getElementById("1").value===checker)
-          {
-            alert ("Please provide a username");
-            return false;
+    let checker = "";
+
+    if (document.getElementById("1").value === checker) {
+      alert("Please provide a username");
+      return;
+    }
+    else if (document.getElementById("2").value === checker) {
+      alert("Please provide a Subject");
+      return;
+    }
+
+    else if (document.getElementById("3").value === checker) {
+      alert("Please provide a Message");
+      return;
+    }
+    console.log(msg);
+    axios.post('me/pm/compose', msg, {
+      headers: {
+        auth: localStorage.getItem("token")
+      }
+    })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        this.setState({
+          error: false,
+          submitting: false,
+        });
+
+        //in case sucess..
+        this.setState({
+         success : "Message Successfully Delievered"
+        });
+
+      })
+      .catch(error => {
+        console.log(error.response)
+        this.setState({
+          error: true,
+          submitting: false
+        });
+        if (error &amp;&amp; error.response &amp;&amp; error.response.statusText) {
+          if (error.response.data.error === "overLengthedSubject") {
+            this.setState({
+              errors: "*" + error.response.data.error +",subject Too long"
+          });
+            
           }
-          else if (document.getElementById("2").value===checker)
-          
-            {alert ("Please provide a Subject");
-          return false;}
-          
-        else if  (document.getElementById("3").value===checker)
-        {
-          alert ("Please provide a Message");
-          return false;
+          else if (error.response.data.error === "receiverNotFound") {
+            this.setState({
+              errors: "*" + error.response.data.error
+          });
+            return;
+          }
+          else if (error.response.data.error === "selfMessage") {
+            
+            this.setState({
+              errors: "*" + error.response.data.error +", Trying to send a message to yourself"
+          });
+            return;
+          }
+          else if (error.response.data.error === "blockedFromSending") {
+            
+            this.setState({
+              errors: "*" + error.response.data.error +",Reciever blocked you"
+          });
+            return;
+          }
         }
-  }
-    
-    
-  
- render()
-  {
 
+
+      });
+
+  }
+
+  componentDidMount() {
+    if(localStorage.getItem("Username") === "guest"){
+     window.location.href = "/Home"; 
+    }
+  }
+
+  render() {
+    let error =this.state.errors != ""?&lt;p className={classes.Invalid}>{this.state.errors}&lt;/p>:null
+    let success =this.state.success != ""?&lt;p className={classes.Invalid}>{this.state.success}&lt;/p>:null
     return (
+     
       &lt;Router>
         &lt;Aux>
+          &lt;div style={{width: "100%"}}>
+          &lt;Head />
+          &lt;Route path="/PM" exact component={Inbox} />
+          &lt;Route path="/Sent" component={Sent} />
 
-
-             &lt;Head/>
-      
+          
           &lt;div className="container">
-                 &lt;div className="pm-form">
-                      
+            &lt;div className="pm-form">
+            
+            
 
-                  &lt;Route exact path="/PM/Compose" render = {props=>(
-                    &lt;React.Fragment>
+
+
+              &lt;Route exact path="/PM/Compose" render={props => (
+                &lt;React.Fragment>
+                {error}
+                {success} 
+                {this.setState.errors=""}
+              {this.setState.success=""}
+             
+         
+             
+                &lt;form name="myForm"
+                    onSubmit={this.handleSubmit}>
                     
-                      &lt;form name="myForm"
-                        onSubmit={this.handleSubmit}>
-                        &lt;div>
-                          &lt;label>To:&lt;/label>
-                          &lt;textarea 
-                              className="To"
-                              id="1"
-                              placeholder ="(username, or /r/name for that subreddit's moderators)"
-                              value={this.state.value} 
-                              onChange={this.handleChange} 
-                           
-                              /> 
-                        &lt;/div>
+                    &lt;div>
+                      &lt;textarea
+                        className="To"
+                        name="To"
+                        id="1"
+                        placeholder="Username, or /r/name for that subreddit's moderators"
+                        value={this.state.value}
+                        onChange={this.handleChange}
+
+                      />
+                    &lt;/div>
+
+                    &lt;div>
+                      &lt;textarea
+                        className="Subject"
+                        name="Subject"
+                        id="2"
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        placeholder="Subject"
+                      />
+                    &lt;/div>
+
+                    &lt;div>
+                      &lt;textarea
+                        placeholder="Your message."
+                        className="Message"
+                        name="Message"
+                        id="3"
+                        value={this.state.value}
+                        onChange={this.handleChange}
+
+                      />
+                    &lt;/div>
+                    &lt;input type="submit" value="Submit" />
+
+                  &lt;/form>
+                
                   
-                          &lt;div>
-                            &lt;label>Subject:&lt;/label>
-                            &lt;textarea 
-                                className="Subject"
-                                id="2"
-                                value={this.state.value} 
-                                onChange={this.handleChange} 
-                               
-                            />
-                          &lt;/div>
-                    
-                          &lt;div>
-                            &lt;label>Your Message:&lt;/label>
-                            &lt;textarea 
-                                className="Message"
-                                id="3"
-                                value={this.state.value} 
-                                onChange={this.handleChange} 
-                                 
-                                />  
-                          &lt;/div>
-                          &lt;input type="submit" value="Submit" />      
-                          
-                      &lt;/form>
+                &lt;/React.Fragment>
+              )} />
 
 
-                    &lt;/React.Fragment>
-                  )} />
-                        
-                    &lt;Route path="/inbox" component={inbox}/>
-                    &lt;Route path="/sent" component={sent}/>
-                &lt;/div>    
-           &lt;/div>
-    
-          &lt;/Aux>
+
+            &lt;/div>
+          &lt;/div>
+          &lt;/div>
+        &lt;/Aux>
       &lt;/Router>
-    
+
     );
-    }
+  }
 }
 
 export default withRouter(PMs);
@@ -168,13 +266,13 @@ export default withRouter(PMs);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#registrationHandler">registrationHandler</a></li><li><a href="global.html#savePassword">savePassword</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 24 2019 01:16:12 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

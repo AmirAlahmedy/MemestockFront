@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './Notifications.css';
-import axios from '../../axios-orders';
+//import axios from '../../axios-orders';
 import Aux from '../../Components/HOC/Auxiliary';
+import axios from 'axios';
 
 class Notifications extends Component{
     state = {}
@@ -12,7 +13,7 @@ class Notifications extends Component{
         startPosition: 0
     }
     componentDidMount = () => {
-        axios.get('/notif/', {headers: this.header})
+        axios.get('http://localhost:4000/notif?startPosition=0', {headers: this.header})
             .then( response => {
                 console.log(response);
                 this.setState({
@@ -34,7 +35,7 @@ class Notifications extends Component{
     }    
     render(){
         console.log(this.state.notif);
-        return(<p>ssdasdad</p>/*<Aux>{this.getNotif()}</Aux>*/);
+        return(<Aux><p>ssdasdad</p>{this.getNotif()}</Aux>);
     }
 }
 

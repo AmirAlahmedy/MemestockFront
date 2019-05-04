@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: shared/utility.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,63 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: shared/utility.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
 
+export const updateObject = (oldObject, updatedProperties) => {
+    return {
+        ...oldObject,
+        ...updatedProperties
+    };
+};
 
-    <h3> </h3>
+ /**
+     * A utiliy function to check whether a certain input is valid.
+     * @function checkValidity
+     * @param {value} - value to be checked.
+     * @param {rules} - rules the value should pass.
+     */
+export const checkValidity = ( value, rules ) => {
+    let isValid = true;
+    if ( !rules ) {
+        return true;
+    }
 
+    if ( rules.required ) {
+        isValid = value.trim() !== '' &amp;&amp; isValid;
+    }
 
+    if ( rules.minLength ) {
+        isValid = value.length >= rules.minLength &amp;&amp; isValid
+    }
 
+    if ( rules.maxLength ) {
+        isValid = value.length &lt;= rules.maxLength &amp;&amp; isValid
+    }
 
+    if ( rules.isEmail ) {
+        const pattern = /[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        isValid = pattern.test( value ) &amp;&amp; isValid
+    }
 
+    if ( rules.isNumeric ) {
+        const pattern = /^\d+$/;
+        isValid = pattern.test( value ) &amp;&amp; isValid
+    }
 
-
-
-
-
-    
-
-
-
-
-
+    return isValid;
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

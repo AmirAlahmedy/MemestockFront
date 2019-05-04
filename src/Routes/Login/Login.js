@@ -97,7 +97,7 @@ render(){
                     </div>
 
                     <button type="submit" className='registerButton'> Login </button>
-                     <a href='#' onClick={this.forgotPassHand.bind(this)}>Forgot your password?</a>
+                     <a href='#' id='frgt' onClick={this.forgotPassHand.bind(this)}>Forgot your password?</a>
                    
                 </form>
 

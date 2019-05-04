@@ -1,6 +1,6 @@
 import React from 'react';
 import './Navbar.css';
-import { NavLink, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Aux from '../HOC/Auxiliary';
 import '../../Sass/styles.scss';
 import Login from '../../Routes/Login/Login';
@@ -153,7 +153,6 @@ const NavBar = props => {
                 <div style={{ display: "none" }} class="regContainer" onClick={handleRegContainerClick}>
                     <Registration close={closeRegistration} finishReg={props.finishRegistration} />
                 </div>
-                {/* <span> Youssef </span> */}
             </nav>
             <div className='kml'>
                 <div className='view-layout'>
@@ -163,14 +162,6 @@ const NavBar = props => {
                         <i className="fas fa-bars dd" onClick={props.classicViewHandler}></i>
                     </div>
                 </div>
-                {/* <div className='sort-layout'>
-                <i className='small-font'>sort</i>
-                    <select className='drop-sort'>
-                        <option value="top">Top</option>    
-                        <option value="new">New</option>
-                        <option value="hot">Hot</option>
-                    </select>
-                </div> */}
             </div>
         </div>
 

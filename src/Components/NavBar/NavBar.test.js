@@ -2,6 +2,7 @@ import React from 'react';
 import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import NavBar from './Navbar';
+import { create } from "react-test-renderer";
 
 
 configure({adapter: new Adapter()});
@@ -28,6 +29,11 @@ describe('<NavBar />', () => {
    
     expect(wrapper.find('.me-me')).toHaveLength(1);  
   });
+
+  // test("NavBar matches the snapshot", () => {
+  //   const component = create(<NavBar />);
+  //   expect(component.toJSON()).toMatchSnapshot();
+  // });
 
   // it('Goes to home page', () => {
   //   const h_wrapper = mount(<NavBar />);
