@@ -27,15 +27,13 @@ class ThreadPage extends Component {
    }
 
    componentDidMount(){
-
-console.log(localStorage.getItem("Username"));
-
-
+     
       let srName=this.state.subredditName;
       let threadID=this.state.id;
       axios.get(`/sr/${srName}/thread/${threadID}`)
       .then(resp => {
         if(resp.data && resp.status === 200){
+           console.log(resp.data);
           this.setState({
             subredditName:resp.data.subredditName,
             threadBody:resp.data.body,
@@ -47,6 +45,7 @@ console.log(localStorage.getItem("Username"));
         }
    });
 
+  
    var headers = {
       auth: localStorage.getItem("token")
    }
@@ -86,7 +85,6 @@ console.log(localStorage.getItem("Username"));
       .catch(error => {
          console.log(error);
       })
-
 
 }
 
@@ -521,12 +519,13 @@ console.log(localStorage.getItem("Username"));
 
             <div className="threadPageSidebarContainer">
                
+                  
                {
-                  (this.state.username==localStorage.getItem("Username")) ?
-                  <div className="threadPageSidebarComponent1">
+                  this.state.creator==localStorage.getItem("Username") ? <div className="threadPageSidebarComponent1">
                   <button className="threadPageSidebarEditButton1" onClick={this.editPost}>EDIT POST</button>
                   <button className="threadPageSidebarDeleteButton" onClick={this.delPost}>DELETE POST</button> 
                   </div>
+                  
                   : <div></div>
                  
                }
