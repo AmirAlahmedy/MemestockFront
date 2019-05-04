@@ -27,7 +27,7 @@ export class User extends Component {
       'auth': localStorage.getItem("token")
     }
     let username = this.getCurrentUser();
-    axios.get('/user/'+ username +'/comments/listing?type=hot', { "headers": headers })
+    axios.get('/user/info/'+ username , { "headers": headers })
       .then(response => {
         console.log(response);
         console.log(response.data);

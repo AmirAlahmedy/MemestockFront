@@ -5,7 +5,7 @@ import Head from './Head';
 import Inbox from './pages/inbox';
 import Sent from './pages/sent';
 import Aux from '../../Components/HOC/Auxiliary';
-import Popup from "reactjs-popup";
+// import Popup from "reactjs-popup";
 import axios from '../../axios-orders';
 import classes from './PMs.module.css';
 

@@ -26,6 +26,11 @@
     margin-bottom: 12px;
     flex: 1 1 50%;
 }
+.user{
+    color:black;
+    font-size:26px;
+    font-weight:600;
+}
 
 .new-post-button{
     background-color: #0079D3;
