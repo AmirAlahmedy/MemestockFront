@@ -196,8 +196,8 @@ export class Subreddit extends Component {
           alert("Subreddit Deleted Successfully!");
           this.setState({
             subscribed: false
-          }
-          );
+          });
+          window.location.href = "/"
         }
         // else if (res.status === 401) {
         //   alert("You're Not Authorised");
@@ -313,6 +313,7 @@ export class Subreddit extends Component {
           this.setState({
             threadCreation: false
           })
+          window.location.href = "/r/" + SubredditName;
         } else if (res.status === 401 || res.status === 404) {
           alert("Thread Creation Unsuccessful");
           return Response.json;
