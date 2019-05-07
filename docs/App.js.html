@@ -27,111 +27,322 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import './App.css';
-import Home from './Routes/Home/Home';
-import { BrowserRouter } from 'react-router-dom';
-import Registration from './Routes/Registration/Registration';
+import './index.css';
+import NavBar from './Components/NavBar/Navbar';
+import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import CreatePost from './Routes/CreatePost/CreatePost';
+import PMs from './Routes/PMs/PMs';
+import { Listings } from './Components/Listings/Listings'
+import Settings from './Routes/Settings/Settings';
+import Subreddit from './Routes/Subreddit/Subreddit';
+import ThreadPage from './Routes/Thread-page/thread-page';
+import * as actions from './store/actions/index';
+import GoHome from './Routes/GoHome/index.js';
+import CreateSubReddit from './Routes/CreateSubreddit/CreateSubreddit';
+import User from './Components/User/User';
+import Moderation from './Routes/ModerationPage/ModerationPage';
 import axios from './axios-orders';
+import Notifications from './Routes/Notifications/Notifications';
+import io from 'socket.io-client';
 
+// function urlBase64ToUint8Array(base64String) {
+//   const padding = '='.repeat((4 - base64String.length % 4) % 4);
+//   const base64 = (base64String + padding)
+//     .replace(/\-/g, '+')
+//     .replace(/_/g, '/');
+ 
+//   const rawData = window.atob(base64);
+//   const outputArray = new Uint8Array(rawData.length);
+ 
+//   for (let i = 0; i &lt; rawData.length; ++i) {
+//     outputArray[i] = rawData.charCodeAt(i);
+//   }
+//   return outputArray;
+// }
+// const vapidPublicKey = 'BER0W2tD4sWrG7dYLjSp4avRvtjovXykHkxC9yUKoHjuM5or977KdoShVn_d4XUkWDDMcjrs8-dyjlkXbqD-5ZA';
+// const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+// function initializePush() {
+//   messaging
+//       .requestPermission()
+//       .then(() => {
+//          return messaging.getToken();
+//       })
+//       .then(token => {
+//           console.log("FCM Token:", token);
+//           //send the token to the server to be able to send notifications in the future
+//          sendTokenToServer(token);
+//       })
+//       .catch(error => {
+//           if (error.code === "messaging/permission-blocked") {
+//               console.log("Please Unblock Notification Request Manually");
+//           } else {
+//               console.log("Error Occurred", error);
+//           }
+//       });
 
-class App extends Component {
+//   messaging.onMessage(payload => {
+//     console.log("payload", payload)
+//   });
+// }
+// function handlePush(){
+//   // navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+//   //   serviceWorkerRegistration.pushManager
+//   //   .subscribe({
+//   //     userVisibleOnly: true,
+//   //     applicationServerKey: convertedVapidKey
+//   //   });
+//   // });
+//   if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('./assets/firebase-messaging-sw.js',)
+//       .then(function (registration) {
+//         firebase.messaging().useServiceWorker(registration);
+//         initializePush(messaging)
+//         console.log("This service worker is registered")
+//       }).catch(function (err) {
+//         console.log('Service worker registration failed, error:', err);
+//       });
+//   }
+// }
+class Home extends Component {
+
   state = {
-    Credentials: {
-        Email: '',
-        Username: '',
-        Password: ''
-      },
-
-    passwordIsValid: true,
-    loggedIn: false,
-    alreadyRegistered: false  
+    isAuth: Boolean(localStorage.getItem("token")),
+    view: {
+      card: true,
+      classic: false
+    },
+    sort: 'new'
   }
 
+
+  componentDidMount = () => {
+    // window.baseURL = "http://localhost:4000";
+    window.baseURL = "http://18.217.163.16/api";
+    const roots = ["http://localhost:3000", "http://localhost:3000/", "http://18.217.163.16/", "http://18.217.163.16"]
+    if (roots.includes(window.location.href)) {
+      window.location.href = "/Home";
+    }
+
+    window.addEventListener("scroll", (e) => {
+      if(!document.getElementById("topJump")) return;
+      if (window.scrollY > 0) {
+        document.getElementById("topJump").className = "backtoTop";
+      } else {
+        document.getElementById("topJump").className = "hidden";
+      }
+
+    });
+
+    if (!this.state.isAuth) {
+      axios.get("/guest")
+        .then(resp => {
+          if (!resp.data.Token) throw new Error("Couldn't Sign you as a guest...");
+          this.userHasLoggedIn(resp.data.Token, "guest");
+        })
+    } else if (localStorage.getItem("Username") !== "guest") {
+      this.socket = io("http://18.217.163.16/", {
+        path: "/api/socket.io",
+        query: {
+          token: localStorage.getItem("token")
+        }
+      });
+      // this.socket = io("http://localhost:4000/", {
+      //   // path: "/api/socket.io",
+      //   query: {
+      //     token: localStorage.getItem("token")
+      //   }
+      // });
+      // this.socket.on('connect', function () {
+      //   console.log("socket connected");
+      // });
+      this.socket.on('notification', function(data){
+        console.log("notification data: ", data);
+        const cont = document.createElement("div");
+        cont.innerHTML = `&lt;p>${data.message}&lt;/p>`
+        cont.classList.add("notification");
+        document.body.appendChild(cont);
+        cont.onclick = (e) => e.target.remove();
+      });
+    }
+
+  }
   /**
-   * Saves the password
-   * @function savePassword
-   * @param {event} e - On the change of the password input
-   */
-  savePassword = e => {
+  * sets the view as card
+  * @function cardViewHandler
+  */
+  cardViewHandler() {
     this.setState({
-        Password: e.target.value
+      view: {
+        card: true,
+        classic: false
+      }
+    });
+  }
+/**
+  * sets the view as classic
+  * @function classicViewHandler
+  */
+  classicViewHandler() {
+    this.setState({
+      view: {
+        card: false,
+        classic: true
+      }
     });
   }
 
-
-  /**
- * Handles both the registration and login attempts.
- * @function registrationHandler
- * @param {event} e - The submission of the form.
- */
-  registrationHandler = e => {
-
-    e.preventDefault();
-    if( this.state.Password.length >= 8 &amp;&amp; /*!this.state.alreadyRegistered*/ !localStorage.getItem('alreadyRegistered')) {
-      let inputs = e.target.querySelectorAll('input');
-        this.setState({
-          Credentials:{
-
-            Email: inputs[0].value,
-            Username: inputs[1].value,
-            Password: inputs[2].value
-
-          },
-            loggedIn: true}, () => {
-            
-            axios.post('user/register', this.state.Credentials)
-                   .then( response => {
-                        this.setState({alreadyRegistered: true});
-                        localStorage.setItem('alreadyRegistered', true);
-                        console.log(response);
-                   })
-                   .catch( error =>{
-                    this.setState({alreadyRegistered: false});
-                   })
-          });
-          
-
-    }else if(this.state.Password.length >= 8 &amp;&amp; /*this.state.alreadyRegistered*/ localStorage.getItem('alreadyRegistered')){
-      let inputs = e.target.querySelectorAll('input');
-      this.setState({
-        Credentials:{
-
-          Username: inputs[0].value,
-          Password: inputs[1].value,
-
-        },
-          loggedIn: true}, () => {
-          
-          axios.post('user/login', this.state.Credentials)
-                 .then( response => {
-                      console.log(response);
-                 })
-                 .catch( error =>{
-                  this.setState({loggedIn: false});
-                 })
-        });
-    }else{
-
-        this.setState({loggedIn: false, passwordIsValid:false});
+ /**
+  * Checks that user has logged in
+  * @function userHasLoggedIn 
+  * @param {token, username} - username and token 
+  */
+  userHasLoggedIn(token, username) {
+    if (token) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("Username", username);
+      window.location.reload();
     }
   }
+/**
+  * log the user out
+  * @function logout 
+  * @param {event} -s 
+  */
+  logout(e) {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    localStorage.removeItem("Username");
+    window.location.reload();
+  }
+/**
+  * sets the sort type as new 
+  * @function sortHandNew 
+  */
+  sortHandNew() {
+    this.setState({
+      sort: 'new'
+    })
+    this.updateSort('new');
+  }
 
+/**
+  * sets the sort type as top
+  * @function sortHandTop 
+  */
+  sortHandTop() {
+    this.setState({
+      sort: 'top'
+    })
+    this.updateSort('top');
+  }
 
-   render() {
+/**
+  * sets the sort type as hot
+  * @function sortHandHot 
+  */
+  sortHandHot() {
+    this.setState({
+      sort: 'hot'
+    });
+    this.updateSort('hot');
+  }
+
+  sortChanged() {
+    // alert('sort cahnged');
+    //La2 //La2!!!
+    console.log("sort changed...");
+  }
+  /**
+  * sets the sort type as hot
+  * @function sortHandHot 
+  * @param {getListing} - function that maps requested threads to the thread component
+  */
+  listingUpdater(getListing) {
+    this.updateSort = getListing;
+  }
+
+  render() {
+    console.log(window.pageYOffset);
+    console.log("app props", this.props);
+    console.log('sort in home', this.state.sort);
+
+    window.onscroll = function () {
+      if(!document.getElementById("topJump")) return;
+      if (window.scrollY > 600)
+        document.getElementById("topJump").className = "backtoTop";
+      else
+        document.getElementById("topJump").className = "hidden";
+    }
 
     return (
-      &lt;BrowserRouter>
-        &lt;div className="App">
-          {this.state.loggedIn ?  &lt;Home /> :&lt;Registration regHand={this.registrationHandler} logged={this.state.loggedIn} psrdVld={this.state.passwordIsValid} password={this.state.Password} svPswrd={this.savePassword}/>
-          }
-        &lt;/div>
-      &lt;/BrowserRouter>
+      &lt;div className='Home' >
+
+        &lt;NavBar logout={this.logout.bind(this)}
+          finishLogin={this.userHasLoggedIn.bind(this)}
+          finishRegistration={this.userHasLoggedIn.bind(this)}
+          isAuth={this.state.isAuth &amp;&amp; localStorage.getItem("Username") !== "guest"}
+          classicViewHandler={this.classicViewHandler.bind(this)}
+          cardViewHandler={this.cardViewHandler.bind(this)}
+          sortHandNew={this.sortHandNew.bind(this)}
+          sortHandHot={this.sortHandHot.bind(this)}
+          sortHandTop={this.sortHandTop.bind(this)}
+          onSortChange={this.sortChanged.bind(this)} />
+
+        &lt;Switch>
+          &lt;Route path='/PM/' component={PMs} />
+          &lt;Route path='/Inbox' component={PMs} />
+          &lt;Route path='/Sent/' component={PMs} />
+          &lt;Route path='/CreatePost/' component={CreatePost} />
+          &lt;Route path='/settings/' component={Settings} />
+          &lt;Route path='/r/' component={Subreddit} />
+          &lt;Route path='/thread/' component={ThreadPage} />
+          &lt;Route path='/GoHome/' component={GoHome} />
+          &lt;Route path='/create-subreddit/' component={CreateSubReddit} />
+          &lt;Route path='/notifications/' component={Notifications} />
+          &lt;Route path='/user/:username?' exact component={User}/>
+          &lt;Route path='/moderation' component={Moderation} />
+          &lt;Route path='/Home/' render={
+            props => {
+              console.log('sort in home', this.state.sort);
+              return &lt;Listings listingUpdater={this.listingUpdater.bind(this)} authToken={this.props.token} view={this.state.view.card} sort={this.state.sort} />
+            }
+          } />
+        &lt;/Switch>
+
+
+        &lt;footer>
+          &lt;p>
+            &lt;a href="#top" id="topJump" className="hidden">
+              &lt;i className="fas fa-chevron-circle-up">&lt;/i>
+            &lt;/a>
+          &lt;/p>
+        &lt;/footer>
+      &lt;/div>
     );
   }
 }
 
-export default App;
-</code></pre>
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: true,//state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath,
+    // token: state.auth.token
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    //  onTryAutoSignup: () => dispatch( actions.authCheckState() ),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
+    // authToken: () => dispatch( actions.authSuccess(this.props.token) )
+  };
+};
+
+const app = withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export {
+  app
+}</code></pre>
         </article>
     </section>
 
@@ -141,13 +352,13 @@ export default App;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#registrationHandler">registrationHandler</a></li><li><a href="global.html#savePassword">savePassword</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 24 2019 01:16:12 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -28,7 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
 import './CreatePost.css';
-
+import Select from 'react-select';
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import axios from '../../axios-orders';
@@ -42,15 +42,24 @@ class CreatePost extends Component {
       title: '',
       body: '',
       spoiler: false,
-      subreddit: ''
+      subreddit: '',
+      image: null,
+      error: false,
+      errornumber: 0,
+      subscriptions: []
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
   };
 
 
-
+ /**
+  * For handling the spoiler checkbox change
+  * @function handleChange 
+  * @param {event} - Submition event 
+  */
   handleChange(e) {
     this.setState({
       spoiler: e.target.checked
@@ -64,78 +73,178 @@ class CreatePost extends Component {
      */
 
   handleSubmit(e) {
+    this.setState({
+      error: false,
+      errornumber: 0
+    })
     e.preventDefault();
     var srdata = {
       title: document.getElementById("threadPageTitleField").value,
       threadBody: document.getElementById("threadPageBodyField").value,
-      postFile:{},
-      spoiler:this.state.spoiler
+      postFile: {},
+      spoiler: this.state.spoiler,
+      base64image: this.state.image
     }
     let checker = "";
 
-    if (document.getElementById("threadPageSubredditNameField").value === checker) {
-      alert("Please provide an existing Subreddit name!");
-      return;
-    }
-    else if (document.getElementById("threadPageTitleField").value === checker) {
-      alert("Please provide a Thread Title!");
+    // if (document.getElementById("threadPageSubredditNameField").value === checker) {
+    //   //alert("Please provide an existing Subreddit name!");
+    //   this.setState({
+    //     error: true,
+    //     errornumber: 1
+    //   })
+    //   return;
+    // }
+    // else
+    if (document.getElementById("threadPageTitleField").value === checker) {
+      this.setState({
+        error: true,
+        errornumber: 2
+      })
+      //alert("Please provide a Thread Title!");
       return;
     }
     else if (document.getElementById("threadPageBodyField").value === checker) {
-      alert("Please provide a Thread Body!");
+      //alert("Please provide a Thread Body!");
+      this.setState({
+        error: true,
+        errornumber: 3
+      })
       return;
     }
 
-    let subredditname = document.getElementById("threadPageSubredditNameField").value;
+    let subredditname = this.state.srName;
     let headers = {
       auth: localStorage.getItem("token")
     }
-    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })           
+    axios.post('/sr/' + subredditname + '/thread', srdata, { "headers": headers })
       .then(res => {
         console.log(res);
         console.log(res.status);
-        window.location.href = "/r/" + subredditname;
+        window.location.href = "/thread/" + res.data._id + "?srName=" + subredditname;
       })
       .catch(error => {
-        console.log("Axios Error: ", error.response)
+        alert(error.response);
+        this.setState({
+          error: true
+        })
       });
   }
   componentDidMount() {
     document.body.classList.add("verticalAlign");
+    axios.get("/me/About/" + localStorage.getItem('Username'), {headers: {auth: localStorage.getItem("token")}})
+    .then(resp => {
+      if(resp.data.Subscriptions.length || resp.data.moderates.length){
+        this.setState({
+          subscriptions: [...resp.data.Subscriptions, ...resp.data.moderates]
+        });
+      }
+    })
   }
   componentWillUnmount() {
     document.body.classList.remove("verticalAlign");
+  }
+  /**
+     * Sets the state with changed image path in the input fields of create post form
+     * @function handleFileChange
+     * @param {event} - onChange event 
+     */
+  handleFileChange(e) {
+    const files = e.target.files;
+    if (!files || !files.length) return;
+    const reader = new FileReader();
+
+    reader.onload = (evtReader) => {
+      if (!evtReader.target.result) return;
+      this.setState({
+        image: evtReader.target.result
+      });
+    }
+    reader.readAsDataURL(files[0]);
+  }
+    /**
+     * Sets the name of the subreddit where the post is created
+     * @function setSR
+     * @param {option} - The subreddit name
+     */
+  setSR(option){
+    this.setState({
+      srName: option.value
+    });
   }
   render() {
     return (
       &lt;div className="createPostContainer">
         &lt;h3>CREATE A POST&lt;/h3>
+
         &lt;hr>&lt;/hr>
         &lt;form onSubmit={this.handleSubmit}>
           &lt;div className="formGroupThreadComponent">
             &lt;label for="SubredditName">Subreddit Name&lt;/label>
             &lt;br>&lt;/br>
-            &lt;input type="text" name="text" id="threadPageSubredditNameField" placeholder="Enter Existing Subreddit Name" onChange={this.handleChange} value={this.state.value} />
+            &lt;Select 
+              onChange={this.setSR.bind(this)}
+              options={this.state.subscriptions.map(sr => {return {value: sr, label: sr}})}/>
           &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 1 ?
+                    &lt;div className="errorMessageCreatePost">
+                      *Please provide an existing Subreddit name!
+            &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
           &lt;div className="formGroupThreadComponent">
             &lt;label for="ThreadTitle">Thread Title&lt;/label>
             &lt;textarea type="textarea" name="text" id="threadPageTitleField" placeholder="Enter Title Here" onChange={this.handleChange} value={this.state.value} />
           &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 2 ?
+                    &lt;div className="errorMessageCreatePost">
+                      *Please provide a Thread Title!
+            &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
           &lt;div className="formGroupThreadComponent">
             &lt;label for="ThreadBody">Thread Body&lt;/label>
             &lt;textarea type="textarea" name="text" id="threadPageBodyField" placeholder="Enter Body Here" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 3 ?
+                    &lt;div className="errorMessageCreatePost">
+                      *Please provide a Thread Body!
+            &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
+
+          &lt;div className="formGroupThreadComponent imageContainer">
+            &lt;label className="threadPageCreateButton" for="coverPhoto">Photo&lt;/label>
+            &lt;input type="file" className="threadPhotoInput" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
+            {this.state.image ? 
+            &lt;div className="uploadedImage" style={{backgroundImage: `url(${this.state.image})`}}>&lt;/div>
+            : null}
           &lt;/div>
           &lt;div className="formGroupThreadCheckbox">
             &lt;label className="spoilerLabel" for="Spoiler">Is it a spoiler?&lt;/label>
             &lt;input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
           &lt;/div>
           &lt;button className="threadPageCreateButton">CREATE&lt;/button>
-
         &lt;/form>
-      &lt;/div>
+      &lt;/div >
 
     )
-  }
+  } 
 }
 export default CreatePost;
 </code></pre>
@@ -148,13 +257,13 @@ export default CreatePost;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

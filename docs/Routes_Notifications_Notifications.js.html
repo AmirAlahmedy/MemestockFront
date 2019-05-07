@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Routes/Thread/Classic View Thread/classic-view-thread.js</title>
+    <title>JSDoc: Source: Routes/Notifications/Notifications.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Routes/Thread/Classic View Thread/classic-view-thread.js</h1>
+    <h1 class="page-title">Source: Routes/Notifications/Notifications.js</h1>
 
     
 
@@ -27,94 +27,70 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import './Notifications.css';
+import axios from '../../axios-orders';
+import Aux from '../../Components/HOC/Auxiliary';
+import Button from '../../Components/UI/Button/Button';
 
-
-export default class ClasssicThread extends Component{
-    /**
-     * Handles upvotes increments.
-     * @function handleIncrement
-     */
-    handleIncrement = () => {
-
-
-        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableUp: false });
-
-        }
-        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableUp: true });
-
-        }
-        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-
-            this.setState({ enableDown: false });
-            this.setState({ enableUp: true });
-            this.setState({ upvotes: this.state.upvotes + 2 });
-        }
-
-    };
-
-    /**
-     * Handles downvotes.
-     * @function handledecrement
-     */
-    handledecrement = () => {
-
-        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableDown: false });
-        }
-        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableDown: true });
-        }
-        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ enableDown: true });
-            this.setState({ enableUp: false });
-            this.setState({ upvotes: this.state.upvotes - 2 });
-        }
-
-    };
-
-    goTo(link){
-        return function(){
-            window.location.href = link;
-        } 
+class Notifications extends Component {
+    state = {}
+    header = {
+        auth: localStorage.getItem('token')
     }
-
+    params = {
+        startPosition: 0
+    }
+    componentDidMount = () => {
+        axios.get('notif?startPosition=0', { headers: this.header })
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    notif: response.data.notifications
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    /**
+     *Maps notifications into components
+     * @function getNotif
+     */
+    getNotif() {
+        if (!this.state.notif) return;
+        return this.state.notif.map(noti =>
+            &lt;Noti
+                user={noti.username}
+                message={noti.message}
+            />);
+    }
     render() {
-
+        console.log(this.state.notif);
         return (
-        
-           
-                &lt;div className= 'classicThreadContiner'>
-                    
-                    &lt;div className="threadTitle">{this.props.title}&lt;/div>
 
-                    &lt;div class="threadLinks">
-                        &lt;span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}&lt;/span>
-                        .
-                        &lt;span onClick={this.goTo(`/user/${this.props.username}`)}className="posted-by">   Posted by u/{this.props.username} &lt;/span>
-                    &lt;/div>
-                    &lt;br>&lt;/br>
+            &lt;div className='allNotiWrapper'>
+                &lt;p> {this.getNotif()} &lt;/p>
+            &lt;/div>
 
-                    &lt;button type="button" onClick={this.handleIncrement} className="incrementVotes">&lt;i class="fas fa-angle-up">&lt;/i>&lt;/button>
-
-                    &lt;div className="threadUpvotes">{this.state.upvotes}&lt;/div>
-
-                    &lt;button type="button" onClick={this.handledecrement} className="decrementVotes">&lt;i class="fas fa-angle-down">&lt;/i>&lt;/button>
-                    &lt;span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                        {this.state.comments.length} comments
-                    &lt;/span>
-
-
-                &lt;/div>
-            
         );
     }
-}</code></pre>
+}
+
+class Noti extends Component {
+    render() {
+        return (
+
+            &lt;div className='notiContainer'>
+                {this.props.message}
+                {/** E3ml mark (un)read w mark (un)read all w enak lama tdoos 3ala notification yroo7 yshoof l post aw l inbox  */}
+                {/* &lt;button className='markOne'>Mark as read&lt;/button> */}
+            &lt;/div>
+
+        );
+    }
+}
+
+export default Notifications;</code></pre>
         </article>
     </section>
 
