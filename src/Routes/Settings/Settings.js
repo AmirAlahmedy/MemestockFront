@@ -9,13 +9,14 @@ import Edit from '../Account/Edit'
 class Settings extends Component {
   render() {
     return (
+      <div className="wrapper">
       <div className="Settings">
       <h3>User Settings</h3>
       <hr></hr>
       <Tablist/>
       <Switch>
 
-<Route path='/Settings/Account/'  component={Account}/>
+<Route path='/Settings' exact  component={Account}/>
 <Route path='/Settings/Profile/'  component={SettProfile}/>
 
 
@@ -23,6 +24,7 @@ class Settings extends Component {
 
 </Switch>
 
+      </div>
       </div>
     )
   }

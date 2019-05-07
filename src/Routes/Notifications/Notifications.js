@@ -4,7 +4,7 @@ import axios from '../../axios-orders';
 import Aux from '../../Components/HOC/Auxiliary';
 import Button from '../../Components/UI/Button/Button';
 
-class Notifications extends Component{
+class Notifications extends Component {
     state = {}
     header = {
         auth: localStorage.getItem('token')
@@ -13,14 +13,14 @@ class Notifications extends Component{
         startPosition: 0
     }
     componentDidMount = () => {
-        axios.get('notif?startPosition=0', {headers: this.header})
-            .then( response => {
+        axios.get('notif?startPosition=0', { headers: this.header })
+            .then(response => {
                 console.log(response);
                 this.setState({
                     notif: response.data.notifications
                 })
             })
-            .catch( error => {
+            .catch(error => {
                 console.log(error);
             })
     }
@@ -28,35 +28,36 @@ class Notifications extends Component{
      *Maps notifications into components
      * @function getNotif
      */
-    getNotif(){
-        if(!this.state.notif) return;
-        return this.state.notif.map( noti => 
-        <Noti
-            user={noti.username}
-            message={noti.message}
-        />);
-    }    
-    render(){
+    getNotif() {
+        if (!this.state.notif) return;
+        return this.state.notif.map(noti =>
+            <Noti
+                user={noti.username}
+                message={noti.message}
+            />);
+    }
+    render() {
         console.log(this.state.notif);
-        return(
-                
-                    <div className='allNotiWrapper'>
-                       <p> {this.getNotif()} </p>
-                    </div>
-               
-            );
+        return (
+
+            <div className='allNotiWrapper'>
+                <p> {this.getNotif()} </p>
+            </div>
+
+        );
     }
 }
 
-class Noti extends Component{
-    render(){
-        return(
-         
-                <div className='notiContainer'>
+class Noti extends Component {
+    render() {
+        return (
+
+            <div className='notiContainer'>
                 {this.props.message}
-                <button className='markOne'>Mark as read</button>
-                </div>
-        
+                {/** E3ml mark (un)read w mark (un)read all w enak lama tdoos 3ala notification yroo7 yshoof l post aw l inbox  */}
+                {/* <button className='markOne'>Mark as read</button> */}
+            </div>
+
         );
     }
 }

@@ -55,7 +55,13 @@ class Flairs extends Component {
              if( this.state.response.length > 0 ){
 
                      return(
-                         <div>{this.getFlairs()}</div>
+                         <table className="table">
+                                 <tr>
+                                         <td><strong>Subreddit</strong></td>
+                                         <td><strong>Flair</strong></td>
+                                 </tr>
+                                {this.getFlairs()}
+                         </table>
                         );
                 }else{
                         
@@ -68,6 +74,8 @@ class Flairs extends Component {
 class Flair extends Component{
 
         render(){
+                {console.log(this.props.flair)}
+
                 return(
                         <Aux>
 
@@ -88,11 +96,14 @@ class Flair extends Component{
                                         <div>{this.props.sub}</div>
                                 </div> */}
 
-                                <div>        
-                                        <label /*style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}*/>FLAIR: {this.props.flair}   </label>    
+                                <tr>        
+                                        {/* {this.props.flar.map(((flair, i) => {
+                                                return 
+                                        }))} */}
+                                        <td>{this.props.sub}</td>
+                                        <td>{this.props.flair}</td>    
                                        
-                                        <label /*style={{backgroundColor: '#0079D3', color: 'white', padding: '5px', borderRadius: '3px', fontSize: '14px', fontWeight: 'bold'}}*/>Subreddit: {this.props.sub}</label>
-                                </div>
+                                </tr>
 
                         </Aux>
 

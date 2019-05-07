@@ -22,12 +22,12 @@ class ThreadPage extends Component {
       editID: '',
       replyID: '',
       deleteID: '',
-      error:false,
-      errornumber:0
+      error: false,
+      errornumber: 0
 
    }
 
-   componentDidMount() {
+   async componentDidMount() {
       let srName = this.state.subredditName;
       let threadID = this.state.id;
       axios.get(`/sr/${srName}/thread/${threadID}`)
@@ -40,66 +40,133 @@ class ThreadPage extends Component {
                   threadTitle: resp.data.title,
                   votes: resp.data.votes,
                   creator: resp.data.creatorUsername,
-                  image: resp.data.postFile === "none" ? null : resp.data.postFile
+                  image: resp.data.postFile === "none" ? null : resp.data.postFile,
+                  isSpoiler: resp.data.spoiler
                });
             }
          });
 
-      var headers = {
-         auth: localStorage.getItem("token")
+      // var headers = {
+      //    auth: localStorage.getItem("token")
+      // }
+
+      // axios.get('/comment/all/' + this.state.id, { headers: headers })
+      //    .then(res => {
+      //       if (res.status == 200) {
+      //          console.log(res)
+
+      //          //Removing duplicate comments:
+      //          // for(let i = 0; i < res.data.comments.length; i++){
+      //          //    for(let x = i+1; x < res.data.comments.length; x++){
+      //          //       if(res.data.comments[i]._id === res.data.comments[x]._id){
+      //          //          res.data.comments.splice(x, 1);
+      //          //       }
+      //          //    }
+      //          // }
+      //          // for (let comment of res.data.comments) {
+      //          // }
+
+
+
+      //          for (let comment of res.data.comments) {
+      //             comment.children = [];
+      //             axios.get(`/comment/all/${comment._id}?comment=true`)
+      //                .then(resp => {
+      //                   if (resp.data && resp.status === 200) {
+      //                      let comments = this.state.comments;
+      //                      for (const commentState of comments) {
+      //                         if (commentState._id === comment._id) {
+      //                            commentState.children = resp.data.comments;
+      //                         }
+      //                      }
+      //                      this.setState({
+      //                         comments: comments
+      //                      })
+      //                   }
+      //                });
+
+      //          }
+
+      //          this.setState({
+      //             comments: res.data.comments
+      //          });
+      //       }
+      //       else if (res.status === 404) {
+      //          alert("Not Found");
+      //          return Response.json;
+      //       }
+      //    })
+      //    .catch(error => {
+      //       console.log(error);
+      //    })
+
+      let comments = await this.getComments(threadID)
+      comments = comments.filter(comment => comment.length);
+      console.log(comments);
+      let commentsGrouped = comments;
+      // for (const comment of comments) {
+      //    // const isThereSimilar = commentsGrouped.findIndex(cGroup => {
+      //    //    return cGroup.findIndex(c => c.parent_id === comment.parent_id) > 0
+      //    // });
+      //    // if (isThereSimilar > -1) {
+      //    //    console.log("found one")
+      //    //    commentsGrouped[isThereSimilar].push(comment);
+      //    // } else {
+      //    //    console.log("none found")
+      //    //    commentsGrouped.push([comment]);
+      //    // }
+      //    comment.children = [];
+      // }
+      // for (let i = 0; i<comments.length; i++) {
+      //    //Search for its children...
+      //    for(let j = i + 1; j < comments.length; j++){
+      //       if(comments[j].parent_id === comments[i]._id){
+      //          comments[i].children.push(comments[j]);
+      //       }
+      //    }
+      // }
+      // console.log(comments);
+
+      //Now we need to link them...
+      //First group ==> comments
+      //Other groups => replies;
+      // if(!commentsGrouped.length) return;
+      for (let i = comments.length - 1; i > 0; i--) {
+         const parentID = comments[i][0].parent_id;
+         //Search for it's parent...
+         for (let j = 0; j < i; j++) {
+            for (let parent of comments[j]) {
+               if (parent._id === parentID) {
+                  parent.children = comments[i];
+               }
+            }
+         }
       }
-
-      axios.get('/comment/all/' + this.state.id, { headers: headers })
-         .then(res => {
-            if (res.status == 200) {
-               console.log(res)
-
-               //Removing duplicate comments:
-               // for(let i = 0; i < res.data.comments.length; i++){
-               //    for(let x = i+1; x < res.data.comments.length; x++){
-               //       if(res.data.comments[i]._id === res.data.comments[x]._id){
-               //          res.data.comments.splice(x, 1);
-               //       }
-               //    }
-               // }
-               for (let comment of res.data.comments) {
-                  comment.children = [];
-               }
+      this.setState({ allComments: comments[0] }, () => {
+         console.log(this.state.allComments);
+      })
 
 
+   }
 
-               for (let comment of res.data.comments) {
-                  axios.get(`/comment/all/${comment._id}?comment=true`)
-                     .then(res => {
-                        if (res.data && res.status === 200) {
-                           let comments = this.state.comments;
-                           for(const commentState of comments){
-                              if(commentState._id === comment._id){
-                                 commentState.children = res.data;
-                              }
-                           }
-                           this.setState({
-                              comments: comments
-                           })
-                        }
-                     });
-
-               }
-
-               this.setState({
-                  comments: res.data.comments
-               });
+   getCommentsJSX(comments) {
+      if (!comments) return;
+      return comments.map(comment => {
+         return <ul className="threadComment" >
+            <div className="commentUser">u/{comment.username} </div>
+            <div className={`comment ${comment.spoiler ? "spoiler" : ""}`}>{comment.content}</div>
+            {!comment.locked ?
+               <button className="replyComment" comment-id={comment._id} onClick={this.handleReply} >Reply</button>
+               : null
             }
-            else if (res.status === 404) {
-               alert("Not Found");
-               return Response.json;
-            }
-         })
-         .catch(error => {
-            console.log(error);
-         })
-
-
+            {localStorage.getItem("Username") === comment.username ?
+               <span>
+                  <button className="editComment" data-id={comment._id} onClick={this.editComment.bind(this)}>Edit</button>
+                  <button className="deleteComment" data-id={comment._id} onClick={this.deleteComment.bind(this)}>Delete</button>
+               </span>
+               : null}
+            {this.getCommentsJSX(comment.children)}</ul>
+      })
    }
 
 
@@ -117,8 +184,8 @@ class ThreadPage extends Component {
    };
    handleEdit = (e) => {
       this.setState({
-         error:false,
-         errornumber:0
+         error: false,
+         errornumber: 0
       })
       e.preventDefault();
       console.log('Edit Clicked');
@@ -127,18 +194,18 @@ class ThreadPage extends Component {
 
       if (document.getElementById("newThreadTitleField").value === checker) {
          this.setState({
-            error:true,
-            errornumber:1
+            error: true,
+            errornumber: 1
          })
          //alert("Please provide a new title");
          return;
       }
       else if (document.getElementById("newThreadBodyField").value === checker) {
-      this.setState({
-         error:true,
-         errornumber:2
-      })
-      //alert("Please provide a new bodyfor the thread");
+         this.setState({
+            error: true,
+            errornumber: 2
+         })
+         //alert("Please provide a new bodyfor the thread");
          return;
       }
       let headers = {
@@ -156,7 +223,7 @@ class ThreadPage extends Component {
                console.log(res)
                alert('Post Edited Successfully');
                this.setState({
-                  editThread:false
+                  editThread: false
                })
             }
          })
@@ -179,9 +246,9 @@ class ThreadPage extends Component {
             if (res.status == 200) {
                console.log(res);
                alert('Thread Deleted Successfully!');
-               return (<Route path='/GoHome/' component={GoHome} />);
+               window.location.href = "/"
 
-            } 
+            }
          })
          .catch(error => {
             alert(error.response);
@@ -189,7 +256,7 @@ class ThreadPage extends Component {
    }
 
 
-   
+
 
 
    replyComment(e) {
@@ -199,7 +266,6 @@ class ThreadPage extends Component {
          id: this.state.replyTo
       });
    }
-
    addComment = (comment, data) => {
       var newComment = {
          username: localStorage.getItem("Username"),
@@ -208,7 +274,7 @@ class ThreadPage extends Component {
          spoiler: document.getElementById("checkSpoiler").checked,
          locked: document.getElementById("checkLocked").checked
       }
-      this.setState({ comments: [...this.state.comments, newComment] });
+
 
 
       var headers = {
@@ -222,11 +288,12 @@ class ThreadPage extends Component {
       //     locked: document.getElementById("checkLocked").checked
       //  }
       const id = data && data.id ? data.id : this.state.id
-      alert(id);
+      // alert(id);
       axios.post('/comment/' + id, newComment, { headers: headers })
          .then(res => {
             if (res.status == 200) {
                console.log(res)
+               window.location.reload();
             }
          })
          .catch(error => {
@@ -247,7 +314,6 @@ class ThreadPage extends Component {
       const id = e.target.getAttribute("data-id");
       this.setState({
          editID: id
-
       })
    }
 
@@ -297,7 +363,27 @@ class ThreadPage extends Component {
          .then(res => {
             if (res.status == 200) {
                console.log(res)
-            } 
+               const btn = document.querySelector(`button[data-id="${Cid}"]`)
+               const container = btn.parentElement.parentElement
+               const comment = container.querySelector(".comment");
+               comment.textContent = commentData.content;
+               if(commentData.locked){
+                  container.querySelector(".replyComment").remove();
+               }else{
+                  if(container.querySelector(".replyComment")) return;
+                  const replyBtn = document.createElement("button");
+                  replyBtn.classList.add("replyComment");
+                  replyBtn.innerHTML = `<i class="fas fa-reply"></i>`;
+                  replyBtn.setAttribute("comment-id", Cid);
+                  comment.after(replyBtn);
+               }
+               if(commentData.spoiler){
+                  container.classList.add("spoiler")
+               }else{
+                  container.classList.remove("spoiler")
+               }
+               this.setState({editComment: false})
+            }
          })
          .catch(error => {
             alert(error.response);
@@ -305,6 +391,7 @@ class ThreadPage extends Component {
    }
    deleteComment = (e) => {
       const id = e.target.getAttribute("data-id");
+      const container = e.target.parentElement.parentElement;
       this.setState({
          deleteID: id
       })
@@ -319,7 +406,7 @@ class ThreadPage extends Component {
          .then(res => {
             if (res.status == 200) {
                console.log(res);
-               // e.target.remove();
+               container.remove();
                alert('Comment Deleted Successfully!');
 
             }
@@ -348,7 +435,7 @@ class ThreadPage extends Component {
          e.target = e.target.parentElement;
          id = e.target.getAttribute("comment-id");
       }
-      alert(id);
+      // alert(id);
       this.setState({
          replyTo: id
 
@@ -363,7 +450,83 @@ class ThreadPage extends Component {
       })
    }
 
+   //A recursive function to get all All levels of replies for a comment...
+   //level 1 === replies for the comment
+   //level 2 === replies of a reply
+   async getComments(cID, commentsArray = []) {
 
+
+
+      let comments = await axios.get("/comment/all/" + cID + "?ss", {
+         headers: {
+            auth: localStorage.getItem("token")
+         }
+      });
+      comments = comments.data.comments;
+      commentsArray.push(comments);
+      for (const comment of comments) {
+         commentsArray = await this.getComments(comment._id + "?comment=true", commentsArray);
+      }
+      return commentsArray;
+      // if(comments.length){
+      //    //Save Comments:
+      //    if(!this.state.tCOmments){
+      //       this.setState({
+      //          tCOmments: comments
+      //       });
+      //    }else{
+      //       let lvComments = this.state.tCOmments;
+      //       let i = 0;
+      //       // while(1){
+      //       //    if(i === 0 && (i >= lvComments.length || typeof lvComments[i] === "number")){
+      //       //       console.log("something went horrible");
+      //       //       break;
+      //       //    }
+      //       //    if(i >= lvComments.length || typeof lvComments[i] === "number") {
+      //       //       const startingIndex = lvComments.findIndex((el) => typeof el === "number");
+
+      //       //       lvComments = lvComments.map((comment, x) => [...(comment.children || []), ...(startingIndex > 0 ? lvComments.split(startingIndex-1).concat([x]) : [x])]);
+      //       //       i = 0;
+      //       //       continue;
+      //       //    }
+      //       //    if(lvComments[i]._id === comments[0].parent_id){
+      //       //       lvComments[i].children = comments;
+      //       //       const OriginalComments = this.state.tCOmments;
+      //       //       const startingIndex = lvComments.findIndex((el) => typeof el === "number");
+      //       //       let path = lvComments.split(startingIndex-1);
+      //       //       // for(const index in OriginalComments){
+      //       //       //     if(index === path[0]){
+      //       //       //        OriginalComments.children ? OriginalComments
+      //       //       //     }
+      //       //       // }  
+      //       //       // if(path.length === 1){
+      //       //       //    OriginalComments[path[0]].children = comments;
+      //       //       // }else{
+      //       //          //[0]["children"][1]["children"][2]["children"]
+      //       //          let str;
+      //       //          for(const pos of path){
+      //       //             str.push(`[${pos}]["children"]`);
+      //       //          }
+      //       //          str = str.join("");
+      //       //          const evaluator = Function(`
+      //       //             "use strict";
+      //       //             return ${OriginalComments}${str};
+      //       //          `);
+      //       //          console.log("evaluator", evaluator);
+      //       //          // evaluator() = comments;
+      //       //       // }
+      //       //          for(const comment of comments){
+      //       //             await this.getComments(comment._id);
+      //       //          }
+      //       //       break;
+      //       //    }
+      //       //    i++;
+      //       // }
+      //    }
+
+
+      // }
+   }
 
    render() {
       return (
@@ -380,6 +543,7 @@ class ThreadPage extends Component {
                      upvotes={this.state.votes}
                      date={this.state.postdate}
                      image={this.state.image}
+                     isSpoiler={this.state.isSpoiler}
                   />
                </div>
                <div class="addCommentSection">
@@ -390,7 +554,8 @@ class ThreadPage extends Component {
                   <input type="checkbox" name="checkSpoiler" id="checkSpoiler" />
                </div>
                <ul class="commentList">
-                  {
+                  {this.getCommentsJSX(this.state.allComments)}
+                  {/* {
                      this.state.comments.map(comment => {
                         const isCreator = localStorage.getItem("Username") === comment.username;
                         return (
@@ -398,7 +563,7 @@ class ThreadPage extends Component {
                               <li className="threadComment" id="commentContainer"  >
                                  <div className="commentUser">u/{comment.username} </div>
                                  <div className={`comment ${comment.spoiler ? "spoiler" : ""}`}>{comment.content}</div>
-                                 {isCreator ?
+                                 {localStorage.getItem("Username") === comment.username ?
                                     <span>
                                        <button className="editComment" data-id={comment._id} onClick={this.editComment.bind(this)}>Edit</button>
                                        <button className="deleteComment" data-id={comment._id} onClick={this.deleteComment.bind(this)}>Delete</button>
@@ -409,7 +574,7 @@ class ThreadPage extends Component {
                                     : null
                                  }
                               </li>
-                              {comment.children && comment.children.map ? comment.children.map(child => {
+                              {comment.children ? comment.children.map(child => {
                                  return (
                                     <li className="threadComment reply" id="commentContainer"  >
                                        <div className="commentUser">u/{child.username} </div>
@@ -420,6 +585,11 @@ class ThreadPage extends Component {
                                              <button className="deleteComment" data-id={child._id} onClick={this.deleteComment.bind(this)}>Delete</button>
                                           </span>
                                           : null}
+
+                                       {!child.locked ?
+                                          <button className="replyComment" comment-id={child._id} onClick={this.handleReply} ><i class="fas fa-reply"></i></button>
+                                          : null
+                                       }
                                     </li>
                                  )
                               }) : null}
@@ -428,45 +598,58 @@ class ThreadPage extends Component {
 
                      })
 
-                  }
+                  } */}
 
                </ul>
                {
                   this.state.editComment ?
                      <div className="threadComment2">
 
-                        <form onSubmit={this.onSave}>
+                        <form className="editForm" onSubmit={this.onSave}>
                            <input className="textComment" id="textComment" type="text"
                               name="comment" placeholder="Edit your comment here..."
                               value={this.state.comment} onChange={this.onChange}
                            />
+                           <br />
+                           <label className="lockComment">
+                              <input type="checkbox" id="checkLocked2" />
+                              Lock
+                        </label>
+                           <label className="spoilerComment">
+                              <input type="checkbox" id="checkSpoiler2" />
+                              Mark as spoiler
+                        </label>
+                           <br />
                            <input type="submit" value="Edit" className="goEdit" onClick={this.goEdit.bind(this)} />
                            <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelEditComment} />
-
+                           <br />
                         </form>
-                        <input type="checkbox" id="checkLocked2" />
-                        <button className="lockComment">Lock</button>
-                        <input type="checkbox" id="checkSpoiler2" />
-                        <button className="spoilerComment" >Mark as spoiler</button>
                      </div> : <div></div>
                }
                {
                   this.state.replyComment ?
                      <div className="threadComment2">
 
-                        <form onSubmit={this.onSave}>
-                           <input className="textReply" id="textReply" type="text"
+                        <form className="editForm" onSubmit={this.onSave}>
+                           <input className="textReply textComment" id="textReply" type="text"
                               name="comment" placeholder="Reply here..."
                               value={this.state.comment} onChange={this.onChange}
                            />
+                           <br />
+
+                           <label className="lockComment">
+                              <input type="checkbox" id="checkLocked3" />
+                              Lock
+                           </label>
+                           <label className="spoilerComment">
+                              <input type="checkbox" id="checkSpoiler3" />
+                              Mark as spoiler
+                        </label>
+                           <br />
                            <input type="submit" value="Reply" className="goReply" onClick={this.replyComment.bind(this)} />
                            <input type="submit" value="Cancel" className="goCancel" onClick={this.cancelReplyComment} />
 
                         </form>
-                        <input type="checkbox" id="checkLocked3" />
-                        <button className="lockComment">Lock</button>
-                        <input type="checkbox" id="checkSpoiler3" />
-                        <button className="spoilerComment" >Mark as spoiler</button>
                      </div> : <div></div>
                }
             </div>
@@ -500,20 +683,20 @@ class ThreadPage extends Component {
                               <label for="newThreadTitle">Enter new Title</label>
                               <textarea type="textarea" name="text" id="newThreadTitleField" placeholder="Enter Title Here" />
                            </div>
-                           {  
-                              this.state.errornumber==1 ? 
-                              <div className="errorMessageEditPost">
-                              *Please provide a  new title for the post
+                           {
+                              this.state.errornumber == 1 ?
+                                 <div className="errorMessageEditPost">
+                                    *Please provide a  new title for the post
                               </div> : <div></div>
-                            }
+                           }
                            <div className="formGroupSrComponent2">
                               <label for="newThreadBody">Enter new Thread Body</label>
                               <textarea type="textarea" name="text" id="newThreadBodyField" placeholder="Enter Body Here" />
                            </div>
-                           {  
-                              this.state.errornumber==2 ? 
-                              <div className="errorMessageEditPost">
-                              *Please provide a new body for the post
+                           {
+                              this.state.errornumber == 2 ?
+                                 <div className="errorMessageEditPost">
+                                    *Please provide a new body for the post
                               </div> : <div></div>
                            }
                            <button className="threadPageSidebarEditButton2" >EDIT POST</button>

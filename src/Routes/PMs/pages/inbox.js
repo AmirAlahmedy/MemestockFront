@@ -189,24 +189,41 @@ class Inbox extends React.Component {
           <button id={msg.sender} type="submit" name="Block" onClick={this.BlockUser}>Block User</button>
           <button id={msg._id} type="submit" name="markRead" onClick={this.MarkRead}>Mark Read  </button>
           <button id={msg._id} type="submit" name="markRead" onClick={this.MarkUnRead}>MarkUnRead  </button>
+          <button data-sender={msg.sender} data-subject={msg.subject} type="submit" onClick={this.reply}>Reply</button>
 
 
         </div>
       </div>
     ));
   }
+  reply(e) {
+    const sender = e.target.getAttribute("data-sender");
+    const subject = e.target.getAttribute("data-subject");
+    window.location.href = `/PM/Compose?sender=${sender}&subject=${subject}`;
+
+  }
+  closeBlockList(){
+    this.setState({
+      showBlockList: false
+    });
+  }
   getBlockList() {
     if (this.state.BlockList === 0) {
       return;
     }
-    return this.state.BlockList.map((blocklist) => (
-
-      <div className="blockeduser">
-        <h1 className="blockedusername">{blocklist.blocked}</h1>
-        <button id={blocklist.blocked} type="submit" name="unBlock" onClick={this.unBlockUser}>UnBlockUser  </button>
-        <br />
+    return (
+      <div className="blockList">
+        <button type="button" className="closeBlockList" onClick={this.closeBlockList.bind(this)}>Close</button>
+        {this.state.BlockList.map((blocklist) => (
+          <div className="blockeduser">
+            <h1 className="blockedusername">{blocklist.blocked}</h1>
+            <button id={blocklist.blocked} type="submit" name="unBlock" onClick={this.unBlockUser}>UnBlockUser  </button>
+            <br />
+          </div>
+        ))
+        }
       </div>
-    ));
+    )
   }
 
   MarkReadAll(e) {
@@ -225,7 +242,7 @@ class Inbox extends React.Component {
       })
       .then(res => {
         console.log(res);
-        if (res.data !== "OK") return;
+        if (!res.data.success) return;
         let msgs = this.state.Messages.map(msg => {
           msg.isRead = true;
           return msg;
@@ -235,9 +252,6 @@ class Inbox extends React.Component {
           Messages: msgs
         });
 
-
-
-        //in case sucess..
 
 
       })
@@ -267,7 +281,7 @@ class Inbox extends React.Component {
         console.log(res.data);
 
         console.log(res);
-        if (res.data.status !== "200") return;
+        if (!res.data.success) return;
         let msgs = this.state.Messages.map(msg => {
           msg.isRead = false;
           return msg;

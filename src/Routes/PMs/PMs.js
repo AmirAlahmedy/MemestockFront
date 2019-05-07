@@ -14,15 +14,25 @@ class PMs extends Component {
   //assume all submitted for now
   constructor(props) {
     super(props);
+
+    let param = window.location.href.split("?").pop();
+    const queryParams = 
+      param.split("&")
+      .map(el => el.split("="))
+      .reduce((acc, curr) => { 
+        acc[decodeURI(curr[0])] = decodeURI(curr[1]); 
+        return acc; 
+      }, {});
+      if(queryParams.subject) queryParams.subject = "RE: " + queryParams.subject;
     this.state = {
 
-      To: '',
-      Subject: '',
+      To: queryParams.sender || '',
+      Subject: queryParams.subject || '',
       Message: '',
       submitting: false,
       error: false,
-      errors:'',
-      success:''
+      errors: '',
+      success: ''
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -91,7 +101,7 @@ class PMs extends Component {
 
         //in case sucess..
         this.setState({
-         success : "Message Successfully Delievered"
+          success: "Message Successfully Delievered"
         });
 
       })
@@ -104,28 +114,28 @@ class PMs extends Component {
         if (error && error.response && error.response.statusText) {
           if (error.response.data.error === "overLengthedSubject") {
             this.setState({
-              errors: "*" + error.response.data.error +",subject Too long"
-          });
-            
+              errors: "*" + error.response.data.error + ",subject Too long"
+            });
+
           }
           else if (error.response.data.error === "receiverNotFound") {
             this.setState({
               errors: "*" + error.response.data.error
-          });
+            });
             return;
           }
           else if (error.response.data.error === "selfMessage") {
-            
+
             this.setState({
-              errors: "*" + error.response.data.error +", Trying to send a message to yourself"
-          });
+              errors: "*" + error.response.data.error + ", Trying to send a message to yourself"
+            });
             return;
           }
           else if (error.response.data.error === "blockedFromSending") {
-            
+
             this.setState({
-              errors: "*" + error.response.data.error +",Reciever blocked you"
-          });
+              errors: "*" + error.response.data.error + ",Reciever blocked you"
+            });
             return;
           }
         }
@@ -136,89 +146,89 @@ class PMs extends Component {
   }
 
   componentDidMount() {
-    if(localStorage.getItem("Username") === "guest"){
-     window.location.href = "/Home"; 
+    if (localStorage.getItem("Username") === "guest") {
+      window.location.href = "/Home";
     }
   }
 
   render() {
-    let error =this.state.errors != ""?<p className={classes.Invalid}>{this.state.errors}</p>:null
-    let success =this.state.success != ""?<p className={classes.Invalid}>{this.state.success}</p>:null
+    let error = this.state.errors != "" ? <p className={classes.Invalid}>{this.state.errors}</p> : null
+    let success = this.state.success != "" ? <p className={classes.Invalid}>{this.state.success}</p> : null
     return (
-     
+
       <Router>
         <Aux>
-          <div style={{width: "100%"}}>
-          <Head />
-          <Route path="/PM" exact component={Inbox} />
-          <Route path="/Sent" component={Sent} />
+          <div style={{ width: "100%" }}>
+            <Head />
+            <Route path="/PM" exact component={Inbox} />
+            <Route path="/Sent" component={Sent} />
 
-          
-          <div className="container">
-            <div className="pm-form">
-            
-            
+
+            <div className="container">
+              <div className="pm-form">
 
 
 
-              <Route exact path="/PM/Compose" render={props => (
-                <React.Fragment>
-                {error}
-                {success} 
-                {this.setState.errors=""}
-              {this.setState.success=""}
-             
-         
-             
-                <form name="myForm"
-                    onSubmit={this.handleSubmit}>
-                    
-                    <div>
-                      <textarea
-                        className="To"
-                        name="To"
-                        id="1"
-                        placeholder="Username, or /r/name for that subreddit's moderators"
-                        value={this.state.value}
-                        onChange={this.handleChange}
 
-                      />
-                    </div>
 
-                    <div>
-                      <textarea
-                        className="Subject"
-                        name="Subject"
-                        id="2"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        placeholder="Subject"
-                      />
-                    </div>
-
-                    <div>
-                      <textarea
-                        placeholder="Your message."
-                        className="Message"
-                        name="Message"
-                        id="3"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-
-                      />
-                    </div>
-                    <input type="submit" value="Submit" />
-
-                  </form>
-                
-                  
-                </React.Fragment>
-              )} />
+                <Route exact path="/PM/Compose" render={props => (
+                  <React.Fragment>
+                    {error}
+                    {success}
+                    {this.setState.errors = ""}
+                    {this.setState.success = ""}
 
 
 
+                    <form name="myForm"
+                      onSubmit={this.handleSubmit}>
+
+                      <div>
+                        <textarea
+                          className="To"
+                          name="To"
+                          id="1"
+                          placeholder="Username, or /r/name for that subreddit's moderators"
+                          value={this.state.To}
+                          onChange={this.handleChange}
+
+                        />
+                      </div>
+
+                      <div>
+                        <textarea
+                          className="Subject"
+                          name="Subject"
+                          id="2"
+                          value={this.state.Subject}
+                          onChange={this.handleChange}
+                          placeholder="Subject"
+                        />
+                      </div>
+
+                      <div>
+                        <textarea
+                          placeholder="Your message."
+                          className="Message"
+                          name="Message"
+                          id="3"
+                          value={this.state.Message}
+                          onChange={this.handleChange}
+
+                        />
+                      </div>
+                      <input type="submit" value="Submit" />
+
+                    </form>
+
+
+                  </React.Fragment>
+                )} />
+
+
+
+              </div>
             </div>
-          </div>
           </div>
         </Aux>
       </Router>

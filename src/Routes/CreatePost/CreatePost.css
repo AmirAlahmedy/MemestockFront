@@ -43,12 +43,14 @@
         font-size: 0.85em;
         padding: 1em;
         width: 100%;
+        font-family: inherit;
     }
     .spoilerLabel{
         margin: 0 1em;
     }
     .formGroupThreadComponent input{
         border-radius:4px;
+        font-family: inherit;
         border: 1px solid #ccc;
         padding: 1em;
         font-size: 0.85em;
@@ -84,3 +86,27 @@
     color:maroon;
     font-size: 0.77em;
 }
+.threadPhotoInput{
+    display: none;
+}
+.formGroupThreadComponent .threadPageCreateButton{
+    width: 20%;
+    min-width: 250px;
+    text-align: center;
+}
+.imageContainer{
+    display: flex;
+    align-items: center;
+}
+.uploadedImage{
+    width: 250px;
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+/* *:focus,
+*:active{
+    border-color: #2684FF !important;
+    outline: none;
+} */

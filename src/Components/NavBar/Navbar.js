@@ -128,6 +128,7 @@ const NavBar = props => {
                                 <ul className='dropUl' onChange={props.sortChanged}>
                                     <li className='yourStuffItem'><span onClick={goTo("/user/")} to='/user/' className='stfitm'>My Profile</span></li>
                                     <li className='yourStuffItem'><span onClick={goTo("/settings/")} to='/settings/' className='stfitm'>User Settings</span></li>
+                                    <li className='yourStuffItem'><span onClick={goTo("/moderation/")} to='/moderation/' className='stfitm'>Moderation</span></li>
                                     <li className='yourStuffItem'><a href="#logout" onClick={props.logout} className='logoutitm stfitm'>Logout</a></li>
                                 </ul>
                             </div>

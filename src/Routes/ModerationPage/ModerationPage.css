@@ -1,11 +1,22 @@
 .App {
   text-align: left;
+  background: #fff;
+  padding: 1em;
+  border-radius: 4px;
+  box-shadow: 0 0 3px rgba(51,51,51,0.5);
+  width: 90%;
+  min-width: 320px;
 }
 .Container{
-  padding-top: 80px;
-  padding-right: 80px;
-  padding-bottom: 80px;
-  padding-left: 80px
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 1em 0;
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  overflow: auto;
+  width: 100%;
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -14,15 +25,9 @@
 }
 
 .App-header {
-  background-color:white;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
-  font-weight : bold; 
-  
+  padding: 1em 0;
+  color: #333;
+  font-size: 1.5em;  
 }
 .link{
   color:blue;
@@ -44,9 +49,20 @@
 
 }
 .App-link {
-  color: #61dafb;
 }
-
+.link,
+.link:active
+.link:focus,
+.link:visited{
+  color: #0079D3;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+.formGroup{
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

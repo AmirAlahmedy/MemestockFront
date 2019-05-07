@@ -86,16 +86,18 @@ class ChangePass extends React.Component {
         return (
             <div>
                 <form className="form-horizontal col-sm-6" onSubmit={this.handleSubmit}>
-                    <h3>Change Password</h3>
                     <div className="form-group">
-                        <label>Old Password:</label>
+                        <label>Old Password
+
                         <input className="form-control" type="password" id="oldPassword" autoComplete="current-password"
-                            onChange={this.handleOldPasswordChange} />
+                                onChange={this.handleOldPasswordChange} />
+                        </label>
                     </div>
                     <div className="form-group">
-                        <label>New Password:</label>
+                        <label>New Password
                         <input className="form-control" type="password" id="newPassword" autoComplete="new-password"
-                            onChange={this.handleNewPasswordChange} />
+                                onChange={this.handleNewPasswordChange} />
+                        </label>
                     </div>
                     <input class="btn btn-primary" type="submit" id="submit" value="Submit" />
                 </form>

@@ -29,9 +29,9 @@ export class Subreddit extends Component {
     subredditEdit: false,
     threadsContent: [],
     flair: null,
-    spoiler: false, 
-    error:false,
-    errormessage:''
+    spoiler: false,
+    error: false,
+    errormessage: ''
   }
 
   componentDidMount() {
@@ -49,13 +49,13 @@ export class Subreddit extends Component {
             console.log(resp.data);
             this.setState({
               name: this.state.name,
-              bio: resp.data.Bio,
+              bio: resp.data.bio.length ? resp.data.bio[0] : "" ,
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
-              moderatorsList: resp.data.modUsername ? resp.data.modUsername : [resp.data.adminUsername],
+              moderatorsList: [...resp.data.modUsername, resp.data.adminUsername],
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
-              subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username"))   ? true : false,
+              subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
               adminview: resp.data.modUsername.includes(localStorage.getItem("Username")) ? true : false,
               date: resp.data.date,
               rules: resp.data.rules,
@@ -171,7 +171,7 @@ export class Subreddit extends Component {
             subscribed: false
           }
           );
-        } 
+        }
       })
       .catch(error => {
         alert(error.response);
@@ -219,8 +219,8 @@ export class Subreddit extends Component {
     console.log('Clicked on create thread sidebar');
     if (this.state.subscribed == false && !this.state.moderatorsList.includes(localStorage.getItem("Username"))) {
       this.setState({
-        error:true,
-        errormessage:'Cant create a post unless subscribed'
+        error: true,
+        errormessage: 'Cant create a post unless subscribed'
       })
     }
     else {
@@ -268,8 +268,8 @@ export class Subreddit extends Component {
    */
   handleSubmit = (e) => {
     this.setState({
-      error:false,
-      errornumber:0
+      error: false,
+      errornumber: 0
     })
     e.preventDefault();
 
@@ -277,8 +277,8 @@ export class Subreddit extends Component {
 
     if (document.getElementById("threadTitleField").value === checker) {
       this.setState({
-        error:true,
-        errornumber:1
+        error: true,
+        errornumber: 1
       })
       //alert("Please provide a Thread Title!");
       return;
@@ -286,8 +286,8 @@ export class Subreddit extends Component {
     else if (document.getElementById("threadBodyField").value === checker) {
       //alert("Please provide a Thread Body!");
       this.setState({
-        error:true,
-        errornumber:2
+        error: true,
+        errornumber: 2
       })
       return;
     }
@@ -310,9 +310,9 @@ export class Subreddit extends Component {
         console.log(res);
         if (res.status == 200) {
           alert("Thread Created Successfully!");
-        this.setState({
-          threadCreation:false
-        })
+          this.setState({
+            threadCreation: false
+          })
         } else if (res.status === 401 || res.status === 404) {
           alert("Thread Creation Unsuccessful");
           return Response.json;
@@ -332,16 +332,26 @@ export class Subreddit extends Component {
     }
     const srdata = {
       "newName": document.getElementById("subredditNameField").value,
-      "newRules": [document.getElementById("subredditRule1Field").value, document.getElementById("subredditRule2Field").value, document.getElementById("subredditRule3Field").value],
+      "newRules": [],
       "newBio": document.getElementById("subredditBioField").value,
       "newMods": newmods,
       "base64image": this.state.image
     }
-
+    // srdata.newRules = [];
+    if (document.getElementById("subredditRule3Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule3Field").value);
+    }
+    if (document.getElementById("subredditRule2Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule1Field").value);
+    }
+    if (document.getElementById("subredditRule1Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule1Field").value);
+    }
     let headers = {
       auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
+    srdata.newMods = srdata.newMods.filter(mod => !this.state.moderatorsList.includes(mod))
     axios.put('/sr/' + SubredditName, srdata, { "headers": headers })
       .then(res => {
         console.log(res);
@@ -367,7 +377,7 @@ export class Subreddit extends Component {
       })
   }
   getThreads() {
-    if (!this.state.threadsContent) return;
+    if (!this.state.threadsContent.length) return <p>No posts yet...</p>;
     return this.state.threadsContent.map(thr =>
       <Thread
         id={thr._id}
@@ -376,6 +386,7 @@ export class Subreddit extends Component {
         title={thr.title}
         content={thr.body}
         upvotes={thr.votes}
+        isSpoiler={thr.spoiler}
       />);
   }
   /**
@@ -442,7 +453,7 @@ export class Subreddit extends Component {
     console.log(this.state.flair);
     return (
       <div className="subredditFixed">
-        <section id="subredditShowcase" style={{ backgroundImage: this.state.cover ? `url(http://18.217.163.16/api${this.state.cover})` : null }}>
+        <section id="subredditShowcase" style={{ backgroundImage: this.state.cover ? `url(${window.baseURL}${this.state.cover})` : null }}>
           <img src={defImage} alt="Subreddit Default" />
           <h1>r/{this.state.name}</h1>
         </section>
@@ -511,34 +522,37 @@ export class Subreddit extends Component {
                   <form onSubmit={this.handleEdit}>
                     <div className="formGroupSrComponent">
                       <label for="Subreddit New Name">Enter Subreddit Name</label>
-                      <textarea type="textarea" name="text" id="subredditNameField" placeholder="Enter Name Here" />
+                      <textarea defaultValue={this.state.name} type="textarea" name="text" id="subredditNameField" placeholder="Enter Name Here" />
                     </div>
                     <div className="formGroupSrComponent">
                       <label for="Rule1">Enter Rule </label>
-                      <textarea type="textarea" name="text" id="subredditRule1Field" placeholder="Enter Rule Here" />
+                      <textarea defaultValue={this.state.rules[0]} type="textarea" name="text" id="subredditRule1Field" placeholder="Enter Rule Here" />
                     </div>
                     <div className="formGroupSrComponent">
                       <label for="Rule2">Enter Rule </label>
-                      <textarea type="textarea" name="text" id="subredditRule2Field" placeholder="Enter Rule Here" />
+                      <textarea defaultValue={this.state.rules[1]} type="textarea" name="text" id="subredditRule2Field" placeholder="Enter Rule Here" />
                     </div>
                     <div className="formGroupSrComponent">
                       <label for="Rule3">Enter Rule </label>
-                      <textarea type="textarea" name="text" id="subredditRule3Field" placeholder="Enter Rule Here" />
+                      <textarea defaultValue={this.state.rules[2]} type="textarea" name="text" id="subredditRule3Field" placeholder="Enter Rule Here" />
                     </div>
                     <div className="formGroupSrComponent">
                       <label for="Bio">Enter Bio </label>
-                      <textarea type="textarea" name="text" id="subredditBioField" placeholder="Enter Bio Here" />
+                      <textarea defaultValue={this.state.bio} type="textarea" name="text" id="subredditBioField" placeholder="Enter Bio Here" />
                     </div>
                     <div className="formGroupSrComponent">
                       <label for="Bio">Add a new moderator </label>
-                      <textarea type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
+                      <textarea defaultValue={this.state.moderatorsList.join(", ")} type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
                     </div>
-                    <div className="formGroupSrComponent">
-                      <label for="cover">Cover </label>
+                    <div className="formGroupSrComponent imageContainer">
+                      <label  className="srSidebarSubscribeButton" for="cover">Cover</label>
                       <input type="file" name="cover" id="cover" onChange={this.handleNewImage.bind(this)} />
+                      {this.state.image ?
+                        <div className="uploadedImage" style={{ backgroundImage: `url(${this.state.image})` }}></div>
+                        : null}
                     </div>
                     <button className="srSidebarSubscribeButton">Edit Subreddit</button>
-                    <button type="button" className="srSidebarSubscribeButton" onClick={this.cancelSubreddit}>CANCEL</button>
+                    <button type="button" className="srSidebarSubscribeButton cancel" onClick={this.cancelSubreddit}>CANCEL</button>
                   </form>
                 </div> : <div></div>
             }
@@ -552,25 +566,28 @@ export class Subreddit extends Component {
                       <label for="ThreadTitle">Enter Title</label>
                       <textarea type="textarea" name="text" id="threadTitleField" placeholder="Enter Title Here" />
                     </div>
-                    { 
-                      this.state.errornumber==1 ? 
-                      <div className="errorMessageSubreddit">
-                      *Please Provide a title for the thread
+                    {
+                      this.state.errornumber == 1 ?
+                        <div className="errorMessageSubreddit">
+                          *Please Provide a title for the thread
                       </div> : <div></div>
                     }
                     <div className="formGroupSrComponent">
                       <label for="ThreadBody">Enter Thread Body</label>
                       <textarea type="textarea" name="text" id="threadBodyField" placeholder="Enter Body Here" />
                     </div>
-                    { 
-                      this.state.errornumber==2 ? 
-                      <div className="errorMessageSubreddit">
-                      *Please Provide a body for the thread
+                    {
+                      this.state.errornumber == 2 ?
+                        <div className="errorMessageSubreddit">
+                          *Please Provide a body for the thread
                       </div> : <div></div>
                     }
-                    <div className="formGroupSrComponent">
-                      <label for="coverPost">Cover </label>
+                    <div className="formGroupSrComponent imageContainer">
+                    <label className="srSidebarSubscribeButton" for="coverPost">Cover </label>
                       <input type="file" name="coverPost" id="coverPost" onChange={this.handleNewImagePost.bind(this)} />
+                      {this.state.imagePost ?
+                        <div className="uploadedImage" style={{ backgroundImage: `url(${this.state.imagePost})` }}></div>
+                        : null}
                     </div>
                     <div className="formGroupSrComponent">
                       <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>

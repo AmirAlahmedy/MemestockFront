@@ -24,7 +24,7 @@ class Login extends Component {
             Password: inputs[1].value,
 
         }
-        return axios.post('http://18.217.163.16/api/user/Login', data)
+        return axios.post('user/Login', data)
             .then(response => {
                 if(response.data.token){
                     this.props.close();

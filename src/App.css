@@ -3,3 +3,10 @@
   min-height: 100vh;
 }
 
+.notification{
+  position: fixed;
+  right: 0;
+  width: 320px;
+  background: #fff;
+  color: #000;
+}

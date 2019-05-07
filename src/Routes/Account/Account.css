@@ -14,4 +14,60 @@
     line-height: 16px;
     color: rgb(124, 124, 124);
 }
+h3{
+    padding: 0 !important;
+    margin: 1em 0 !important;
+}
+.form-group{
+    margin-top: 1em;
+    text-align: left;
+    color: #666;
+}
+.form-control{
+    margin: 0 auto;
+    border-radius:4px;
+    border: 1px solid #ccc;
+    resize: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 0.85em;
+    padding: 1em;
+    width: 100%;
+    margin: 1em 0 0 0;
+}
+.form-horizontal{
+    text-align: left;
+}
 
+.btn {
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    /* font: inherit; */
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: calc(100% - 2em);
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+    margin: 1em;
+}
+.btn:hover{
+    background-color: #33a8ff;
+}
+.accountLinks{
+    display: flex;
+    justify-content: space-around;
+}
+.accountLinks a,
+.accountLinks a:hover,
+.accountLinks a:active,
+.accountLinks a:visited{
+    color: #0079D3;
+    text-decoration: none;
+}

@@ -1,0 +1,58 @@
+.leaveMod{
+    background-color: #0079D3;
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    /* font: inherit; */
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 250px;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+    transition: box-shadow 0.2s ease;
+}
+.leaveMod:hover{
+    background-color: #33a8ff;
+}
+.delBtn{
+    background:rgb(128,12,12);
+    border: none;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 250px;
+    margin-left: 0;
+    padding-left: 0;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-transform: uppercase;
+}
+.delBtn:hover{
+    background: #da0046;
+}
+.visitPostLink,
+.visitPostLink:hover,
+.visitPostLink:visited,
+.visitPostLink:active,
+.visitPostLink:focus{
+    display: block;
+    color: #0079D3;
+    text-decoration: none;
+}
+.visitPostLink:hover{
+    text-decoration: #0079D3 underline;
+}

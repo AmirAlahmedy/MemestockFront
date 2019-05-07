@@ -68,3 +68,23 @@ h3{
 .srSubredditPageCreateButton:hover{
     background-color: #33a8ff;
 }
+
+.threadPhotoInput{
+    display: none;
+}
+.formGroupSubredditComponent .srSubredditPageCreateButton{
+    width: 20%;
+    min-width: 250px;
+    text-align: center;
+}
+.imageContainer{
+    display: flex;
+    align-items: center;
+}
+.uploadedImage{
+    width: 250px;
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

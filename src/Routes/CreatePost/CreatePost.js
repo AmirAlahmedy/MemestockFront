@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CreatePost.css';
-
+import Select from 'react-select';
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import axios from '../../axios-orders';
@@ -17,7 +17,8 @@ class CreatePost extends Component {
       subreddit: '',
       image: null,
       error: false,
-      errornumber: 0
+      errornumber: 0,
+      subscriptions: []
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,15 +55,16 @@ class CreatePost extends Component {
     }
     let checker = "";
 
-    if (document.getElementById("threadPageSubredditNameField").value === checker) {
-      //alert("Please provide an existing Subreddit name!");
-      this.setState({
-        error: true,
-        errornumber: 1
-      })
-      return;
-    }
-    else if (document.getElementById("threadPageTitleField").value === checker) {
+    // if (document.getElementById("threadPageSubredditNameField").value === checker) {
+    //   //alert("Please provide an existing Subreddit name!");
+    //   this.setState({
+    //     error: true,
+    //     errornumber: 1
+    //   })
+    //   return;
+    // }
+    // else
+    if (document.getElementById("threadPageTitleField").value === checker) {
       this.setState({
         error: true,
         errornumber: 2
@@ -79,7 +81,7 @@ class CreatePost extends Component {
       return;
     }
 
-    let subredditname = document.getElementById("threadPageSubredditNameField").value;
+    let subredditname = this.state.srName;
     let headers = {
       auth: localStorage.getItem("token")
     }
@@ -98,6 +100,14 @@ class CreatePost extends Component {
   }
   componentDidMount() {
     document.body.classList.add("verticalAlign");
+    axios.get("/me/About/" + localStorage.getItem('Username'), {headers: {auth: localStorage.getItem("token")}})
+    .then(resp => {
+      if(resp.data.Subscriptions.length || resp.data.moderates.length){
+        this.setState({
+          subscriptions: [...resp.data.Subscriptions, ...resp.data.moderates]
+        });
+      }
+    })
   }
   componentWillUnmount() {
     document.body.classList.remove("verticalAlign");
@@ -116,6 +126,11 @@ class CreatePost extends Component {
     }
     reader.readAsDataURL(files[0]);
   }
+  setSR(option){
+    this.setState({
+      srName: option.value
+    });
+  }
   render() {
     return (
       <div className="createPostContainer">
@@ -126,7 +141,9 @@ class CreatePost extends Component {
           <div className="formGroupThreadComponent">
             <label for="SubredditName">Subreddit Name</label>
             <br></br>
-            <input type="text" name="text" id="threadPageSubredditNameField" placeholder="Enter Existing Subreddit Name" onChange={this.handleChange} value={this.state.value} />
+            <Select 
+              onChange={this.setSR.bind(this)}
+              options={this.state.subscriptions.map(sr => {return {value: sr, label: sr}})}/>
           </div>
           {
             this.state.error ?
@@ -170,9 +187,12 @@ class CreatePost extends Component {
               </div> : <div></div>
           }
 
-          <div className="formGroupThreadComponent">
-            <label for="coverPhoto">Cover Photo:</label>
-            <input type="file" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
+          <div className="formGroupThreadComponent imageContainer">
+            <label className="threadPageCreateButton" for="coverPhoto">Photo</label>
+            <input type="file" className="threadPhotoInput" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
+            {this.state.image ? 
+            <div className="uploadedImage" style={{backgroundImage: `url(${this.state.image})`}}></div>
+            : null}
           </div>
           <div className="formGroupThreadCheckbox">
             <label className="spoilerLabel" for="Spoiler">Is it a spoiler?</label>

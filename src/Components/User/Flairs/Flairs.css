@@ -2,13 +2,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     align-content: center;
 }
 
 .list{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
     padding-top: 10px;
+}
+.table{
+    width: 100%;
+    margin-top: 2em;
+}
+.table, tr, td{
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+td{
+    padding: 1em;
 }

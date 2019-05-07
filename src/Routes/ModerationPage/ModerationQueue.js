@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
 import axios from '../../axios-orders';
-
+import styles from './modQ.css'
 
 class ModerationQueue extends Component {
 
@@ -26,10 +26,17 @@ class ModerationQueue extends Component {
       auth: localStorage.getItem("token")
     }
     axios.get('Moderator/Reports/', { "headers": headers })
-      .then(response => {
+      .then(async (response) => {
         console.log(response);
         console.log(response.data);
 
+        for (const rep of response.data.reports) {
+          if (rep.post) continue;
+          await axios.get(`/comment/${rep.reportedId}`, { headers: { auth: localStorage.getItem("token") } })
+            .then(resp => {
+              rep.commentContent = resp.data.content
+            })
+        }
 
         this.setState({
           Reports: response.data.reports
@@ -58,24 +65,22 @@ class ModerationQueue extends Component {
         if (!error.response) return;
         if (error.response.data === "You are not a moderator to any subreddit") {
           alert("you are not a moderator to any subreddit");
-
-
         }
         else if (error.response.data = "No reports") {
-          alert("there are no reports");
           return;
         }
       });
   }
   checkforpostorcomment(x, id) {
-    if (x === true) { return <button id={id} type="submit" name="deletereportedpost" onClick={this.DeleteReportedPost}>Delete ReportedPost</button> }
+    if (x === true) { return <button className="delBtn" id={id} type="submit" name="deletereportedpost" onClick={this.DeleteReportedPost}>Delete Reported Post</button> }
     else if (x === false) {
-      return <button id={id} type="submit" name="deletereportedcomment" onClick={this.DeleteReportedComment}>Delete ReportedComment</button>
+      return <button id={id} className="delBtn" type="submit" name="deletereportedcomment" onClick={this.DeleteReportedComment}>Delete Reported Comment</button>
     }
   }
   DeleteReport(e) {
 
     const element = e.target;
+    const container = element.parentElement;
     const reportId = element.getAttribute("id");
     console.log(reportId);
     axios.delete("/Moderator/Reports/" + reportId,
@@ -89,7 +94,9 @@ class ModerationQueue extends Component {
       .then(response => {
         console.log(response);
         console.log(response.data);
-
+        if(response.data.message === "report deleted"){
+          container.remove();
+        }
 
       })
       // Let's make sure to change the loading state to display the data
@@ -171,7 +178,7 @@ class ModerationQueue extends Component {
       .then(response => {
         console.log(response);
         console.log(response.data);
-
+        window.location.reload();
       })
       // Let's make sure to change the loading state to display the data
       /* .then(Messages => {
@@ -244,17 +251,24 @@ class ModerationQueue extends Component {
 
 
   getReports() {
-    if (this.state.Reports === 0) { return; }
-
+    if (!this.state.Reports.length) { return <p>No Reports found</p> }
     return this.state.Reports.map((rep) => (
 
       <div className="repContainer">
         <span className="ReportName">ReportedSubr : {rep.srName}</span>
-        <button id={rep.srName} type="submit" name="leavemoderation" onClick={this.leavemoderation}>LeaveModeration  </button>
-        <h1 className="ReportDesc">Report Description : {rep.description}</h1>
-        <button id={rep._id} type="submit" name="deleteReport" onClick={this.DeleteReport}>DeleteReport  </button>
-        {this.checkforpostorcomment(rep.post, rep._id)}
         <br />
+        <button id={rep.srName} className="leaveMod" type="submit" name="leavemoderation" onClick={this.leavemoderation}>Leave Moderation</button>
+        <p className="ReportDesc">Report Description : {rep.description}</p>
+        <p className="ReportDesc">Report Type : {rep.post ? "Post" : "Comment"}</p>
+        {rep.post ?
+          <a href={`/thread/${rep.reportedId}?srName=${rep.srName}`} className="visitPostLink">Visit Post</a>
+          :
+          <p>Content: {rep.commentContent}</p>
+        }
+        {/*  */}
+        <button id={rep._id} className="delBtn" type="submit" name="deleteReport" onClick={this.DeleteReport}>Delete Report</button>
+        {this.checkforpostorcomment(rep.post, rep._id)}
+        <hr />
 
 
 

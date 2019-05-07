@@ -64,21 +64,6 @@
         text-align: left;
     }
    
-    .replyComment
-    {
-        background: transparent;
-        border: 0;
-        font-size: 1em;
-        position: relative;
-        left: 45%;
-        bottom: 3em;
-        text-align: right;
-        cursor: pointer;
-        color: grey;
-    }
-    .replyComment:hover{
-        color: #333;
-    }
     .commentContainer
     {
         background-color: rgb(255, 255, 255);
@@ -295,7 +280,11 @@
     background-color:rgb(26, 26, 27);
 }
 .threadPageSidebarEditButton1,
-.threadPageSidebarEditButton2{
+.threadPageSidebarEditButton2,
+.goEdit,
+.goReply,
+.editComment,
+.replyComment{
     background-color: #0079D3;
     border: none;
     color: #fff;
@@ -316,11 +305,17 @@
     transition: box-shadow 0.2s ease;
 }
 .threadPageSidebarEditButton1:hover,
-.threadPageSidebarEditButton2:hover{
+.threadPageSidebarEditButton2:hover,
+.goEdit:hover,
+.goReply:hover,
+.editComment:hover,
+.replyComment:hover{
     background-color: #33a8ff;
 }
 .threadPageSidebarDeleteButton,
-.threadPageSidebarCancelEditButton { 
+.threadPageSidebarCancelEditButton,
+.goCancel,
+.deleteComment { 
     background:rgb(128,12,12);
     border: none;
     color: #fff;
@@ -339,11 +334,22 @@
     text-transform: uppercase;
 }
 .threadPageSidebarDeleteButton:hover,
-.threadPageSidebarCancelEditButton:hover{
+.threadPageSidebarCancelEditButton:hover,
+.goCancel:hover,
+.deleteComment:hover{
     background: #da0046;
 }
-
-
+.goReply,
+.goCancel,
+.goEdit{
+    width: 45%;
+}
+.editComment,
+.deleteComment,
+.replyComment{
+    width: 25%;
+    text-align: center;
+}
 
 /*
 .editPostSidebar{
@@ -370,40 +376,9 @@
 .spoilerComment,
 .lockComment
     {
-        color: #333;
-        margin: 0.5em 1em;
+        color: #000;
+        margin: 1em;
         display: inline-block;
-        padding: 1em;
-    }
-    .goEdit
-    {
-        background-color: rgb(104, 135, 194);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-
-    }
-    .goReply
-    {
-        background-color: rgb(104, 135, 194);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-
-    }
-    .goCancel
-    {
-        background-color: rgb(104, 135, 194);
-        margin: 5px;
-        border:  1px solid rgb(52, 53, 54);
-        border-radius: 5px;
-        font-size: 13px;
-        text-align: left;
-
     }
     
     .threadUpvotes{
@@ -431,4 +406,23 @@
     font-style: inherit;
     color:maroon;
     font-size: 0.77em;
+}
+.threadComment2{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(51,51,51,0.5)
+}
+.editForm{
+    width: 50%;
+    min-width: 300px;
+    max-width: 600px;
+    background: #fff;
+    padding: 1em;
 }

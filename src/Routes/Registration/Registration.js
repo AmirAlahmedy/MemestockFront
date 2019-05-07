@@ -37,7 +37,7 @@ export default class Registration extends Component {
             Username: inputs[1].value,
             Password: inputs[2].value
         }
-        axios.post('http://18.217.163.16/api/user/register', data)
+        axios.post('user/register', data)
             .then(response => {
 
                 if(response.data.token){

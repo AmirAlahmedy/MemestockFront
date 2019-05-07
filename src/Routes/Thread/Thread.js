@@ -114,10 +114,10 @@ export default class Thread extends Component {
       const postID = this.props.id.split("?").shift();
 
       let el = e.target;
-      while(el.getAttribute("type") !== "button"){
+      while (el.getAttribute("type") !== "button") {
          el = el.parentElement;
       }
-      if(el.getAttribute("disabled") === "true") return;
+      if (el.getAttribute("disabled") === "true") return;
 
       axios.post('/sr/' + srName + '/thread/' + postID + '/vote', { "upvote": true }, { headers: { "auth": localStorage.getItem("token") } })
          .then(res => {
@@ -130,7 +130,7 @@ export default class Thread extends Component {
          })
          .catch(error => {
             const errMsg = error.response.data.error;
-            if(errMsg === "already voted: true "){
+            if (errMsg === "already voted: true ") {
                alert("Already upvoted");
                el.setAttribute("disabled", true);
                document.querySelector(".incrementVotes").setAttribute("disabled", false);
@@ -146,10 +146,10 @@ export default class Thread extends Component {
     */
    handledecrement = (e) => {
       let el = e.target;
-      while(el.getAttribute("type") !== "button"){
+      while (el.getAttribute("type") !== "button") {
          el = el.parentElement;
       }
-      if(el.getAttribute("disabled") === "true") return;
+      if (el.getAttribute("disabled") === "true") return;
       const srName = this.props.id.split("?").pop();
       const postID = this.props.id.split("?").shift();
       axios.post('/sr/' + srName + '/thread/' + postID + '/vote', { "upvote": false }, { headers: { "auth": localStorage.getItem("token") } })
@@ -163,7 +163,7 @@ export default class Thread extends Component {
          })
          .catch(error => {
             const errMsg = error.response.data.error;
-            if(errMsg === "already voted: false "){
+            if (errMsg === "already voted: false ") {
                alert("Already downvoted");
                el.setAttribute("disabled", true);
                document.querySelector(".incrementVotes").setAttribute("disabled", false);
@@ -188,6 +188,11 @@ export default class Thread extends Component {
          <div /*className={thrdWrapper}*/>
             <div className={thrdCont}>
                <div class="threadLinks">
+                  {this.props.isSpoiler ?
+                     <span className="spoilerAlert">Spoiler</span>
+                     : null
+                  }
+                  <br />
                   <span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}</span>
                   .
                         <span onClick={this.goTo(`/user/${this.props.username}`)} className="posted-by">   Posted by u/{this.props.username} </span>
@@ -195,21 +200,21 @@ export default class Thread extends Component {
                <br></br>
                <div className="threadTitle">{this.props.title}</div>
 
+               <span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
+                  {window.location.href.includes("/thread/") ? "" : "View"}
+               </span>
                <p className={window.location.href.includes("/thread/") ? "threadContent" : thrdContent}>{this.props.content}</p>
-               {this.props.image ? 
-                  <img className="imageContent" src={`http://18.217.163.16/api${this.props.image}`} />
+               {this.props.image ?
+                  <img className="imageContent" src={`${window.baseURL}${this.props.image}`} />
                   :
                   null
                }
                <button type="button" onClick={this.handleIncrement} className="incrementVotes"><i class="fas fa-angle-up"></i></button>
 
-               <div className="threadUpvotes">{typeof this.state.upvotes === "object" ? this.props.upvotes: this.state.upvotes}</div>
+               <div className="threadUpvotes">{typeof this.state.upvotes === "object" ? this.props.upvotes : this.state.upvotes}</div>
 
                <button type="button" onClick={this.handledecrement} className="decrementVotes"><i class="fas fa-angle-down"></i></button>
 
-               <span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                  {window.location.href.includes("/thread/") ? "" : "View"}
-               </span>
 
 
             </div>

@@ -60,21 +60,39 @@ class Threads extends Component {
         console.log(token);
         console.log(localStorage.getItem('token'));
 
-        this.getListing(this.props.sort);
-        this.setState({
-            sort: this.props.sort
-        });
+        axios.get(`/me/listing?type=${this.props.sort}&_id=0&votes=0&hotindex=0`, { headers: this.headers })
+            .then(response => {
+                
+                // response.data.posts.sort((p1, p2) => {
+                //     const d1 = new Date(p1.postDate);
+                //     const d2 = new Date(p2.postDate);
+                //     return d1.getTime() - d2.getTime();
+                // })
+                this.reqThreads = response.data;
+                this.setState({
+                    reqThreads: response.data,
+                    lastID: response.data.posts[response.data.posts.length-1]._id,
+                    votes: response.data.posts[response.data.posts.length-1].votes,
+                    
+                });
+
+            })
+            .catch(error => {
+
+            })
         this.props.listingUpdater(this.getListing.bind(this));
         window.addEventListener("scroll", () => {
             if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
 
-                return axios.get(`/me/listing?type=${this.props.sort}&_id=${this.state.lastID}&votes=${this.state.lastVotes}&hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                return axios.get(`/me/listing?type=${this.props.sort}&_id=${this.state.lastID}&votes=${this.state.votes}&hotindex=${0}`, { headers: this.headers })
                     .then(response => {
                         console.log(response);
-                        this.reqThreads = response.data;
+                        this.reqThreads.posts = this.reqThreads.posts.concat(response.data.posts);
+                        response.data.posts = this.reqThreads.posts;
                         this.setState({
                             reqThreads: response.data,
-
+                            lastID: response.data.posts[response.data.posts.length-1]._id,
+                            votes: response.data.posts[response.data.posts.length-1].votes,
                         });
 
                     })
@@ -128,6 +146,8 @@ class Threads extends Component {
             content={thr.body}
             view={view}
             upvotes={thr.votes}
+            isSpoiler={thr.spoiler}
+            image={thr.postFile === "none" ? null : thr.postFile}
         />)
     }
 
@@ -175,8 +195,8 @@ class Threads extends Component {
                     {this.getThreads(this.props.view)}
                 </div>
                 <sidebar className='sidebar'>
-                <Button clicked={this.goToCreatePost} id='Cp'>Create Post</Button>
-                <Button clicked={this.goToCreateSr.bind(this)} id='Sr'> Create Community</Button>
+                    <Button clicked={this.goToCreatePost} id='Cp'>Create Post</Button>
+                    <Button clicked={this.goToCreateSr.bind(this)} id='Sr'> Create Community</Button>
                 </sidebar>
             </Aux>
 
@@ -185,7 +205,7 @@ class Threads extends Component {
 }
 
 const Thr = Threads;
-export{
+export {
     Listings,
     Thr
 }

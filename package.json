@@ -17,6 +17,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.8",
+    "react-select": "^2.4.3",
     "react-test-renderer": "^16.8.6",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",

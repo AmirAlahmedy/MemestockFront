@@ -18,6 +18,64 @@ import axios from './axios-orders';
 import Notifications from './Routes/Notifications/Notifications';
 import io from 'socket.io-client';
 
+// function urlBase64ToUint8Array(base64String) {
+//   const padding = '='.repeat((4 - base64String.length % 4) % 4);
+//   const base64 = (base64String + padding)
+//     .replace(/\-/g, '+')
+//     .replace(/_/g, '/');
+ 
+//   const rawData = window.atob(base64);
+//   const outputArray = new Uint8Array(rawData.length);
+ 
+//   for (let i = 0; i < rawData.length; ++i) {
+//     outputArray[i] = rawData.charCodeAt(i);
+//   }
+//   return outputArray;
+// }
+// const vapidPublicKey = 'BER0W2tD4sWrG7dYLjSp4avRvtjovXykHkxC9yUKoHjuM5or977KdoShVn_d4XUkWDDMcjrs8-dyjlkXbqD-5ZA';
+// const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+// function initializePush() {
+//   messaging
+//       .requestPermission()
+//       .then(() => {
+//          return messaging.getToken();
+//       })
+//       .then(token => {
+//           console.log("FCM Token:", token);
+//           //send the token to the server to be able to send notifications in the future
+//          sendTokenToServer(token);
+//       })
+//       .catch(error => {
+//           if (error.code === "messaging/permission-blocked") {
+//               console.log("Please Unblock Notification Request Manually");
+//           } else {
+//               console.log("Error Occurred", error);
+//           }
+//       });
+
+//   messaging.onMessage(payload => {
+//     console.log("payload", payload)
+//   });
+// }
+// function handlePush(){
+//   // navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+//   //   serviceWorkerRegistration.pushManager
+//   //   .subscribe({
+//   //     userVisibleOnly: true,
+//   //     applicationServerKey: convertedVapidKey
+//   //   });
+//   // });
+//   if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('./assets/firebase-messaging-sw.js',)
+//       .then(function (registration) {
+//         firebase.messaging().useServiceWorker(registration);
+//         initializePush(messaging)
+//         console.log("This service worker is registered")
+//       }).catch(function (err) {
+//         console.log('Service worker registration failed, error:', err);
+//       });
+//   }
+// }
 class Home extends Component {
 
   state = {
@@ -31,6 +89,8 @@ class Home extends Component {
 
 
   componentDidMount = () => {
+    // window.baseURL = "http://localhost:4000";
+    window.baseURL = "http://18.217.163.16/api";
     const roots = ["http://localhost:3000", "http://localhost:3000/", "http://18.217.163.16/", "http://18.217.163.16"]
     if (roots.includes(window.location.href)) {
       window.location.href = "/Home";
@@ -59,11 +119,22 @@ class Home extends Component {
           token: localStorage.getItem("token")
         }
       });
-      this.socket.on('connect', function () {
-        console.log("socket connected");
-      });
+      // this.socket = io("http://localhost:4000/", {
+      //   // path: "/api/socket.io",
+      //   query: {
+      //     token: localStorage.getItem("token")
+      //   }
+      // });
+      // this.socket.on('connect', function () {
+      //   console.log("socket connected");
+      // });
       this.socket.on('notification', function(data){
         console.log("notification data: ", data);
+        const cont = document.createElement("div");
+        cont.innerHTML = `<p>${data.message}</p>`
+        cont.classList.add("notification");
+        document.body.appendChild(cont);
+        cont.onclick = (e) => e.target.remove();
       });
     }
 
@@ -173,12 +244,8 @@ class Home extends Component {
           <Route path='/GoHome/' component={GoHome} />
           <Route path='/create-subreddit/' component={CreateSubReddit} />
           <Route path='/notifications/' component={Notifications} />
-          <Route path='/user/' render={
-            props => {
-              return <User username={this.props.username} />
-            }
-          } />
-          <Route path='/user/moderation' component={Moderation} />
+          <Route path='/user/:username?' exact component={User}/>
+          <Route path='/moderation' component={Moderation} />
           <Route path='/Home/' render={
             props => {
               console.log('sort in home', this.state.sort);

@@ -13,9 +13,6 @@
 /* line-height: 90px;  */
    
 }
-.notiContainer:hover{
-    border:  1px solid rgb(129, 131, 132);
-}
 
 @media (min-width: 640px){
 
@@ -40,6 +37,8 @@
     align-self: center;
     text-align: center;
     width: 70%;
+    margin: 0 auto;
+    min-width: 320px;
 }
 
 .markOne{
