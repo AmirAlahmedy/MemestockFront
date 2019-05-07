@@ -1,140 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Feature component it matches the snapshot 1`] = `
-<div
-  className="page"
->
-  <div
-    class="threadPageContainer"
-  >
-    <div
-      className="PageThread"
-    >
-      <div>
-        <div
-          className="classicThreadContainer"
-        >
-          <div
-            class="threadLinks"
-          >
-            <span
-              className="threadSubreddit"
-              onClick={[Function]}
-            >
-               r/
-              http://localhost/
-            </span>
-            .
-            <span
-              className="posted-by"
-              onClick={[Function]}
-            >
-                 Posted by u/
-              
-               
-            </span>
-          </div>
-          <br />
-          <div
-            className="threadTitle"
-          >
-            
-          </div>
-          <p
-            className="classicThreadContent"
-          >
-            
-          </p>
-          <button
-            className="incrementVotes"
-            onClick={[Function]}
-            type="button"
-          >
-            <i
-              class="fas fa-angle-up"
-            />
-          </button>
-          <div
-            className="threadUpvotes"
-          >
-            0
-          </div>
-          <button
-            className="decrementVotes"
-            onClick={[Function]}
-            type="button"
-          >
-            <i
-              class="fas fa-angle-down"
-            />
-          </button>
-          <span
-            className="threadComments"
-            onClick={[Function]}
-          >
-            View
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="addCommentSection"
-    >
-      <form
-        onSubmit={[Function]}
-      >
-        <input
-          className="textComment"
-          name="comment"
-          onChange={[Function]}
-          placeholder="Write your comment here..."
-          type="text"
-          value=""
-        />
-        <input
-          className="saveComment"
-          type="submit"
-          value="Save"
-        />
-      </form>
-      <label
-        className="lockComment"
-        for="checkLocked"
-      >
-        Lock
-      </label>
-      <input
-        id="checkLocked"
-        name="checkLocked"
-        type="checkbox"
-      />
-      <label
-        className="spoilerComment"
-        for="checkSpoiler"
-      >
-        Mark as spoiler
-      </label>
-      <input
-        id="checkSpoiler"
-        name="checkSpoiler"
-        type="checkbox"
-      />
-    </div>
-    <ul
-      class="commentList"
-    />
-    <div />
-    <div />
-  </div>
-  <div
-    className="threadPageSidebarContainer"
-  >
-    <div />
-    <div />
-  </div>
-</div>
-`;
-
 exports[`Subreddit component snapshot it matches the snapshot 1`] = `
 <div
   className="page"
@@ -152,6 +17,7 @@ exports[`Subreddit component snapshot it matches the snapshot 1`] = `
           <div
             class="threadLinks"
           >
+            <br />
             <span
               className="threadSubreddit"
               onClick={[Function]}
@@ -175,6 +41,12 @@ exports[`Subreddit component snapshot it matches the snapshot 1`] = `
           >
             
           </div>
+          <span
+            className="threadComments"
+            onClick={[Function]}
+          >
+            View
+          </span>
           <p
             className="classicThreadContent"
           >
@@ -203,12 +75,6 @@ exports[`Subreddit component snapshot it matches the snapshot 1`] = `
               class="fas fa-angle-down"
             />
           </button>
-          <span
-            className="threadComments"
-            onClick={[Function]}
-          >
-            View
-          </span>
         </div>
       </div>
     </div>

@@ -1,134 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CreatePost component snapshot it matches the snapshot 1`] = `
-<div
-  className="createSubredditContainer"
->
-  <h3>
-    CREATE A SUBREDDIT
-  </h3>
-  <div />
-  <hr />
-  <form
-    onSubmit={[Function]}
-  >
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditName"
-      >
-        Enter Subreddit Name
-      </label>
-      <br />
-      <input
-        id="srSubredditName"
-        name="text"
-        onChange={[Function]}
-        placeholder="Think of something remarkable!"
-        type="text"
-      />
-    </div>
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditRule"
-      >
-        Subreddit Rule:
-      </label>
-      <textarea
-        id="srSubredditRule1"
-        name="text"
-        onChange={[Function]}
-        placeholder="ex: Flamers will be banned! "
-        type="textarea"
-      />
-    </div>
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditRule"
-      >
-        Subreddit Rule:
-      </label>
-      <textarea
-        id="srSubredditRule2"
-        name="text"
-        onChange={[Function]}
-        placeholder="ex: Flamers will be banned! "
-        type="textarea"
-      />
-    </div>
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditRule"
-      >
-        Subreddit Rule:
-      </label>
-      <textarea
-        id="srSubredditRule3"
-        name="text"
-        onChange={[Function]}
-        placeholder="ex: Flamers will be banned! "
-        type="textarea"
-      />
-    </div>
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditBio"
-      >
-        Subreddit Bio:
-      </label>
-      <textarea
-        id="srSubredditBio"
-        name="text"
-        onChange={[Function]}
-        placeholder="ex: This subreddit is for people who..etc. "
-        type="textarea"
-      />
-    </div>
-    <div
-      className="formGroupSubredditComponent"
-    >
-      <label
-        for="SubredditModeator"
-      >
-        Subreddit Moderator:
-      </label>
-      <textarea
-        id="srSubredditModerator"
-        name="text"
-        onChange={[Function]}
-        placeholder="Usernames separated by commas. EX: Mahmoud, Mohamed, JamesBond"
-        type="textarea"
-      />
-      <label
-        for="coverPhoto"
-      >
-        Cover Photo:
-      </label>
-      <input
-        id="coverPhoto"
-        name="coverPhoto"
-        onChange={[Function]}
-        type="file"
-      />
-    </div>
-    <button
-      className="srSubredditPageCreateButton"
-    >
-      CREATE
-    </button>
-  </form>
-</div>
-`;
-
 exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
 <div
   className="createSubredditContainer"
@@ -158,13 +29,14 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
         type="text"
       />
     </div>
+    <div />
     <div
       className="formGroupSubredditComponent"
     >
       <label
         for="SubredditRule"
       >
-        Subreddit Rule:
+        Subreddit Rule - 1:
       </label>
       <textarea
         id="srSubredditRule1"
@@ -180,7 +52,7 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
       <label
         for="SubredditRule"
       >
-        Subreddit Rule:
+        Subreddit Rule - 2:
       </label>
       <textarea
         id="srSubredditRule2"
@@ -196,7 +68,7 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
       <label
         for="SubredditRule"
       >
-        Subreddit Rule:
+        Subreddit Rule - 3:
       </label>
       <textarea
         id="srSubredditRule3"
@@ -206,6 +78,7 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
         type="textarea"
       />
     </div>
+    <div />
     <div
       className="formGroupSubredditComponent"
     >
@@ -222,13 +95,14 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
         type="textarea"
       />
     </div>
+    <div />
     <div
       className="formGroupSubredditComponent"
     >
       <label
         for="SubredditModeator"
       >
-        Subreddit Moderator:
+        Extra Moderators:
       </label>
       <textarea
         id="srSubredditModerator"
@@ -237,18 +111,25 @@ exports[`CreateSubreddit component snapshot it matches the snapshot 1`] = `
         placeholder="Usernames separated by commas. EX: Mahmoud, Mohamed, JamesBond"
         type="textarea"
       />
+    </div>
+    <div
+      className="formGroupSubredditComponent imageContainer"
+    >
       <label
+        className="srSubredditPageCreateButton"
         for="coverPhoto"
       >
-        Cover Photo:
+        Cover
       </label>
       <input
+        className="threadPhotoInput"
         id="coverPhoto"
         name="coverPhoto"
         onChange={[Function]}
         type="file"
       />
     </div>
+    <div />
     <button
       className="srSubredditPageCreateButton"
     >
