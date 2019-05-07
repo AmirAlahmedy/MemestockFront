@@ -21,7 +21,11 @@ class CreateSubreddit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
   };
-
+ /**
+     * Sets the state with changed image path in the input fields of create subreddit form
+     * @function handleFileChange
+     * @param {event} - onChange event 
+     */
   handleFileChange(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
@@ -35,7 +39,11 @@ class CreateSubreddit extends Component {
     }
     reader.readAsDataURL(files[0]);
   }
-
+  /**
+     * Sets the state with changed value in the input fields of create subreddit form
+     * @function handleChange
+     * @param {event} - onChange event 
+     */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }

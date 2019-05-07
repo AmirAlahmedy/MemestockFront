@@ -116,7 +116,11 @@ class CreatePost extends Component {
   componentWillUnmount() {
     document.body.classList.remove("verticalAlign");
   }
-
+  /**
+     * Sets the state with changed image path in the input fields of create post form
+     * @function handleFileChange
+     * @param {event} - onChange event 
+     */
   handleFileChange(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
@@ -130,6 +134,11 @@ class CreatePost extends Component {
     }
     reader.readAsDataURL(files[0]);
   }
+    /**
+     * Sets the name of the subreddit where the post is created
+     * @function setSR
+     * @param {option} - The subreddit name
+     */
   setSR(option){
     this.setState({
       srName: option.value

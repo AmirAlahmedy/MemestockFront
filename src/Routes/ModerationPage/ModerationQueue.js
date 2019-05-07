@@ -71,12 +71,23 @@ class ModerationQueue extends Component {
         }
       });
   }
+    /**
+     * Handles submission
+     * @function checkforpostorcomment
+     * @param {x} - post or a comment
+     * @param {id} - the id of a post or a comment
+     */
   checkforpostorcomment(x, id) {
     if (x === true) { return <button className="delBtn" id={id} type="submit" name="deletereportedpost" onClick={this.DeleteReportedPost}>Delete Reported Post</button> }
     else if (x === false) {
       return <button id={id} className="delBtn" type="submit" name="deletereportedcomment" onClick={this.DeleteReportedComment}>Delete Reported Comment</button>
     }
   }
+  /**
+     * Deletes a report
+     * @function DeleteReport
+     * @param {e} - event
+     */
   DeleteReport(e) {
 
     const element = e.target;
@@ -120,6 +131,11 @@ class ModerationQueue extends Component {
         }
       });
   }
+  /**
+     * Deletes a reported comment
+     * @function DeleteReportedComment
+     * @param {e} - event
+     */
   DeleteReportedComment(e) {
     const element = e.target;
     const reportId = element.getAttribute("id");
@@ -164,6 +180,11 @@ class ModerationQueue extends Component {
         }
       });
   }
+  /**
+     * Deletes a reported post
+     * @function DeleteReportedPost
+     * @param {e} - event
+     */
   DeleteReportedPost(e) {
 
     const element = e.target;
@@ -208,6 +229,11 @@ class ModerationQueue extends Component {
         }
       });
   }
+  /**
+     * Handles leaving a moderation
+     * @function leavemoderation
+     * @param {e} - event
+     */
   leavemoderation(e) {
     const element = e.target;
     const SubredditName = element.getAttribute("id");
@@ -249,7 +275,10 @@ class ModerationQueue extends Component {
 
 
 
-
+  /**
+     * Handles reports
+     * @function getReports
+     */
   getReports() {
     if (!this.state.Reports.length) { return <p>No Reports found</p> }
     return this.state.Reports.map((rep) => (

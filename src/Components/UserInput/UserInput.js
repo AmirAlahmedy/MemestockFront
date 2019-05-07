@@ -12,7 +12,11 @@ export class UserInput extends Component{
        this._handleInputChange = this._handleInputChange.bind(this);
        this._handleOnSubmit = this._handleOnSubmit.bind(this);
     }
-
+     /**
+     * Sets the state with new user input
+     * @function _handleInputChange
+     * @param {event} - onCahnge event
+     */
     _handleInputChange(event){
           const target = event.target;
           const value = target.value;
@@ -22,6 +26,10 @@ export class UserInput extends Component{
           });
     }
 
+     /**
+     * Handles submission
+     * @function _handleOnSubmit
+     */
     _handleOnSubmit(){
     this.props.newUser(this.state);
     var userId = this.state.uid + 1;

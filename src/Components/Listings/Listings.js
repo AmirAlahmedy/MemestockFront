@@ -157,12 +157,25 @@ class Threads extends Component {
      * @param {array} - array of the mocked threads
      */
     createThreads = Threads => Threads.map(this.createThread);
+
+
+    /**
+     * Redirects to create post route
+     * @function goToCreatePost
+     */
     goToCreatePost() {
         window.location.href = "/CreatePost/";
     }
+
+    /**
+     * Redirects to create subreddit route
+     * @function goToCreateSr
+     */
     goToCreateSr() {
         window.location.href = "/create-subreddit/";
     }
+
+    
     /**
      * For generating threads from a mock service
      * @function getListing

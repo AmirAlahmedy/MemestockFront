@@ -5,11 +5,19 @@ state={
 comment:''
 }
 
+ /**
+     * Sets the changed text of the comment  into the state
+     * @function onChange
+     * @param {event} -onChange event
+     */
+    onChange=(e)=>this.setState({comment:e.target.value});
 
-onChange=(e)=>this.setState({comment:e.target.value});
-
-
-onSave=(e)=>{
+ /**
+     * Handles the addition of a comment
+     * @function onSave
+     * @param {event} - submisson event
+     */
+    onSave=(e)=>{
     e.preventDefault();
     this.props.addComment(this.state.comment);
     this.setState({title:''});

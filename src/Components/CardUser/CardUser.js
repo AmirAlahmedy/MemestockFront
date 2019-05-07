@@ -16,9 +16,19 @@ export class CardUser extends Component {
             bloxkeduser: ''
         };
     }
+
+     /**
+     * Gets the current user name from the local storage
+     * @function getCurrentUser
+     */
     getCurrentUser() {
         return localStorage.getItem("Username");
     }
+
+     /**
+     * Handles blocking a user
+     * @function handleBlock
+     */
     handleBlock() {
 
         var headers = {
@@ -43,6 +53,12 @@ export class CardUser extends Component {
                 alert("Error Caught");
             })
     }
+
+
+     /**
+     * Handles adding a friend
+     * @function handleBlock
+     */
     handleFriend() {
         var headers = {
             'auth': localStorage.getItem("token")

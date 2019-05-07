@@ -15,6 +15,11 @@ export class CardProf extends Component {
       cakeday: ''
     };
   }
+
+    /**
+     * Gets the current user name from the local storage
+     * @function getCurrentUser
+     */
   getCurrentUser() {
     return localStorage.getItem("Username");
   }
@@ -52,7 +57,10 @@ export class CardProf extends Component {
 
   // };
 
-
+    /**
+     * Redirects to moderation page 
+     * @function gotoMod
+     */
   gotoMod() {
     window.location.href = "/moderation";
   }
@@ -102,6 +110,11 @@ export class CardProf extends Component {
   //      alert("Error Caught");
   //    })
   // }
+
+   /**
+     * Handels user block 
+     * @function handleBlock
+     */
   handleBlock() {
 
     var headers = {
@@ -126,6 +139,11 @@ export class CardProf extends Component {
         alert("Error Caught");
       })
   }
+
+    /**
+     * Handles adding a friend
+     * @function handleFriend
+     */
   handleFriend() {
     var headers = {
       'auth': localStorage.getItem("token")
@@ -190,6 +208,10 @@ export class CardProf extends Component {
           }
         })
   }
+  /**
+     * Handels user unblock 
+     * @function handleUnblock
+     */
   handleUnblock(){
     var headers = {
       'auth': localStorage.getItem("token")
@@ -215,6 +237,11 @@ export class CardProf extends Component {
           alert("Can't process your request right now");
       })
   }
+
+     /**
+     * 
+     * @function removeReq
+     */
   removeReq(){
 
     var headers = {
@@ -240,6 +267,10 @@ export class CardProf extends Component {
           alert("Can't process your request right now");
       })
   }
+    /**
+     * Handels user unfriend 
+     * @function Unfriend
+     */
   Unfriend(){
 
     var headers = {

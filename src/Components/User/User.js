@@ -22,7 +22,11 @@ export class User extends Component {
     //
     //Eshta na m3ak aho
   };
-
+  
+     /**
+     * Gets the current user name from the local storage
+     * @function getCurrentUser
+     */
   getCurrentUser() {
     return localStorage.getItem("Username");
   }
@@ -90,7 +94,12 @@ export class User extends Component {
 
 
 
-
+  
+     /**
+     * Redirects to the desired link
+     * @function goTo
+     * @param {link} - the desired link
+     */
   goTo(link) {
     return function () {
       window.location.href = link;
