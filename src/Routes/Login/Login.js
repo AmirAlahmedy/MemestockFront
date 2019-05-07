@@ -14,6 +14,11 @@ class Login extends Component {
     }
     componentDidMount = () => {
     }
+    /**
+   * Handles login submission 
+   * @function handleSubmit
+   * @param  {event} - submit event
+   */
     handleSubmit(e) {
         e.preventDefault();
 

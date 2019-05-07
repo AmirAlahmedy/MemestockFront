@@ -242,6 +242,11 @@ export class Subreddit extends Component {
       threadCreation: false
     })
   }
+  /**
+         * Editting the subreddit
+         * @function editSubreddit
+         * @param {event} - onClick event 
+         */
   editSubreddit = (e) => {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
@@ -253,6 +258,10 @@ export class Subreddit extends Component {
       })
     }
   }
+   /**
+         * @function cancelSubreddit
+         * @param {event} - onClick event 
+         */
   cancelSubreddit = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -322,7 +331,11 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
-
+  /**
+   * Handles subreddit edits 
+   * @function handleEdit
+   * @param {event} - onClick event 
+   */
   handleEdit = (e) => {
     e.preventDefault();
     let newmods = this.state.moderatorsList;
@@ -376,6 +389,10 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
+   /**
+   * Maps threads requested to the component 
+   * @function getThreads
+   */
   getThreads() {
     if (!this.state.threadsContent.length) return <p>No posts yet...</p>;
     return this.state.threadsContent.map(thr =>
@@ -417,6 +434,11 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
+  /**
+  * Handles new images requested
+  * @function handleNewImage 
+  * @param {event} 
+  */
   handleNewImage(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
@@ -433,6 +455,11 @@ export class Subreddit extends Component {
     reader.readAsDataURL(files[0]);
 
   }
+  /**
+  * Handles new images in a post
+  * @function handleNewImage 
+  * @param {event} 
+  */
   handleNewImagePost(e) {
     const files = e.target.files;
     if (!files || !files.length) return;

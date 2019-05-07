@@ -30,30 +30,60 @@ const filterList = () => {
         }
     }
 }
+
+/**
+   * Shows the login form
+   * @function openLogInDialogue
+   */
 function openLogInDialogue() {
     document.querySelector(".loginContainer").style.display = "initial";
 }
+/**
+   * Handles login
+   * @function handleLoginContainerClick
+   * @param  {event} - click event
+   */
 function handleLoginContainerClick(e) {
     if (e && e.target && e.target.className === "loginContainer") {
         e.target.style.display = "none";
     }
 }
-
+/**
+   * Shows the registration form
+   * @function openRegDialogue
+   */
 function openRegDialogue() {
     document.querySelector(".regContainer").style.display = "initial";
 }
+/**
+   * Handles registration
+   * @function handleRegContainerClick
+   * @param  {event} - click event
+   */
 function handleRegContainerClick(e) {
     if (e && e.target && e.target.className === "regContainer") {
         e.target.style.display = "none";
     }
 }
+/**
+   * Hides the registration form
+   * @function closeRegistration
+   */
 function closeRegistration(){
     document.querySelector(".regContainer").style.display = "none";
 }
+/**
+   * Hides the login form
+   * @function closeLogin
+   */
 function closeLogin(){
     document.querySelector(".loginContainer").style.display = "none";
 }
-
+/**
+   * Insures that the window is redirected to the desired route
+   * @function closeLogin
+   * @param {link} - link of the desired route.
+   */
 function goTo(link){
     return function(){
         window.location.href = link;

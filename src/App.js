@@ -139,7 +139,10 @@ class Home extends Component {
     }
 
   }
-
+  /**
+  * sets the view as card
+  * @function cardViewHandler
+  */
   cardViewHandler() {
     this.setState({
       view: {
@@ -148,7 +151,10 @@ class Home extends Component {
       }
     });
   }
-
+/**
+  * sets the view as classic
+  * @function classicViewHandler
+  */
   classicViewHandler() {
     this.setState({
       view: {
@@ -158,7 +164,11 @@ class Home extends Component {
     });
   }
 
-
+ /**
+  * Checks that user has logged in
+  * @function userHasLoggedIn 
+  * @param {token, username} - username and token 
+  */
   userHasLoggedIn(token, username) {
     if (token) {
       localStorage.setItem("token", token);
@@ -166,14 +176,21 @@ class Home extends Component {
       window.location.reload();
     }
   }
-
+/**
+  * log the user out
+  * @function logout 
+  * @param {event} -s 
+  */
   logout(e) {
     e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("Username");
     window.location.reload();
   }
-
+/**
+  * sets the sort type as new 
+  * @function sortHandNew 
+  */
   sortHandNew() {
     this.setState({
       sort: 'new'
@@ -181,7 +198,10 @@ class Home extends Component {
     this.updateSort('new');
   }
 
-
+/**
+  * sets the sort type as top
+  * @function sortHandTop 
+  */
   sortHandTop() {
     this.setState({
       sort: 'top'
@@ -189,7 +209,10 @@ class Home extends Component {
     this.updateSort('top');
   }
 
-
+/**
+  * sets the sort type as hot
+  * @function sortHandHot 
+  */
   sortHandHot() {
     this.setState({
       sort: 'hot'
@@ -202,6 +225,11 @@ class Home extends Component {
     //La2 //La2!!!
     console.log("sort changed...");
   }
+  /**
+  * sets the sort type as hot
+  * @function sortHandHot 
+  * @param {getListing} - function that maps requested threads to the thread component
+  */
   listingUpdater(getListing) {
     this.updateSort = getListing;
   }
