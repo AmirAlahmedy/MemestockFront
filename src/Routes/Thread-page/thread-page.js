@@ -169,19 +169,30 @@ class ThreadPage extends Component {
       })
    }
 
-
+   /**
+    * Handles edit thread boolean in the state.
+    * @function editPost
+    */
    editPost = (e) => {
       e.preventDefault();
       this.setState({
          editThread: true
       })
    };
+    /**
+    * Handles canceling thread boolean in the state.
+    * @function cancelEdit
+    */
    cancelEdit = (e) => {
       e.preventDefault();
       this.setState({
          editThread: false
       })
    };
+    /**
+    * Handles the edit request for the thread.
+    * @function handleEdit
+    */
    handleEdit = (e) => {
       this.setState({
          error: false,
@@ -231,7 +242,10 @@ class ThreadPage extends Component {
             alert(error.Response);
          })
    }
-
+ /**
+    * Handles the delete request for the thread.
+    * @function delPost
+    */
    delPost = (e) => {
       //e.preventDefault();
       console.log('Delete Clicked');

@@ -115,7 +115,11 @@ export class Subreddit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-
+  /**
+   * For handling a spoiler checkbox request to the backend and updating the boolean in state
+   * @function handleChange
+   * @param {event} - onClick event 
+   */
 
   handleChange(e) {
     this.setState({
@@ -196,8 +200,8 @@ export class Subreddit extends Component {
           alert("Subreddit Deleted Successfully!");
           this.setState({
             subscribed: false
-          }
-          );
+          });
+          window.location.href = "/"
         }
         // else if (res.status === 401) {
         //   alert("You're Not Authorised");
@@ -243,10 +247,10 @@ export class Subreddit extends Component {
     })
   }
   /**
-         * Editting the subreddit
-         * @function editSubreddit
-         * @param {event} - onClick event 
-         */
+   * For handling a change in the state to show the edit subreddit form
+   * @function editSubreddit
+   * @param {event} - onClick event 
+   */
   editSubreddit = (e) => {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
@@ -259,9 +263,10 @@ export class Subreddit extends Component {
     }
   }
    /**
-         * @function cancelSubreddit
-         * @param {event} - onClick event 
-         */
+   * For cancel handling a change in the state to show the edit subreddit form
+   * @function cancelSubreddit
+   * @param {event} - onClick event 
+   */
   cancelSubreddit = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -322,6 +327,7 @@ export class Subreddit extends Component {
           this.setState({
             threadCreation: false
           })
+          window.location.href = "/r/" + SubredditName;
         } else if (res.status === 401 || res.status === 404) {
           alert("Thread Creation Unsuccessful");
           return Response.json;
@@ -332,7 +338,7 @@ export class Subreddit extends Component {
       })
   }
   /**
-   * Handles subreddit edits 
+   * For handling an edit subreddit request to the backend
    * @function handleEdit
    * @param {event} - onClick event 
    */
@@ -389,12 +395,14 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
+
    /**
-   * Maps threads requested to the component 
+   * For getting threadds of the subreddit
    * @function getThreads
+   * @param {event} - onClick event 
    */
   getThreads() {
-    if (!this.state.threadsContent.length) return <p>No posts yet...</p>;
+    if (!this.state.threadsContent.length) return <div className="noPosts">No posts yet...</div>;
     return this.state.threadsContent.map(thr =>
       <Thread
         id={thr._id}
@@ -435,9 +443,9 @@ export class Subreddit extends Component {
       })
   }
   /**
-  * Handles new images requested
+  * For handling the reading of image
   * @function handleNewImage 
-  * @param {event} 
+  * @param {event} - Submition event 
   */
   handleNewImage(e) {
     const files = e.target.files;

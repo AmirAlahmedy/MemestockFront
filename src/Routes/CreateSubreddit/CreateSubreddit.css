@@ -88,3 +88,8 @@ h3{
     background-size: cover;
     background-repeat: no-repeat;
 }
+.errorMessageCreateSubreddit{   
+    font-style: inherit;
+    color:maroon;
+    font-size: 0.77em;
+}
