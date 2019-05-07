@@ -33,160 +33,232 @@ import axios from '../../axios-orders';
 class CreateSubreddit extends Component {
 
   constructor(props) {
-  super(props);
-  this.state = {
-    Subreddit: '',
-    Rule1:'',
-    Rule2 :'',
-    Rule3 : '',
-    moderators:[],
-    bio:''
-  }
-  
-    this.handleChange = this.handleChange.bind(this); 
+    super(props);
+    this.state = {
+      Subreddit: '',
+      Rule1: '',
+      Rule2: '',
+      Rule3: '',
+      moderators: [],
+      bio: '',
+      error: false,
+      errornumber: 0
+    }
+
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
-};
+  };
+ /**
+     * Sets the state with changed image path in the input fields of create subreddit form
+     * @function handleFileChange
+     * @param {event} - onChange event 
+     */
+  handleFileChange(e) {
+    const files = e.target.files;
+    if (!files || !files.length) return;
+    const reader = new FileReader();
 
-handleFileChange(e){
-  const files = e.target.files;
-  if(!files || !files.length) return;
-  const reader = new FileReader();
-
-  reader.onload = (evtReader) => {
-    if(!evtReader.target.result) return;
-    this.setState({
-      image: evtReader.target.result
-    });
+    reader.onload = (evtReader) => {
+      if (!evtReader.target.result) return;
+      this.setState({
+        image: evtReader.target.result
+      });
+    }
+    reader.readAsDataURL(files[0]);
   }
-  reader.readAsDataURL(files[0]);
-}
-
-handleChange(event) {
-this.setState({ [event.target.name]: event.target.value });
-}
+  /**
+     * Sets the state with changed value in the input fields of create subreddit form
+     * @function handleChange
+     * @param {event} - onChange event 
+     */
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
   /**
      * For sending a creation of subreddit request to the backend 
      * @function handleSubmit
      * @param {event} - onClick event 
      */
 
-handleSubmit (e){
-  e.preventDefault();
-
-  let checker ="";
-  if (document.getElementById("srSubredditName").value===checker)
-  {
-    this.setState({UIErr: "Please provide a Subreddit name!"})
-    return ;
-  }
-  else if (document.getElementById("srSubredditRule1").value===checker)
-  { 
-    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
-    return ;
-  }
-  else if (document.getElementById("srSubredditRule2").value===checker)
-  { 
-    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
-    return ;
-  }
-  else if (document.getElementById("srSubredditRule3").value===checker)
-  { 
-    this.setState({UIErr: "Please provide at least 3 Subreddit Rules!"})
-    return ;
-  }
-  else if (document.getElementById("srSubredditBio").value===checker)
-  { 
-    this.setState({UIErr: "Please provide a Subreddit Bio For the audience!"})
-    return ;
-  }
-  else if (!this.state.image)
-  { 
-    this.setState({UIErr: "Please provide a Subreddit Cover Photo!"})
-    return ;
-  }
-  //Add more moderators should be optional...
-  // else if (document.getElementById("srSubredditModerator").value===checker)
-  // { 
-  //   this.setState({UIErr: "Please provide a Subreddit Bio For the audience!"})
-  //   return ;
-  // }
-  let newmods = this.state.moderators;
-  const modInput = document.getElementById("srSubredditModerator");
-  if(modInput.value.trim() &amp;&amp; modInput.value.trim() !== ","){
-    newmods.push(modInput.value.split(",").map(val => val.trim()).filter(val => val));
-  }
-
-  var srdata ={
-    srName : document.getElementById("srSubredditName").value,
-    srRules: [
-      document.getElementById("srSubredditRule1").value,
-      document.getElementById("srSubredditRule2").value,
-      document.getElementById("srSubredditRule3").value
-    ],
-    modUsername : newmods.length ? newmods : null,
-    //bio: document.getElementById("srSubredditBio").value,
-    base64image: this.state.image
-  } 
-  let headers = {
-        auth: localStorage.getItem("token") 
-  }
-  axios.post( 'sr/create',srdata,{"headers": headers})
-    .then(res => {
-      console.log(res);
-      console.log(res.status);
-      window.location.href = "/r/" + srdata.srName;
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({
+      error:false,
+      errornumber:0
     })
-    .catch(error => {
-    console.log("Axios Error: ",error.response)
 
-  }); 
-}
+    let checker = "";
+    const srRules = [
+      document.getElementById("srSubredditRule1").value, 
+      document.getElementById("srSubredditRule2").value, 
+      document.getElementById("srSubredditRule3").value
+    ];
+    if (document.getElementById("srSubredditName").value === checker) {
+      this.setState({ UIErr: "Please provide a Subreddit name!" });
+      this.setState({
+        error:true,
+        errornumber:1
+      })
+      return;
+    }
+    else if (!(srRules[0] || srRules[1] || srRules[2])) {
+      this.setState({ UIErr: "Please provide at least 1 Subreddit Rule!" })
+      this.setState({
+        error:true,
+        errornumber:2
+      })
+      return;
+    }
+    else if (document.getElementById("srSubredditBio").value === checker) {
+      this.setState({ UIErr: "Please provide a Subreddit Bio For the audience!" })
+      this.setState({
+        error:true,
+        errornumber:3
+      })
+      return;
+    }
+    else if (!this.state.image) {
+      this.setState({ UIErr: "Please provide a Subreddit Cover Photo!" })
+      this.setState({
+        error:true,
+        errornumber:4
+      })
+      return;
+    }
+    //Add more moderators should be optional...
+    // else if (document.getElementById("srSubredditModerator").value===checker)
+    // { 
+    //   this.setState({UIErr: "Please provide a Subreddit Bio For the audience!"})
+    //   return ;
+    // }
+    let newmods = this.state.moderators;
+    const modInput = document.getElementById("srSubredditModerator");
+    if (modInput.value.trim() &amp;&amp; modInput.value.trim() !== ",") {
+      newmods.push(modInput.value.split(",").map(val => val.trim()).filter(val => val));
+    }
 
-componentDidMount() {
-  document.body.classList.add("verticalAlign");
-}
-componentWillUnmount() {
-  document.body.classList.remove("verticalAlign");
-}
+    var srdata = {
+      srName: document.getElementById("srSubredditName").value,
+      srRules: srRules.filter(rule => Boolean(rule)),
+      modUsername: newmods.length ? newmods : null,
+      bio: document.getElementById("srSubredditBio").value,
+      base64image: this.state.image
+    }
+    let headers = {
+      auth: localStorage.getItem("token")
+    }
+    axios.post('sr/create', srdata, { "headers": headers })
+      .then(res => {
+        console.log(res);
+        console.log(res.status);
+        window.location.href = "/r/" + srdata.srName;
+      })
+      .catch(error => {
+        alert(error.response);
+
+      });
+  }
+
+  componentDidMount() {
+    document.body.classList.add("verticalAlign");
+  }
+  componentWillUnmount() {
+    document.body.classList.remove("verticalAlign");
+  }
   render() {
     return (
 
       &lt;div className="createSubredditContainer">
-      &lt;h3>CREATE A SUBREDDIT&lt;/h3>
-      &lt;hr>&lt;/hr>
-      &lt;form onSubmit={this.handleSubmit}>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditName">Enter Subreddit Name&lt;/label>
-        &lt;br>&lt;/br>
-        &lt;input type="text" name="text" id="srSubredditName" placeholder = "Think of something remarkable!" onChange={this.handleChange} value={this.state.value}/>   
-        &lt;/div>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditRule">Subreddit Rule:&lt;/label>
-        &lt;textarea type="textarea" name="text" id="srSubredditRule1" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>   
-        &lt;/div>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditRule">Subreddit Rule:&lt;/label>
-        &lt;textarea type="textarea" name="text" id="srSubredditRule2" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>  
-        &lt;/div>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditRule">Subreddit Rule:&lt;/label>
-        &lt;textarea type="textarea" name="text" id="srSubredditRule3" placeholder = "ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value}/>  
-        &lt;/div>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditBio">Subreddit Bio:&lt;/label>
-        &lt;textarea type="textarea" name="text" id="srSubredditBio" placeholder = "ex: This subreddit is for people who..etc. " onChange={this.handleChange} value={this.state.value}/>  
-        &lt;/div>
-        &lt;div className="formGroupSubredditComponent">
-        &lt;label for="SubredditModeator">Subreddit Moderator:&lt;/label>
-        &lt;textarea type="textarea" name="text" id="srSubredditModerator" placeholder="Usernames separated by commas. EX: Mahmoud, Mohamed, JamesBond" onChange={this.handleChange} value={this.state.value}/>  
-        &lt;label for="coverPhoto">Cover Photo:&lt;/label>
-        &lt;input type="file" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />  
-        &lt;/div>
-        &lt;button className="srSubredditPageCreateButton">CREATE&lt;/button>  
-      &lt;/form>
+        &lt;h3>CREATE A SUBREDDIT&lt;/h3>
+        {
+          this.state.error ? &lt;div>
+
+          &lt;/div> : &lt;div>&lt;/div>
+        }
+        &lt;hr>&lt;/hr>
+        &lt;form onSubmit={this.handleSubmit}>
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditName">Enter Subreddit Name&lt;/label>
+            &lt;br>&lt;/br>
+            &lt;input type="text" name="text" id="srSubredditName" placeholder="Think of something remarkable!" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 1 ?
+                    &lt;div className="errorMessageCreateSubreddit">
+                      *Please provide a Subreddit Title
+                    &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditRule">Subreddit Rule - 1:&lt;/label>
+            &lt;textarea type="textarea" name="text" id="srSubredditRule1" placeholder="ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+        
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditRule">Subreddit Rule - 2:&lt;/label>
+            &lt;textarea type="textarea" name="text" id="srSubredditRule2" placeholder="ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditRule">Subreddit Rule - 3:&lt;/label>
+            &lt;textarea type="textarea" name="text" id="srSubredditRule3" placeholder="ex: Flamers will be banned! " onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 2 ?
+                    &lt;div className="errorMessageCreateSubreddit">
+                      *Please provide at least 1 Subreddit Rule!
+                    &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditBio">Subreddit Bio:&lt;/label>
+            &lt;textarea type="textarea" name="text" id="srSubredditBio" placeholder="ex: This subreddit is for people who..etc. " onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 3 ?
+                    &lt;div className="errorMessageCreateSubreddit">
+                      *Please provide a bio for the subreddit
+                    &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
+          &lt;div className="formGroupSubredditComponent">
+            &lt;label for="SubredditModeator">Extra Moderators:&lt;/label>
+            &lt;textarea type="textarea" name="text" id="srSubredditModerator" placeholder="Usernames separated by commas. EX: Mahmoud, Mohamed, JamesBond" onChange={this.handleChange} value={this.state.value} />
+          &lt;/div>
+          &lt;div className="formGroupSubredditComponent imageContainer">
+            &lt;label for="coverPhoto" className="srSubredditPageCreateButton">Cover&lt;/label>
+            &lt;input type="file" className="threadPhotoInput" name="coverPhoto" id="coverPhoto" onChange={this.handleFileChange} />
+            {this.state.image ?
+              &lt;div className="uploadedImage" style={{ backgroundImage: `url(${this.state.image})` }}>&lt;/div>
+              : null}
+          &lt;/div>
+          {
+            this.state.error ?
+              &lt;div>
+                {
+                  this.state.errornumber == 4 ?
+                    &lt;div className="errorMessageCreateSubreddit">
+                      *Please provide a Subreddit Cover Photo!
+                    &lt;/div> : &lt;div>&lt;/div>
+                }
+              &lt;/div> : &lt;div>&lt;/div>
+          }
+          &lt;button className="srSubredditPageCreateButton">CREATE&lt;/button>
+        &lt;/form>
       &lt;/div>
-   
+
     )
   }
 }
@@ -201,13 +273,13 @@ export default CreateSubreddit;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

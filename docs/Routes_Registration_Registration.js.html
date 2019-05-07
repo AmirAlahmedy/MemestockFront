@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Components/Listings/NestedListings.js</title>
+    <title>JSDoc: Source: Routes/Registration/Registration.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Components/Listings/NestedListings.js</h1>
+    <h1 class="page-title">Source: Routes/Registration/Registration.js</h1>
 
     
 
@@ -27,113 +27,167 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import './Listings.css';
-import Thread from '../../Routes/Thread/Thread';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import data from '../../Mocks/threads-data.json';  
-import axios from '../../axios-orders';
+import Aux from '../../Components/HOC/Auxiliary';
+import classes from './Registration.module.css';
+import { NavLink, Route, withRouter, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import Login from '../Login/Login';
+import './Registration.scss';
 import '../../Sass/styles.scss';
-import { connect } from 'react-redux';
-import ginprodReducer from '../../store/reducers/production';
 import * as actions from '../../store/actions/index';
-import SideBar from '../SideBar/SideBar';
-import Aux from '../HOC/Auxiliary';
+import { connect } from 'react-redux';
+import Home from '../Home/Home';
+import axios from '../../axios-orders';
 
-let inProduction = false;
-
-class NestedListings extends Component {
+export default class Registration extends Component {
     state = {
-        threads: []
-    }
 
-    //  startPosition = { startPosition:0 };
-    
+    }
     componentDidMount = () => {
-    console.log(this.props.ginProd); 
-    
-    
+        // if ( /*!this.props.buildingMeme &amp;&amp;*/ this.props.authRedirectPath !== '/Registration/' ) {
+        //     this.props.onSetAuthRedirectPath();
 
-    if(inProduction === true &amp;&amp; /*ginprodReducer.globalInProduction*/ localStorage.getItem('inProduction'))
-    {
+        // }
 
-        axios.get('/ahmed/listing?type=new')
-        .then( response => {
-            this.reqThreads = response.data;
-            let thrds = this.createThreads(response.data);
-            this.setState({threads: thrds});
-        })
-        .catch( error => {
-            
-        })
-    }else{
+        // this.props.history.replace('/Registration/');
+        // localStorage.setItem('prevPath', this.props.authRedirectPath);
+        // localStorage.setItem('loggedIn', false);
+        // localStorage.setItem('alreadyRegistered', false);
+
+    }
+/**
+   * Handles registration submission 
+   * @function handleSubmit
+   * @param  {event} - submit event
+   */
+    handleSubmit(e) {
         
-        let thrds = this.createThreads(data.threads);
-        this.setState({threads: thrds});
-    }    
+        e.preventDefault();
+        let inputs = e.target.querySelectorAll('.regForm input');
+        //TODO:: Validate data before submission.
+        const data = {
+            Email: inputs[0].value,
+            Username: inputs[1].value,
+            Password: inputs[2].value
+        }
+        axios.post('user/register', data)
+            .then(response => {
+
+                if(response.data.token){
+                    this.props.close();
+                    this.props.finishReg(response.data.token, data.Username);
+                }else{
+                    this.setState({
+                        error: "*That's awkawrd, our servers are unable to process your request properly. Please try again later."
+                    });
+                }
+
+            })
+            .catch(error => {
+                //error.response.data.error
+                if (error.response &amp;&amp; error.response.data &amp;&amp; error.response.data.error) {
+                    this.setState({
+                        error: "*" + error.response.data.error
+                    });
+                } else {
+                    this.setState({
+                        error: "*An unknown error have occured..."
+                    });
+                }
+                // this.setState({ alreadyRegistered: false, loggedIn: false });
+                // console.log();
+            })
     }
 
-    
-    createSubHand = () => {
-        console.log('create community');
-        
-     } 
-
-    /**
-     * For generating threads from a mock service
-     * @function createThread
-     * @param {object} - object of the mocked thread ...Not working properly yet.
-     */
-    createThread = thread => &lt;Route path={`${this.props.match.path}/:threadId`} render={
-        props => {
-
-            return(
-                &lt;Thread // key={thread._id}
-                // username={thread.subredditName}
-                subreddit={thread.subredditName}
-                title={thread.title} 
-                content={thread.body}/>
-                );
-            }
-    } />;
+    render() {
 
 
-    /**
-     * For generating threads from a mock service
-     * @function createThreads
-     * @param {array} - array of the mocked threads ...Not working properly yet.
-     */
-    createThreads = Threads => Threads.map(this.createThread);
+        let error = &lt;p className={classes.Invalid}>{this.state.error || ""}&lt;/p>
+        // let authRedirect = null;
+        // if ( this.props.isAuthenticated /*&amp;&amp; window.location.pathname != '/Registration/'*/) {
+        //     authRedirect = &lt;Redirect to={this.props.authRedirectPath} />
 
-    render(){
-        return(
-           &lt;Router>
+
+        //     console.log(this.props.authRedirectPath);
+        //     console.log(''+window.location.pathname);
+        //     console.log(window.location);
+
+        // }
+        return (
+
+
             &lt;Aux>
 
-            &lt;div className='listingsContainer'>     
-                {this.state.threads}
-            &lt;/div>
-            &lt;SideBar clickd={this.createSubHand}/>
+                {/* &lt;Switch>
+             &lt;Route path="/Home/" /*component={Home} render={
+                 props=>{
+                     return(
+                        &lt;Home isGuest={true}/>
+                     );
+                 }
+             } /> 
+             &lt;Route path='/Login/'  render={()=>&lt;Login logHand={this.props.logHand} logged={this.props.logged} psrdVld={this.props.psrdVld} password={this.props.password} svPswrd={this.props.svPswrd}/>}/>
+              */}
+                &lt;div className="formWrapper">
+
+                    &lt;form className='regForm' onSubmit={this.handleSubmit.bind(this)}>
+
+                        &lt;h1 className='logo'>SIGN UP&lt;/h1>
+                        {error || null}
+
+                        &lt;div className='inputs'>
+
+                            &lt;input className="emailInput in"
+                                type='email'
+                                placeholder='E-mail'
+                                name='email' />
+
+                            &lt;input className="usernameInput in"
+                                type='text'
+                                placeholder='User name'
+                                name='username' />
+
+                            &lt;input className="passInput in"
+                                type='password'
+                                placeholder="Password"
+                                onChange={this.props.svPswrd}
+                                name='password' />
+
+
+                        &lt;/div>
+
+                        &lt;button type="submit" className='registerButton'>SIGN UP&lt;/button>
+                    &lt;/form>
+
+                &lt;/div>
+
+                {/* &lt;/Switch> */}
             &lt;/Aux>
-        &lt;/Router> 
         );
-        
+
+
     }
 
 }
-const mapStateToProps = state => {
-    return {
-      ginProd: state.globalInProduction,
-      token: state.token
-    };
-  };
 
-  const mapDispatchToProps = dispatch => {
-    return {
-     // token: () => dispatch( actions.authSuccess() )
-    };
-  };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(NestedListings);</code></pre>
+        // const mapStateToProps = state => {
+        //     return {
+        //         loading: state.auth.loading,
+        //         error: state.auth.error,
+        //         isAuthenticated: true,//state.auth.token !== null,
+        //         //  buildingMeme: state.memeBuilder.building,
+        //          authRedirectPath: window.location.pathname//state.auth.authRedirectPath
+        //     };
+        // };
+
+        // const mapDispatchToProps = dispatch => {
+        //     return {
+        //         // onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
+        //         onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( ''+window.location.pathname ) ),
+
+        //     };
+        // };
+
+// export default withRouter(connect( mapStateToProps, mapDispatchToProps )(Registration));</code></pre>
         </article>
     </section>
 

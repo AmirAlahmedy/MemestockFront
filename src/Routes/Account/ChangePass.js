@@ -10,18 +10,34 @@ class ChangePass extends React.Component {
         this.handleOldPasswordChange = this.handleOldPasswordChange.bind(this);
         this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
     }
-
+    /**
+    * Gets the current  user name from the local storage
+    * @function getCurrentUser
+    */
     getCurrentUser() {
         return localStorage.getItem("Username");
     }
-
+      /**
+    * Adds the old password to the state
+    * @function getCurrentUser
+    * @param {event} e - onChange event
+    */
     handleOldPasswordChange(e) {
         this.setState({ oldPassword: e.target.value });
     }
+      /**
+    * Sets the state with the new password
+    * @function handleNewPasswordChange
+    * @param {event} e - onChange event
+    */
     handleNewPasswordChange(e) {
         this.setState({ newPassword: e.target.value });
     }
-
+     /**
+    * Handles changing the password
+    * @function handleSubmit
+    * @param {event} e - submission of the form
+    */
     handleSubmit(e) {
         e.preventDefault();
         let username = this.getCurrentUser();

@@ -42,15 +42,25 @@ class PMs extends Component {
   //assume all submitted for now
   constructor(props) {
     super(props);
+
+    let param = window.location.href.split("?").pop();
+    const queryParams = 
+      param.split("&amp;")
+      .map(el => el.split("="))
+      .reduce((acc, curr) => { 
+        acc[decodeURI(curr[0])] = decodeURI(curr[1]); 
+        return acc; 
+      }, {});
+      if(queryParams.subject) queryParams.subject = "RE: " + queryParams.subject;
     this.state = {
 
-      To: '',
-      Subject: '',
+      To: queryParams.sender || '',
+      Subject: queryParams.subject || '',
       Message: '',
       submitting: false,
       error: false,
-      errors:'',
-      success:''
+      errors: '',
+      success: ''
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -119,7 +129,7 @@ class PMs extends Component {
 
         //in case sucess..
         this.setState({
-         success : "Message Successfully Delievered"
+          success: "Message Successfully Delievered"
         });
 
       })
@@ -132,28 +142,28 @@ class PMs extends Component {
         if (error &amp;&amp; error.response &amp;&amp; error.response.statusText) {
           if (error.response.data.error === "overLengthedSubject") {
             this.setState({
-              errors: "*" + error.response.data.error +",subject Too long"
-          });
-            
+              errors: "*" + error.response.data.error + ",subject Too long"
+            });
+
           }
           else if (error.response.data.error === "receiverNotFound") {
             this.setState({
               errors: "*" + error.response.data.error
-          });
+            });
             return;
           }
           else if (error.response.data.error === "selfMessage") {
-            
+
             this.setState({
-              errors: "*" + error.response.data.error +", Trying to send a message to yourself"
-          });
+              errors: "*" + error.response.data.error + ", Trying to send a message to yourself"
+            });
             return;
           }
           else if (error.response.data.error === "blockedFromSending") {
-            
+
             this.setState({
-              errors: "*" + error.response.data.error +",Reciever blocked you"
-          });
+              errors: "*" + error.response.data.error + ",Reciever blocked you"
+            });
             return;
           }
         }
@@ -164,89 +174,89 @@ class PMs extends Component {
   }
 
   componentDidMount() {
-    if(localStorage.getItem("Username") === "guest"){
-     window.location.href = "/Home"; 
+    if (localStorage.getItem("Username") === "guest") {
+      window.location.href = "/Home";
     }
   }
 
   render() {
-    let error =this.state.errors != ""?&lt;p className={classes.Invalid}>{this.state.errors}&lt;/p>:null
-    let success =this.state.success != ""?&lt;p className={classes.Invalid}>{this.state.success}&lt;/p>:null
+    let error = this.state.errors != "" ? &lt;p className={classes.Invalid}>{this.state.errors}&lt;/p> : null
+    let success = this.state.success != "" ? &lt;p className={classes.Invalid}>{this.state.success}&lt;/p> : null
     return (
-     
+
       &lt;Router>
         &lt;Aux>
-          &lt;div style={{width: "100%"}}>
-          &lt;Head />
-          &lt;Route path="/PM" exact component={Inbox} />
-          &lt;Route path="/Sent" component={Sent} />
+          &lt;div style={{ width: "100%" }}>
+            &lt;Head />
+            &lt;Route path="/PM" exact component={Inbox} />
+            &lt;Route path="/Sent" component={Sent} />
 
-          
-          &lt;div className="container">
-            &lt;div className="pm-form">
-            
-            
+
+            &lt;div className="container">
+              &lt;div className="pm-form">
 
 
 
-              &lt;Route exact path="/PM/Compose" render={props => (
-                &lt;React.Fragment>
-                {error}
-                {success} 
-                {this.setState.errors=""}
-              {this.setState.success=""}
-             
-         
-             
-                &lt;form name="myForm"
-                    onSubmit={this.handleSubmit}>
-                    
-                    &lt;div>
-                      &lt;textarea
-                        className="To"
-                        name="To"
-                        id="1"
-                        placeholder="Username, or /r/name for that subreddit's moderators"
-                        value={this.state.value}
-                        onChange={this.handleChange}
 
-                      />
-                    &lt;/div>
 
-                    &lt;div>
-                      &lt;textarea
-                        className="Subject"
-                        name="Subject"
-                        id="2"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        placeholder="Subject"
-                      />
-                    &lt;/div>
-
-                    &lt;div>
-                      &lt;textarea
-                        placeholder="Your message."
-                        className="Message"
-                        name="Message"
-                        id="3"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-
-                      />
-                    &lt;/div>
-                    &lt;input type="submit" value="Submit" />
-
-                  &lt;/form>
-                
-                  
-                &lt;/React.Fragment>
-              )} />
+                &lt;Route exact path="/PM/Compose" render={props => (
+                  &lt;React.Fragment>
+                    {error}
+                    {success}
+                    {this.setState.errors = ""}
+                    {this.setState.success = ""}
 
 
 
+                    &lt;form name="myForm"
+                      onSubmit={this.handleSubmit}>
+
+                      &lt;div>
+                        &lt;textarea
+                          className="To"
+                          name="To"
+                          id="1"
+                          placeholder="Username, or /r/name for that subreddit's moderators"
+                          value={this.state.To}
+                          onChange={this.handleChange}
+
+                        />
+                      &lt;/div>
+
+                      &lt;div>
+                        &lt;textarea
+                          className="Subject"
+                          name="Subject"
+                          id="2"
+                          value={this.state.Subject}
+                          onChange={this.handleChange}
+                          placeholder="Subject"
+                        />
+                      &lt;/div>
+
+                      &lt;div>
+                        &lt;textarea
+                          placeholder="Your message."
+                          className="Message"
+                          name="Message"
+                          id="3"
+                          value={this.state.Message}
+                          onChange={this.handleChange}
+
+                        />
+                      &lt;/div>
+                      &lt;input type="submit" value="Submit" />
+
+                    &lt;/form>
+
+
+                  &lt;/React.Fragment>
+                )} />
+
+
+
+              &lt;/div>
             &lt;/div>
-          &lt;/div>
           &lt;/div>
         &lt;/Aux>
       &lt;/Router>
@@ -266,13 +276,13 @@ export default withRouter(PMs);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

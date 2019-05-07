@@ -26,7 +26,11 @@ export default class Registration extends Component {
         // localStorage.setItem('alreadyRegistered', false);
 
     }
-
+/**
+   * Handles registration submission 
+   * @function handleSubmit
+   * @param  {event} - submit event
+   */
     handleSubmit(e) {
         
         e.preventDefault();

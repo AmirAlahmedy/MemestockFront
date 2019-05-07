@@ -88,21 +88,39 @@ class Threads extends Component {
         console.log(token);
         console.log(localStorage.getItem('token'));
 
-        this.getListing(this.props.sort);
-        this.setState({
-            sort: this.props.sort
-        });
+        axios.get(`/me/listing?type=${this.props.sort}&amp;_id=0&amp;votes=0&amp;hotindex=0`, { headers: this.headers })
+            .then(response => {
+                
+                // response.data.posts.sort((p1, p2) => {
+                //     const d1 = new Date(p1.postDate);
+                //     const d2 = new Date(p2.postDate);
+                //     return d1.getTime() - d2.getTime();
+                // })
+                this.reqThreads = response.data;
+                this.setState({
+                    reqThreads: response.data,
+                    lastID: response.data.posts[response.data.posts.length-1]._id,
+                    votes: response.data.posts[response.data.posts.length-1].votes,
+                    
+                });
+
+            })
+            .catch(error => {
+
+            })
         this.props.listingUpdater(this.getListing.bind(this));
         window.addEventListener("scroll", () => {
             if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
 
-                axios.get(`/me/listing?type=${this.props.sort}&amp;_id=${this.state.lastID}&amp;votes=${this.state.lastVotes}&amp;hotindex=${this.lastHotIndex}`, { headers: this.headers })
+                return axios.get(`/me/listing?type=${this.props.sort}&amp;_id=${this.state.lastID}&amp;votes=${this.state.votes}&amp;hotindex=${0}`, { headers: this.headers })
                     .then(response => {
                         console.log(response);
-                        this.reqThreads = response.data;
+                        this.reqThreads.posts = this.reqThreads.posts.concat(response.data.posts);
+                        response.data.posts = this.reqThreads.posts;
                         this.setState({
                             reqThreads: response.data,
-
+                            lastID: response.data.posts[response.data.posts.length-1]._id,
+                            votes: response.data.posts[response.data.posts.length-1].votes,
                         });
 
                     })
@@ -156,6 +174,8 @@ class Threads extends Component {
             content={thr.body}
             view={view}
             upvotes={thr.votes}
+            isSpoiler={thr.spoiler}
+            image={thr.postFile === "none" ? null : thr.postFile}
         />)
     }
 
@@ -165,12 +185,25 @@ class Threads extends Component {
      * @param {array} - array of the mocked threads
      */
     createThreads = Threads => Threads.map(this.createThread);
+
+
+    /**
+     * Redirects to create post route
+     * @function goToCreatePost
+     */
     goToCreatePost() {
         window.location.href = "/CreatePost/";
     }
+
+    /**
+     * Redirects to create subreddit route
+     * @function goToCreateSr
+     */
     goToCreateSr() {
         window.location.href = "/create-subreddit/";
     }
+
+    
     /**
      * For generating threads from a mock service
      * @function getListing
@@ -203,8 +236,8 @@ class Threads extends Component {
                     {this.getThreads(this.props.view)}
                 &lt;/div>
                 &lt;sidebar className='sidebar'>
-                &lt;Button clicked={this.goToCreatePost} id='Cp'>Create Post&lt;/Button>
-                &lt;Button clicked={this.goToCreateSr.bind(this)} id='Sr'> Create Community&lt;/Button>
+                    &lt;Button clicked={this.goToCreatePost} id='Cp'>Create Post&lt;/Button>
+                    &lt;Button clicked={this.goToCreateSr.bind(this)} id='Sr'> Create Community&lt;/Button>
                 &lt;/sidebar>
             &lt;/Aux>
 
@@ -213,7 +246,7 @@ class Threads extends Component {
 }
 
 const Thr = Threads;
-export{
+export {
     Listings,
     Thr
 }
@@ -227,13 +260,13 @@ export{
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
