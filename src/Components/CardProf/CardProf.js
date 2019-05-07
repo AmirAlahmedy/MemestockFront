@@ -107,11 +107,13 @@ export class CardProf extends Component {
     var headers = {
       'auth': localStorage.getItem("token")
     }
-    var data = {
-      blockeduser: this.state.username
-    }
+    let username =
+      window.location.href.split("/")
+        .pop()
+        .replace("#post", "")
+        .replace("#comment", "");
 
-    axios.put('me/user/block/', data, { headers: headers }
+    axios.put('/me/user/block',{ blockedUser: username }, { headers: headers }
     )
       .then(res => {
         console.log(res);
@@ -136,7 +138,7 @@ export class CardProf extends Component {
         .pop()
         .replace("#post", "")
         .replace("#comment", "");
-    axios.put('me/user/Add/', { fUsername: username }, { headers: headers }
+    axios.put('/me/user/Add', { fUsername: username }, { headers: headers }
     )
 
       .then(res => {

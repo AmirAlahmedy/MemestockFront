@@ -78,6 +78,7 @@ export class User extends Component {
           comments: resp.data.comments,
           posts: resp.data.posts
         });
+
       })
       .catch(e => {
         //Imagine it's handling it...

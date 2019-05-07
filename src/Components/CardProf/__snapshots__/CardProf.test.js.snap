@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardProf/> it matches the snapshot 1`] = `
+<div
+  className="gamb"
+>
+  <div
+    className="userImage"
+    style={
+      Object {
+        "backgroundImage": "url(redditor.png)",
+      }
+    }
+  />
+  <br />
+  <div />
+  <h5>
+    Cake Day: 
+  </h5>
+  <button
+    class="btn btn-primary"
+    id="addFriend"
+    onClick={[Function]}
+    type="button"
+  >
+    Add Friend
+  </button>
+  <input
+    class="btn btn-primary"
+    id="blockfriend"
+    onClick={[Function]}
+    type="submit"
+    value="Block friend"
+  />
+  <div />
+</div>
+`;

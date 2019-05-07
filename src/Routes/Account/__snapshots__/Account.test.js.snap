@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Account/> it matches the snapshot 1`] = `
+<div>
+  <div>
+    <div
+      className="accountLinks"
+    >
+      <a
+        href="#Edit"
+      >
+        Update Email
+      </a>
+      <a
+        href="#ChangePass"
+      >
+        Change Password
+      </a>
+    </div>
+  </div>
+  <div
+    className="edit"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <label>
+          E-Mail
+          <input
+            class="form-control"
+            id="userEmail"
+            onChange={[Function]}
+            placeholder="Update E-mail"
+            type="Email"
+          />
+        </label>
+      </div>
+      <input
+        class="btn"
+        type="submit"
+        value="Update"
+      />
+    </form>
+  </div>
+</div>
+`;
