@@ -27,7 +27,11 @@ class CreatePost extends Component {
   };
 
 
-
+ /**
+  * For handling the spoiler checkbox change
+  * @function handleChange 
+  * @param {event} - Submition event 
+  */
   handleChange(e) {
     this.setState({
       spoiler: e.target.checked

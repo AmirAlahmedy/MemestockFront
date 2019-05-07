@@ -115,7 +115,11 @@ export class Subreddit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-
+  /**
+   * For handling a spoiler checkbox request to the backend and updating the boolean in state
+   * @function handleChange
+   * @param {event} - onClick event 
+   */
 
   handleChange(e) {
     this.setState({
@@ -242,6 +246,11 @@ export class Subreddit extends Component {
       threadCreation: false
     })
   }
+  /**
+   * For handling a change in the state to show the edit subreddit form
+   * @function editSubreddit
+   * @param {event} - onClick event 
+   */
   editSubreddit = (e) => {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
@@ -253,6 +262,11 @@ export class Subreddit extends Component {
       })
     }
   }
+   /**
+   * For cancel handling a change in the state to show the edit subreddit form
+   * @function cancelSubreddit
+   * @param {event} - onClick event 
+   */
   cancelSubreddit = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -323,7 +337,11 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
-
+  /**
+   * For handling an edit subreddit request to the backend
+   * @function handleEdit
+   * @param {event} - onClick event 
+   */
   handleEdit = (e) => {
     e.preventDefault();
     let newmods = this.state.moderatorsList;
@@ -377,8 +395,14 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
+
+   /**
+   * For getting threadds of the subreddit
+   * @function getThreads
+   * @param {event} - onClick event 
+   */
   getThreads() {
-    if (!this.state.threadsContent.length) return <p>No posts yet...</p>;
+    if (!this.state.threadsContent.length) return <div className="noPosts">No posts yet...</div>;
     return this.state.threadsContent.map(thr =>
       <Thread
         id={thr._id}
@@ -418,6 +442,11 @@ export class Subreddit extends Component {
         alert(error.response);
       })
   }
+  /**
+  * For handling the reading of image
+  * @function handleNewImage 
+  * @param {event} - Submition event 
+  */
   handleNewImage(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
