@@ -1,30 +1,10 @@
-import React from 'react';
-import { configure, shallow, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import axios from 'axios';
-import Account from './Account';
+import React from "react";
 import { create } from "react-test-renderer";
+import Account from "./Account";
 
-configure({adapter: new Adapter()});
-//jest.mock("axios");
-
-describe('<Account/>', () => {
-
-    let wrapper;
-
-    beforeEach(() => {
-        wrapper = shallow(<Account></Account>);
-    });
-
+describe("Account component snapshot", () => {
     test("it matches the snapshot", () => {
-        const component = create(<Account />);
-        expect(component.toJSON()).toMatchSnapshot();
-      });
-
-    it("Password ", async () => {
-        const component = create(<Account />);
-        const instance = component.getInstance();
-     //   await instance.componentDidMount();
-        console.log(instance.state) 
+      const component = create(<Account />);
+      expect(component.toJSON()).toMatchSnapshot();
     });
-})
+  });
