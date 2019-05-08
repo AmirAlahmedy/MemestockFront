@@ -8,3 +8,10 @@ describe("BanUsers component snapshot", () => {
       expect(component.toJSON()).toMatchSnapshot();
     });
   });
+
+  it("Shows pass page meta", async () => {
+    const component = create(<ChangePass />);
+    const instance = component.getInstance();
+    await instance.BanUser();
+    console.log(instance.state); 
+  });

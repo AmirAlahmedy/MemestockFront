@@ -28,3 +28,9 @@ describe('<User/>', () => {
         console.log(instance.state) 
     });
 })
+it("goes to user's profile", async () => {
+    const component = create(<User />);
+    const instance = component.getInstance();
+    await instance.goto();
+    console.log(instance.state) 
+});

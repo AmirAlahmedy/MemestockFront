@@ -16,3 +16,10 @@ it("Shows pass page meta", async () => {
     await instance.componentDidMount();
     console.log(instance.state); 
   });
+
+  it("handle submitting new password", async () => {
+    const component = create(<ChangePass />);
+    const instance = component.getInstance();
+    await instance.handleSubmit();
+    console.log(instance.state); 
+  });

@@ -17,6 +17,20 @@ describe("Thread component snapshot", () => {
     await instance.componentDidMount();
     console.log(instance.state); 
   });
+
+  it("Increase votes by one", async () => {
+    const component = create(<Thread />);
+    const instance = component.getInstance();
+    await instance.handleIncrement();
+    console.log(instance.state); 
+  });
+
+  it("decrease votes by one", async () => {
+    const component = create(<Thread />);
+    const instance = component.getInstance();
+    await instance.handledecrement();
+    console.log(instance.state); 
+  });
   
   
   

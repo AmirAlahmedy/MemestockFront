@@ -28,3 +28,30 @@ describe('<CardProf/>', () => {
         console.log(instance.state) 
     });
 })
+it("block user ", async () => {
+    const component = create(<CardProf />);
+    const instance = component.getInstance();
+    await instance.handleBlock();
+    console.log(instance.state) 
+});
+
+it("Add user as a friend ", async () => {
+    const component = create(<CardProf />);
+    const instance = component.getInstance();
+    await instance.handleFriend();
+    console.log(instance.state) 
+});
+
+it("Unblock user  ", async () => {
+    const component = create(<CardProf />);
+    const instance = component.getInstance();
+    await instance.handleUnblock();
+    console.log(instance.state) 
+});
+
+it("Remove friend request", async () => {
+    const component = create(<CardProf />);
+    const instance = component.getInstance();
+    await instance.removeReq();
+    console.log(instance.state) 
+});

@@ -8,3 +8,10 @@ describe("Settings component snapshot", () => {
       expect(component.toJSON()).toMatchSnapshot();
     });
   });
+
+  it("change profile", async () => {
+    const component = create(<ChangePass />);
+    const instance = component.getInstance();
+    await instance.handleSubmit();
+    console.log(instance.state); 
+  });
