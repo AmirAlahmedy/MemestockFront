@@ -376,3 +376,7 @@ label.srSidebarSubscribeButton{
 .cancel:hover{
     background-color: #da0046 !important;
 }
+.noPosts{
+    text-decoration: italic;
+    color:#333;
+}

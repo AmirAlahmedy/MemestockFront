@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Routes/Thread/Classic View Thread/classic-view-thread.js</title>
+    <title>JSDoc: Source: Routes/BanUsers/BanUsers.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Routes/Thread/Classic View Thread/classic-view-thread.js</h1>
+    <h1 class="page-title">Source: Routes/BanUsers/BanUsers.js</h1>
 
     
 
@@ -27,94 +27,172 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import GoHome from '../GoHome/index.js';
+import { Link, Route, Switch } from 'react-router-dom';
+import axios from '../../axios-orders';
+import './BanUsers.css';
+import Select from 'react-select';
 
+class BanUsers extends Component {
+   state = {
+      username: [],
+      user: '',
+      sr: '',
+      subscriptions: []
 
-export default class ClasssicThread extends Component{
-    /**
-     * Handles upvotes increments.
-     * @function handleIncrement
+   }
+/**
+     * Sets the state with changed username in the input fields
+     * @function onChangeUser
+     * @param {event} - onChange event 
      */
-    handleIncrement = () => {
-
-
-        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableUp: false });
-
-        }
-        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableUp: true });
-
-        }
-        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-
-            this.setState({ enableDown: false });
-            this.setState({ enableUp: true });
-            this.setState({ upvotes: this.state.upvotes + 2 });
-        }
-
-    };
-
-    /**
-     * Handles downvotes.
-     * @function handledecrement
+   onChangeUser = (e) => this.setState({ user: e.target.value });
+   /**
+     * Sets the state with changed subreddit name  in the input fields 
+     * @function onChangeSr
+     * @param {event} - onChange event 
      */
-    handledecrement = () => {
-
-        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableDown: false });
-        }
-        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableDown: true });
-        }
-        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ enableDown: true });
-            this.setState({ enableUp: false });
-            this.setState({ upvotes: this.state.upvotes - 2 });
-        }
-
-    };
-
-    goTo(link){
-        return function(){
-            window.location.href = link;
-        } 
-    }
-
-    render() {
-
-        return (
-        
-           
-                &lt;div className= 'classicThreadContiner'>
-                    
-                    &lt;div className="threadTitle">{this.props.title}&lt;/div>
-
-                    &lt;div class="threadLinks">
-                        &lt;span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}&lt;/span>
-                        .
-                        &lt;span onClick={this.goTo(`/user/${this.props.username}`)}className="posted-by">   Posted by u/{this.props.username} &lt;/span>
-                    &lt;/div>
-                    &lt;br>&lt;/br>
-
-                    &lt;button type="button" onClick={this.handleIncrement} className="incrementVotes">&lt;i class="fas fa-angle-up">&lt;/i>&lt;/button>
-
-                    &lt;div className="threadUpvotes">{this.state.upvotes}&lt;/div>
-
-                    &lt;button type="button" onClick={this.handledecrement} className="decrementVotes">&lt;i class="fas fa-angle-down">&lt;/i>&lt;/button>
-                    &lt;span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                        {this.state.comments.length} comments
-                    &lt;/span>
+   onChangeSr = (e) => this.setState({ sr: e.target.value });
 
 
-                &lt;/div>
-            
-        );
-    }
-}</code></pre>
+   componentDidMount() {
+      axios.get("/me/About/" + localStorage.getItem('Username'), { headers: { auth: localStorage.getItem("token") } })
+         .then(resp => {
+            if (resp.data.Subscriptions.length || resp.data.moderates.length) {
+               this.setState({
+                  subscriptions: [...resp.data.moderates]
+               });
+            }
+         })
+   }
+   /**
+     * Hnadles the ban of a user 
+     * @function BanUser
+     * @param {event} - submission event 
+     */
+   BanUser = (e) => {
+      e.preventDefault();
+      console.log('done Clicked');
+
+
+      if (document.getElementById("checkBan").checked === false &amp;&amp; document.getElementById("checkUnBan").checked === false) {
+         alert("Please choose ban or unban user");
+         return;
+      }
+      else if (document.getElementById("checkBan").checked === true &amp;&amp; document.getElementById("checkUnBan").checked === true) {
+         alert("Please choose only one from ban or unban user");
+         return;
+      }
+
+      let checker = "";
+      if (document.getElementById("getUserBan").value === checker) {
+         alert("Please provide a name of user");
+         return;
+      }
+      else if (!this.state.sr) {
+         alert("Please provide a subreddit");
+         return;
+      }
+
+      let headers = {
+         auth: localStorage.getItem("token")
+      }
+
+      var newBan = {
+         Username: this.state.user,
+         SrName: this.state.sr
+      }
+
+      //ban user
+      if (document.getElementById("checkBan").checked) {
+         axios.put('/Moderator/ban', newBan, { "headers": headers })
+            .then(res => {
+               if (res.status == 200) {
+                  console.log(res)
+                  alert('User banned successfully');
+               }
+               else if (res.status === 404) {
+                  alert("Not Found");
+                  return Response.json;
+               }
+
+            })
+            .catch(error => {
+               alert("Error Caught");
+            })
+
+      }
+
+      //Unban user
+      else if (document.getElementById("checkUnBan").checked) {
+
+         axios.put('/Moderator/unban', newBan, { "headers": headers })
+            .then(res => {
+               if (res.status == 200) {
+                  console.log(res)
+                  alert('User unbanned successfully');
+               }
+               else if (res.status === 404) {
+                  alert("Not Found");
+                  return Response.json;
+               }
+
+            })
+            .catch(error => {
+               alert("Error Caught");
+            })
+      }
+
+
+
+   }
+
+ /**
+     * Sets the name of the subreddit where the post is created
+     * @function setSR
+     * @param {option} - The subreddit name
+     */
+   setSR(option) {
+      this.setState({
+         sr: option.value
+      });
+   }
+   render() {
+
+      return (
+         &lt;div className="BanUser">
+            &lt;br>&lt;/br>
+            &lt;p>Subreddit&lt;/p>
+            &lt;Select
+               onChange={this.setSR.bind(this)}
+               options={this.state.subscriptions.map(sr => { return { value: sr, label: sr } })} />
+
+            &lt;form onSubmit={this.BanUser}>
+               &lt;p>Username&lt;/p>
+               &lt;input className="username" type="text" id="getUserBan"
+                  name="username" placeholder="Username To Be banned or unabnned"
+                  value={this.state.user} onChange={this.onChangeUser}
+               />
+               &lt;input type="submit" value="Done" className="saveComment" />
+               &lt;div className="formGroup">
+                  &lt;label for="checkBan" className="BanU">Ban user
+                  &lt;input type="checkbox" name="checkBan" id="checkBan" />&lt;/label>
+                  &lt;label for="checkUnBan" className="UnBanU">Unban user
+                  &lt;input type="checkbox" name="checkUnBan" id="checkUnBan" />&lt;/label>
+               &lt;/div>
+            &lt;/form>
+
+         &lt;/div>
+      );
+
+   }
+
+
+
+}
+
+
+export default BanUsers;</code></pre>
         </article>
     </section>
 

@@ -170,6 +170,10 @@ class Inbox extends React.Component {
 
       });
   }
+    /**
+    * Requests the list of blocked users
+    * @function blockList
+    */
   blockList() {
     this.setState({
       showBlockList: true
@@ -217,26 +221,61 @@ class Inbox extends React.Component {
           &lt;button id={msg.sender} type="submit" name="Block" onClick={this.BlockUser}>Block User&lt;/button>
           &lt;button id={msg._id} type="submit" name="markRead" onClick={this.MarkRead}>Mark Read  &lt;/button>
           &lt;button id={msg._id} type="submit" name="markRead" onClick={this.MarkUnRead}>MarkUnRead  &lt;/button>
+          &lt;button data-sender={msg.sender} data-subject={msg.subject} type="submit" onClick={this.reply}>Reply&lt;/button>
 
 
         &lt;/div>
       &lt;/div>
     ));
   }
+  /**
+    * Handles replying on a message
+    * @function reply
+    * @param {event} - event
+    */
+  reply(e) {
+    const sender = e.target.getAttribute("data-sender");
+    const subject = e.target.getAttribute("data-subject");
+    window.location.href = `/PM/Compose?sender=${sender}&amp;subject=${subject}`;
+
+  }
+   /**
+    * Hides block list
+    * @function closeBlockList
+    */
+  closeBlockList(){
+    this.setState({
+      showBlockList: false
+    });
+  }
+     /**
+    * Shows block list
+    * @function getBlockList
+    */
   getBlockList() {
     if (this.state.BlockList === 0) {
       return;
     }
-    return this.state.BlockList.map((blocklist) => (
-
-      &lt;div className="blockeduser">
-        &lt;h1 className="blockedusername">{blocklist.blocked}&lt;/h1>
-        &lt;button id={blocklist.blocked} type="submit" name="unBlock" onClick={this.unBlockUser}>UnBlockUser  &lt;/button>
-        &lt;br />
+    return (
+      &lt;div className="blockList">
+        &lt;button type="button" className="closeBlockList" onClick={this.closeBlockList.bind(this)}>Close&lt;/button>
+        {this.state.BlockList.map((blocklist) => (
+          &lt;div className="blockeduser">
+            &lt;h1 className="blockedusername">{blocklist.blocked}&lt;/h1>
+            &lt;button id={blocklist.blocked} type="submit" name="unBlock" onClick={this.unBlockUser}>UnBlockUser  &lt;/button>
+            &lt;br />
+          &lt;/div>
+        ))
+        }
       &lt;/div>
-    ));
+    )
   }
 
+  /**
+    * Mark all messages as read
+    * @function MarkReadAll
+    * @param {event} - click event 
+    */
   MarkReadAll(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -253,7 +292,7 @@ class Inbox extends React.Component {
       })
       .then(res => {
         console.log(res);
-        if (res.data !== "OK") return;
+        if (!res.data.success) return;
         let msgs = this.state.Messages.map(msg => {
           msg.isRead = true;
           return msg;
@@ -265,9 +304,6 @@ class Inbox extends React.Component {
 
 
 
-        //in case sucess..
-
-
       })
       .catch(error => {
         console.log(error)
@@ -276,6 +312,11 @@ class Inbox extends React.Component {
 
       });
   }
+  /**
+    * Mark all messages as unread
+    * @function MarkUnReadAll
+    * @param {event} - click event 
+    */
   MarkUnReadAll(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -295,7 +336,7 @@ class Inbox extends React.Component {
         console.log(res.data);
 
         console.log(res);
-        if (res.data.status !== "200") return;
+        if (!res.data.success) return;
         let msgs = this.state.Messages.map(msg => {
           msg.isRead = false;
           return msg;
@@ -319,6 +360,11 @@ class Inbox extends React.Component {
 
       });
   }
+   /**
+    * Mark a message as read
+    * @function MarkRead
+    * @param {event} - click event 
+    */
   MarkRead(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -359,6 +405,11 @@ class Inbox extends React.Component {
 
       });
   }
+  /**
+    * Mark a message as unread
+    * @function MarkUnRead
+    * @param {event} - click event 
+    */
   MarkUnRead(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -442,6 +493,11 @@ class Inbox extends React.Component {
       });
   }
 
+    /**
+    * Sends the request to unBlock user from sending messages.
+    * @function unBlockUser
+    * @param {event} e - Pressing block button.
+    */
   unBlockUser(e) {
     const element = e.target;
     const blockedUser = element.getAttribute("id");
@@ -514,13 +570,13 @@ export default withRouter(Inbox);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

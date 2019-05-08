@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Routes/Account/Edit.js</title>
+    <title>JSDoc: Source: Components/User/User.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Routes/Account/Edit.js</h1>
+    <h1 class="page-title">Source: Components/User/User.js</h1>
 
     
 
@@ -27,91 +27,198 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
-import axios from '../../axios-orders';
-class Edit extends Component {
-
-  state = {
-    email: ''
-  }
- /**
- * Gets the current  user name from the local storage
- * @function getCurrentUser
- */
+import { NavLink, Route } from 'react-router-dom';
+import CardProf from '../CardProf/CardProf';
+import CardUser from '../CardUser/CardUser';
+import './User.css';
+import axios from "../../axios-orders";
+import Aux from '../HOC/Auxiliary';
+import Moderation from '../../Routes/ModerationPage/ModerationPage';
+import Flairs from './Flairs/Flairs';
+import Thread from '../../Routes/Thread/Thread'
+export class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      cakeday: '',
+      savedPosts: [],
+      checkuser: this.props.match.params.username || localStorage.getItem("Username"),
+      posts: [],
+      comments: []
+    }
+    //
+    //Eshta na m3ak aho
+  };
+  
+     /**
+     * Gets the current user name from the local storage
+     * @function getCurrentUser
+     */
   getCurrentUser() {
     return localStorage.getItem("Username");
   }
 
-  /**
- * Handles Email change.
- * @function handleChange
- * @param {event} e - The change of the Email.
- */
-  handleChange = (e) => {
-    this.setState({
-      email: e.target.value
-    })
-  }
-  /**
- * Handles edit-Email form submission.
- * @function handleSubmit
- * @param {event} e - The submission of the edit-Email form.
- */
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let username = this.getCurrentUser();
-    alert(username);
-
-
-    let checker = "";
-
-    let Emailcontent = document.getElementById("userEmail").value;
-
-    if (Emailcontent === checker) {
-      alert("Please provide an Email !");
-      return;
-    }
-    var headers = {
+  componentDidMount() {
+    console.log("propaaat")
+    console.log(this.props);
+    console.log("username: ", this.state.checkuser);
+    const headers = {
       'auth': localStorage.getItem("token")
     }
-    var data = { Email: this.state.email }
-
-    console.log(data);
-    axios.put('/me/edit/email/' + username, data, { headers: headers })
+    let username = this.state.checkuser;
+    axios.get('/user/info/' + username, { "headers": headers })
       .then(res => {
         console.log(res);
+        console.log(res.data);
+
         if (res.status == 200) {
-          alert("Email changed Successfully!");
-        } else if (res.status === 401 || res.status === 404) {
-          alert("Email  Unsuccessful");
-          return Response.json;
+          this.setState({
+            username: res.data.Username,
+            cakeday: res.data.cakeday
+          });
+
+          //   for (let post of res.data.savedPosts) {
+          //     axios.get('/user/info/'+ username , { "headers": headers })
+          //        .then(res => {
+          //           if (res.data &amp;&amp; res.status === 200) {
+          //              let posts = this.state.savedPosts;
+          //              for(const postState of posts){
+          //                 if(postState._id === post._id){
+          //                   //Na b3ml 7aga h5lasha w a-chek
+          //                   //msh mla7ez en fi syntax error aslun? :'D
+          //                    postState.children = res.data;//di el req el betgeeb el posts beta3et
+          //                    //el user w el mfrood enaha kda khelset yaani chayek keda
+          //                 }
+          //              }
+          //              this.setState({
+          //                 savedPosts: res.data.savedPosts
+          //              })
+          //           }
+          //        });
+          //  }
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        console.log(error.res)
+        alert("Error")
+      });
+
+    axios.get(`/user/${this.state.checkuser}/posted`, { headers: headers })
+      .then((resp) => {
+        this.setState({
+          comments: resp.data.comments,
+          posts: resp.data.posts
+        });
       })
+      .catch(e => {
+        //Imagine it's handling it...
+      });
+
+
+
   }
 
 
+
+
+  
+     /**
+     * Redirects to the desired link
+     * @function goTo
+     * @param {link} - the desired link
+     */
+  goTo(link) {
+    return function () {
+      window.location.href = link;
+    }
+  }
+
   render() {
     return (
-      &lt;div className="edit">
+      &lt;Aux>
 
-        &lt;form onSubmit={this.handleSubmit}>
+        &lt;CardProf cake={this.state.cakeday} q={this.state.username}>&lt;/CardProf>
 
-          &lt;div className="form-group">
-            &lt;label>E-Mail
-              &lt;input class="form-control" type="Email" placeholder="Update E-mail" id="userEmail" onChange={this.handleChange} />
-            &lt;/label>
+          &lt;div className="ana">
+            &lt;div className="aho">
+
+
+              &lt;nav className="navbar navbar-expand-lg navbar-light bg-light profnav">
+                &lt;ul className="navbar-nav mr-auto proful">
+
+                  &lt;li className="nav-item profit1">
+                    &lt;span className="nav-link">&lt;a className='profit default' href="#posts">Posts&lt;/a>&lt;/span>
+                  &lt;/li>
+                  &lt;li className="nav-item profit1">
+                    &lt;span className="nav-link">&lt;a className='profit' href="#comments">Comments&lt;/a>&lt;/span>
+                  &lt;/li>
+                  {this.state.checkuser === localStorage.getItem("Username") ?
+                    &lt;li className="nav-item profit1">
+                      &lt;span className="nav-link">&lt;a className='profit' href="#flair">Flairs&lt;/a>&lt;/span>
+                    &lt;/li>
+                    : null}
+
+                &lt;/ul>
+
+              &lt;/nav>
+
+
+            &lt;/div>
+
+
+
+
+
+              &lt;Route exact path='/moderation' component={Moderation} />
+
+            {window.location.href.includes("#flair") &amp;&amp; this.state.checkuser === localStorage.getItem("Username") ? &lt;Flairs /> : null}
+            {window.location.href.includes("#posts") || (!window.location.href.includes("#comments") &amp;&amp; !window.location.href.includes("#flair")) ?
+              this.state.posts.map(thr => {
+                return (
+                  &lt;Thread
+                    id={thr._id}
+                    username={thr.creatorUsername}
+                    subreddit={thr.subredditName}
+                    title={thr.title}
+                    content={thr.body}
+                    upvotes={thr.votes}
+                    isSpoiler={thr.spoiler}
+                    image={thr.postFile === "none" ? null : thr.postFile}
+                  />
+                )
+              })
+              : null}
+
+            {window.location.href.includes("#comments") ?
+              this.state.comments.map(comment => {
+                return (
+                  &lt;div className="commentContainer">
+                    &lt;a href={`/r/${comment.subreddit}`} className="commentSR">r/{comment.subreddit} &lt;/a>
+                    &lt;div className="commentUser">u/{comment.username} &lt;/div>
+                    &lt;div className={`comment ${comment.spoiler ? "spoiler" : ""}`}>{comment.content}&lt;/div>
+                  &lt;/div>)
+              })
+              : null}
+
           &lt;/div>
-          &lt;input class="btn" type="submit" value="Update" />
-        &lt;/form>
 
-      &lt;/div>
+
+
+      &lt;/Aux>
+
+
+
+
+
+
+
     )
   }
 }
 
-export default Edit
+export default User
+
 </code></pre>
         </article>
     </section>

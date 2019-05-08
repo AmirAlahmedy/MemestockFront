@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Routes/Thread/Classic View Thread/classic-view-thread.js</title>
+    <title>JSDoc: Source: Routes/SettingsProf/SettProfile.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Routes/Thread/Classic View Thread/classic-view-thread.js</h1>
+    <h1 class="page-title">Source: Routes/SettingsProf/SettProfile.js</h1>
 
     
 
@@ -26,95 +26,101 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import './SettProfile.css'
+import axios from "../../axios-orders";
 
+class SettProfile extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = { about: '' };
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleAboutChange = this.handleAboutChange.bind(this);
+  }
 
-export default class ClasssicThread extends Component{
-    /**
-     * Handles upvotes increments.
-     * @function handleIncrement
+  /**
+     * Sets the about state with new user input
+     * @function handleAboutChange
+     * @param {event} - change event
      */
-    handleIncrement = () => {
+  handleAboutChange(e) {
+    this.setState({ about: e.target.value });
+}
 
-
-        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableUp: false });
-
-        }
-        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableUp: true });
-
-        }
-        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-
-            this.setState({ enableDown: false });
-            this.setState({ enableUp: true });
-            this.setState({ upvotes: this.state.upvotes + 2 });
-        }
-
-    };
-
-    /**
-     * Handles downvotes.
-     * @function handledecrement
+ /**
+     * Submits the new about
+     * @function handleSubmit
+     * @param {event} - submisson event
      */
-    handledecrement = () => {
+  handleSubmit(e) {
+    e.preventDefault();
+    var data = {
+      About:this.state.about
+  };
 
-        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableDown: false });
-        }
-        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableDown: true });
-        }
-        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ enableDown: true });
-            this.setState({ enableUp: false });
-            this.setState({ upvotes: this.state.upvotes - 2 });
-        }
+  var headers = {
+    'auth': localStorage.getItem("token")
+}
 
-    };
-
-    goTo(link){
-        return function(){
-            window.location.href = link;
-        } 
-    }
-
-    render() {
-
-        return (
-        
-           
-                &lt;div className= 'classicThreadContiner'>
-                    
-                    &lt;div className="threadTitle">{this.props.title}&lt;/div>
-
-                    &lt;div class="threadLinks">
-                        &lt;span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}&lt;/span>
-                        .
-                        &lt;span onClick={this.goTo(`/user/${this.props.username}`)}className="posted-by">   Posted by u/{this.props.username} &lt;/span>
-                    &lt;/div>
-                    &lt;br>&lt;/br>
-
-                    &lt;button type="button" onClick={this.handleIncrement} className="incrementVotes">&lt;i class="fas fa-angle-up">&lt;/i>&lt;/button>
-
-                    &lt;div className="threadUpvotes">{this.state.upvotes}&lt;/div>
-
-                    &lt;button type="button" onClick={this.handledecrement} className="decrementVotes">&lt;i class="fas fa-angle-down">&lt;/i>&lt;/button>
-                    &lt;span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                        {this.state.comments.length} comments
-                    &lt;/span>
+alert(data);
 
 
+
+
+axios.put('me/edit/About', data, { headers: headers })
+.then(res => {
+  console.log(res);
+  if (res.status == 200) {
+      alert("About changed Successfully!");
+  } else if (res.status === 401 || res.status === 404) {
+      alert("About changes Unsuccessful");
+      return Response.json;
+  }
+})
+.catch(error => {
+  alert("Error With About");
+})
+
+
+
+
+
+  }
+  render() {
+  return (
+      &lt;form className="form-h" onSubmit={this.handleSubmit}>
+    &lt;div class="ayhaga">
+              &lt;h3 class="profile-info">Profile Information&lt;/h3>
+
+              &lt;div className="display-box">
+                  &lt;p>Set a display name. This does not change your username.&lt;/p>
+                  &lt;input className="optionalName" placeholder="Display Name (optional)" type="text" id="displayname" onChange={this.handleDisplayName} />
+              &lt;/div>
+
+              &lt;div className="about-box">
+
+                &lt;div className="ab1">
+                  &lt;h3 class="profile-info">About&lt;/h3>
+                  &lt;p>A brief description of yourself shown on your profile.&lt;/p>
                 &lt;/div>
-            
-        );
-    }
-}</code></pre>
+
+                &lt;div className="ab2">
+                  &lt;textarea placeholder="About (optional)" className="txtArea" id="about" onChange={this.handleAboutChange}>&lt;/textarea>
+                  &lt;/div>
+                  &lt;div class="char">200 Characters&lt;/div>
+                  &lt;input class="btn btn-primary" type="submit" id="submit" value="Save" />
+    
+              &lt;/div>
+
+
+        &lt;/div>
+        &lt;/form>
+  )
+}
+}
+
+export default SettProfile
+</code></pre>
         </article>
     </section>
 

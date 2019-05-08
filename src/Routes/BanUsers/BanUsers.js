@@ -13,8 +13,17 @@ class BanUsers extends Component {
       subscriptions: []
 
    }
-
+/**
+     * Sets the state with changed username in the input fields
+     * @function onChangeUser
+     * @param {event} - onChange event 
+     */
    onChangeUser = (e) => this.setState({ user: e.target.value });
+   /**
+     * Sets the state with changed subreddit name  in the input fields 
+     * @function onChangeSr
+     * @param {event} - onChange event 
+     */
    onChangeSr = (e) => this.setState({ sr: e.target.value });
 
 
@@ -28,7 +37,11 @@ class BanUsers extends Component {
             }
          })
    }
-
+   /**
+     * Hnadles the ban of a user 
+     * @function BanUser
+     * @param {event} - submission event 
+     */
    BanUser = (e) => {
       e.preventDefault();
       console.log('done Clicked');
@@ -106,7 +119,11 @@ class BanUsers extends Component {
 
    }
 
-
+ /**
+     * Sets the name of the subreddit where the post is created
+     * @function setSR
+     * @param {option} - The subreddit name
+     */
    setSR(option) {
       this.setState({
          sr: option.value

@@ -10,10 +10,20 @@ class SettProfile extends React.Component {
       this.handleAboutChange = this.handleAboutChange.bind(this);
   }
 
+  /**
+     * Sets the about state with new user input
+     * @function handleAboutChange
+     * @param {event} - change event
+     */
   handleAboutChange(e) {
     this.setState({ about: e.target.value });
 }
 
+ /**
+     * Submits the new about
+     * @function handleSubmit
+     * @param {event} - submisson event
+     */
   handleSubmit(e) {
     e.preventDefault();
     var data = {

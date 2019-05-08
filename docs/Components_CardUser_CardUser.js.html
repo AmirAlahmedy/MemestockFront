@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Routes/Thread/Classic View Thread/classic-view-thread.js</title>
+    <title>JSDoc: Source: Components/CardUser/CardUser.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Routes/Thread/Classic View Thread/classic-view-thread.js</h1>
+    <h1 class="page-title">Source: Components/CardUser/CardUser.js</h1>
 
     
 
@@ -26,95 +26,132 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
 
+import defImage from '../../assets/images/redditor.png'
+import axios from 'axios';
+import './CardUser.css';
+import { NavLink } from 'react-router-dom';
 
-export default class ClasssicThread extends Component{
-    /**
-     * Handles upvotes increments.
-     * @function handleIncrement
-     */
-    handleIncrement = () => {
+export class CardUser extends Component {
 
-
-        if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableUp: false });
-
-        }
-        else if (this.state.enableUp === false &amp;&amp; this.state.enableDown === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableUp: true });
-
-        }
-        else if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-
-            this.setState({ enableDown: false });
-            this.setState({ enableUp: true });
-            this.setState({ upvotes: this.state.upvotes + 2 });
-        }
-
-    };
-
-    /**
-     * Handles downvotes.
-     * @function handledecrement
-     */
-    handledecrement = () => {
-
-        if (this.state.enableDown === true &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes + 1 });
-            this.setState({ enableDown: false });
-        }
-        else if (this.state.enableDown === false &amp;&amp; this.state.enableUp === false) {
-            this.setState({ upvotes: this.state.upvotes - 1 });
-            this.setState({ enableDown: true });
-        }
-        else if (this.state.enableUp === true &amp;&amp; this.state.enableDown === false) {
-            this.setState({ enableDown: true });
-            this.setState({ enableUp: false });
-            this.setState({ upvotes: this.state.upvotes - 2 });
-        }
-
-    };
-
-    goTo(link){
-        return function(){
-            window.location.href = link;
-        } 
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            subscriptions: [],
+            cakeday: '',
+            bloxkeduser: ''
+        };
     }
 
+     /**
+     * Gets the current user name from the local storage
+     * @function getCurrentUser
+     */
+    getCurrentUser() {
+        return localStorage.getItem("Username");
+    }
+
+     /**
+     * Handles blocking a user
+     * @function handleBlock
+     */
+    handleBlock() {
+
+        var headers = {
+            'auth': localStorage.getItem("token")
+        }
+        var data = {
+            blockeduser: this.state.username
+        }
+
+        axios.put('me/user/block/', data, { headers: headers }
+        )
+            .then(res => {
+                console.log(res);
+                if (res.status == 200) {
+                    alert("User is blocked!");
+                } else if (res.status === 401 || res.status === 404) {
+                    alert(" Unsuccessful");
+                    return Response.json;
+                }
+            })
+            .catch(error => {
+                alert("Error Caught");
+            })
+    }
+
+
+     /**
+     * Handles adding a friend
+     * @function handleBlock
+     */
+    handleFriend() {
+        var headers = {
+            'auth': localStorage.getItem("token")
+        }
+        let data = this.state.username
+        axios.put('me/user/Add/', data, { headers: headers }
+        )
+
+            .then(res => {
+                console.log(res);
+                if (res.status == 200) {
+                    alert("Friend Request Sent!");
+                } else if (res.status === 401 || res.status === 404) {
+                    alert("Friend Request Sent Unsuccessful");
+                    return Response.json;
+                }
+            })
+            .catch(error => {
+                alert("Error Caught");
+            })
+    }
+    componentDidMount() {
+
+        var headers = {
+            'auth': localStorage.getItem("token")
+        }
+
+        let username = this.getCurrentUser();
+
+    };
+
     render() {
-
         return (
-        
-           
-                &lt;div className= 'classicThreadContiner'>
-                    
-                    &lt;div className="threadTitle">{this.props.title}&lt;/div>
 
-                    &lt;div class="threadLinks">
-                        &lt;span onClick={this.goTo(`/r/${this.props.subreddit}`)} className="threadSubreddit"> r/{this.props.subreddit}&lt;/span>
-                        .
-                        &lt;span onClick={this.goTo(`/user/${this.props.username}`)}className="posted-by">   Posted by u/{this.props.username} &lt;/span>
-                    &lt;/div>
-                    &lt;br>&lt;/br>
+            &lt;sidebar className='gamb'>
 
-                    &lt;button type="button" onClick={this.handleIncrement} className="incrementVotes">&lt;i class="fas fa-angle-up">&lt;/i>&lt;/button>
+                &lt;div className="userImage" style={{ backgroundImage: `url(defImage)` }}>
+                &lt;/div>
 
-                    &lt;div className="threadUpvotes">{this.state.upvotes}&lt;/div>
+                &lt;div className="user">{this.props.q}&lt;/div>
+                &lt;div className="tanihetta">
 
-                    &lt;button type="button" onClick={this.handledecrement} className="decrementVotes">&lt;i class="fas fa-angle-down">&lt;/i>&lt;/button>
-                    &lt;span onClick={this.goTo(`/thread/${this.props.id}?srName=${this.props.subreddit}`)} className="threadComments">
-                        {this.state.comments.length} comments
-                    &lt;/span>
+                    &lt;h5  >Cake Day&lt;/h5>
+                    &lt;h6>  {this.props.cake}&lt;/h6>
+
+                    &lt;input class="btn btn-primary" type="submit" id="addFriend" value="Add as a friend" onClick={this.handleFriend} />
+                    &lt;input class="btn btn-primary" type="submit" id="blockfriend" value="Block friend" onClick={this.handleBlock} />
+
 
 
                 &lt;/div>
-            
-        );
+
+
+
+                &lt;div>&lt;/div>
+
+            &lt;/sidebar>
+
+        )
     }
-}</code></pre>
+}
+
+
+export default CardUser
+</code></pre>
         </article>
     </section>
 

@@ -5,7 +5,10 @@ class Edit extends Component {
   state = {
     email: ''
   }
-
+ /**
+ * Gets the current  user name from the local storage
+ * @function getCurrentUser
+ */
   getCurrentUser() {
     return localStorage.getItem("Username");
   }

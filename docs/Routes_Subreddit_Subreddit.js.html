@@ -58,6 +58,8 @@ export class Subreddit extends Component {
     threadsContent: [],
     flair: null,
     spoiler: false,
+    error: false,
+    errormessage: ''
   }
 
   componentDidMount() {
@@ -75,10 +77,10 @@ export class Subreddit extends Component {
             console.log(resp.data);
             this.setState({
               name: this.state.name,
-              bio: resp.data.Bio,
+              bio: resp.data.bio.length ? resp.data.bio[0] : "" ,
               threads: resp.data.posts,
               moderators: resp.data.adminUsername,
-              moderatorsList: resp.data.modUsername ? resp.data.modUsername : [resp.data.adminUsername],
+              moderatorsList: [...resp.data.modUsername, resp.data.adminUsername],
               subscribers: resp.data.subscribed_users.length,
               subscribersList: resp.data.subscribed_users,
               subscribed: resp.data.subscribed_users.includes(localStorage.getItem("Username")) ? true : false,
@@ -91,7 +93,7 @@ export class Subreddit extends Component {
                 || this.state.moderatorsList.includes(localStorage.getItem("Username"));
               this.setState({
                 adminview: isAdmin,
-                subscribed: isAdmin
+                //subscribed: isAdmin
               })
             })
             for (const threadID of resp.data.posts) {
@@ -107,14 +109,9 @@ export class Subreddit extends Component {
                 });
             }
           }
-          else if (resp.status === 404) {
-            alert("Subreddit Not Found");
-            return Response.json;
-          }
         })
         .catch(error => {
-          // alert(cons);
-          console.log(error);
+          alert(error.response);
         })
     }
     else {
@@ -146,7 +143,11 @@ export class Subreddit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-
+  /**
+   * For handling a spoiler checkbox request to the backend and updating the boolean in state
+   * @function handleChange
+   * @param {event} - onClick event 
+   */
 
   handleChange(e) {
     this.setState({
@@ -176,13 +177,10 @@ export class Subreddit extends Component {
             subscribed: true
           }
           );
-        } else if (res.status === 404) {
-          alert("Subreddit Not Found");
-          return Response.json;
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
   /**
@@ -205,13 +203,10 @@ export class Subreddit extends Component {
             subscribed: false
           }
           );
-        } else if (res.status === 404) {
-          alert("Subreddit Not Found");
-          return Response.json;
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
   /**
@@ -233,16 +228,16 @@ export class Subreddit extends Component {
           alert("Subreddit Deleted Successfully!");
           this.setState({
             subscribed: false
-          }
-          );
+          });
+          window.location.href = "/"
         }
-        else if (res.status === 401) {
-          alert("You're Not Authorised");
-          return Response.json;
-        }
+        // else if (res.status === 401) {
+        //   alert("You're Not Authorised");
+        //   return Response.json;
+        // }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
 
   }
@@ -254,9 +249,11 @@ export class Subreddit extends Component {
   createThreadSidebar = (e) => {
     e.preventDefault();
     console.log('Clicked on create thread sidebar');
-    if (this.state.subscribed == false) {
-      //CANNOT CREATE A POST UNLESS SUBSCRIBED
-      alert('CANNOT CREATE A POST UNLESS SUBSCRIBED');
+    if (this.state.subscribed == false &amp;&amp; !this.state.moderatorsList.includes(localStorage.getItem("Username"))) {
+      this.setState({
+        error: true,
+        errormessage: 'Cant create a post unless subscribed'
+      })
     }
     else {
       this.setState({
@@ -277,12 +274,15 @@ export class Subreddit extends Component {
       threadCreation: false
     })
   }
+  /**
+   * For handling a change in the state to show the edit subreddit form
+   * @function editSubreddit
+   * @param {event} - onClick event 
+   */
   editSubreddit = (e) => {
     e.preventDefault();
     console.log("Clicked on the edit subredditbutton");
     if (this.state.adminview == false) {
-      //CANNOT CREATE A POST UNLESS SUBSCRIBED
-      alert('CANNOT EDIT A SUBREDDIT UNLESS IS MODERATOR');
     }
     else {
       this.setState({
@@ -290,6 +290,11 @@ export class Subreddit extends Component {
       })
     }
   }
+   /**
+   * For cancel handling a change in the state to show the edit subreddit form
+   * @function cancelSubreddit
+   * @param {event} - onClick event 
+   */
   cancelSubreddit = (e) => {
     e.preventDefault();
     console.log('Clicked on Cancel thread sidebar');
@@ -304,13 +309,37 @@ export class Subreddit extends Component {
    * @param {event} - onClick event 
    */
   handleSubmit = (e) => {
+    this.setState({
+      error: false,
+      errornumber: 0
+    })
     e.preventDefault();
+
+    let checker = "";
+
+    if (document.getElementById("threadTitleField").value === checker) {
+      this.setState({
+        error: true,
+        errornumber: 1
+      })
+      //alert("Please provide a Thread Title!");
+      return;
+    }
+    else if (document.getElementById("threadBodyField").value === checker) {
+      //alert("Please provide a Thread Body!");
+      this.setState({
+        error: true,
+        errornumber: 2
+      })
+      return;
+    }
 
     const srdata = {
       "title": document.getElementById("threadTitleField").value,
       "threadBody": document.getElementById("threadBodyField").value,
       "spoiler": this.state.spoiler
     }
+
     if (this.state.imagePost) {
       srdata.base64image = this.state.imagePost
     }
@@ -323,16 +352,24 @@ export class Subreddit extends Component {
         console.log(res);
         if (res.status == 200) {
           alert("Thread Created Successfully!");
+          this.setState({
+            threadCreation: false
+          })
+          window.location.href = "/r/" + SubredditName;
         } else if (res.status === 401 || res.status === 404) {
           alert("Thread Creation Unsuccessful");
           return Response.json;
         }
       })
       .catch(error => {
-        alert("Errorrrrrrr Caught");
+        alert(error.response);
       })
   }
-
+  /**
+   * For handling an edit subreddit request to the backend
+   * @function handleEdit
+   * @param {event} - onClick event 
+   */
   handleEdit = (e) => {
     e.preventDefault();
     let newmods = this.state.moderatorsList;
@@ -342,16 +379,26 @@ export class Subreddit extends Component {
     }
     const srdata = {
       "newName": document.getElementById("subredditNameField").value,
-      "newRules": [document.getElementById("subredditRule1Field").value, document.getElementById("subredditRule2Field").value, document.getElementById("subredditRule3Field").value],
+      "newRules": [],
       "newBio": document.getElementById("subredditBioField").value,
       "newMods": newmods,
       "base64image": this.state.image
     }
-
+    // srdata.newRules = [];
+    if (document.getElementById("subredditRule3Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule3Field").value);
+    }
+    if (document.getElementById("subredditRule2Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule1Field").value);
+    }
+    if (document.getElementById("subredditRule1Field").value) {
+      srdata.newRules.push(document.getElementById("subredditRule1Field").value);
+    }
     let headers = {
       auth: localStorage.getItem("token")
     }
     let SubredditName = this.state.name;
+    srdata.newMods = srdata.newMods.filter(mod => !this.state.moderatorsList.includes(mod))
     axios.put('/sr/' + SubredditName, srdata, { "headers": headers })
       .then(res => {
         console.log(res);
@@ -373,11 +420,17 @@ export class Subreddit extends Component {
         }
       })
       .catch(error => {
-        alert("Error Caught");
+        alert(error.response);
       })
   }
+
+   /**
+   * For getting threadds of the subreddit
+   * @function getThreads
+   * @param {event} - onClick event 
+   */
   getThreads() {
-    if (!this.state.threadsContent) return;
+    if (!this.state.threadsContent.length) return &lt;div className="noPosts">No posts yet...&lt;/div>;
     return this.state.threadsContent.map(thr =>
       &lt;Thread
         id={thr._id}
@@ -386,6 +439,7 @@ export class Subreddit extends Component {
         title={thr.title}
         content={thr.body}
         upvotes={thr.votes}
+        isSpoiler={thr.spoiler}
       />);
   }
   /**
@@ -413,9 +467,14 @@ export class Subreddit extends Component {
         })
       })
       .catch(error => {
-
+        alert(error.response);
       })
   }
+  /**
+  * For handling the reading of image
+  * @function handleNewImage 
+  * @param {event} - Submition event 
+  */
   handleNewImage(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
@@ -432,6 +491,11 @@ export class Subreddit extends Component {
     reader.readAsDataURL(files[0]);
 
   }
+  /**
+  * Handles new images in a post
+  * @function handleNewImage 
+  * @param {event} 
+  */
   handleNewImagePost(e) {
     const files = e.target.files;
     if (!files || !files.length) return;
@@ -452,17 +516,19 @@ export class Subreddit extends Component {
     console.log(this.state.flair);
     return (
       &lt;div className="subredditFixed">
-        &lt;section id="subredditShowcase" style={{ backgroundImage: this.state.cover ? `url(http://18.217.163.16/api${this.state.cover})` : null }}>
+        &lt;section id="subredditShowcase" style={{ backgroundImage: this.state.cover ? `url(${window.baseURL}${this.state.cover})` : null }}>
           &lt;img src={defImage} alt="Subreddit Default" />
           &lt;h1>r/{this.state.name}&lt;/h1>
         &lt;/section>
 
-        {/*&lt;nav id="subredditNavbar">
+        {&lt;nav id="subredditNavbar">
           &lt;div className="subredditContainer">
             &lt;div id="subredditSort">
               &lt;div className="subredditContainer">
-
-                &lt;div className="srSortdropdownMenu">
+                {
+                  this.state.error ? &lt;div className="errorMessageSubreddit"> this.state.errormessage&lt;/div> : &lt;div>&lt;/div>
+                }
+                {/* &lt;div className="srSortdropdownMenu">
                   &lt;button className='srSortdropButton'>
                     Sorting &lt;i class="downIcon fas fa-sort-down">&lt;/i>
                   &lt;/button>
@@ -475,13 +541,13 @@ export class Subreddit extends Component {
                       &lt;li className='srSortdropdownItem' className='sort toHome'>Rating&lt;/li>
                     &lt;/ul>
 
-                  &lt;/div>
-                &lt;/div>
+                  &lt;/div> 
+                &lt;/div>*/}
               &lt;/div>
             &lt;/div>
 
           &lt;/div>
-        &lt;/nav>*/}
+        &lt;/nav>}
         &lt;div class="subredditContainer">
           &lt;section id="subredditPageContent">
             &lt;div>
@@ -519,34 +585,37 @@ export class Subreddit extends Component {
                   &lt;form onSubmit={this.handleEdit}>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Subreddit New Name">Enter Subreddit Name&lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditNameField" placeholder="Enter Name Here" />
+                      &lt;textarea defaultValue={this.state.name} type="textarea" name="text" id="subredditNameField" placeholder="Enter Name Here" />
                     &lt;/div>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Rule1">Enter Rule &lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditRule1Field" placeholder="Enter Rule Here" />
+                      &lt;textarea defaultValue={this.state.rules[0]} type="textarea" name="text" id="subredditRule1Field" placeholder="Enter Rule Here" />
                     &lt;/div>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Rule2">Enter Rule &lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditRule2Field" placeholder="Enter Rule Here" />
+                      &lt;textarea defaultValue={this.state.rules[1]} type="textarea" name="text" id="subredditRule2Field" placeholder="Enter Rule Here" />
                     &lt;/div>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Rule3">Enter Rule &lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditRule3Field" placeholder="Enter Rule Here" />
+                      &lt;textarea defaultValue={this.state.rules[2]} type="textarea" name="text" id="subredditRule3Field" placeholder="Enter Rule Here" />
                     &lt;/div>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Bio">Enter Bio &lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditBioField" placeholder="Enter Bio Here" />
+                      &lt;textarea defaultValue={this.state.bio} type="textarea" name="text" id="subredditBioField" placeholder="Enter Bio Here" />
                     &lt;/div>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="Bio">Add a new moderator &lt;/label>
-                      &lt;textarea type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
+                      &lt;textarea defaultValue={this.state.moderatorsList.join(", ")} type="textarea" name="text" id="subredditmoderatorField" placeholder="Enter Moderator Here" />
                     &lt;/div>
-                    &lt;div className="formGroupSrComponent">
-                      &lt;label for="cover">Cover &lt;/label>
+                    &lt;div className="formGroupSrComponent imageContainer">
+                      &lt;label  className="srSidebarSubscribeButton" for="cover">Cover&lt;/label>
                       &lt;input type="file" name="cover" id="cover" onChange={this.handleNewImage.bind(this)} />
+                      {this.state.image ?
+                        &lt;div className="uploadedImage" style={{ backgroundImage: `url(${this.state.image})` }}>&lt;/div>
+                        : null}
                     &lt;/div>
                     &lt;button className="srSidebarSubscribeButton">Edit Subreddit&lt;/button>
-                    &lt;button type="button" className="srSidebarSubscribeButton" onClick={this.cancelSubreddit}>CANCEL&lt;/button>
+                    &lt;button type="button" className="srSidebarSubscribeButton cancel" onClick={this.cancelSubreddit}>CANCEL&lt;/button>
                   &lt;/form>
                 &lt;/div> : &lt;div>&lt;/div>
             }
@@ -555,20 +624,35 @@ export class Subreddit extends Component {
                 &lt;div className="subredditSidebarComponent">
                   &lt;h5>CREATE A POST&lt;/h5>
                   &lt;hr>&lt;/hr>
-                  &lt;form onSubmit={this.handleSubmit}>
+                  &lt;form className='createPostForm' onSubmit={this.handleSubmit}>
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="ThreadTitle">Enter Title&lt;/label>
                       &lt;textarea type="textarea" name="text" id="threadTitleField" placeholder="Enter Title Here" />
                     &lt;/div>
+                    {
+                      this.state.errornumber == 1 ?
+                        &lt;div className="errorMessageSubreddit">
+                          *Please Provide a title for the thread
+                      &lt;/div> : &lt;div>&lt;/div>
+                    }
                     &lt;div className="formGroupSrComponent">
                       &lt;label for="ThreadBody">Enter Thread Body&lt;/label>
                       &lt;textarea type="textarea" name="text" id="threadBodyField" placeholder="Enter Body Here" />
                     &lt;/div>
-                    &lt;div className="formGroupSrComponent">
-                      &lt;label for="coverPost">Cover &lt;/label>
+                    {
+                      this.state.errornumber == 2 ?
+                        &lt;div className="errorMessageSubreddit">
+                          *Please Provide a body for the thread
+                      &lt;/div> : &lt;div>&lt;/div>
+                    }
+                    &lt;div className="formGroupSrComponent imageContainer">
+                    &lt;label className="srSidebarSubscribeButton" for="coverPost">Cover &lt;/label>
                       &lt;input type="file" name="coverPost" id="coverPost" onChange={this.handleNewImagePost.bind(this)} />
+                      {this.state.imagePost ?
+                        &lt;div className="uploadedImage" style={{ backgroundImage: `url(${this.state.imagePost})` }}>&lt;/div>
+                        : null}
                     &lt;/div>
-                    &lt;div className="formGroupThreadCheckbox">
+                    &lt;div className="formGroupSrComponent">
                       &lt;label className="spoilerLabel" for="Spoiler">Is it a spoiler?&lt;/label>
                       &lt;input type="checkbox" name="Spoiler" id="Spoiler" onChange={this.handleChange} value={this.state.spoiler} />
                     &lt;/div>
@@ -640,13 +724,13 @@ export default Subreddit
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_handleInputChange">_handleInputChange</a></li><li><a href="global.html#_handleOnSubmit">_handleOnSubmit</a></li><li><a href="global.html#BanUser">BanUser</a></li><li><a href="global.html#blockList">blockList</a></li><li><a href="global.html#BlockUser">BlockUser</a></li><li><a href="global.html#CancelCreation">CancelCreation</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#cancelSubreddit">cancelSubreddit</a></li><li><a href="global.html#cardViewHandler">cardViewHandler</a></li><li><a href="global.html#checkforpostorcomment">checkforpostorcomment</a></li><li><a href="global.html#checkValidity">checkValidity</a></li><li><a href="global.html#classicViewHandler">classicViewHandler</a></li><li><a href="global.html#closeBlockList">closeBlockList</a></li><li><a href="global.html#closeLogin">closeLogin</a></li><li><a href="global.html#closeRegistration">closeRegistration</a></li><li><a href="global.html#CreateFlair">CreateFlair</a></li><li><a href="global.html#createThread">createThread</a></li><li><a href="global.html#createThreads">createThreads</a></li><li><a href="global.html#createThreadSidebar">createThreadSidebar</a></li><li><a href="global.html#DeleteReport">DeleteReport</a></li><li><a href="global.html#DeleteReportedComment">DeleteReportedComment</a></li><li><a href="global.html#DeleteReportedPost">DeleteReportedPost</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#editPost">editPost</a></li><li><a href="global.html#editSubreddit">editSubreddit</a></li><li><a href="global.html#filterList">filterList</a></li><li><a href="global.html#getBlockList">getBlockList</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getFlairs">getFlairs</a></li><li><a href="global.html#getListing">getListing</a></li><li><a href="global.html#getMsgs">getMsgs</a></li><li><a href="global.html#getNotif">getNotif</a></li><li><a href="global.html#getReports">getReports</a></li><li><a href="global.html#getThreads">getThreads</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#goToCreatePost">goToCreatePost</a></li><li><a href="global.html#goToCreateSr">goToCreateSr</a></li><li><a href="global.html#gotoMod">gotoMod</a></li><li><a href="global.html#handleAboutChange">handleAboutChange</a></li><li><a href="global.html#handleBlock">handleBlock</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleClick">handleClick</a></li><li><a href="global.html#handledecrement">handledecrement</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleFileChange">handleFileChange</a></li><li><a href="global.html#handleFriend">handleFriend</a></li><li><a href="global.html#handleIncrement">handleIncrement</a></li><li><a href="global.html#handleLoginContainerClick">handleLoginContainerClick</a></li><li><a href="global.html#handleNewImage">handleNewImage</a></li><li><a href="global.html#handleNewPasswordChange">handleNewPasswordChange</a></li><li><a href="global.html#handleRegContainerClick">handleRegContainerClick</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUnblock">handleUnblock</a></li><li><a href="global.html#leavemoderation">leavemoderation</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#MarkRead">MarkRead</a></li><li><a href="global.html#MarkReadAll">MarkReadAll</a></li><li><a href="global.html#MarkUnRead">MarkUnRead</a></li><li><a href="global.html#MarkUnReadAll">MarkUnReadAll</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#onChangeSr">onChangeSr</a></li><li><a href="global.html#onChangeUser">onChangeUser</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#openLogInDialogue">openLogInDialogue</a></li><li><a href="global.html#openRegDialogue">openRegDialogue</a></li><li><a href="global.html#removeReq">removeReq</a></li><li><a href="global.html#reply">reply</a></li><li><a href="global.html#setSR">setSR</a></li><li><a href="global.html#sortHandHot">sortHandHot</a></li><li><a href="global.html#sortHandNew">sortHandNew</a></li><li><a href="global.html#sortHandTop">sortHandTop</a></li><li><a href="global.html#srSubscribe">srSubscribe</a></li><li><a href="global.html#srUnSubscribe">srUnSubscribe</a></li><li><a href="global.html#unBlockUser">unBlockUser</a></li><li><a href="global.html#Unfriend">Unfriend</a></li><li><a href="global.html#userHasLoggedIn">userHasLoggedIn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 17:12:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 07 2019 22:19:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

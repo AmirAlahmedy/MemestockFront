@@ -142,6 +142,10 @@ class Inbox extends React.Component {
 
       });
   }
+    /**
+    * Requests the list of blocked users
+    * @function blockList
+    */
   blockList() {
     this.setState({
       showBlockList: true
@@ -196,17 +200,30 @@ class Inbox extends React.Component {
       </div>
     ));
   }
+  /**
+    * Handles replying on a message
+    * @function reply
+    * @param {event} - event
+    */
   reply(e) {
     const sender = e.target.getAttribute("data-sender");
     const subject = e.target.getAttribute("data-subject");
     window.location.href = `/PM/Compose?sender=${sender}&subject=${subject}`;
 
   }
+   /**
+    * Hides block list
+    * @function closeBlockList
+    */
   closeBlockList(){
     this.setState({
       showBlockList: false
     });
   }
+     /**
+    * Shows block list
+    * @function getBlockList
+    */
   getBlockList() {
     if (this.state.BlockList === 0) {
       return;
@@ -226,6 +243,11 @@ class Inbox extends React.Component {
     )
   }
 
+  /**
+    * Mark all messages as read
+    * @function MarkReadAll
+    * @param {event} - click event 
+    */
   MarkReadAll(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -262,6 +284,11 @@ class Inbox extends React.Component {
 
       });
   }
+  /**
+    * Mark all messages as unread
+    * @function MarkUnReadAll
+    * @param {event} - click event 
+    */
   MarkUnReadAll(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -305,6 +332,11 @@ class Inbox extends React.Component {
 
       });
   }
+   /**
+    * Mark a message as read
+    * @function MarkRead
+    * @param {event} - click event 
+    */
   MarkRead(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -345,6 +377,11 @@ class Inbox extends React.Component {
 
       });
   }
+  /**
+    * Mark a message as unread
+    * @function MarkUnRead
+    * @param {event} - click event 
+    */
   MarkUnRead(e) {
     const element = e.target;
     const messageId = element.getAttribute("id");
@@ -428,6 +465,11 @@ class Inbox extends React.Component {
       });
   }
 
+    /**
+    * Sends the request to unBlock user from sending messages.
+    * @function unBlockUser
+    * @param {event} e - Pressing block button.
+    */
   unBlockUser(e) {
     const element = e.target;
     const blockedUser = element.getAttribute("id");

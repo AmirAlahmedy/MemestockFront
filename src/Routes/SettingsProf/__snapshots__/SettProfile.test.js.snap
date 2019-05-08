@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettProfile component snapshot it matches the snapshot 1`] = `
+<form
+  className="form-h"
+  onSubmit={[Function]}
+>
+  <div
+    class="ayhaga"
+  >
+    <h3
+      class="profile-info"
+    >
+      Profile Information
+    </h3>
+    <div
+      className="display-box"
+    >
+      <p>
+        Set a display name. This does not change your username.
+      </p>
+      <input
+        className="optionalName"
+        id="displayname"
+        placeholder="Display Name (optional)"
+        type="text"
+      />
+    </div>
+    <div
+      className="about-box"
+    >
+      <div
+        className="ab1"
+      >
+        <h3
+          class="profile-info"
+        >
+          About
+        </h3>
+        <p>
+          A brief description of yourself shown on your profile.
+        </p>
+      </div>
+      <div
+        className="ab2"
+      >
+        <textarea
+          className="txtArea"
+          id="about"
+          onChange={[Function]}
+          placeholder="About (optional)"
+        />
+      </div>
+      <div
+        class="char"
+      >
+        200 Characters
+      </div>
+      <input
+        class="btn btn-primary"
+        id="submit"
+        type="submit"
+        value="Save"
+      />
+    </div>
+  </div>
+</form>
+`;
