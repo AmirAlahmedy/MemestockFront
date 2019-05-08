@@ -35,7 +35,7 @@ it("Shows thread page meta", async () => {
     console.log(instance.state); 
   });
 
-  it("Edit thread", async () => {
+  it("Delete thread", async () => {
     const component = create(<ThreadPage />);
     const instance = component.getInstance();
     await instance.delPost();
